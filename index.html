@@ -65,8 +65,8 @@
         .roadmap-panel h2 { font-family: 'Vollkorn', serif; color: var(--azul-primario); margin-bottom: 10px; font-size: 24px;}
         .roadmap-panel p { color: var(--gris-sub); margin-bottom: 25px; font-size: 14px; }
         
-        .table-responsive { overflow-x: auto; }
-        .roadmap-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .roadmap-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; min-width: 700px; }
         .roadmap-table th { background: var(--azul-primario); color: var(--blanco); padding: 14px 20px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.1); }
         .roadmap-table th:last-child { border-right: none; }
         .roadmap-table td { padding: 14px 20px; border-bottom: 1px solid #E2E8F0; vertical-align: middle; }
@@ -79,9 +79,9 @@
 
         /* SEMÁFOROS DE ESTATUS */
         .badge-status { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;}
-        .bg-ok { background: #C6F6D5; color: #22543D; } /* Verde - Completado */
-        .bg-proc { background: #FEEBC8; color: #7B341E; } /* Naranja - En Proceso */
-        .bg-pend { background: #E2E8F0; color: #4A5568; } /* Gris - Pendiente */
+        .bg-ok { background: #C6F6D5; color: #22543D; } 
+        .bg-proc { background: #FEEBC8; color: #7B341E; } 
+        .bg-pend { background: #E2E8F0; color: #4A5568; } 
 
         /* CONTROLES DE INFOGRAFÍA */
         .controls-panel { background: var(--blanco); padding: 25px; border-radius: 12px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
@@ -96,7 +96,7 @@
         .info-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--azul-claro); padding-bottom: 20px; margin-bottom: 25px; }
         .info-header-text h4 { color: var(--gris-sub); font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px;}
         .info-header-text h1 { font-family: 'Vollkorn', serif; font-size: 46px; color: var(--azul-primario); margin: 0 0 10px 0; line-height: 1.1;}
-        .badges { display: flex; gap: 10px; }
+        .badges { display: flex; gap: 10px; flex-wrap: wrap; }
         .badge { background: var(--azul-primario); color: var(--blanco); padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; }
         .info-header-logo { height: 90px; object-fit: contain; }
 
@@ -106,7 +106,7 @@
         
         .data-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #E2E8F0; font-size: 14px; }
         .data-row:last-child { border-bottom: none; }
-        .data-row span:last-child { font-weight: 900; color: var(--azul-primario); font-size: 15px;}
+        .data-row span:last-child { font-weight: 900; color: var(--azul-primario); font-size: 15px; text-align: right;}
         
         .highlight-box { background: var(--azul-fondo); padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #CBD5E1;}
         .highlight-box .lbl { display: block; font-size: 13px; color: var(--gris-sub); text-transform: uppercase; font-weight: 700;}
@@ -125,7 +125,39 @@
 
         .info-footer { margin-top: 20px; border-top: 2px solid #CBD5E1; padding-top: 15px; font-size: 11px; color: var(--gris-sub); display: flex; justify-content: space-between; font-weight: 500;}
 
-        /* AJUSTES PARA IMPRESIÓN PDF PERFECTA */
+
+        /* =========================================
+           ADAPTACIÓN MÓVIL (NUEVO)
+           ========================================= */
+        @media screen and (max-width: 768px) {
+            header { flex-direction: column; text-align: center; padding: 20px; gap: 15px; }
+            .header-left { flex-direction: column; }
+            .header-right { justify-content: center; width: 100%; margin-top: 10px; }
+            
+            .tabs { flex-direction: column; padding: 0; }
+            .tab { text-align: center; border-bottom: 1px solid #ddd; }
+            .tab.active { border-bottom: 4px solid var(--azul-primario); }
+            
+            .view-container { padding: 20px 15px; }
+            .metrics-grid { grid-template-columns: 1fr; gap: 15px; }
+            .metric-card { padding: 20px; }
+            .roadmap-panel { padding: 20px; }
+            
+            .controls-panel { flex-direction: column; gap: 15px; padding: 15px; }
+            .search-container { width: 100%; }
+            .btn-export { width: 100%; }
+
+            .infografia-sheet { width: 100%; padding: 20px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .info-header { flex-direction: column-reverse; text-align: center; gap: 15px; }
+            .badges { justify-content: center; }
+            .info-header-text h1 { font-size: 32px; }
+            .info-footer { flex-direction: column; text-align: center; gap: 10px; }
+        }
+
+        /* =========================================
+           IMPRESIÓN PDF PERFECTA
+           ========================================= */
         @media print {
             @page { size: legal portrait; margin: 0; }
             body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -136,7 +168,11 @@
                 box-shadow: none; width: 100%; height: 100%; border-radius: 0; 
                 padding: 10mm 15mm; border-top: 15px solid var(--azul-primario);
                 transform: scale(0.98); transform-origin: top center;
+                display: block !important;
             }
+            .info-grid { grid-template-columns: 1fr 1fr; } /* Fuerza 2 columnas al imprimir */
+            .info-header { flex-direction: row; text-align: left; }
+            
             .data-card { padding: 14px; margin-bottom: 12px; border: 1px solid #ccc;}
             .mapa-placeholder { height: 110px; margin-bottom: 12px;}
             .highlight-box { margin-bottom: 8px; padding: 8px;}
@@ -166,7 +202,7 @@
 
     <div id="loader">Conectando con la Base 107 de Google Sheets...</div>
 
-    <!-- VISTA 1: DASHBOARD Y MATRIZ GERENCIAL -->
+    <!-- VISTA 1: DASHBOARD -->
     <div id="dashboard" class="view-container active">
         <div class="metrics-grid">
             <div class="metric-card"><h3>Comunidades en Catálogo</h3><p class="number" id="dash-tot">0</p></div>
@@ -257,7 +293,6 @@
         <div class="controls-panel no-print">
             <div class="search-container">
                 <label>Buscador Inteligente de Comunidades:</label>
-                <!-- onfocus limpia la caja temporalmente para desplegar toda la lista -->
                 <input type="text" id="comunidad-input" list="comunidades-list" placeholder="Haz clic, borra o escribe para buscar una comunidad..." onfocus="this.value=''" onchange="buscarComunidad()">
                 <datalist id="comunidades-list"></datalist>
             </div>
