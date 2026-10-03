@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="doc-title">Plataforma SDH - UG | PULSO Q</title>
     
-    <!-- Favicon Oficial del Estado -->
     <link rel="icon" type="image/png" href="assets/Logo.png">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Vollkorn:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
@@ -26,7 +24,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Roboto', sans-serif; background-color: #E2E8F0; color: var(--gris-texto); }
 
-        /* ENCABEZADO INSTITUCIONAL */
+        /* ENCABEZADO */
         header {
             background: linear-gradient(135deg, var(--azul-primario) 0%, var(--azul-secundario) 100%);
             color: var(--blanco);
@@ -37,19 +35,9 @@
             border-bottom: 6px solid var(--azul-claro);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-
         .header-left { display: flex; align-items: center; gap: 25px; }
-        
-        /* LOGO GOBIERNO LIMPIO */
-        .header-logo-gob { 
-            height: 80px; 
-            object-fit: contain; 
-            background: transparent; 
-            border-radius: 0;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-        }
+        .header-logo-gob { height: 80px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
         .header-logo-pulso { height: 70px; object-fit: contain; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 12px; backdrop-filter: blur(4px);}
-
         .header-titles h1 { font-family: 'Vollkorn', serif; font-size: 26px; font-weight: 900; margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);}
         .header-titles p { font-size: 14px; color: var(--azul-claro); font-weight: 500; }
         .header-right { display: flex; align-items: center; gap: 20px; text-align: right; }
@@ -66,38 +54,45 @@
         .view-container.active { display: block; }
         #loader { text-align: center; padding: 80px; font-size: 20px; font-weight: bold; color: var(--azul-primario); }
 
-        /* =========================================
-           VISTA 1: TABLERO GERENCIAL RESTAURADO
-           ========================================= */
+        /* TABLERO Y MÉTRICAS */
         .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 35px; }
         .metric-card { background: var(--blanco); padding: 30px; border-radius: 12px; border-left: 8px solid var(--azul-primario); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .metric-card h3 { font-size: 14px; color: var(--gris-sub); text-transform: uppercase; margin-bottom: 15px; font-weight: 700;}
         .metric-card .number { font-size: 55px; font-weight: 900; color: var(--azul-primario); font-family: 'Vollkorn', serif; line-height: 1;}
 
+        /* MATRIZ DE HOJA DE RUTA */
         .roadmap-panel { background: var(--blanco); padding: 35px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .roadmap-panel h2 { font-family: 'Vollkorn', serif; color: var(--azul-primario); margin-bottom: 25px; font-size: 24px;}
-        .stage-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        .stage-item { background: var(--azul-fondo); padding: 20px; border-radius: 8px; border-left: 5px solid var(--azul-claro); font-size: 14px; line-height: 1.6;}
-        .stage-item strong { display: block; font-size: 16px; color: var(--azul-primario); margin-bottom: 8px;}
+        .roadmap-panel h2 { font-family: 'Vollkorn', serif; color: var(--azul-primario); margin-bottom: 10px; font-size: 24px;}
+        .roadmap-panel p { color: var(--gris-sub); margin-bottom: 25px; font-size: 14px; }
+        
+        .table-responsive { overflow-x: auto; }
+        .roadmap-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .roadmap-table th { background: var(--azul-primario); color: var(--blanco); padding: 14px 20px; font-weight: 700; border-right: 1px solid rgba(255,255,255,0.1); }
+        .roadmap-table th:last-child { border-right: none; }
+        .roadmap-table td { padding: 14px 20px; border-bottom: 1px solid #E2E8F0; vertical-align: middle; }
+        .roadmap-table tr:hover { background: #F8FAFC; }
+        .roadmap-table tr:last-child td { border-bottom: none; }
+        
+        .cve-etapa { font-weight: 900; color: var(--azul-secundario); font-family: 'Vollkorn', serif; font-size: 16px;}
+        .area-tag { font-weight: 700; color: var(--azul-primario); display: block; margin-bottom: 3px; font-size: 13px;}
+        .nombres-tag { font-size: 12px; color: var(--gris-sub); }
 
-        /* =========================================
-           VISTA 2: INFOGRAFÍA
-           ========================================= */
+        /* SEMÁFOROS DE ESTATUS */
+        .badge-status { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;}
+        .bg-ok { background: #C6F6D5; color: #22543D; } /* Verde - Completado */
+        .bg-proc { background: #FEEBC8; color: #7B341E; } /* Naranja - En Proceso */
+        .bg-pend { background: #E2E8F0; color: #4A5568; } /* Gris - Pendiente */
+
+        /* CONTROLES DE INFOGRAFÍA */
         .controls-panel { background: var(--blanco); padding: 25px; border-radius: 12px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .search-container { display: flex; flex-direction: column; width: 60%; }
         .search-container label { font-weight: bold; color: var(--azul-primario); margin-bottom: 8px; }
         .search-container input { padding: 12px; font-size: 16px; border-radius: 6px; border: 1px solid #CBD5E1; outline: none; font-weight: 500; }
-        
         .btn-export { background: var(--azul-primario); color: var(--blanco); padding: 12px 25px; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; font-size: 15px; transition: 0.2s;}
         .btn-export:hover { background: var(--azul-secundario); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1);}
 
-        /* CONTENEDOR INFOGRAFÍA TIPO HOJA OFICIO/LEGAL */
-        .infografia-sheet {
-            background: #F8FAFC; width: 950px; margin: auto; padding: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 12px;
-            border-top: 15px solid var(--azul-primario);
-        }
-
+        /* DISEÑO DE INFOGRAFÍA TIPO HOJA */
+        .infografia-sheet { background: #F8FAFC; width: 950px; margin: auto; padding: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 12px; border-top: 15px solid var(--azul-primario); }
         .info-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--azul-claro); padding-bottom: 20px; margin-bottom: 25px; }
         .info-header-text h4 { color: var(--gris-sub); font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px;}
         .info-header-text h1 { font-family: 'Vollkorn', serif; font-size: 46px; color: var(--azul-primario); margin: 0 0 10px 0; line-height: 1.1;}
@@ -130,17 +125,13 @@
 
         .info-footer { margin-top: 20px; border-top: 2px solid #CBD5E1; padding-top: 15px; font-size: 11px; color: var(--gris-sub); display: flex; justify-content: space-between; font-weight: 500;}
 
-        /* =========================================
-           REGLA ESTRICTA PARA IMPRESIÓN (1 SOLA PÁGINA)
-           ========================================= */
+        /* AJUSTES PARA IMPRESIÓN PDF PERFECTA */
         @media print {
-            /* Forzamos Tamaño Oficio/Legal para garantizar que quepa */
             @page { size: legal portrait; margin: 0; }
             body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             header, .tabs, .controls-panel, #dashboard { display: none !important; }
             .view-container { padding: 0; margin: 0; }
             
-            /* Escala para que no se desborde */
             .infografia-sheet { 
                 box-shadow: none; width: 100%; height: 100%; border-radius: 0; 
                 padding: 10mm 15mm; border-top: 15px solid var(--azul-primario);
@@ -169,27 +160,94 @@
     </header>
 
     <div class="tabs no-print">
-        <div class="tab active" onclick="switchTab('dashboard')">1. Tablero de Avance (Hoja de Ruta)</div>
+        <div class="tab active" onclick="switchTab('dashboard')">1. Matriz de Avance (Hoja de Ruta)</div>
         <div class="tab" onclick="switchTab('generador')">2. Generador de Infografías (Modelo SDH)</div>
     </div>
 
     <div id="loader">Conectando con la Base 107 de Google Sheets...</div>
 
-    <!-- VISTA 1: DASHBOARD CON ROADMAP RESTAURADO -->
+    <!-- VISTA 1: DASHBOARD Y MATRIZ GERENCIAL -->
     <div id="dashboard" class="view-container active">
         <div class="metrics-grid">
-            <div class="metric-card"><h3>Total de Comunidades</h3><p class="number" id="dash-tot">0</p></div>
+            <div class="metric-card"><h3>Comunidades en Catálogo</h3><p class="number" id="dash-tot">0</p></div>
             <div class="metric-card"><h3>Datos ITER Procesados</h3><p class="number" id="dash-iter">0</p></div>
             <div class="metric-card"><h3>Infografías Automatizadas</h3><p class="number" id="dash-listas">0</p></div>
         </div>
         
         <div class="roadmap-panel">
-            <h2>Estatus General de la Hoja de Ruta (UG - SDH)</h2>
-            <div class="stage-box">
-                <div class="stage-item"><strong>Bloque A (Semanas 1-2)</strong>Estructura y catálogo oficial INEGI.<br><br><i>Estatus: Finalizado.</i></div>
-                <div class="stage-item"><strong>Bloque B (Semanas 2-5)</strong>Investigación histórica, mapas y cálculo de indicadores.<br><br><i>Estatus: Pilotos en proceso.</i></div>
-                <div class="stage-item"><strong>Bloque C (Semanas 5-7)</strong>Llenado automatizado mediante motor de plantillas web.<br><br><i>Estatus: Listo para producción masiva.</i></div>
-                <div class="stage-item"><strong>Bloque D (Semanas 7-8)</strong>Control de calidad (E18), policy briefs e integración final.<br><br><i>Estatus: Pendiente.</i></div>
+            <h2>Matriz de Responsabilidades y Entregables (UG - SDH)</h2>
+            <p>Seguimiento detallado de las actividades conforme a la Hoja de Ruta oficial para la producción de las 107 monografías.</p>
+            
+            <div class="table-responsive">
+                <table class="roadmap-table">
+                    <thead>
+                        <tr>
+                            <th>Etapa</th>
+                            <th>Entregable / Actividad</th>
+                            <th>Área y Equipo Asignado</th>
+                            <th>Calendario</th>
+                            <th>Estatus Actual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="cve-etapa">E3</td>
+                            <td>Catálogo de las 107 comunidades y claves INEGI</td>
+                            <td><span class="area-tag">Geografía</span><span class="nombres-tag">Luis M.</span></td>
+                            <td>Semanas 1-2</td>
+                            <td><span class="badge-status bg-ok">Completado</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cve-etapa">E5</td>
+                            <td>Fichas técnicas y metodológicas de los indicadores</td>
+                            <td><span class="area-tag">Admin / C. Política</span><span class="nombres-tag">Luis D. / Majo</span></td>
+                            <td>Semana 2</td>
+                            <td><span class="badge-status bg-ok">Completado</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cve-etapa">E6</td>
+                            <td>Investigar datos y reseñas históricas por comunidad</td>
+                            <td><span class="area-tag">Historia</span><span class="nombres-tag">Favio / Gonzalo / Luis G.</span></td>
+                            <td>Semanas 2-5</td>
+                            <td><span class="badge-status bg-proc">En Proceso</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cve-etapa">E8</td>
+                            <td>Diseño de 107 mapas de ubicación y rutas de acceso</td>
+                            <td><span class="area-tag">Geografía</span><span class="nombres-tag">Luis M.</span></td>
+                            <td>Semanas 2-5</td>
+                            <td><span class="badge-status bg-proc">En Proceso</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cve-etapa">E10</td>
+                            <td>Procesamiento ITER: Cálculo de base de indicadores</td>
+                            <td><span class="area-tag">Admin / Datos</span><span class="nombres-tag">Luis D. / Majo</span></td>
+                            <td>Semanas 3-4</td>
+                            <td><span class="badge-status bg-proc">En Proceso</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cve-etapa">E12</td>
+                            <td>Presentaciones narrativas (Textos para infografías)</td>
+                            <td><span class="area-tag">Historia</span><span class="nombres-tag">Favio / Gonzalo / Luis G.</span></td>
+                            <td>Semanas 6-7</td>
+                            <td><span class="badge-status bg-pend">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cve-etapa">E13</td>
+                            <td>Maquetación y ensamble de las 107 infografías finales</td>
+                            <td><span class="area-tag">Diseño / Admin</span><span class="nombres-tag">Alberto / Tristán / Luis D.</span></td>
+                            <td>Semanas 6-7</td>
+                            <td><span class="badge-status bg-pend">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td class="cve-etapa">E17</td>
+                            <td>Construcción de los Policy Briefs</td>
+                            <td><span class="area-tag">Admin / C. Política</span><span class="nombres-tag">Luis D. / Majo</span></td>
+                            <td>Semanas 7-8</td>
+                            <td><span class="badge-status bg-pend">Pendiente</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -199,7 +257,8 @@
         <div class="controls-panel no-print">
             <div class="search-container">
                 <label>Buscador Inteligente de Comunidades:</label>
-                <input type="text" id="comunidad-input" list="comunidades-list" placeholder="Haz clic aquí, borra para ver todas o escribe para buscar..." onfocus="this.value=''" onchange="buscarComunidad()">
+                <!-- onfocus limpia la caja temporalmente para desplegar toda la lista -->
+                <input type="text" id="comunidad-input" list="comunidades-list" placeholder="Haz clic, borra o escribe para buscar una comunidad..." onfocus="this.value=''" onchange="buscarComunidad()">
                 <datalist id="comunidades-list"></datalist>
             </div>
             <button class="btn-export" onclick="exportarPDF()">🖨 Exportar Infografía Oficial (PDF)</button>
