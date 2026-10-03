@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- El título cambiará dinámicamente al exportar PDF -->
     <title id="doc-title">Plataforma SDH - UG | PULSO Q</title>
     
     <!-- Favicon Oficial del Estado -->
@@ -27,11 +26,11 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Roboto', sans-serif; background-color: #E2E8F0; color: var(--gris-texto); }
 
-        /* HEADER INSTITUCIONAL */
+        /* ENCABEZADO INSTITUCIONAL */
         header {
             background: linear-gradient(135deg, var(--azul-primario) 0%, var(--azul-secundario) 100%);
             color: var(--blanco);
-            padding: 20px 40px;
+            padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -39,20 +38,26 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-left { display: flex; align-items: center; gap: 25px; }
         
-        /* LOGO GOBIERNO CORREGIDO (Sin filtros que lo manchen) */
-        .header-logo-gob { height: 85px; object-fit: contain; background: white; padding: 5px; border-radius: 50%;}
-        .header-logo-pulso { height: 75px; object-fit: contain; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 12px;}
+        /* LOGO GOBIERNO LIMPIO */
+        .header-logo-gob { 
+            height: 80px; 
+            object-fit: contain; 
+            background: transparent; 
+            border-radius: 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .header-logo-pulso { height: 70px; object-fit: contain; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 12px; backdrop-filter: blur(4px);}
 
-        .header-titles h1 { font-family: 'Vollkorn', serif; font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+        .header-titles h1 { font-family: 'Vollkorn', serif; font-size: 26px; font-weight: 900; margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);}
         .header-titles p { font-size: 14px; color: var(--azul-claro); font-weight: 500; }
         .header-right { display: flex; align-items: center; gap: 20px; text-align: right; }
         .brand-text span { font-size: 12px; color: var(--azul-claro); text-transform: uppercase; margin-bottom: 2px;}
         .brand-text strong { font-family: 'Vollkorn', serif; font-size: 20px; color: var(--blanco); }
 
         /* NAVEGACIÓN */
-        .tabs { display: flex; background: var(--blanco); padding: 0 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .tabs { display: flex; background: var(--blanco); padding: 0 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
         .tab { padding: 18px 30px; cursor: pointer; font-weight: 700; font-size: 15px; color: var(--gris-sub); border-bottom: 4px solid transparent; transition: 0.3s; }
         .tab:hover { color: var(--azul-primario); background-color: var(--azul-fondo); }
         .tab.active { border-bottom: 4px solid var(--azul-primario); color: var(--azul-primario); }
@@ -61,24 +66,32 @@
         .view-container.active { display: block; }
         #loader { text-align: center; padding: 80px; font-size: 20px; font-weight: bold; color: var(--azul-primario); }
 
-        /* VISTA 1: DASHBOARD */
+        /* =========================================
+           VISTA 1: TABLERO GERENCIAL RESTAURADO
+           ========================================= */
         .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 35px; }
         .metric-card { background: var(--blanco); padding: 30px; border-radius: 12px; border-left: 8px solid var(--azul-primario); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .metric-card h3 { font-size: 15px; color: var(--gris-sub); text-transform: uppercase; margin-bottom: 15px; font-weight: 700;}
-        .metric-card .number { font-size: 55px; font-weight: 900; color: var(--azul-primario); font-family: 'Vollkorn', serif;}
+        .metric-card h3 { font-size: 14px; color: var(--gris-sub); text-transform: uppercase; margin-bottom: 15px; font-weight: 700;}
+        .metric-card .number { font-size: 55px; font-weight: 900; color: var(--azul-primario); font-family: 'Vollkorn', serif; line-height: 1;}
 
-        /* VISTA 2: INFOGRAFÍA */
+        .roadmap-panel { background: var(--blanco); padding: 35px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .roadmap-panel h2 { font-family: 'Vollkorn', serif; color: var(--azul-primario); margin-bottom: 25px; font-size: 24px;}
+        .stage-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .stage-item { background: var(--azul-fondo); padding: 20px; border-radius: 8px; border-left: 5px solid var(--azul-claro); font-size: 14px; line-height: 1.6;}
+        .stage-item strong { display: block; font-size: 16px; color: var(--azul-primario); margin-bottom: 8px;}
+
+        /* =========================================
+           VISTA 2: INFOGRAFÍA
+           ========================================= */
         .controls-panel { background: var(--blanco); padding: 25px; border-radius: 12px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        
-        /* BUSCADOR DE COMUNIDADES */
         .search-container { display: flex; flex-direction: column; width: 60%; }
         .search-container label { font-weight: bold; color: var(--azul-primario); margin-bottom: 8px; }
         .search-container input { padding: 12px; font-size: 16px; border-radius: 6px; border: 1px solid #CBD5E1; outline: none; font-weight: 500; }
         
         .btn-export { background: var(--azul-primario); color: var(--blanco); padding: 12px 25px; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; font-size: 15px; transition: 0.2s;}
-        .btn-export:hover { background: var(--azul-secundario); }
+        .btn-export:hover { background: var(--azul-secundario); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1);}
 
-        /* CONTENEDOR TIPO HOJA A4 */
+        /* CONTENEDOR INFOGRAFÍA TIPO HOJA OFICIO/LEGAL */
         .infografia-sheet {
             background: #F8FAFC; width: 950px; margin: auto; padding: 40px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 12px;
@@ -87,7 +100,7 @@
 
         .info-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--azul-claro); padding-bottom: 20px; margin-bottom: 25px; }
         .info-header-text h4 { color: var(--gris-sub); font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px;}
-        .info-header-text h1 { font-family: 'Vollkorn', serif; font-size: 46px; color: var(--azul-primario); margin: 0 0 10px 0;}
+        .info-header-text h1 { font-family: 'Vollkorn', serif; font-size: 46px; color: var(--azul-primario); margin: 0 0 10px 0; line-height: 1.1;}
         .badges { display: flex; gap: 10px; }
         .badge { background: var(--azul-primario); color: var(--blanco); padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; }
         .info-header-logo { height: 90px; object-fit: contain; }
@@ -117,12 +130,22 @@
 
         .info-footer { margin-top: 20px; border-top: 2px solid #CBD5E1; padding-top: 15px; font-size: 11px; color: var(--gris-sub); display: flex; justify-content: space-between; font-weight: 500;}
 
+        /* =========================================
+           REGLA ESTRICTA PARA IMPRESIÓN (1 SOLA PÁGINA)
+           ========================================= */
         @media print {
-            @page { size: letter portrait; margin: 0; }
+            /* Forzamos Tamaño Oficio/Legal para garantizar que quepa */
+            @page { size: legal portrait; margin: 0; }
             body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             header, .tabs, .controls-panel, #dashboard { display: none !important; }
             .view-container { padding: 0; margin: 0; }
-            .infografia-sheet { box-shadow: none; width: 100%; height: 100%; border-radius: 0; padding: 10mm 15mm; border-top: 15px solid var(--azul-primario);}
+            
+            /* Escala para que no se desborde */
+            .infografia-sheet { 
+                box-shadow: none; width: 100%; height: 100%; border-radius: 0; 
+                padding: 10mm 15mm; border-top: 15px solid var(--azul-primario);
+                transform: scale(0.98); transform-origin: top center;
+            }
             .data-card { padding: 14px; margin-bottom: 12px; border: 1px solid #ccc;}
             .mapa-placeholder { height: 110px; margin-bottom: 12px;}
             .highlight-box { margin-bottom: 8px; padding: 8px;}
@@ -141,7 +164,7 @@
         </div>
         <div class="header-right">
             <div class="brand-text"><span>Arquitectura Analítica</span><strong>PULSO Q</strong></div>
-            <img src="assets/pulso-q-logo.png" alt="PULSO Q" class="header-logo-pulso">
+            <img src="assets/pulso-q-logo.png" alt="PULSO Q" class="header-logo-pulso" onerror="this.style.display='none'">
         </div>
     </header>
 
@@ -152,20 +175,31 @@
 
     <div id="loader">Conectando con la Base 107 de Google Sheets...</div>
 
+    <!-- VISTA 1: DASHBOARD CON ROADMAP RESTAURADO -->
     <div id="dashboard" class="view-container active">
         <div class="metrics-grid">
             <div class="metric-card"><h3>Total de Comunidades</h3><p class="number" id="dash-tot">0</p></div>
             <div class="metric-card"><h3>Datos ITER Procesados</h3><p class="number" id="dash-iter">0</p></div>
             <div class="metric-card"><h3>Infografías Automatizadas</h3><p class="number" id="dash-listas">0</p></div>
         </div>
+        
+        <div class="roadmap-panel">
+            <h2>Estatus General de la Hoja de Ruta (UG - SDH)</h2>
+            <div class="stage-box">
+                <div class="stage-item"><strong>Bloque A (Semanas 1-2)</strong>Estructura y catálogo oficial INEGI.<br><br><i>Estatus: Finalizado.</i></div>
+                <div class="stage-item"><strong>Bloque B (Semanas 2-5)</strong>Investigación histórica, mapas y cálculo de indicadores.<br><br><i>Estatus: Pilotos en proceso.</i></div>
+                <div class="stage-item"><strong>Bloque C (Semanas 5-7)</strong>Llenado automatizado mediante motor de plantillas web.<br><br><i>Estatus: Listo para producción masiva.</i></div>
+                <div class="stage-item"><strong>Bloque D (Semanas 7-8)</strong>Control de calidad (E18), policy briefs e integración final.<br><br><i>Estatus: Pendiente.</i></div>
+            </div>
+        </div>
     </div>
 
+    <!-- VISTA 2: GENERADOR DE INFOGRAFÍAS -->
     <div id="generador" class="view-container">
         <div class="controls-panel no-print">
             <div class="search-container">
-                <label>Buscador de Comunidades:</label>
-                <!-- Buscador HTML Nativo (Datalist) -->
-                <input type="text" id="comunidad-input" list="comunidades-list" placeholder="Escribe el nombre o clave INEGI de la comunidad..." onchange="buscarComunidad()">
+                <label>Buscador Inteligente de Comunidades:</label>
+                <input type="text" id="comunidad-input" list="comunidades-list" placeholder="Ej: San Agustín o 110090001..." onchange="buscarComunidad()">
                 <datalist id="comunidades-list"></datalist>
             </div>
             <button class="btn-export" onclick="exportarPDF()">🖨 Exportar Infografía Oficial (PDF)</button>
@@ -186,6 +220,7 @@
             </div>
 
             <div class="info-grid">
+                <!-- COLUMNA IZQUIERDA -->
                 <div>
                     <div class="mapa-placeholder">
                         <span style="font-size:30px;">🗺️</span>
@@ -219,6 +254,7 @@
                     </div>
                 </div>
 
+                <!-- COLUMNA DERECHA -->
                 <div>
                     <div class="data-card">
                         <div class="card-title">🌾 Etnicidad</div>
@@ -269,7 +305,7 @@
             </div>
             <div class="info-footer">
                 <span>Fuente: Censo de Población y Vivienda 2020 (INEGI). CONAPO. CONEVAL.</span>
-                <span>Procesamiento de datos: <strong>PULSO Q Consultoría Analítica</strong></span>
+                <span>Desarrollo de Arquitectura y Datos: <strong>PULSO Q Consultoría Analítica</strong></span>
             </div>
         </div>
     </div>
@@ -284,7 +320,7 @@
 
         const SHEET_ID = '1qy6A46hMpRNKSIyIJ0H9vNv4T-KBngCQ';
         const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Base 107`;
-        let dataGlobal = {}; // Usaremos un diccionario con la clave INEGI
+        let dataGlobal = {}; 
 
         fetch(URL).then(res => res.text()).then(txt => {
             const json = JSON.parse(txt.match(/setResponse\((.*)\);/)[1]);
@@ -350,11 +386,11 @@
             document.getElementById('bar-hom').style.width = `${ph}%`; document.getElementById('bar-hom').innerText = `${ph.toFixed(1)}% H`;
             document.getElementById('bar-muj').style.width = `${pm}%`; document.getElementById('bar-muj').innerText = `${pm.toFixed(1)}% M`;
             document.getElementById('v-rel').innerText = d.rel;
-            document.getElementById('v-hij').innerText = d.hij;
+            document.getElementById('v-hij').innerText = typeof d.hij === 'number' ? d.hij.toFixed(2) : d.hij;
             document.getElementById('v-hli').innerText = pct(d.hli);
             document.getElementById('v-hog').innerText = num(d.hog);
             document.getElementById('v-afr').innerText = num(d.afr);
-            document.getElementById('v-esc').innerText = `${d.esc} años`;
+            document.getElementById('v-esc').innerText = `${typeof d.esc === 'number' ? d.esc.toFixed(2) : d.esc} años`;
             document.getElementById('v-ana').innerText = pct(d.ana);
             document.getElementById('v-asi').innerText = pct(d.asi);
             document.getElementById('v-pea').innerText = pct(d.pea);
@@ -366,8 +402,8 @@
             document.getElementById('v-lim').innerText = num(d.lim);
             document.getElementById('v-men').innerText = num(d.men);
             document.getElementById('v-viv').innerText = num(d.viv);
-            document.getElementById('v-ocuviv').innerText = d.ocuviv;
-            document.getElementById('v-ocucua').innerText = d.ocucua;
+            document.getElementById('v-ocuviv').innerText = typeof d.ocuviv === 'number' ? d.ocuviv.toFixed(2) : d.ocuviv;
+            document.getElementById('v-ocucua').innerText = typeof d.ocucua === 'number' ? d.ocucua.toFixed(2) : d.ocucua;
 
             setBar('b-agua', d.agu); setBar('b-dre', d.dre); setBar('b-ele', d.ele);
             setBar('b-int', d.int); setBar('b-tv', d.tv);
@@ -377,10 +413,8 @@
             const inputVal = document.getElementById('comunidad-input').value;
             const d = dataGlobal[inputVal];
             if(d) {
-                // TRUCO PARA RENOMBRAR EL PDF AL DESCARGAR
                 document.title = `Infografia_${d.cve}_${d.nom.replace(/\s+/g, '_')}`;
                 window.print();
-                // Restaurar el título original después de imprimir
                 setTimeout(() => { document.title = "Plataforma SDH - UG | PULSO Q"; }, 1000);
             } else {
                 alert("Selecciona una comunidad primero.");
