@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma SDH - UG | PULSO Q</title>
-    <!-- FAVICON (El logo en la pestaña del navegador) -->
-    <link rel="icon" type="image/png" href="assets/pulso-q-logo.png">
+    <!-- El título cambiará dinámicamente al exportar PDF -->
+    <title id="doc-title">Plataforma SDH - UG | PULSO Q</title>
     
-    <!-- Tipografías -->
+    <!-- Favicon Oficial del Estado -->
+    <link rel="icon" type="image/png" href="assets/Logo.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Vollkorn:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Paleta Oficial Mejorada */
             --azul-primario: #004B87;    
             --azul-secundario: #003366;
             --azul-claro: #69B3E7;       
@@ -22,15 +22,12 @@
             --gris-texto: #2D3748;
             --gris-sub: #718096;
             --blanco: #FFFFFF;
-            --acento: #E2E8F0;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Roboto', sans-serif; background-color: #E2E8F0; color: var(--gris-texto); }
 
-        /* =========================================
-           ENCABEZADO INSTITUCIONAL MEJORADO
-           ========================================= */
+        /* HEADER INSTITUCIONAL */
         header {
             background: linear-gradient(135deg, var(--azul-primario) 0%, var(--azul-secundario) 100%);
             color: var(--blanco);
@@ -42,155 +39,98 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .header-left { display: flex; align-items: center; gap: 25px; }
+        .header-left { display: flex; align-items: center; gap: 20px; }
         
-        /* LOGOS MÁS GRANDES Y CON CONTRASTE BLANCO */
-        .header-logo-gob { 
-            height: 90px; /* Mucho más grande */
-            object-fit: contain; 
-            /* Este filtro convierte el logo oscuro/azul a BLANCO puro para que contraste perfecto */
-            filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.3)); 
-        }
-        
-        .header-logo-pulso { 
-            height: 80px; /* Más grande */
-            object-fit: contain; 
-            background: rgba(255,255,255,0.1); 
-            padding: 8px; 
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-        }
+        /* LOGO GOBIERNO CORREGIDO (Sin filtros que lo manchen) */
+        .header-logo-gob { height: 85px; object-fit: contain; background: white; padding: 5px; border-radius: 50%;}
+        .header-logo-pulso { height: 75px; object-fit: contain; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 12px;}
 
-        .header-titles h1 { font-family: 'Vollkorn', serif; font-size: 28px; font-weight: 900; letter-spacing: 0.5px; margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);}
-        .header-titles p { font-size: 14px; color: var(--azul-claro); font-weight: 500; letter-spacing: 0.5px;}
-
+        .header-titles h1 { font-family: 'Vollkorn', serif; font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+        .header-titles p { font-size: 14px; color: var(--azul-claro); font-weight: 500; }
         .header-right { display: flex; align-items: center; gap: 20px; text-align: right; }
-        .brand-text span { font-size: 12px; color: var(--azul-claro); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 2px;}
+        .brand-text span { font-size: 12px; color: var(--azul-claro); text-transform: uppercase; margin-bottom: 2px;}
         .brand-text strong { font-family: 'Vollkorn', serif; font-size: 20px; color: var(--blanco); }
 
-        /* =========================================
-           PESTAÑAS DE NAVEGACIÓN
-           ========================================= */
-        .tabs { display: flex; background: var(--blanco); border-bottom: 1px solid #CBD5E1; padding: 0 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        /* NAVEGACIÓN */
+        .tabs { display: flex; background: var(--blanco); padding: 0 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
         .tab { padding: 18px 30px; cursor: pointer; font-weight: 700; font-size: 15px; color: var(--gris-sub); border-bottom: 4px solid transparent; transition: 0.3s; }
         .tab:hover { color: var(--azul-primario); background-color: var(--azul-fondo); }
-        .tab.active { border-bottom: 4px solid var(--azul-primario); color: var(--azul-primario); background-color: var(--blanco);}
+        .tab.active { border-bottom: 4px solid var(--azul-primario); color: var(--azul-primario); }
 
         .view-container { display: none; padding: 40px; max-width: 1280px; margin: auto; }
         .view-container.active { display: block; }
         #loader { text-align: center; padding: 80px; font-size: 20px; font-weight: bold; color: var(--azul-primario); }
 
-        /* =========================================
-           VISTA 1: TABLERO GERENCIAL
-           ========================================= */
+        /* VISTA 1: DASHBOARD */
         .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 35px; }
         .metric-card { background: var(--blanco); padding: 30px; border-radius: 12px; border-left: 8px solid var(--azul-primario); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .metric-card h3 { font-size: 15px; color: var(--gris-sub); text-transform: uppercase; margin-bottom: 15px; font-weight: 700;}
-        .metric-card .number { font-size: 55px; font-weight: 900; color: var(--azul-primario); font-family: 'Vollkorn', serif; line-height: 1;}
-        
-        .roadmap-panel { background: var(--blanco); padding: 35px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .roadmap-panel h2 { font-family: 'Vollkorn', serif; color: var(--azul-primario); margin-bottom: 25px; font-size: 24px;}
-        .stage-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        .stage-item { background: var(--azul-fondo); padding: 20px; border-radius: 8px; border-left: 5px solid var(--azul-claro); font-size: 14px; line-height: 1.6;}
-        .stage-item strong { display: block; font-size: 16px; color: var(--azul-primario); margin-bottom: 8px;}
+        .metric-card .number { font-size: 55px; font-weight: 900; color: var(--azul-primario); font-family: 'Vollkorn', serif;}
 
-        /* =========================================
-           VISTA 2: GENERADOR INFOGRAFÍA "SUPER BONITA"
-           ========================================= */
+        /* VISTA 2: INFOGRAFÍA */
         .controls-panel { background: var(--blanco); padding: 25px; border-radius: 12px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .controls-panel select { padding: 12px; font-size: 16px; min-width: 450px; border-radius: 6px; border: 1px solid #CBD5E1; outline: none; font-weight: 500;}
-        .controls-panel select:focus { border-color: var(--azul-primario); }
+        
+        /* BUSCADOR DE COMUNIDADES */
+        .search-container { display: flex; flex-direction: column; width: 60%; }
+        .search-container label { font-weight: bold; color: var(--azul-primario); margin-bottom: 8px; }
+        .search-container input { padding: 12px; font-size: 16px; border-radius: 6px; border: 1px solid #CBD5E1; outline: none; font-weight: 500; }
+        
         .btn-export { background: var(--azul-primario); color: var(--blanco); padding: 12px 25px; border: none; font-weight: bold; cursor: pointer; border-radius: 6px; font-size: 15px; transition: 0.2s;}
-        .btn-export:hover { background: var(--azul-secundario); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1);}
+        .btn-export:hover { background: var(--azul-secundario); }
 
-        /* CONTENEDOR INFOGRAFÍA TIPO HOJA CARTA/A4 */
+        /* CONTENEDOR TIPO HOJA A4 */
         .infografia-sheet {
-            background: #F8FAFC;
-            width: 950px; 
-            margin: auto;
-            padding: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
+            background: #F8FAFC; width: 950px; margin: auto; padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 12px;
             border-top: 15px solid var(--azul-primario);
         }
 
-        /* HEADER INFOGRAFÍA INTERNO */
         .info-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--azul-claro); padding-bottom: 20px; margin-bottom: 25px; }
         .info-header-text h4 { color: var(--gris-sub); font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px;}
-        .info-header-text h1 { font-family: 'Vollkorn', serif; font-size: 46px; color: var(--azul-primario); margin: 0 0 10px 0; line-height: 1.1;}
+        .info-header-text h1 { font-family: 'Vollkorn', serif; font-size: 46px; color: var(--azul-primario); margin: 0 0 10px 0;}
         .badges { display: flex; gap: 10px; }
         .badge { background: var(--azul-primario); color: var(--blanco); padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; }
-        
-        /* LOGO INTERNO INFOGRAFÍA */
-        .info-header-logo { height: 80px; object-fit: contain; }
+        .info-header-logo { height: 90px; object-fit: contain; }
 
-        /* GRID PRINCIPAL 2 COLUMNAS */
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        
-        /* TARJETAS DE SECCIÓN (CARD UI) */
-        .data-card { background: var(--blanco); border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid #E2E8F0; break-inside: avoid; margin-bottom: 20px;}
-        .card-title { font-family: 'Vollkorn', serif; color: var(--azul-primario); font-size: 20px; border-bottom: 2px solid var(--azul-fondo); padding-bottom: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;}
+        .data-card { background: var(--blanco); border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid #E2E8F0; margin-bottom: 20px;}
+        .card-title { font-family: 'Vollkorn', serif; color: var(--azul-primario); font-size: 20px; border-bottom: 2px solid var(--azul-fondo); padding-bottom: 10px; margin-bottom: 15px;}
         
         .data-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #E2E8F0; font-size: 14px; }
         .data-row:last-child { border-bottom: none; }
         .data-row span:last-child { font-weight: 900; color: var(--azul-primario); font-size: 15px;}
         
         .highlight-box { background: var(--azul-fondo); padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; border: 1px solid #CBD5E1;}
-        .highlight-box .lbl { display: block; font-size: 13px; color: var(--gris-sub); text-transform: uppercase; font-weight: 700; margin-bottom: 5px;}
-        .highlight-box .val { font-family: 'Vollkorn', serif; font-size: 32px; color: var(--azul-primario); font-weight: 900; line-height: 1;}
+        .highlight-box .lbl { display: block; font-size: 13px; color: var(--gris-sub); text-transform: uppercase; font-weight: 700;}
+        .highlight-box .val { font-family: 'Vollkorn', serif; font-size: 32px; color: var(--azul-primario); font-weight: 900; }
 
-        /* MAPA PLACEHOLDER ELEGANTE */
-        .mapa-placeholder {
-            background: linear-gradient(135deg, #E2E8F0 0%, #CBD5E1 100%);
-            border: 2px dashed #94A3B8;
-            height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-radius: 10px; color: var(--azul-secundario); font-weight: bold; margin-bottom: 25px; text-align: center; padding: 20px;
-        }
-        .mapa-placeholder span { font-size: 24px; margin-bottom: 5px;}
-
-        /* BARRA DE GÉNERO (Hombres vs Mujeres) */
+        .mapa-placeholder { background: #E2E8F0; border: 2px dashed #94A3B8; height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 10px; color: var(--azul-secundario); font-weight: bold; margin-bottom: 20px; text-align: center;}
+        
         .gender-bar-container { width: 100%; height: 25px; display: flex; border-radius: 15px; overflow: hidden; margin-top: 15px; margin-bottom: 15px;}
-        .gender-male { background: var(--azul-primario); display: flex; align-items: center; justify-content: flex-start; padding-left: 10px; color: white; font-size: 12px; font-weight: bold; white-space: nowrap;}
-        .gender-female { background: var(--azul-claro); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: white; font-size: 12px; font-weight: bold; white-space: nowrap;}
+        .gender-male { background: var(--azul-primario); display: flex; align-items: center; justify-content: flex-start; padding-left: 10px; color: white; font-size: 12px; font-weight: bold;}
+        .gender-female { background: var(--azul-claro); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: white; font-size: 12px; font-weight: bold;}
 
-        /* BARRAS DE PROGRESO DE SERVICIOS */
         .service-bar-wrap { margin-bottom: 12px; }
         .service-lbl { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 5px; color: var(--gris-texto);}
         .service-track { width: 100%; height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden; }
         .service-fill { height: 100%; background: var(--azul-primario); border-radius: 4px;}
-        .service-fill.alt { background: var(--azul-claro); }
 
-        /* FIRMA FOOTER */
         .info-footer { margin-top: 20px; border-top: 2px solid #CBD5E1; padding-top: 15px; font-size: 11px; color: var(--gris-sub); display: flex; justify-content: space-between; font-weight: 500;}
-        .info-footer strong { color: var(--azul-primario); }
 
-        /* =========================================
-           CONFIGURACIÓN PERFECTA PARA IMPRESIÓN PDF
-           ========================================= */
         @media print {
             @page { size: letter portrait; margin: 0; }
             body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             header, .tabs, .controls-panel, #dashboard { display: none !important; }
             .view-container { padding: 0; margin: 0; }
-            .infografia-sheet { 
-                box-shadow: none; width: 100%; height: 100%; border-radius: 0; 
-                padding: 10mm 15mm; border-top: 15px solid var(--azul-primario);
-            }
-            /* Ajustes menores para que no se brinque a la página 2 */
-            .info-header { margin-bottom: 15px; padding-bottom: 10px;}
-            .data-card { padding: 15px; margin-bottom: 15px; border: 1px solid #ddd;}
-            .mapa-placeholder { height: 120px; margin-bottom: 15px;}
-            .highlight-box { margin-bottom: 10px; padding: 10px;}
-            .highlight-box .val { font-size: 26px; }
-            .card-title { margin-bottom: 10px; font-size: 18px; padding-bottom: 5px;}
+            .infografia-sheet { box-shadow: none; width: 100%; height: 100%; border-radius: 0; padding: 10mm 15mm; border-top: 15px solid var(--azul-primario);}
+            .data-card { padding: 14px; margin-bottom: 12px; border: 1px solid #ccc;}
+            .mapa-placeholder { height: 110px; margin-bottom: 12px;}
+            .highlight-box { margin-bottom: 8px; padding: 8px;}
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER INSTITUCIONAL -->
     <header class="no-print">
         <div class="header-left">
             <img src="assets/Logo.png" alt="Gobierno Guanajuato" class="header-logo-gob" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/4/4e/Escudo_de_Guanajuato.svg'">
@@ -200,63 +140,38 @@
             </div>
         </div>
         <div class="header-right">
-            <div class="brand-text">
-                <span>Arquitectura Analítica</span>
-                <strong>PULSO Q</strong>
-            </div>
-            <img src="assets/pulso-q-logo.png" alt="PULSO Q" class="header-logo-pulso" onerror="this.style.display='none'">
+            <div class="brand-text"><span>Arquitectura Analítica</span><strong>PULSO Q</strong></div>
+            <img src="assets/pulso-q-logo.png" alt="PULSO Q" class="header-logo-pulso">
         </div>
     </header>
 
     <div class="tabs no-print">
         <div class="tab active" onclick="switchTab('dashboard')">1. Tablero de Avance (Hoja de Ruta)</div>
-        <div class="tab" onclick="switchTab('generador')">2. Generador de Infografías (Modelo 1)</div>
+        <div class="tab" onclick="switchTab('generador')">2. Generador de Infografías (Modelo SDH)</div>
     </div>
 
     <div id="loader">Conectando con la Base 107 de Google Sheets...</div>
 
-    <!-- VISTA 1: TABLERO GERENCIAL -->
     <div id="dashboard" class="view-container active">
         <div class="metrics-grid">
-            <div class="metric-card">
-                <h3>Total de Comunidades</h3>
-                <p class="number" id="dash-tot">0</p>
-            </div>
-            <div class="metric-card">
-                <h3>Datos ITER Procesados</h3>
-                <p class="number" id="dash-iter">0</p>
-            </div>
-            <div class="metric-card">
-                <h3>Infografías Automatizadas</h3>
-                <p class="number" id="dash-listas">0</p>
-            </div>
-        </div>
-        
-        <div class="roadmap-panel">
-            <h2>Estatus General de la Hoja de Ruta</h2>
-            <div class="stage-box">
-                <div class="stage-item"><strong>Bloque A (1-2 Sem)</strong>Estructura y catálogo INEGI. (Finalizado).</div>
-                <div class="stage-item"><strong>Bloque B (2-5 Sem)</strong>Datos duros y Pilotos. (En proceso).</div>
-                <div class="stage-item"><strong>Bloque C (5-7 Sem)</strong>Generación masiva con el Motor de Infografías.</div>
-                <div class="stage-item"><strong>Bloque D (7-8 Sem)</strong>Revisión cruzada E18 y entrega final.</div>
-            </div>
+            <div class="metric-card"><h3>Total de Comunidades</h3><p class="number" id="dash-tot">0</p></div>
+            <div class="metric-card"><h3>Datos ITER Procesados</h3><p class="number" id="dash-iter">0</p></div>
+            <div class="metric-card"><h3>Infografías Automatizadas</h3><p class="number" id="dash-listas">0</p></div>
         </div>
     </div>
 
-    <!-- VISTA 2: GENERADOR DE INFOGRAFÍAS SUPER BONITO -->
     <div id="generador" class="view-container">
-        
         <div class="controls-panel no-print">
-            <div>
-                <label style="font-weight:bold; color:var(--azul-primario); display:block; margin-bottom:8px;">Selecciona la Comunidad:</label>
-                <select id="comunidad-select" onchange="renderInfografia()"></select>
+            <div class="search-container">
+                <label>Buscador de Comunidades:</label>
+                <!-- Buscador HTML Nativo (Datalist) -->
+                <input type="text" id="comunidad-input" list="comunidades-list" placeholder="Escribe el nombre o clave INEGI de la comunidad..." onchange="buscarComunidad()">
+                <datalist id="comunidades-list"></datalist>
             </div>
-            <button class="btn-export" onclick="window.print()">🖨️️ Exportar Infografía Oficial (PDF)</button>
+            <button class="btn-export" onclick="exportarPDF()">🖨 Exportar Infografía Oficial (PDF)</button>
         </div>
 
-        <!-- HOJA CARTA/A4 PARA EXPORTAR -->
         <div class="infografia-sheet" id="info-sheet" style="display:none;">
-            
             <div class="info-header">
                 <div class="info-header-text">
                     <h4>Perfil sociodemográfico de comunidades indígenas</h4>
@@ -267,24 +182,19 @@
                         <span class="badge" id="lbl-pueblo">Pueblo: -</span>
                     </div>
                 </div>
-                <img src="assets/Logo.png" class="info-header-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/4/4e/Escudo_de_Guanajuato.svg'">
+                <img src="assets/Logo.png" class="info-header-logo" onerror="this.style.display='none'">
             </div>
 
             <div class="info-grid">
-                
-                <!-- COLUMNA IZQUIERDA -->
                 <div>
                     <div class="mapa-placeholder">
-                        <span>🗺️</span>
+                        <span style="font-size:30px;">🗺️</span>
                         Espacio asignado para Mapa (Etapa E8)
                     </div>
 
                     <div class="data-card">
                         <div class="card-title">👥 Población y Demografía</div>
-                        <div class="highlight-box">
-                            <span class="lbl">Población Total</span>
-                            <span class="val" id="v-pobtot">0</span>
-                        </div>
+                        <div class="highlight-box"><span class="lbl">Población Total</span><span class="val" id="v-pobtot">0</span></div>
                         <div class="gender-bar-container">
                             <div class="gender-male" id="bar-hom" style="width: 50%;">Hombres</div>
                             <div class="gender-female" id="bar-muj" style="width: 50%;">Mujeres</div>
@@ -309,7 +219,6 @@
                     </div>
                 </div>
 
-                <!-- COLUMNA DERECHA -->
                 <div>
                     <div class="data-card">
                         <div class="card-title">🌾 Etnicidad</div>
@@ -320,9 +229,9 @@
 
                     <div class="data-card">
                         <div class="card-title">⚕️ Salud y Discapacidad</div>
-                        <div class="highlight-box" style="padding: 8px;">
+                        <div class="highlight-box" style="padding: 10px;">
                             <span class="lbl">Afiliación a Servicios de Salud</span>
-                            <span class="val" id="v-sal" style="font-size: 24px;">0%</span>
+                            <span class="val" id="v-sal" style="font-size: 26px;">0%</span>
                         </div>
                         <div class="data-row"><span>Pob. con alguna discapacidad</span> <span id="v-dis">0%</span></div>
                         <div class="data-row"><span>Pob. con limitación</span> <span id="v-lim">0</span></div>
@@ -331,7 +240,9 @@
 
                     <div class="data-card">
                         <div class="card-title">🏠 Vivienda, Servicios y TIC</div>
-                        <div class="data-row" style="margin-bottom:15px;"><span>Viviendas particulares habitadas</span> <span id="v-viv">0</span></div>
+                        <div class="data-row"><span>Viviendas particulares habitadas</span> <span id="v-viv">0</span></div>
+                        <div class="data-row"><span>Prom. ocupantes por vivienda</span> <span id="v-ocuviv">0</span></div>
+                        <div class="data-row" style="margin-bottom:15px;"><span>Prom. ocupantes por cuarto</span> <span id="v-ocucua">0</span></div>
                         
                         <div class="service-bar-wrap">
                             <div class="service-lbl"><span>Agua Entubada</span> <span id="b-agua-txt">0%</span></div>
@@ -345,18 +256,17 @@
                             <div class="service-lbl"><span>Electricidad</span> <span id="b-ele-txt">0%</span></div>
                             <div class="service-track"><div class="service-fill" id="b-ele"></div></div>
                         </div>
-                        <div class="service-bar-wrap" style="margin-top:15px;">
+                        <div class="service-bar-wrap">
                             <div class="service-lbl"><span>Internet</span> <span id="b-int-txt">0%</span></div>
-                            <div class="service-track"><div class="service-fill alt" id="b-int"></div></div>
+                            <div class="service-track"><div class="service-fill" style="background:#69B3E7;" id="b-int"></div></div>
                         </div>
                         <div class="service-bar-wrap">
                             <div class="service-lbl"><span>Televisor</span> <span id="b-tv-txt">0%</span></div>
-                            <div class="service-track"><div class="service-fill alt" id="b-tv"></div></div>
+                            <div class="service-track"><div class="service-fill" style="background:#69B3E7;" id="b-tv"></div></div>
                         </div>
                     </div>
                 </div>
             </div>
-            
             <div class="info-footer">
                 <span>Fuente: Censo de Población y Vivienda 2020 (INEGI). CONAPO. CONEVAL.</span>
                 <span>Procesamiento de datos: <strong>PULSO Q Consultoría Analítica</strong></span>
@@ -374,54 +284,57 @@
 
         const SHEET_ID = '1qy6A46hMpRNKSIyIJ0H9vNv4T-KBngCQ';
         const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Base 107`;
-        let dataGlobal = [];
+        let dataGlobal = {}; // Usaremos un diccionario con la clave INEGI
 
-        fetch(URL)
-            .then(res => res.text())
-            .then(txt => {
-                const json = JSON.parse(txt.match(/setResponse\((.*)\);/)[1]);
-                const rows = json.table.rows;
-                
-                let cuenta = 0;
-                rows.forEach(r => {
-                    if(!r || !r.c || !r.c[0]) return;
-                    let cve = String(r.c[0].v).trim();
-                    if(cve.startsWith("11") && cve.length >= 8) {
-                        let c = r.c;
-                        let pob = c[5] ? c[5].v : 0;
-                        dataGlobal.push({
-                            cve: cve.padStart(9,'0'), nom: c[1]?.v || '', mun: c[2]?.v || '', pue: c[3]?.v || '',
-                            pob: pob, hom: c[6]?.v || 0, pct_h: c[7]?.v || 0, muj: c[8]?.v || 0, pct_m: c[9]?.v || 0,
-                            rel: c[10]?.v || 0, hij: c[11]?.v || 0, hli: c[13]?.v || 0, hog: c[14]?.v || 0, afr: c[15]?.v || 0,
-                            sal: c[21]?.v || 0, dis: c[17]?.v || 0, lim: c[18]?.v || 0, men: c[19]?.v || 0, esc: c[25]?.v || 0,
-                            ana: c[27]?.v || 0, asi: c[28]?.v || 0, pea: c[30]?.v || 0, poc: c[31]?.v || 0, 
-                            mar: c[32]?.v || 'SD', rez: c[33]?.v || 'SD', viv: c[34]?.v || 0, ocu: c[35]?.v || 0,
-                            agu: c[37]?.v || 0, dre: c[39]?.v || 0, ele: c[38]?.v || 0, int: c[47]?.v || 0, tv: c[41]?.v || 0
-                        });
-                        if(pob > 0) cuenta++;
-                    }
-                });
+        fetch(URL).then(res => res.text()).then(txt => {
+            const json = JSON.parse(txt.match(/setResponse\((.*)\);/)[1]);
+            const rows = json.table.rows;
+            let cuenta = 0;
+            const datalist = document.getElementById('comunidades-list');
 
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('dash-tot').innerText = dataGlobal.length;
-                document.getElementById('dash-iter').innerText = cuenta;
-                document.getElementById('dash-listas').innerText = cuenta;
+            rows.forEach(r => {
+                if(!r || !r.c || !r.c[0]) return;
+                let cve = String(r.c[0].v).trim().padStart(9,'0');
+                if(cve.startsWith("11") && cve.length >= 8) {
+                    let c = r.c;
+                    let pob = c[5] ? c[5].v : 0;
+                    let nombreComp = `${cve} - ${c[1]?.v || ''} (${c[2]?.v || ''})`;
+                    
+                    dataGlobal[nombreComp] = {
+                        cve: cve, nom: c[1]?.v || '', mun: c[2]?.v || '', pue: c[3]?.v || '',
+                        pob: pob, hom: c[6]?.v || 0, pct_h: c[7]?.v || 0, muj: c[8]?.v || 0, pct_m: c[9]?.v || 0,
+                        rel: c[10]?.v || 0, hij: c[11]?.v || 0, hli: c[13]?.v || 0, hog: c[14]?.v || 0, afr: c[15]?.v || 0,
+                        sal: c[21]?.v || 0, dis: c[17]?.v || 0, lim: c[18]?.v || 0, men: c[19]?.v || 0, esc: c[25]?.v || 0,
+                        ana: c[27]?.v || 0, asi: c[28]?.v || 0, pea: c[30]?.v || 0, poc: c[31]?.v || 0, 
+                        mar: c[32]?.v || 'SD', rez: c[33]?.v || 'SD', viv: c[34]?.v || 0, ocuviv: c[35]?.v || 0, ocucua: c[36]?.v || 0,
+                        agu: c[37]?.v || 0, ele: c[38]?.v || 0, dre: c[39]?.v || 0, tv: c[41]?.v || 0, int: c[46]?.v || 0
+                    };
+                    
+                    let opt = document.createElement('option');
+                    opt.value = nombreComp;
+                    datalist.appendChild(opt);
 
-                const sel = document.getElementById('comunidad-select');
-                sel.innerHTML = '<option value="">-- Elige una comunidad --</option>';
-                dataGlobal.forEach((d, i) => { sel.innerHTML += `<option value="${i}">${d.cve} - ${d.nom}</option>`; });
+                    if(pob > 0) cuenta++;
+                }
             });
 
-        function renderInfografia() {
-            const idx = document.getElementById('comunidad-select').value;
-            if(idx === "") { document.getElementById('info-sheet').style.display='none'; return; }
-            const d = dataGlobal[idx];
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('dash-tot').innerText = Object.keys(dataGlobal).length;
+            document.getElementById('dash-iter').innerText = cuenta;
+            document.getElementById('dash-listas').innerText = cuenta;
+        });
+
+        function buscarComunidad() {
+            const inputVal = document.getElementById('comunidad-input').value;
+            const d = dataGlobal[inputVal];
+            
+            if(!d) { document.getElementById('info-sheet').style.display='none'; return; }
             document.getElementById('info-sheet').style.display='block';
 
             const num = v => typeof v === 'number' ? v.toLocaleString('es-MX') : v;
             const pct = v => typeof v === 'number' ? (v <= 1 ? (v*100).toFixed(1)+'%' : v.toFixed(1)+'%') : v;
             const setBar = (id, val) => {
-                let p = typeof val === 'number' ? (val <= 1 ? val*100 : val) : 0;
+                let p = typeof val === 'number' ? (val <= 1 ? val*100 : val) : parseFloat(val) || 0;
                 document.getElementById(id).style.width = `${p}%`;
                 document.getElementById(id+'-txt').innerText = `${p.toFixed(1)}%`;
             };
@@ -432,15 +345,10 @@
             document.getElementById('lbl-pueblo').innerText = `Pueblo: ${d.pue}`;
             
             document.getElementById('v-pobtot').innerText = num(d.pob);
-            
-            // Barra de Género
             let ph = typeof d.pct_h === 'number' ? (d.pct_h <= 1 ? d.pct_h*100 : d.pct_h) : 50;
             let pm = typeof d.pct_m === 'number' ? (d.pct_m <= 1 ? d.pct_m*100 : d.pct_m) : 50;
-            document.getElementById('bar-hom').style.width = `${ph}%`;
-            document.getElementById('bar-hom').innerText = `${ph.toFixed(1)}% H`;
-            document.getElementById('bar-muj').style.width = `${pm}%`;
-            document.getElementById('bar-muj').innerText = `${pm.toFixed(1)}% M`;
-
+            document.getElementById('bar-hom').style.width = `${ph}%`; document.getElementById('bar-hom').innerText = `${ph.toFixed(1)}% H`;
+            document.getElementById('bar-muj').style.width = `${pm}%`; document.getElementById('bar-muj').innerText = `${pm.toFixed(1)}% M`;
             document.getElementById('v-rel').innerText = d.rel;
             document.getElementById('v-hij').innerText = d.hij;
             document.getElementById('v-hli').innerText = pct(d.hli);
@@ -458,10 +366,25 @@
             document.getElementById('v-lim').innerText = num(d.lim);
             document.getElementById('v-men').innerText = num(d.men);
             document.getElementById('v-viv').innerText = num(d.viv);
-            document.getElementById('v-ocu').innerText = d.ocu;
+            document.getElementById('v-ocuviv').innerText = d.ocuviv;
+            document.getElementById('v-ocucua').innerText = d.ocucua;
 
             setBar('b-agua', d.agu); setBar('b-dre', d.dre); setBar('b-ele', d.ele);
             setBar('b-int', d.int); setBar('b-tv', d.tv);
+        }
+
+        function exportarPDF() {
+            const inputVal = document.getElementById('comunidad-input').value;
+            const d = dataGlobal[inputVal];
+            if(d) {
+                // TRUCO PARA RENOMBRAR EL PDF AL DESCARGAR
+                document.title = `Infografia_${d.cve}_${d.nom.replace(/\s+/g, '_')}`;
+                window.print();
+                // Restaurar el título original después de imprimir
+                setTimeout(() => { document.title = "Plataforma SDH - UG | PULSO Q"; }, 1000);
+            } else {
+                alert("Selecciona una comunidad primero.");
+            }
         }
     </script>
 </body>
