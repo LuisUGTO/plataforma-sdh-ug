@@ -3,424 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Producción SDH - UG | PULSO Q</title>
-    <!-- Tipografías Oficiales del Manual de Identidad -->
+    <title>Plataforma SDH - UG | PULSO Q</title>
+    <!-- Tipografías Oficiales: Vollkorn (Títulos) y Roboto (Textos) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Vollkorn:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Vollkorn:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --azul-primario: #004B87;    /* Pantone 301 C */
-            --azul-secundario: #1F4E79;  /* Azul Profundo */
-            --azul-claro: #69B3E7;       /* Pantone 292 C */
-            --azul-fondo: #E9F1F8;       /* Tinte institucional */
+            /* Colores Oficiales Guanajuato */
+            --azul-primario: #004B87;    
+            --azul-claro: #69B3E7;       
+            --azul-fondo: #E9F1F8;       
             --gris-texto: #333333;
             --gris-sub: #63666A;
-            --borde-suave: #D1DFEC;
             --blanco: #FFFFFF;
-            --verde-exito: #2E7D32;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #F4F7FA; color: var(--gris-texto); }
 
-        body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #F4F7FA;
-            color: var(--gris-texto);
-            line-height: 1.5;
-        }
-
-        /* Encabezado Institucional con Doble Firma */
+        /* =========================================
+           ENCABEZADO INVERTIDO (AZUL INSTITUCIONAL)
+           ========================================= */
         header {
             background-color: var(--azul-primario);
             color: var(--blanco);
-            padding: 16px 40px;
+            padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 4px solid var(--azul-claro);
-            box-shadow: 0 4px 12px rgba(0, 75, 135, 0.15);
+            border-bottom: 5px solid var(--azul-claro);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header-logo-gob {
-            height: 62px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        
+        /* Ajuste para los logos que subiste en /assets/ */
+        .header-logo-gob { height: 65px; object-fit: contain; }
+        .header-logo-pulso { height: 50px; object-fit: contain; }
 
         .header-titles h1 {
-            font-family: 'Vollkorn', serif;
-            font-size: 22px;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            font-family: 'Vollkorn', serif; font-size: 24px; font-weight: 900; letter-spacing: 0.5px; margin-bottom: 2px;
         }
+        .header-titles p { font-size: 13px; color: var(--azul-claro); font-weight: 500; }
 
-        .header-titles p {
-            font-size: 13px;
-            color: var(--azul-claro);
-            font-weight: 500;
-        }
+        .header-right { display: flex; align-items: center; gap: 15px; text-align: right; }
+        .brand-text span { font-size: 11px; color: var(--azul-claro); text-transform: uppercase; letter-spacing: 1px; display: block;}
+        .brand-text strong { font-family: 'Vollkorn', serif; font-size: 18px; color: var(--blanco); }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-align: right;
-        }
-
-        .brand-text span {
-            display: block;
-            font-size: 11px;
-            color: var(--azul-claro);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .brand-text strong {
-            font-family: 'Vollkorn', serif;
-            font-size: 17px;
-            color: var(--blanco);
-        }
-
-        .header-logo-pulso {
-            height: 52px;
-            width: auto;
-            object-fit: contain;
-            border-radius: 6px;
-            background: rgba(255,255,255,0.08);
-            padding: 3px;
-        }
-
-        /* Navegación y Pestañas */
-        .tabs {
-            display: flex;
-            background-color: var(--blanco);
-            border-bottom: 2px solid var(--borde-suave);
-            padding: 0 40px;
-        }
-
+        /* =========================================
+           PESTAÑAS DE NAVEGACIÓN
+           ========================================= */
+        .tabs { display: flex; background: var(--blanco); border-bottom: 2px solid #ddd; padding: 0 40px; }
         .tab {
-            padding: 14px 28px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--azul-secundario);
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s ease;
+            padding: 16px 30px; cursor: pointer; font-weight: 700; font-size: 15px;
+            color: var(--gris-sub); border-bottom: 3px solid transparent; transition: 0.3s;
         }
+        .tab:hover { color: var(--azul-primario); background-color: var(--azul-fondo); }
+        .tab.active { border-bottom: 3px solid var(--azul-primario); color: var(--azul-primario); }
 
-        .tab:hover {
-            color: var(--azul-primario);
-            background-color: var(--azul-fondo);
-        }
+        .view-container { display: none; padding: 30px 40px; max-width: 1280px; margin: auto; }
+        .view-container.active { display: block; }
+        #loader { text-align: center; padding: 60px; font-size: 18px; font-weight: bold; color: var(--azul-primario); }
 
-        .tab.active {
-            border-bottom: 3px solid var(--azul-primario);
-            color: var(--azul-primario);
-            background-color: transparent;
-        }
-
-        /* Contenedores Principales */
-        .view-container {
-            display: none;
-            padding: 30px 40px;
-            max-width: 1280px;
-            margin: auto;
-        }
-
-        .view-container.active {
-            display: block;
-        }
-
-        /* Banner de Carga */
-        #loader {
-            text-align: center;
-            padding: 60px;
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--azul-primario);
-        }
-
-        /* Tarjetas de Métricas (Hoja de Ruta) */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
+        /* =========================================
+           VISTA 1: TABLERO GERENCIAL
+           ========================================= */
+        .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
         .metric-card {
-            background: var(--blanco);
-            padding: 22px;
-            border-radius: 8px;
-            border-left: 5px solid var(--azul-primario);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border-top: 1px solid #eee;
-            border-right: 1px solid #eee;
-            border-bottom: 1px solid #eee;
+            background: var(--blanco); padding: 25px; border-radius: 8px;
+            border-left: 6px solid var(--azul-primario); box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
+        .metric-card h3 { font-size: 14px; color: var(--gris-sub); text-transform: uppercase; margin-bottom: 10px; }
+        .metric-card .number { font-size: 45px; font-weight: 900; color: var(--azul-primario); font-family: 'Vollkorn', serif; }
+        
+        .roadmap-panel { background: var(--blanco); padding: 30px; border-radius: 8px; border: 1px solid #ddd; }
+        .roadmap-panel h2 { font-family: 'Vollkorn', serif; color: var(--azul-primario); margin-bottom: 20px; }
+        .stage-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .stage-item { background: var(--azul-fondo); padding: 15px; border-radius: 6px; border-left: 4px solid var(--azul-claro); font-size: 13px;}
+        .stage-item strong { display: block; font-size: 15px; color: var(--azul-primario); margin-bottom: 5px;}
 
-        .metric-card h3 {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--gris-sub);
-            margin-bottom: 8px;
-        }
-
-        .metric-card .number {
-            font-size: 38px;
-            font-weight: 900;
-            color: var(--azul-primario);
-            font-family: 'Vollkorn', serif;
-        }
-
-        .roadmap-summary {
-            background: var(--blanco);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border: 1px solid var(--borde-suave);
-        }
-
-        .roadmap-summary h2 {
-            font-family: 'Vollkorn', serif;
-            color: var(--azul-primario);
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-
-        .stage-box {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .stage-item {
-            padding: 15px;
-            border-radius: 6px;
-            background: var(--azul-fondo);
-            border-left: 4px solid var(--azul-claro);
-            font-size: 13px;
-        }
-
-        .stage-item strong {
-            display: block;
-            color: var(--azul-primario);
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        /* Controles de Generador */
+        /* =========================================
+           VISTA 2: GENERADOR INFOGRAFÍA (MODELO 1)
+           ========================================= */
         .controls-panel {
-            background: var(--blanco);
-            padding: 20px 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--borde-suave);
+            background: var(--blanco); padding: 20px; border-radius: 8px; margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd;
         }
+        .controls-panel select { padding: 10px; font-size: 15px; min-width: 400px; border-radius: 4px; border: 1px solid #ccc; }
+        .btn-export { background: var(--azul-primario); color: var(--blanco); padding: 10px 20px; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .btn-export:hover { background: #153b5c; }
 
-        .controls-panel select {
-            padding: 10px 15px;
-            font-size: 15px;
-            border: 1px solid #CBD5E1;
-            border-radius: 6px;
-            min-width: 450px;
-            background-color: #FAFAFA;
-            font-weight: 500;
-        }
-
-        .btn-export {
-            background-color: var(--azul-primario);
-            color: var(--blanco);
-            border: none;
-            padding: 10px 22px;
-            font-size: 14px;
-            font-weight: 700;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-export:hover {
-            background-color: var(--azul-secundario);
-        }
-
-        /* Plantilla Maqueta Infografía Oficial */
+        /* Contenedor tipo Hoja A4 */
         .infografia-sheet {
             background: var(--blanco);
-            padding: 45px 50px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-top: 14px solid var(--azul-primario);
-            border-bottom: 8px solid var(--azul-claro);
-            max-width: 1050px;
+            width: 900px; /* Tamaño fijo para simular PDF/Impresión */
             margin: auto;
+            padding: 40px 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
         }
 
-        .info-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 2px solid var(--azul-fondo);
-            padding-bottom: 20px;
-            margin-bottom: 25px;
+        /* HEADER INFOGRAFÍA */
+        .info-header { border-bottom: 2px solid var(--azul-primario); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .info-header h4 { color: var(--azul-claro); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .info-header h1 { font-family: 'Vollkorn', serif; font-size: 42px; color: var(--azul-primario); margin: 5px 0; }
+        .info-header p { font-size: 14px; font-weight: 700; color: var(--gris-sub); }
+        .info-header-logo { height: 70px; object-fit: contain; }
+
+        /* LAYOUT 2 COLUMNAS (Estilo Modelo 1) */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        
+        .section-title {
+            background: var(--azul-primario); color: var(--blanco); font-family: 'Vollkorn', serif;
+            font-size: 18px; padding: 6px 15px; border-radius: 4px; margin-bottom: 15px; margin-top: 10px;
         }
 
-        .info-top .banner-text h4 {
-            color: var(--azul-claro);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
+        .data-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #eee; font-size: 14px; }
+        .data-row span:last-child { font-weight: 900; color: var(--azul-primario); }
+        .data-row.highlight { background-color: var(--azul-fondo); padding: 8px 10px; border-radius: 4px; border: none; margin-bottom: 5px;}
+
+        /* BARRAS DE PROGRESO VISUALES */
+        .bar-group { margin-bottom: 12px; }
+        .bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--gris-sub);}
+        .bar-track { width: 100%; height: 10px; background: #E2E8F0; border-radius: 5px; overflow: hidden; }
+        .bar-fill { height: 100%; background: var(--azul-claro); }
+
+        .mapa-placeholder {
+            background-color: var(--azul-fondo); border: 2px dashed var(--azul-claro);
+            height: 180px; display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; color: var(--azul-primario); font-weight: bold; margin-bottom: 20px;
         }
 
-        .info-top .banner-text h2 {
-            font-family: 'Vollkorn', serif;
-            font-size: 34px;
-            color: var(--azul-primario);
-            font-weight: 900;
-            margin: 4px 0;
-        }
-
-        .meta-pills {
-            display: flex;
-            gap: 12px;
-            margin-top: 8px;
-        }
-
-        .pill {
-            background-color: var(--azul-fondo);
-            color: var(--azul-secundario);
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-        }
-
-        .info-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-
-        .info-block {
-            background-color: #FCFDFE;
-            border: 1px solid var(--borde-suave);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .block-header {
-            background-color: var(--azul-secundario);
-            color: var(--blanco);
-            font-family: 'Vollkorn', serif;
-            font-size: 16px;
-            font-weight: 700;
-            padding: 10px 18px;
-        }
-
-        .block-content {
-            padding: 15px 18px;
-        }
-
-        .kpi-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 7px 0;
-            border-bottom: 1px solid #EDF2F7;
-            font-size: 13px;
-        }
-
-        .kpi-row:last-child {
-            border-bottom: none;
-        }
-
-        .kpi-row span:first-child {
-            color: var(--gris-sub);
-        }
-
-        .kpi-row span:last-child {
-            font-weight: 700;
-            color: var(--azul-primario);
-        }
-
-        /* Barra de Porcentaje */
-        .bar-container {
-            width: 100%;
-            background-color: #E2E8F0;
-            height: 8px;
-            border-radius: 4px;
-            margin-top: 4px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            background-color: var(--azul-claro);
-            height: 100%;
-            border-radius: 4px;
-        }
-
-        .footer-credits {
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid #E2E8F0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: var(--gris-sub);
-        }
-
-        /* Estilos de Impresión / Guardar en PDF */
+        /* PRINT STYLES */
         @media print {
-            body {
-                background: var(--blanco);
-            }
-            header, .tabs, .controls-panel, #dashboard, .no-print {
-                display: none !important;
-            }
-            .view-container {
-                padding: 0;
-                margin: 0;
-                max-width: 100%;
-            }
-            .infografia-sheet {
-                box-shadow: none;
-                border: none;
-                padding: 15px;
-                max-width: 100%;
-            }
+            body { background: white; }
+            header, .tabs, .controls-panel, #dashboard { display: none !important; }
+            .view-container { padding: 0; }
+            .infografia-sheet { box-shadow: none; width: 100%; padding: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Encabezado Institucional -->
+    <!-- HEADER INSTITUCIONAL INVERTIDO -->
     <header class="no-print">
         <div class="header-left">
-            <img src="assets/Logo.png" alt="Gobierno del Estado de Guanajuato" class="header-logo-gob" onerror="this.src='assets/Logo-Gobierno-de-la-Gente-de-Guanajuato-v2.0 01 (1).png'">
+            <!-- AQUÍ TOMA TU LOGO DE ASSETS -->
+            <img src="assets/Logo.png" alt="Gobierno Guanajuato" class="header-logo-gob" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/4/4e/Escudo_de_Guanajuato.svg'">
             <div class="header-titles">
                 <h1>GOBIERNO DE LA GENTE | GUANAJUATO</h1>
                 <p>Secretaría de Derechos Humanos • Plataforma de Producción de Infografías</p>
@@ -428,348 +158,288 @@
         </div>
         <div class="header-right">
             <div class="brand-text">
-                <span>Desarrollo y Analítica</span>
+                <span>Arquitectura Analítica</span>
                 <strong>PULSO Q</strong>
             </div>
-            <img src="assets/pulso-q-logo.png" alt="PULSO Q" class="header-logo-pulso">
+            <!-- AQUÍ TOMA TU LOGO DE PULSO Q -->
+            <img src="assets/pulso-q-logo.png" alt="PULSO Q" class="header-logo-pulso" onerror="this.style.display='none'">
         </div>
     </header>
 
-    <!-- Barra de Pestañas -->
     <div class="tabs no-print">
         <div class="tab active" onclick="switchTab('dashboard')">1. Tablero de Avance (Hoja de Ruta)</div>
-        <div class="tab" onclick="switchTab('generador')">2. Generador de Infografías (Modelo SDH)</div>
+        <div class="tab" onclick="switchTab('generador')">2. Generador de Infografías (Modelo 1)</div>
     </div>
 
-    <!-- Indicador de Carga -->
-    <div id="loader">Conectando en tiempo real con Google Sheets (Base 107)...</div>
+    <div id="loader">Conectando con la Base 107 de Google Sheets...</div>
 
-    <!-- VISTA 1: TABLERO DE CONTROL -->
-    <div id="dashboard" class="view-container">
+    <!-- VISTA 1: TABLERO GERENCIAL -->
+    <div id="dashboard" class="view-container active">
         <div class="metrics-grid">
             <div class="metric-card">
-                <h3>Comunidades Oficiales</h3>
-                <p class="number" id="tot-comunidades">0</p>
+                <h3>Total de Comunidades</h3>
+                <p class="number" id="dash-tot">0</p>
             </div>
             <div class="metric-card">
-                <h3>Con Datos Censo 2020</h3>
-                <p class="number" id="tot-procesadas">0</p>
+                <h3>Datos ITER Procesados</h3>
+                <p class="number" id="dash-iter">0</p>
             </div>
             <div class="metric-card">
-                <h3>Marginación / Rezago</h3>
-                <p class="number" id="tot-indices">0</p>
-            </div>
-            <div class="metric-card">
-                <h3>Listas para Validación (E18)</h3>
-                <p class="number" id="tot-listas">0</p>
+                <h3>Infografías Automatizadas</h3>
+                <p class="number" id="dash-listas">0</p>
             </div>
         </div>
-
-        <div class="roadmap-summary">
-            <h2>Gobernanza del Proyecto: Estatus de la Hoja de Ruta (UG - SDH)</h2>
-            <p style="font-size: 14px; color: var(--gris-sub);">Monitoreo integral de etapas conforme al calendario de trabajo acordado.</p>
-            
+        
+        <div class="roadmap-panel">
+            <h2>Estatus General de la Hoja de Ruta</h2>
+            <p style="margin-bottom: 20px;">Esta vista te permite supervisar el avance del equipo en las 20 etapas pactadas.</p>
             <div class="stage-box">
                 <div class="stage-item">
-                    <strong>Bloque A: Definición</strong>
-                    <span>E1 a E5 Concluidas. Catálogo oficial cerrado y fichas técnicas estructuradas.</span>
+                    <strong>Bloque A (1-2 Sem)</strong>
+                    Estructura y catálogo INEGI. (Finalizado).
                 </div>
                 <div class="stage-item">
-                    <strong>Bloque B: Cuatro Frentes</strong>
-                    <span>E6 a E10 en proceso. Pilotos de Alonso Yáñez y San Agustín listos.</span>
+                    <strong>Bloque B (2-5 Sem)</strong>
+                    Datos duros y Pilotos de Alonso Yáñez y San Agustín. (En proceso).
                 </div>
                 <div class="stage-item">
-                    <strong>Bloque C: Producción</strong>
-                    <span>E11 a E14. Llenado automatizado de infografías mediante este motor web.</span>
+                    <strong>Bloque C (5-7 Sem)</strong>
+                    Generación masiva con el Motor de Infografías.
                 </div>
                 <div class="stage-item">
-                    <strong>Bloque D: Calidad y Cierre</strong>
-                    <span>E17 a E20. Control cruzado, policy briefs e integración final de compendio.</span>
+                    <strong>Bloque D (7-8 Sem)</strong>
+                    Revisión cruzada E18 y entrega final.
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- VISTA 2: GENERADOR DE INFOGRAFÍAS -->
+    <!-- VISTA 2: GENERADOR DE INFOGRAFÍAS (FORMATO MODELO 1) -->
     <div id="generador" class="view-container">
+        
         <div class="controls-panel no-print">
             <div>
-                <label for="comunidad-select" style="font-size: 14px; font-weight: 700; color: var(--azul-primario); display: block; margin-bottom: 6px;">Selecciona una comunidad para generar su ficha técnica:</label>
-                <select id="comunidad-select" onchange="renderInfografia()">
-                    <option value="">-- Cargando comunidades desde la base de datos... --</option>
-                </select>
+                <label style="font-weight:bold; color:var(--azul-primario); display:block; margin-bottom:5px;">Selecciona la Comunidad:</label>
+                <select id="comunidad-select" onchange="renderInfografia()"></select>
             </div>
-            <button class="btn-export" onclick="window.print()">
-                <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                    <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-                </svg>
-                Exportar Infografía (PDF)
-            </button>
+            <button class="btn-export" onclick="window.print()">🖨️ Exportar / Imprimir PDF</button>
         </div>
 
-        <!-- Canvas Oficial de la Infografía (Modelo SDH) -->
-        <div class="infografia-sheet" id="infografia-box" style="display:none;">
-            <div class="info-top">
-                <div class="banner-text">
-                    <h4>Perfil Sociodemográfico de Comunidades Indígenas</h4>
-                    <h2 id="lbl-nombre">[Nombre de la Comunidad]</h2>
-                    <div class="meta-pills">
-                        <span class="pill" id="lbl-cve">Clave: 000000000</span>
-                        <span class="pill" id="lbl-mun">Municipio: -</span>
-                        <span class="pill" id="lbl-pueblo">Pueblo: -</span>
-                        <span class="pill" id="lbl-anio">Reconocimiento: -</span>
-                    </div>
+        <!-- HOJA TIPO A4 PARA EXPORTAR -->
+        <div class="infografia-sheet" id="info-sheet" style="display:none;">
+            
+            <div class="info-header">
+                <div>
+                    <h4>Perfil sociodemográfico de las comunidades indígenas</h4>
+                    <h1 id="lbl-nombre">[Nombre Comunidad]</h1>
+                    <p id="lbl-meta">Clave INEGI: 0000 | Municipio: - | Pueblo: -</p>
                 </div>
-                <img src="assets/Logo.png" alt="SDH" style="height: 65px; object-fit: contain;" onerror="this.src='assets/Logo-Gobierno-de-la-Gente-de-Guanajuato-v2.0 01 (1).png'">
+                <img src="assets/Logo.png" class="info-header-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/4/4e/Escudo_de_Guanajuato.svg'">
             </div>
 
-            <div class="info-layout">
-                <!-- 1. Demografía -->
-                <div class="info-block">
-                    <div class="block-header">1. Población y Demografía</div>
-                    <div class="block-content">
-                        <div class="kpi-row"><span>Población Total:</span> <span id="val-pobtot">0</span></div>
-                        <div class="kpi-row"><span>Hombres:</span> <span id="val-hombres">0</span></div>
-                        <div class="kpi-row"><span>Mujeres:</span> <span id="val-mujeres">0</span></div>
-                        <div class="kpi-row"><span>Relación Hombres-Mujeres:</span> <span id="val-rel">0</span></div>
-                        <div class="kpi-row"><span>Prom. Hijas(os) Nacidas(os) Vivas(os):</span> <span id="val-hijas">0</span></div>
+            <div class="info-grid">
+                
+                <!-- COLUMNA IZQUIERDA -->
+                <div>
+                    <div class="mapa-placeholder">
+                        🌎 Espacio para Mapa de Geografía (Etapa E8)
                     </div>
+
+                    <div class="section-title">Población</div>
+                    <div class="data-row highlight"><span>Población Total</span> <span id="v-pobtot">0</span></div>
+                    <div class="data-row"><span>Hombres</span> <span id="v-hom">0</span></div>
+                    <div class="data-row"><span>Mujeres</span> <span id="v-muj">0</span></div>
+                    <div class="data-row"><span>Relación Hombres-Mujeres</span> <span id="v-rel">0</span></div>
+                    <div class="data-row"><span>Prom. hijas nacidas vivas</span> <span id="v-hij">0</span></div>
+
+                    <div class="section-title">Educación</div>
+                    <div class="data-row"><span>Grado promedio de escolaridad</span> <span id="v-esc">0 años</span></div>
+                    <div class="data-row"><span>Tasa de analfabetismo (15+ años)</span> <span id="v-ana">0%</span></div>
+                    <div class="data-row"><span>Asistencia escolar (6 a 11 años)</span> <span id="v-asi">0%</span></div>
+
+                    <div class="section-title">Economía y Bienestar</div>
+                    <div class="data-row highlight"><span>Pob. Económicamente Activa (PEA)</span> <span id="v-pea">0%</span></div>
+                    <div class="data-row"><span>PEA Ocupada</span> <span id="v-poc">0%</span></div>
+                    <div class="data-row"><span>Grado de Marginación</span> <span id="v-mar">-</span></div>
+                    <div class="data-row"><span>Grado de Rezago Social</span> <span id="v-rez">-</span></div>
                 </div>
 
-                <!-- 2. Etnicidad y Lengua -->
-                <div class="info-block">
-                    <div class="block-header">2. Etnicidad y Autoadscripción</div>
-                    <div class="block-content">
-                        <div class="kpi-row"><span>Hablantes Lengua Indígena (3+ años):</span> <span id="val-hli">0</span></div>
-                        <div class="kpi-row"><span>Población en Hogares Indígenas:</span> <span id="val-hogind">0</span></div>
-                        <div class="kpi-row"><span>Población Afromexicana:</span> <span id="val-afro">0</span></div>
-                        <div class="kpi-row"><span>Pueblo Originario de Referencia:</span> <span id="val-pueblo-txt">-</span></div>
-                    </div>
-                </div>
+                <!-- COLUMNA DERECHA -->
+                <div>
+                    <div class="section-title">Etnicidad</div>
+                    <div class="data-row"><span>Pueblo de autoadscripción</span> <span id="v-pue">-</span></div>
+                    <div class="data-row"><span>Hablantes de lengua indígena</span> <span id="v-hli">0%</span></div>
+                    <div class="data-row"><span>Pob. en hogares indígenas</span> <span id="v-hog">0%</span></div>
+                    <div class="data-row"><span>Pob. afrodescendiente</span> <span id="v-afr">0%</span></div>
 
-                <!-- 3. Salud y Discapacidad -->
-                <div class="info-block">
-                    <div class="block-header">3. Salud y Discapacidad</div>
-                    <div class="block-content">
-                        <div class="kpi-row"><span>Afiliación a Servicios de Salud:</span> <span id="val-salud">0</span></div>
-                        <div class="kpi-row"><span>Población con Discapacidad:</span> <span id="val-disc">0</span></div>
-                        <div class="kpi-row"><span>Población con Limitación:</span> <span id="val-limi">0</span></div>
-                        <div class="kpi-row"><span>Condición Mental:</span> <span id="val-mental">0</span></div>
-                    </div>
-                </div>
+                    <div class="section-title">Salud y Discapacidad</div>
+                    <div class="data-row highlight"><span>Afiliación a Servicios de Salud</span> <span id="v-sal">0%</span></div>
+                    <div class="data-row"><span>Pob. con alguna discapacidad</span> <span id="v-dis">0%</span></div>
+                    <div class="data-row"><span>Pob. con limitación</span> <span id="v-lim">0%</span></div>
+                    <div class="data-row"><span>Condición mental</span> <span id="v-men">0%</span></div>
 
-                <!-- 4. Educación -->
-                <div class="info-block">
-                    <div class="block-header">4. Educación</div>
-                    <div class="block-content">
-                        <div class="kpi-row"><span>Grado Promedio de Escolaridad:</span> <span id="val-esc">0 años</span></div>
-                        <div class="kpi-row"><span>Población Analfabeta (15+ años):</span> <span id="val-analf">0</span></div>
-                        <div class="kpi-row"><span>Asistencia Escolar (6 a 11 años):</span> <span id="val-asist">0%</span></div>
+                    <div class="section-title">Vivienda, Servicios y Bienes TIC</div>
+                    <div class="data-row highlight"><span>Viviendas particulares habitadas</span> <span id="v-viv">0</span></div>
+                    <div class="data-row" style="margin-bottom:15px;"><span>Ocupantes por vivienda</span> <span id="v-ocu">0</span></div>
+                    
+                    <!-- Barras visuales dinámicas -->
+                    <div class="bar-group">
+                        <div class="bar-label"><span>Agua Entubada</span> <span id="b-agua-txt">0%</span></div>
+                        <div class="bar-track"><div class="bar-fill" id="b-agua"></div></div>
                     </div>
-                </div>
-
-                <!-- 5. Economía y Marginación -->
-                <div class="info-block">
-                    <div class="block-header">5. Economía y Bienestar</div>
-                    <div class="block-content">
-                        <div class="kpi-row"><span>Población Económicamente Activa (PEA):</span> <span id="val-pea">0</span></div>
-                        <div class="kpi-row"><span>PEA Ocupada:</span> <span id="val-pocup">0</span></div>
-                        <div class="kpi-row"><span>Grado de Marginación (CONAPO):</span> <span id="val-marg">0</span></div>
-                        <div class="kpi-row"><span>Grado de Rezago Social (CONEVAL):</span> <span id="val-rez">0</span></div>
+                    <div class="bar-group">
+                        <div class="bar-label"><span>Drenaje</span> <span id="b-dre-txt">0%</span></div>
+                        <div class="bar-track"><div class="bar-fill" id="b-dre"></div></div>
                     </div>
-                </div>
-
-                <!-- 6. Vivienda, Servicios y TIC -->
-                <div class="info-block">
-                    <div class="block-header">6. Vivienda y Bienes TIC</div>
-                    <div class="block-content">
-                        <div class="kpi-row"><span>Viviendas Particulares Habitadas:</span> <span id="val-viv">0</span></div>
-                        <div class="kpi-row"><span>Promedio Ocupantes por Vivienda:</span> <span id="val-ocuviv">0</span></div>
-                        <div class="kpi-row"><span>Disponibilidad de Agua:</span> <span id="val-agua">0%</span></div>
-                        <div class="kpi-row"><span>Disponibilidad de Electricidad:</span> <span id="val-luz">0%</span></div>
-                        <div class="kpi-row"><span>Disponibilidad de Drenaje:</span> <span id="val-drenaje">0%</span></div>
-                        <div class="kpi-row"><span>Acceso a Internet:</span> <span id="val-int">0%</span></div>
+                    <div class="bar-group">
+                        <div class="bar-label"><span>Electricidad</span> <span id="b-ele-txt">0%</span></div>
+                        <div class="bar-track"><div class="bar-fill" id="b-ele"></div></div>
+                    </div>
+                    <div class="bar-group" style="margin-top:20px;">
+                        <div class="bar-label"><span>Internet</span> <span id="b-int-txt">0%</span></div>
+                        <div class="bar-track"><div class="bar-fill" style="background-color: var(--azul-primario);" id="b-int"></div></div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar-label"><span>Televisor</span> <span id="b-tv-txt">0%</span></div>
+                        <div class="bar-track"><div class="bar-fill" style="background-color: var(--azul-primario);" id="b-tv"></div></div>
                     </div>
                 </div>
             </div>
-
-            <div class="footer-credits">
-                <div>
-                    <span>Fuente: Censo de Población y Vivienda 2020 (INEGI) • CONAPO • CONEVAL</span>
-                </div>
-                <div>
-                    <span>Desarrollado para SDH - Universidad de Guanajuato | <strong>PULSO Q</strong></span>
-                </div>
+            
+            <!-- Firma al pie de la infografía -->
+            <div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 10px; font-size: 10px; color: #999; display: flex; justify-content: space-between;">
+                <span>Fuente: Censo de Población y Vivienda 2020 (INEGI). CONAPO. CONEVAL.</span>
+                <span>Procesamiento de datos: <strong>PULSO Q Consultoría</strong></span>
             </div>
         </div>
     </div>
 
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
+        function switchTab(tab) {
+            document.querySelectorAll('.view-container').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
             event.target.classList.add('active');
         }
 
-        // Conexión Google Sheets
         const SHEET_ID = '1qy6A46hMpRNKSIyIJ0H9vNv4T-KBngCQ';
-        const SHEET_NAME = 'Base 107';
-        const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-
-        let comunidadesData = [];
+        const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Base 107`;
+        let dataGlobal = [];
 
         fetch(URL)
             .then(res => res.text())
-            .then(text => {
-                const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\);/)[1];
-                const data = JSON.parse(jsonStr);
-                const rows = data.table.rows;
-
-                let conteoPob = 0;
-                let conteoIndices = 0;
-
+            .then(txt => {
+                const json = JSON.parse(txt.match(/setResponse\((.*)\);/)[1]);
+                const rows = json.table.rows;
+                
+                let cuenta = 0;
                 rows.forEach(r => {
-                    if (!r || !r.c || !r.c[0] || r.c[0].v === null) return;
-                    let cveStr = String(r.c[0].v).trim();
-                    
-                    // Valida que sea fila de comunidad con clave INEGI
-                    if (/^\d{8,9}$/.test(cveStr) || (cveStr.startsWith("11") && cveStr.length >= 8)) {
+                    if(!r || !r.c || !r.c[0]) return;
+                    let cve = String(r.c[0].v).trim();
+                    if(cve.startsWith("11") && cve.length >= 8) {
                         let c = r.c;
-                        let pobtot = c[5] ? c[5].v : null;
-                        let marg = c[32] ? c[32].v : '';
-
-                        let item = {
-                            clave: cveStr.padStart(9, '0'),
-                            nombre: c[1] ? c[1].v : '',
-                            municipio: c[2] ? c[2].v : '',
-                            pueblo: c[3] ? c[3].v : '',
-                            anio: c[4] ? c[4].v : '',
-                            pobtot: pobtot,
-                            hombres: c[6] ? c[6].v : 'SD',
-                            pct_h: c[7] ? c[7].v : 0,
-                            mujeres: c[8] ? c[8].v : 'SD',
-                            pct_m: c[9] ? c[9].v : 0,
-                            rel: c[10] ? c[10].v : 'SD',
-                            hijas: c[11] ? c[11].v : 'SD',
-                            hli: c[12] ? c[12].v : '0',
-                            hogind: c[14] ? c[14].v : '0',
-                            afro: c[15] ? c[15].v : '0',
-                            disc: c[16] ? c[16].v : '0',
-                            limi: c[18] ? c[18].v : '0',
-                            mental: c[19] ? c[19].v : '0',
-                            salud: c[20] ? c[20].v : '0',
-                            esc: c[25] ? c[25].v : 'SD',
-                            analf: c[26] ? c[26].v : '0',
-                            asist: c[28] ? c[28].v : '0',
-                            pea: c[29] ? c[29].v : '0',
-                            pocup: c[31] ? c[31].v : '0',
-                            marg: marg,
-                            rez: c[33] ? c[33].v : '',
-                            viv: c[34] ? c[34].v : '0',
-                            ocuviv: c[35] ? c[35].v : '0',
-                            agua: c[37] ? c[37].v : 0,
-                            luz: c[38] ? c[38].v : 0,
-                            drenaje: c[39] ? c[39].v : 0,
-                            int: c[47] ? c[47].v : 0
-                        };
-
-                        comunidadesData.push(item);
-                        if (pobtot !== null && pobtot !== 'SD' && pobtot > 0) conteoPob++;
-                        if (marg && marg !== '' && marg !== 'Pendiente') conteoIndices++;
+                        let pob = c[5] ? c[5].v : 0;
+                        dataGlobal.push({
+                            cve: cve.padStart(9,'0'),
+                            nom: c[1]?.v || '',
+                            mun: c[2]?.v || '',
+                            pue: c[3]?.v || '',
+                            pob: pob,
+                            hom: c[6]?.v || 0,
+                            pct_h: c[7]?.v || 0,
+                            muj: c[8]?.v || 0,
+                            pct_m: c[9]?.v || 0,
+                            rel: c[10]?.v || 0,
+                            hij: c[11]?.v || 0,
+                            hli: c[13]?.v || 0, 
+                            hog: c[14]?.v || 0,
+                            afr: c[15]?.v || 0,
+                            sal: c[21]?.v || 0, 
+                            dis: c[17]?.v || 0, 
+                            lim: c[18]?.v || 0,
+                            men: c[19]?.v || 0,
+                            esc: c[25]?.v || 0,
+                            ana: c[27]?.v || 0,
+                            asi: c[28]?.v || 0,
+                            pea: c[30]?.v || 0, 
+                            poc: c[31]?.v || 0, 
+                            mar: c[32]?.v || 'SD',
+                            rez: c[33]?.v || 'SD',
+                            viv: c[34]?.v || 0,
+                            ocu: c[35]?.v || 0,
+                            agu: c[37]?.v || 0,
+                            dre: c[39]?.v || 0,
+                            ele: c[38]?.v || 0,
+                            int: c[47]?.v || 0,
+                            tv: c[41]?.v || 0
+                        });
+                        if(pob > 0) cuenta++;
                     }
                 });
 
-                // Actualizar Dashboard
                 document.getElementById('loader').style.display = 'none';
-                document.getElementById('dashboard').classList.add('active');
+                document.getElementById('dash-tot').innerText = dataGlobal.length;
+                document.getElementById('dash-iter').innerText = cuenta;
+                document.getElementById('dash-listas').innerText = cuenta;
 
-                document.getElementById('tot-comunidades').innerText = comunidadesData.length;
-                document.getElementById('tot-procesadas').innerText = conteoPob;
-                document.getElementById('tot-indices').innerText = conteoIndices;
-                document.getElementById('tot-listas').innerText = conteoPob;
-
-                // Llenar Selector
-                const select = document.getElementById('comunidad-select');
-                select.innerHTML = '<option value="">-- Elige una comunidad para ver su infografía --</option>';
-                
-                comunidadesData.forEach((com, idx) => {
-                    let opt = document.createElement('option');
-                    opt.value = idx;
-                    opt.text = `${com.clave} - ${com.nombre} (${com.municipio})`;
-                    select.appendChild(opt);
+                const sel = document.getElementById('comunidad-select');
+                sel.innerHTML = '<option value="">-- Elige una comunidad --</option>';
+                dataGlobal.forEach((d, i) => {
+                    sel.innerHTML += `<option value="${i}">${d.cve} - ${d.nom}</option>`;
                 });
-
-                // Seleccionar Alonso Yáñez por defecto
-                if(comunidadesData.length > 0) {
-                    select.value = "0";
-                    renderInfografia();
-                }
-            })
-            .catch(err => {
-                document.getElementById('loader').innerText = "Asegúrate de que la hoja de Google Sheets tenga permisos públicos de lectura.";
-                console.error(err);
             });
 
         function renderInfografia() {
             const idx = document.getElementById('comunidad-select').value;
-            if (idx === "") {
-                document.getElementById('infografia-box').style.display = 'none';
-                return;
-            }
+            if(idx === "") { document.getElementById('info-sheet').style.display='none'; return; }
+            
+            const d = dataGlobal[idx];
+            document.getElementById('info-sheet').style.display='block';
 
-            const d = comunidadesData[idx];
-            document.getElementById('infografia-box').style.display = 'block';
+            const num = v => typeof v === 'number' ? v.toLocaleString('es-MX') : v;
+            const pct = v => typeof v === 'number' ? (v <= 1 ? (v*100).toFixed(1)+'%' : v.toFixed(1)+'%') : v;
+            const setBar = (id, val) => {
+                let p = typeof val === 'number' ? (val <= 1 ? val*100 : val) : 0;
+                document.getElementById(id).style.width = `${p}%`;
+                document.getElementById(id+'-txt').innerText = `${p.toFixed(1)}%`;
+            };
 
-            // Textos de Encabezado
-            document.getElementById('lbl-nombre').innerText = d.nombre;
-            document.getElementById('lbl-cve').innerText = `Clave: ${d.clave}`;
-            document.getElementById('lbl-mun').innerText = `Municipio: ${d.municipio}`;
-            document.getElementById('lbl-pueblo').innerText = `Pueblo: ${d.pueblo}`;
-            document.getElementById('lbl-anio').innerText = `Reconocimiento: ${d.anio}`;
+            document.getElementById('lbl-nombre').innerText = d.nom;
+            document.getElementById('lbl-meta').innerText = `Clave INEGI: ${d.cve} | Municipio: ${d.mun} | Pueblo: ${d.pue}`;
+            
+            document.getElementById('v-pobtot').innerText = num(d.pob);
+            document.getElementById('v-hom').innerText = `${num(d.hom)} (${pct(d.pct_h)})`;
+            document.getElementById('v-muj').innerText = `${num(d.muj)} (${pct(d.pct_m)})`;
+            document.getElementById('v-rel').innerText = d.rel;
+            document.getElementById('v-hij').innerText = d.hij;
 
-            // Helpers de formato
-            const num = (v) => typeof v === 'number' ? v.toLocaleString('es-MX') : v;
-            const pct = (v) => typeof v === 'number' ? (v <= 1 ? (v * 100).toFixed(1) + '%' : v.toFixed(1) + '%') : (v || '0%');
+            document.getElementById('v-pue').innerText = d.pue;
+            document.getElementById('v-hli').innerText = pct(d.hli);
+            document.getElementById('v-hog').innerText = num(d.hog);
+            document.getElementById('v-afr').innerText = num(d.afr);
 
-            // 1. Demografía
-            document.getElementById('val-pobtot').innerText = num(d.pobtot);
-            document.getElementById('val-hombres').innerText = `${num(d.hombres)} (${pct(d.pct_h)})`;
-            document.getElementById('val-mujeres').innerText = `${num(d.mujeres)} (${pct(d.pct_m)})`;
-            document.getElementById('val-rel').innerText = d.rel;
-            document.getElementById('val-hijas').innerText = d.hijas;
+            document.getElementById('v-esc').innerText = `${d.esc} años`;
+            document.getElementById('v-ana').innerText = pct(d.ana);
+            document.getElementById('v-asi').innerText = pct(d.asi);
 
-            // 2. Etnicidad
-            document.getElementById('val-hli').innerText = num(d.hli);
-            document.getElementById('val-hogind').innerText = num(d.hogind);
-            document.getElementById('val-afro').innerText = num(d.afro);
-            document.getElementById('val-pueblo-txt').innerText = d.pueblo;
+            document.getElementById('v-pea').innerText = pct(d.pea);
+            document.getElementById('v-poc').innerText = num(d.poc);
+            document.getElementById('v-mar').innerText = d.mar;
+            document.getElementById('v-rez').innerText = d.rez;
 
-            // 3. Salud
-            document.getElementById('val-salud').innerText = num(d.salud);
-            document.getElementById('val-disc').innerText = num(d.disc);
-            document.getElementById('val-limi').innerText = num(d.limi);
-            document.getElementById('val-mental').innerText = num(d.mental);
+            document.getElementById('v-sal').innerText = pct(d.sal);
+            document.getElementById('v-dis').innerText = pct(d.dis);
+            document.getElementById('v-lim').innerText = num(d.lim);
+            document.getElementById('v-men').innerText = num(d.men);
 
-            // 4. Educación
-            document.getElementById('val-esc').innerText = `${d.esc} años`;
-            document.getElementById('val-analf').innerText = num(d.analf);
-            document.getElementById('val-asist').innerText = pct(d.asist);
+            document.getElementById('v-viv').innerText = num(d.viv);
+            document.getElementById('v-ocu').innerText = d.ocu;
 
-            // 5. Economía
-            document.getElementById('val-pea').innerText = num(d.pea);
-            document.getElementById('val-pocup').innerText = num(d.pocup);
-            document.getElementById('val-marg').innerText = d.marg || 'En proceso';
-            document.getElementById('val-rez').innerText = d.rez || 'En proceso';
-
-            // 6. Vivienda y TIC
-            document.getElementById('val-viv').innerText = num(d.viv);
-            document.getElementById('val-ocuviv').innerText = d.ocuviv;
-            document.getElementById('val-agua').innerText = pct(d.agua);
-            document.getElementById('val-luz').innerText = pct(d.luz);
-            document.getElementById('val-drenaje').innerText = pct(d.drenaje);
-            document.getElementById('val-int').innerText = pct(d.int);
+            setBar('b-agua', d.agu);
+            setBar('b-dre', d.dre);
+            setBar('b-ele', d.ele);
+            setBar('b-int', d.int);
+            setBar('b-tv', d.tv);
         }
     </script>
 </body>
