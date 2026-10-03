@@ -199,7 +199,7 @@
         <div class="controls-panel no-print">
             <div class="search-container">
                 <label>Buscador Inteligente de Comunidades:</label>
-                <input type="text" id="comunidad-input" list="comunidades-list" placeholder="Ej: San Agustín o 110090001..." onchange="buscarComunidad()">
+                <input type="text" id="comunidad-input" list="comunidades-list" placeholder="Haz clic aquí, borra para ver todas o escribe para buscar..." onfocus="this.value=''" onchange="buscarComunidad()">
                 <datalist id="comunidades-list"></datalist>
             </div>
             <button class="btn-export" onclick="exportarPDF()">🖨 Exportar Infografía Oficial (PDF)</button>
