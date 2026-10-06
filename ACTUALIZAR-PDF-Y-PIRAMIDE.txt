@@ -1,0 +1,13 @@
+Reemplaza index.html en la raíz del repositorio por el de esta entrega. Espera la actualización de GitHub Pages y recarga con Ctrl+F5. El catálogo, los estilos, el código y los datos de edades están incorporados al HTML.
+
+Guardar PDF ahora abre la impresión y ajusta proporcionalmente la infografía al área de una hoja carta horizontal. También se aplica al imprimir con Ctrl+P. Selecciona carta horizontal, márgenes ninguno, escala 100%, sin encabezados/pies del navegador y con gráficos de fondo. El ajuste automático reduce la composición completa cuando supera el alto de la hoja; no elimina datos.
+
+Pirámides: los datos se tomaron de las hojas de insumo del archivo compartido, consultadas el 6 de octubre de 2026. Hay grupos quinquenales por sexo para 106 localidades. Para San Agustín se incluyen exclusivamente los grupos amplios disponibles en el insumo original, sin derivar los valores faltantes de 25 a 59 años. Los asteriscos no se sustituyen por cero. Cada gráfica señala fuente y carácter parcial cuando corresponde.
+
+La comprobación con las cifras actuales produce gráficas en 101 comunidades. Seis comunidades muestran un aviso de inconsistencia porque la suma de edades disponibles supera algún total de la base; hay que revisar sus insumos antes de graficarlas: El Lindero de la Petaca, El Salto (los dos registros), Cieneguilla (el registro con nombre terminado en espacio), Xoconostle y Mineral la Aurora. No se ajustaron ni se inventaron sus conteos. Juan González (308 habitantes) sí tiene sus 18 intervalos por sexo. San Agustín muestra siete grupos con barras y un grupo sin datos.
+
+Las edades incorporadas son una copia de consulta. Actualizar base mantiene la conexión existente con Base 107, pero no actualiza automáticamente la hoja de edades. Para actualizar o corregir edades y coordenadas, usa Incorporar datos y mapas con el formato de complementos.json; los complementos importados prevalecen sobre esta copia. Para conservarlos entre sesiones, guárdalos en complementos.json del repositorio. No sobrescribas los complementos que ya tenga el equipo.
+
+Pruebas realizadas: sintaxis de los scripts integrados, 107 opciones, generación de pirámides para todas las filas, tratamiento parcial y reservado, caso Juan González, caso San Agustín y cálculo del ajuste de impresión sin bloqueo. La apertura real del diálogo y la apariencia del PDF final deben verificarse en tu navegador después de publicar este HTML; no se generó un PDF final en esta revisión.
+
+Los archivos app.js y styles.css se conservan como fuentes de referencia, pero el sitio usa sus copias integradas en index.html.

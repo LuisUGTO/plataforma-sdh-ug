@@ -1,3 +1,9 @@
+# Actualización: catálogo y buscador corregidos
+
+Para esta entrega, sigue ACTUALIZAR.txt. Solo necesitas reemplazar index.html en la raíz del repositorio. El HTML incorpora código, estilos, logotipo y copia de consulta para cargar inmediatamente las 107 opciones. El buscador usa resultados separados; el desplegable siempre contiene el catálogo completo. Conserva los archivos adicionales del proyecto para mapas y complementos.
+
+Las notas siguientes describen las funciones y datos de la versión anterior; el catálogo de esta corrección ya no depende de abrir el proyecto mediante un servidor local ni de descargar el respaldo para iniciar.
+
 # Generador SDH / UG: versión revisable
 
 Mantiene carta horizontal (279.4 × 215.9 mm), una hoja por comunidad. No es una aprobación de cifras ni una publicación oficial.

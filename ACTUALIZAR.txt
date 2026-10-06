@@ -1,0 +1,15 @@
+CORRECCIÓN DEL CATÁLOGO Y BUSCADOR
+
+1. En el repositorio plataforma-sdh-ug, reemplaza el index.html de la raíz con el index.html de esta entrega.
+2. Guarda el cambio y espera a que GitHub Pages termine de actualizarse.
+3. Abre https://luisugto.github.io/plataforma-sdh-ug/ y recarga con Ctrl+F5.
+4. Comprueba que el desplegable Catálogo completo de comunidades esté habilitado y contenga todas las comunidades.
+5. Escribe san agustin, comonfort o 110090001 en el buscador. Los resultados aparecen debajo del buscador. Selecciona uno para abrir su infografía. El desplegable siempre conserva las 107 opciones.
+
+El HTML incluye código, estilos, logotipo y copia de consulta de las 107 comunidades. No depende de que se actualice app.js o styles.css en la caché. Puedes conservar los archivos JSON, GeoJSON y assets que ya tienes.
+
+Al iniciar, se muestra la copia de consulta del 6 de octubre de 2026 mientras se intenta actualizar con Google. Si Google no responde, el catálogo continúa funcionando y la fuente se identifica como copia. El botón Actualizar base vuelve a consultar Google.
+
+Los archivos app.js y styles.css incluidos son fuentes de referencia. Si se editan después, hay que trasladar los cambios al código integrado en index.html. No basta con modificar esos archivos por separado.
+
+Se corrigió una función llamada location que impedía ejecutar el programa en el navegador. Se aisló el código, se separó la búsqueda del catálogo y se reprodujo la causa del error en una prueba con location reservada. Se comprobaron inicio sin red, 107 opciones, búsqueda con/sin acento, por municipio y clave, selección de resultados, búsqueda vacía y sin coincidencias. La nueva versión no ha sido publicada por Codex.
