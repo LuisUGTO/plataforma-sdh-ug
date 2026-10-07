@@ -54,3 +54,5 @@ body.print-mode .sheet{position:relative;left:0;top:0;transform:none;width:594mm
 .block h3{display:flex;align-items:center;gap:2mm}.section-icon{height:8mm;width:8mm;flex-shrink:0;background:var(--blue);color:white;padding:1mm}.block h3 span{background:transparent;color:var(--blue);padding:0;margin:0}.history h3{display:block}
 
 .block{margin-bottom:3.5mm}.section-icon{height:6.5mm;width:6.5mm}
+
+.block h3{font-size:17pt;gap:2.5mm;line-height:1.15}.section-icon{height:9mm;width:9mm;padding:1.2mm}.history h3{font-size:15pt}.bar{margin:1mm 0}.block{margin-bottom:3mm}.history #historia-texto{font-size:11pt}

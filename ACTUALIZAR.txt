@@ -10,3 +10,6 @@ Los datos censales adicionales provienen de Insumo ITER 2020 del Excel proporcio
 Se conserva San Agustín como insumo especial: no se le asigna el mapa ni los datos complementarios de Comonfort. Los valores reservados se conservan; las distribuciones inconsistentes no se grafican. Las 98 reseñas restantes y el desglose por motivo de inactividad siguen pendientes.
 
 El mapa piloto conserva la propuesta del equipo. Para automatizar mapas de detalle de otras comunidades hacen falta las capas cartográficas y sus fuentes. Las reseñas se muestran como insumos pendientes de validación histórica y bibliográfica.
+
+ACTUALIZACIÓN VISUAL: títulos e iconos ampliados, sin numeración; historia antes del mapa. Edad mediana estimada por interpolación en grupos quinquenales completos, consecutivos y consistentes con los totales de población y sexo. Fórmula: límite inferior + ((población/2 - acumulado anterior)/frecuencia del grupo) × amplitud. Se usa solo si no hay una mediana informada. No se estima con datos parciales, reservados o inconsistentes ni si la mediana cae en el intervalo abierto. No es una cifra oficial de INEGI.
+Método: https://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/historicos/1329/702825000063/702825000063.pdf
