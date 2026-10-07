@@ -1,15 +1,12 @@
-CORRECCIÓN DEL CATÁLOGO Y BUSCADOR
+PROPUESTA SDH / UG — 6 de octubre de 2026
 
-1. En el repositorio plataforma-sdh-ug, reemplaza el index.html de la raíz con el index.html de esta entrega.
-2. Guarda el cambio y espera a que GitHub Pages termine de actualizarse.
-3. Abre https://luisugto.github.io/plataforma-sdh-ug/ y recarga con Ctrl+F5.
-4. Comprueba que el desplegable Catálogo completo de comunidades esté habilitado y contenga todas las comunidades.
-5. Escribe san agustin, comonfort o 110090001 en el buscador. Los resultados aparecen debajo del buscador. Selecciona uno para abrir su infografía. El desplegable siempre conserva las 107 opciones.
+1. Reemplaza index.html en el repositorio de GitHub Pages con el index.html de esta carpeta. Este HTML incluye los datos de respaldo, las 9 reseñas, el mapa piloto, la cartografía y el código. También puedes subir toda la carpeta manteniendo su estructura.
+2. Espera la publicación de GitHub Pages y recarga el sitio.
+3. Selecciona Alonso Yáñez para revisar el piloto. El mapa de detalle solo aplica a esa comunidad.
+4. Guardar PDF A2 abre la impresión. Selecciona Guardar como PDF; conserva el tamaño A2 definido por la página, márgenes ninguno y gráficos de fondo activados. Para imprimir en papel: A2 horizontal, tamaño original (59.4 × 42 cm). El archivo PDF piloto entregado ya tiene estas medidas.
 
-El HTML incluye código, estilos, logotipo y copia de consulta de las 107 comunidades. No depende de que se actualice app.js o styles.css en la caché. Puedes conservar los archivos JSON, GeoJSON y assets que ya tienes.
+Los datos censales adicionales provienen de Insumo ITER 2020 del Excel proporcionado. No se modificó tu Google Sheets. Actualizar base consulta Base 107; los complementos ITER y las reseñas son una copia del 06/10/2026 y deben actualizarse cuando el equipo entregue cambios.
 
-Al iniciar, se muestra la copia de consulta del 6 de octubre de 2026 mientras se intenta actualizar con Google. Si Google no responde, el catálogo continúa funcionando y la fuente se identifica como copia. El botón Actualizar base vuelve a consultar Google.
+Se conserva San Agustín como insumo especial: no se le asigna el mapa ni los datos complementarios de Comonfort. Los valores reservados se conservan; las distribuciones inconsistentes no se grafican. Las 98 reseñas restantes y el desglose por motivo de inactividad siguen pendientes.
 
-Los archivos app.js y styles.css incluidos son fuentes de referencia. Si se editan después, hay que trasladar los cambios al código integrado en index.html. No basta con modificar esos archivos por separado.
-
-Se corrigió una función llamada location que impedía ejecutar el programa en el navegador. Se aisló el código, se separó la búsqueda del catálogo y se reprodujo la causa del error en una prueba con location reservada. Se comprobaron inicio sin red, 107 opciones, búsqueda con/sin acento, por municipio y clave, selección de resultados, búsqueda vacía y sin coincidencias. La nueva versión no ha sido publicada por Codex.
+El mapa piloto conserva la propuesta del equipo. Para automatizar mapas de detalle de otras comunidades hacen falta las capas cartográficas y sus fuentes. Las reseñas se muestran como insumos pendientes de validación histórica y bibliográfica.

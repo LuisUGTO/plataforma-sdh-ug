@@ -24,3 +24,24 @@ body.print-mode .sheet{position:absolute;left:50%;top:0;min-height:0;height:auto
  .print-frame{width:279.4mm;height:215.9mm;position:relative;margin:0;break-inside:avoid;break-after:avoid}
  .sheet{position:absolute;left:50%;top:0;width:279.4mm;min-height:0;height:auto;box-shadow:none;margin:0;transform:translateX(-50%) scale(var(--print-scale,1));transform-origin:top center}
 }
+
+/* Poster A2: the preview and PDF share the same physical layout. */
+.sheet{width:594mm;height:420mm;min-height:0;padding:9mm 11mm;position:relative;border-top:3mm solid var(--blue)}
+.doc-header{height:30mm;margin-bottom:5mm;padding-bottom:3mm}.doc-header h2{font-size:38pt}.doc-header #identificacion{font-size:12pt;max-width:none}.eyebrow{font-size:10pt}.doc-header img{height:26mm}
+.layout{grid-template-columns:1.22fr 1fr 1.03fr;gap:8mm}.block{margin-bottom:5mm}.block h3{font-size:14pt;padding:1.5mm 0;border-bottom:.7mm solid var(--blue)}.block h3 span{font-size:10pt;padding:1.2mm}.block h4{font-size:10.5pt;margin:3mm 0 2mm}
+.metric{font-size:11pt;padding:1.3mm 0}.metric strong{font-size:13pt}.metric strong.unavailable{font-size:10pt}.metric.highlight{padding:3mm;background:var(--blue);color:white}.metric.highlight strong{color:white;font-size:21pt}
+.population{padding:3mm}.population strong{font-size:34pt}.population small,.sex{font-size:11pt}
+.bar{font-size:10.5pt;margin:1.6mm 0;grid-template-columns:44% 1fr 15%;gap:2mm}.bar strong{font-size:11pt}.track{height:4.5mm;background:#eaf0f7}.fill{background:var(--blue)}.bar:nth-child(3n+2) .fill{background:var(--sky)}.bar:nth-child(3n) .fill{background:#63666A}.bar .unavailable{font-size:9pt}
+.note{font-size:8.5pt;line-height:1.3;margin:2mm 0}.missing{font-size:10pt;min-height:12mm}.map{height:120mm;background:#f4f7fb;border:1px solid var(--pale);padding:2mm}.map img{display:block;width:100%;height:100%;object-fit:contain}.map svg{width:100%;height:100%}.history{padding:3mm;background:#eef5fc;border-left:1.5mm solid var(--sky)}.history h3{border:0;margin-bottom:1.5mm;padding:0;font-size:12pt}.history #historia-texto{font-size:11pt;line-height:1.45;margin:0}.history .note{font-size:8pt}
+.pyramid svg{height:72mm}.pyramid .missing{height:72mm}.pie{display:flex;align-items:center;gap:4mm;margin:2mm 0}.pie svg{width:36mm;height:36mm;flex-shrink:0}.pie-legend{flex:1}.pie-legend div{display:flex;align-items:center;gap:2mm;font-size:10pt;line-height:1.3;margin:2mm 0}.pie-legend i{width:3mm;height:3mm;flex-shrink:0;border-radius:50%}.pie-legend strong{margin-left:auto;color:var(--blue);white-space:nowrap}
+footer{position:absolute;bottom:7mm;left:11mm;right:11mm;font-size:8pt;background:white}footer p{margin:0 0 1mm}
+body.print-mode .print-frame{width:594mm;height:420mm;margin:0;position:relative}
+body.print-mode .sheet{position:relative;left:0;top:0;transform:none;width:594mm;height:420mm;margin:0;box-shadow:none}
+@media print{
+ @page{size:594mm 420mm;margin:0}
+ html,body{width:594mm;height:420mm;margin:0;padding:0}
+ main{padding:0;overflow:visible}
+ .app-header,.controls,.review{display:none!important}
+ .print-frame{width:594mm;height:420mm;position:relative;margin:0;break-inside:avoid;break-after:auto}
+ .sheet{position:relative;left:0;top:0;transform:none;width:594mm;height:420mm;min-height:0;margin:0;box-shadow:none;break-inside:avoid}
+}
