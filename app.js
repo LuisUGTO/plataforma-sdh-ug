@@ -31,7 +31,7 @@ function circular(items,total,label){
  if(den===null||den<=0||values.some(x=>x===null||x<0)||values.reduce((a,b)=>a+b,0)>den)return '<div class="missing">Gráfica pendiente: conteos incompletos o inconsistentes.</div>';
  const sum=values.reduce((a,b)=>a+b,0),list=items.map((x,i)=>[x[0],values[i]]);
  if(sum<den)list.push(['Resto no clasificado',den-sum]);
- const colors=['#004B87','#69B3E7','#63666A','#C8D8EB'];let start=-Math.PI/2,svg='<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(label)+'">',legend='';
+ const colors=['#008E95','#84369B','#E66D42','#347D62'];let start=-Math.PI/2,svg='<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(label)+'">',legend='';
  list.forEach(([name,n],i)=>{const angle=n/den*2*Math.PI,end=start+angle,c=colors[i%colors.length];if(n===den)svg+=`<circle cx="60" cy="60" r="55" fill="${c}"/>`;else if(n>0)svg+=`<path d="M60,60 L${60+55*Math.cos(start)},${60+55*Math.sin(start)} A55,55 0 ${angle>Math.PI?1:0},1 ${60+55*Math.cos(end)},${60+55*Math.sin(end)} Z" fill="${c}" stroke="white" stroke-width="1"/>`;legend+=`<div><i style="background:${c}"></i><span>${esc(name)}</span><strong>${(n/den*100).toFixed(1)}%</strong></div>`;start=end;});
  return `<div class="pie">${svg}</svg><div class="pie-legend">${legend}</div></div><p class="note">${esc(label)} · Base: ${display(den)} personas.</p>`;
 }
@@ -102,12 +102,12 @@ function pyramid(r,extra){
     [...data].reverse().forEach((b,i)=>{
       const y=15+i*10;const label=`${b.desde}${b.hasta===null?'+':'–'+b.hasta}`;
       svg+=`<text x="170" y="${y+7}" text-anchor="middle" font-size="8.5" fill="#63666A">${label}</text>`;
-      if(b.h!==null){const w=b.h/total*100/scale*130;svg+=`<rect x="${145-w}" y="${y}" width="${w}" height="7" fill="#004B87"><title>${label}, hombres: ${b.h} (${(b.h/total*100).toFixed(1)}%)</title></rect>`;}else{svg+=`<text x="125" y="${y+7}" text-anchor="end" font-size="8" fill="#63666A">${b.hombres==='*'?'*':'N/D'}</text>`;}
-      if(b.m!==null){const w=b.m/total*100/scale*130;svg+=`<rect x="195" y="${y}" width="${w}" height="7" fill="#69B3E7"><title>${label}, mujeres: ${b.m} (${(b.m/total*100).toFixed(1)}%)</title></rect>`;}else{svg+=`<text x="215" y="${y+7}" font-size="8" fill="#63666A">${b.mujeres==='*'?'*':'N/D'}</text>`;}
+      if(b.h!==null){const w=b.h/total*100/scale*130;svg+=`<rect x="${145-w}" y="${y}" width="${w}" height="7" fill="#319356"><title>${label}, hombres: ${b.h} (${(b.h/total*100).toFixed(1)}%)</title></rect>`;}else{svg+=`<text x="125" y="${y+7}" text-anchor="end" font-size="8" fill="#63666A">${b.hombres==='*'?'*':'N/D'}</text>`;}
+      if(b.m!==null){const w=b.m/total*100/scale*130;svg+=`<rect x="195" y="${y}" width="${w}" height="7" fill="#84369B"><title>${label}, mujeres: ${b.m} (${(b.m/total*100).toFixed(1)}%)</title></rect>`;}else{svg+=`<text x="215" y="${y+7}" font-size="8" fill="#63666A">${b.mujeres==='*'?'*':'N/D'}</text>`;}
     });
     const y=chartHeight-3;svg+=`<text x="15" y="${y}" font-size="9">${scale}%</text><text x="145" y="${y}" text-anchor="end" font-size="9">0</text><text x="195" y="${y}" font-size="9">0</text><text x="325" y="${y}" text-anchor="end" font-size="9">${scale}%</text></svg>`;
     const partial=unknown>0||extra.parcial||sumH+sumM<total;
-    $('piramide').innerHTML=svg+`<p class="note">${partial?'Gráfica parcial. ':''}% de población total. ${unknown?'N/D: faltante; *: reservado. ':''}${sumH+sumM<total?'La suma de los valores disponibles es menor al total. ':''}${extra.parcial?'Intervalos de distinta amplitud; cifras preliminares. ':''}Fuente: ${esc(extra.fuenteEdades||'Fuente pendiente de documentar')}.</p>`;
+    $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(get(r,'% Hombres')))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(get(r,'% Mujeres')))}</strong><span>Mujeres</span></div>`+svg+`<p class="note">${partial?'Gráfica parcial. ':''}% de población total. ${unknown?'N/D: faltante; *: reservado. ':''}${sumH+sumM<total?'La suma de los valores disponibles es menor al total. ':''}${extra.parcial?'Intervalos de distinta amplitud; cifras preliminares. ':''}Fuente: ${esc(extra.fuenteEdades||'Fuente pendiente de documentar')}.</p>`;
   }catch{$('piramide').innerHTML='<div class="missing">Distribución por edad inconsistente: revisar intervalos y totales.</div>';}
 }
 
