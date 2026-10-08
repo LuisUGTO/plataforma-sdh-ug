@@ -51,8 +51,22 @@ body.print-mode .sheet{position:relative;left:0;top:0;transform:none;width:594mm
 .pyramid{position:relative}.sex-callout{position:absolute;top:6mm;display:grid;text-align:center;gap:1mm;max-width:25%}.sex-callout strong{font-size:25pt;line-height:1;font-weight:800}.sex-callout span{font-size:11pt;font-weight:bold}.sex-callout.men{left:3mm;color:#287F49}.sex-callout.women{right:3mm;color:#84369B}.population .sex{display:none}
 .bar .fill{background:#008E95}.bar:nth-child(4n+2) .fill{background:#84369B}.bar:nth-child(4n+3) .fill{background:#E66D42}.bar:nth-child(4n) .fill{background:#347D62}
 .bar strong{font-size:16pt;font-weight:800;line-height:1}.bar{grid-template-columns:43% 1fr 19%}.metric strong{font-size:17pt;font-weight:800;line-height:1}.metric.highlight strong{font-size:26pt}.pie-legend strong{font-size:16pt;font-weight:800}.pie-legend div{gap:1.5mm}.pie-legend span{max-width:66%}.metric strong.unavailable,.bar .unavailable{font-size:9pt;font-weight:normal}
-.block h3{display:flex;align-items:center;gap:2mm}.section-icon{height:8mm;width:8mm;flex-shrink:0;background:var(--blue);color:white;padding:1mm}.block h3 span{background:transparent;color:var(--blue);padding:0;margin:0}.history h3{display:block}
+.block h3{display:flex;align-items:center;gap:2mm}.section-icon{height:8mm;width:8mm;flex-shrink:0;background:var(--blue);color:white;padding:1mm}.block h3 span{background:transparent;color:var(--blue);padding:0;margin:0}.history h3{display:flex}
 
 .block{margin-bottom:3.5mm}.section-icon{height:6.5mm;width:6.5mm}
 
 .block h3{font-size:17pt;gap:2.5mm;line-height:1.15}.section-icon{height:9mm;width:9mm;padding:1.2mm}.history h3{font-size:15pt}.bar{margin:1mm 0}.block{margin-bottom:3mm}.history #historia-texto{font-size:11pt}
+
+/* A2 review refinements: INEGI-inspired indicator cards and clean solid bars. */
+.metric{background:#fff;border:1px solid #d8e2ec;border-left:1.2mm solid var(--sky);border-radius:1.5mm;padding:2mm 2.5mm;margin:1.2mm 0;min-height:10mm}
+.metric.highlight{background:var(--blue);border-color:var(--blue);border-left-color:var(--sky)}
+.metric span{max-width:68%;line-height:1.2}
+.territory-data{display:grid;grid-template-columns:1fr 1fr;gap:1.5mm 2mm;margin-top:2mm}
+.territory-data .metric{min-height:12mm;margin:0}
+.track{background:transparent;height:3.2mm;border-radius:0;overflow:hidden}
+.fill{border-radius:0}
+.block h3{font-size:16pt}
+footer h3{font-size:12pt;color:var(--blue);margin:0 0 1.5mm;text-transform:uppercase;letter-spacing:.4px}
+footer{padding:2mm 2.5mm;border-top:1mm solid var(--sky);border-left:1mm solid var(--sky)}
+.history{background:#eef5fc}
+@media print{.metric,.population,.pie,.bar,.block h3,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
