@@ -8,7 +8,7 @@ Revisión del prototipo del 7 de octubre de 2026. Se contrastó el archivo «Obs
 | 2. Nombre del panorama | Atendida | Encabezado con el nombre solicitado completo, sin edición. |
 | 3. Historia | Atendida | «Breve historia de la comunidad», texto proporcionado por el profesor, antes del mapa. Se conserva Alonso, nombre del catálogo, en lugar de la variante Alonzo del texto recibido. |
 | 4. Territorio | Atendida | «Territorio y ubicación geográfica»; Mapa local del equipo para Alonso Yáñez con inserto estatal, municipio resaltado y localidad; municipio, altitud, latitud y longitud. La fuente y fecha del mapa del equipo siguen por documentar; las otras localidades usan cartografía estatal. Se omite superficie. |
-| 5. Pirámide y mediana | Diseño atendido; documentación pendiente de incorporar a la matriz | Población, relación hombres-mujeres y mediana en recuadros a la izquierda; pirámide a la derecha. Dos notas explicativas dentro de los recuadros. Porcentajes grandes por sexo, sin rótulos duplicados ni notas repetidas. La edad mediana de 21.1 años se identifica como estimación agrupada. La fórmula está en FICHA_edad_mediana.md; aún no se ha añadido a la matriz compartida. |
+| 5. Pirámide y mediana | Atendida en el prototipo | Población, relación hombres-mujeres y mediana en recuadros a la izquierda; pirámide a la derecha. Dos notas explicativas dentro de los recuadros. Porcentajes grandes por sexo, sin rótulos duplicados ni notas repetidas. La edad mediana de 21.1 años se identifica como estimación agrupada. La fórmula está en FICHA_edad_mediana.md; Luis ya incorporó la ficha a la matriz, verificada en Fichas tecnicas (1).csv. |
 | 6. Vivienda | Parcial por disponibilidad de datos | Recuadros y barras sin fondo gris; servicios, bienes y tecnologías disponibles. Ocupantes por dormitorio sigue como dato no disponible: los conteos por categorías de dormitorios no permiten conocer el total exacto de dormitorios ni derivar este promedio. No se confunde con ocupantes por cuarto. |
 | 7. Porcentajes | Atendida | Conteos de indicadores convertidos a porcentajes con denominadores propios; se conservan promedios, razón hombres/mujeres y población total, como en el modelo. |
 | 8. Etnicidad | Atendida | Cuatro porcentajes: hogares indígenas/total; hablantes de lengua indígena/población 3+; hablantes que no hablan español/hablantes 3+; población afromexicana/total. La autoadscripción Otomí se añade como categoría, no se convierte en porcentaje. |
@@ -20,7 +20,7 @@ Revisión del prototipo del 7 de octubre de 2026. Se contrastó el archivo «Obs
 | 14. Educación | Atendida | Tres recuadros; escolaridad por grupos en barras sin fondo; nota sobre edades distintas. Se utiliza «analfabetismo» para nombrar el indicador de personas que no saben leer ni escribir. |
 | 15. Fuentes | Atendida | Apartado propio sin superposición, con 15 enlaces tomados de las referencias del perfil. Se distinguen datos usados de referencias del proyecto; EIC 2025 no se atribuye como fuente de las cifras locales de 2020. |
 
-No se declara cumplimiento incondicional de las 15 observaciones: quedan los puntos de documentación de la mediana, disponibilidad de ocupantes por dormitorio y confirmación del universo de fecundidad.
+No se declara cumplimiento incondicional de las 15 observaciones: quedan la documentación del mapa del equipo, disponibilidad de ocupantes por dormitorio y confirmación del universo de fecundidad.
 
 ## Comprobación del generador
 
