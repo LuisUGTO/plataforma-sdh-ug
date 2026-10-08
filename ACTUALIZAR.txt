@@ -1,15 +1,16 @@
-PROPUESTA SDH / UG — 6 de octubre de 2026
+GENERADOR SDH / UG — PAQUETE DE REVISIÓN A2
 
-1. Reemplaza index.html en el repositorio de GitHub Pages con el index.html de esta carpeta. Este HTML incluye los datos de respaldo, las 9 reseñas, el mapa piloto, la cartografía y el código. También puedes subir toda la carpeta manteniendo su estructura.
-2. Espera la publicación de GitHub Pages y recarga el sitio.
-3. Selecciona Alonso Yáñez para revisar el piloto. El mapa de detalle solo aplica a esa comunidad.
-4. Guardar PDF A2 abre la impresión. Selecciona Guardar como PDF; conserva el tamaño A2 definido por la página, márgenes ninguno y gráficos de fondo activados. Para imprimir en papel: A2 horizontal, tamaño original (59.4 × 42 cm). El archivo PDF piloto entregado ya tiene estas medidas.
+1. Descomprime este paquete y sube todo su contenido a la raíz del repositorio de GitHub Pages, conservando la carpeta assets. No basta con subir únicamente index.html: la página usa el logotipo descriptivo oficial y el mapa piloto desde assets.
+2. Espera a que GitHub Pages publique los cambios y recarga la página con Ctrl+F5.
+3. Revisa Alonso Yáñez. La propuesta cartográfica detallada solo se aplica a esa comunidad; para las demás, el sistema dibuja Guanajuato completo, resalta el municipio y ubica la localidad con sus coordenadas ITER cuando están disponibles.
+4. Usa “Guardar PDF A2”. En impresión, selecciona A2 horizontal, tamaño original, márgenes ninguno y gráficos de fondo. El resultado es una página de 59.4 × 42 cm.
 
-Los datos censales adicionales provienen de Insumo ITER 2020 del Excel proporcionado. No se modificó tu Google Sheets. Actualizar base consulta Base 107; los complementos ITER y las reseñas son una copia del 06/10/2026 y deben actualizarse cuando el equipo entregue cambios.
+El generador consulta la pestaña Base 107 de Google Sheets; la copia local permite revisar el catálogo cuando la conexión no está disponible. Este paquete no modifica la hoja compartida ni publica el sitio por sí mismo.
 
-Se conserva San Agustín como insumo especial: no se le asigna el mapa ni los datos complementarios de Comonfort. Los valores reservados se conservan; las distribuciones inconsistentes no se grafican. Las 98 reseñas restantes y el desglose por motivo de inactividad siguen pendientes.
+El logotipo horizontal descriptivo proviene del PDF oficial compartido y conserva la mención Secretaría de Derechos Humanos. Se usa la versión a color sobre fondo blanco.
 
-El mapa piloto conserva la propuesta del equipo. Para automatizar mapas de detalle de otras comunidades hacen falta las capas cartográficas y sus fuentes. Las reseñas se muestran como insumos pendientes de validación histórica y bibliográfica.
+La matriz SDH/UG se mantiene como fuente de trabajo. Los dos catálogos ITER nuevos no añaden variables a la matriz; el resumen por dimensiones de Alonso Yáñez no se usa como fuente porque contiene una etiqueta incorrecta para PRESOE15 y un valor de POCUPADA_M distinto del ITER en la matriz.
 
-ACTUALIZACIÓN VISUAL: títulos e iconos ampliados, sin numeración; historia antes del mapa. Edad mediana estimada por interpolación en grupos quinquenales completos, consecutivos y consistentes con los totales de población y sexo. Fórmula: límite inferior + ((población/2 - acumulado anterior)/frecuencia del grupo) × amplitud. Se usa solo si no hay una mediana informada. No se estima con datos parciales, reservados o inconsistentes ni si la mediana cae en el intervalo abierto. No es una cifra oficial de INEGI.
-Método: https://www.inegi.org.mx/contenidos/productos/prod_serv/contenidos/espanol/bvinegi/productos/historicos/1329/702825000063/702825000063.pdf
+La mediana 21.1 mostrada para Alonso Yáñez es una aproximación interpolada a partir de grupos de edad quinquenales completos; el PDF explica su método y aclara que no es cifra oficial. No se calcula con intervalos incompletos, reservados o inconsistentes.
+
+Las nueve reseñas del equipo y la cartografía de prueba son insumos de trabajo pendientes de validación histórica y documental. San Agustín se conserva como caso especial y no recibe ubicación ni cifras atribuidas a Comonfort.
