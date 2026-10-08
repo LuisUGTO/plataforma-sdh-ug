@@ -47,9 +47,9 @@ function reunionRender(r){
  $('conyugal').innerHTML=circular([['Soltera o nunca unida',raw.P12YM_SOLT],['Casada o unida',raw.P12YM_CASA],['Separada, divorciada o viuda',raw.P12YM_SEPA]],raw.P_12YMAS,'Población de 12 años y más');
  $('actividad').innerHTML=circular([['Económicamente activa',raw.PEA],['No económicamente activa',raw.PE_INAC]],raw.P_12YMAS,'Población de 12 años y más');
  $('ocupacion-grafica').innerHTML=circular([['Ocupada',raw.POCUPADA],['Desocupada',raw.PDESOCUP]],raw.PEA,'Población económicamente activa');
- $('economia-sexo').innerHTML='<h4>Participación por sexo</h4>'+bar('PEA · Hombres',ratio(raw.PEA_M,raw.P_12YMAS_M))+bar('PEA · Mujeres',ratio(raw.PEA_F,raw.P_12YMAS_F))+bar('Ocupados · Hombres',ratio(raw.POCUPADA_M,raw.P_12YMAS_M))+bar('Ocupadas · Mujeres',ratio(raw.POCUPADA_F,raw.P_12YMAS_F));
+ $('economia-sexo').innerHTML='<h4>Composición por sexo · dentro de la PEA y de la población ocupada</h4>'+bar('PEA · Hombres',ratio(raw.PEA_M,raw.PEA))+bar('PEA · Mujeres',ratio(raw.PEA_F,raw.PEA))+bar('Población ocupada · Hombres',ratio(raw.POCUPADA_M,raw.POCUPADA))+bar('Población ocupada · Mujeres',ratio(raw.POCUPADA_F,raw.POCUPADA));
  $('migracion').innerHTML=ratioMetric('Nacida en otra entidad · población total',raw.PNACOE,raw.POBTOT)+ratioMetric('Residía en otra entidad en marzo de 2015 · población de 5 años y más',raw.PRESOE15,raw.P_5YMAS);
- $('instituciones').innerHTML=ratioMetric('IMSS',raw.PDER_IMSS,raw.POBTOT)+ratioMetric('Secretaría de Salud (fuente censal 2020)',raw.PDER_SEGP,raw.POBTOT)+ratioMetric('ISSSTE',raw.PDER_ISTE,raw.POBTOT)+'<p class="note">Una persona puede estar afiliada a más de una institución.</p>';
+ $('instituciones').innerHTML=bar('IMSS',ratio(raw.PDER_IMSS,raw.PDER_SS))+bar('Secretaría de Salud (2020)',ratio(raw.PDER_SEGP,raw.PDER_SS))+bar('ISSSTE',ratio(raw.PDER_ISTE,raw.PDER_SS))+'<p class="note">Una persona puede estar afiliada a más de una institución.</p>';
  $('escolaridad').innerHTML=bar('Sin escolaridad (15+)',ratio(raw.P15YM_SE,raw.P_15YMAS))+bar('Primaria completa (15+)',ratio(raw.P15PRI_CO,raw.P_15YMAS))+bar('Secundaria completa (15+)',ratio(raw.P15SEC_CO,raw.P_15YMAS))+bar('Educación posbásica (18+)',ratio(raw.P18YM_PB,raw.P_18YMAS))+'<p class="note">Los grupos usan edades de referencia distintas y no forman una distribución completa.</p>';
 }
 function dms(value){const m=String(value||'').match(/(\d+)[°º]\s*(\d+)'\s*([\d.]+)"\s*([NSEW])/);return m?(Number(m[1])+Number(m[2])/60+Number(m[3])/3600)*(/[SW]/.test(m[4])?-1:1):null;}
@@ -99,7 +99,7 @@ function medianMetric(r,extra){
  for(const b of bins){const count=b.hombres+b.mujeres;if(previous+count>=total/2&&count>0){
   if(b.hasta===null)return textMetric('Edad mediana','Pendiente de fuente');
   const estimate=b.desde+((total/2-previous)/count)*(b.hasta-b.desde+1);
-  return metric('Edad mediana estimada (años)',estimate,1)+'<p class="note">Estimación por interpolación en el grupo quinquenal mediano; supone distribución uniforme dentro del intervalo. No es una cifra oficial.</p>';
+  return metric('Edad mediana estimada (años)',estimate,1)+'<p class="note">Estimación agrupada; ver ficha metodológica adjunta.</p>';
  }previous+=count;}
  return textMetric('Edad mediana','Pendiente de fuente');
 }
@@ -135,7 +135,7 @@ function pyramid(r,extra){
     });
     const y=chartHeight-3;svg+=`<text x="15" y="${y}" font-size="9">${scale}%</text><text x="145" y="${y}" text-anchor="end" font-size="9">0</text><text x="195" y="${y}" font-size="9">0</text><text x="325" y="${y}" text-anchor="end" font-size="9">${scale}%</text></svg>`;
     const partial=unknown>0||extra.parcial||sumH+sumM<total;
-    $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(get(r,'% Hombres')))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(get(r,'% Mujeres')))}</strong><span>Mujeres</span></div>`+svg+`<p class="note">${partial?'Gráfica parcial. ':''}Las barras representan porcentaje de la población total. ${unknown?'N/D: faltante; *: reservado. ':''}${sumH+sumM<total?'La suma de los valores disponibles es menor al total. ':''}${extra.parcial?'Intervalos de distinta amplitud; cifras preliminares. ':''}</p>`;
+    $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(get(r,'% Hombres')))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(get(r,'% Mujeres')))}</strong><span>Mujeres</span></div>`+svg+(partial?'<p class="note">Distribución parcial: faltan valores por edad o sexo.</p>':'');
   }catch{$('piramide').innerHTML='<div class="missing">Distribución por edad inconsistente: revisar intervalos y totales.</div>';}
 }
 
@@ -156,7 +156,7 @@ function render(){
  $('sex').innerHTML=`Hombres ${esc(percentText(v('% Hombres')))}<br>Mujeres ${esc(percentText(v('% Mujeres')))}`;
  pyramid(r,ex);
  $('demografia').innerHTML=metric('Hombres por cada 100 mujeres',v('Relación Hombres-Mujeres'),1)+medianMetric(r,ex);
- $('etnicidad').innerHTML=textMetric('Pueblo indígena de autoadscripción',v('Pueblo Originario'))+ratioMetric('Población en hogares indígenas',raw.PHOG_IND,raw.POBTOT)+ratioMetric('Población de 3 años y más hablante de lengua indígena',raw.P3YM_HLI,raw.P_3YMAS)+ratioMetric('Población que se considera afromexicana o afrodescendiente',raw.POB_AFRO,raw.POBTOT);
+ $('etnicidad').innerHTML=textMetric('Pueblo indígena de autoadscripción',v('Pueblo Originario'))+ratioMetric('Población en hogares indígenas',raw.PHOG_IND,raw.POBTOT)+ratioMetric('Población de 3 años y más hablante de lengua indígena',raw.P3YM_HLI,raw.P_3YMAS)+ratioMetric('Hablantes de lengua indígena (3+) que no hablan español',raw.P3HLINHE,raw.P3YM_HLI)+ratioMetric('Población que se considera afromexicana o afrodescendiente',raw.POB_AFRO,raw.POBTOT);
  $('fecundidad').innerHTML=metric('Promedio de hijas e hijos nacidos vivos por mujer (12 años y más)',v('Promedio Hijas(os) Nacidas(os) Vivas(os)'),2);
  $('vivienda').innerHTML=metric('Ocupantes por vivienda',v('Promedio Ocupantes por Vivienda'),2,true)+metric('Ocupantes por cuarto',v('Promedio Ocupantes por Cuarto'),2)+textMetric('Ocupantes por dormitorio','Dato no disponible');
  $('servicios').innerHTML=[['Electricidad','% Electricidad'],['Agua entubada','% Agua Entubada'],['Drenaje','% Drenaje'],['Servicio sanitario','% Servicio Sanitario'],['Tinaco','% Tinaco'],['Cisterna o aljibe','% Cisterna']].map(([a,b])=>bar(a,v(b))).join('');
@@ -164,38 +164,26 @@ function render(){
  $('tic').innerHTML=[['Televisor','% TV'],['Teléfono celular','% Teléfono Celular'],['Internet','% Internet'],['Computadora / laptop','% Computadora / Laptop']].map(([a,b])=>bar(a,v(b))).join('');
  $('condiciones').innerHTML=textMetric('Grado de marginación',v('Grado Marginación (CONAPO)'))+textMetric('Grado de rezago social',v('Grado Rezago Social (CONEVAL)'));
  $('referencia').textContent='';
- $('discapacidad').innerHTML=ratioMetric('Población con discapacidad',v('Pob. con Discapacidad'),v('Población Total'))+ratioMetric('Población con limitación',raw.PCON_LIMI,raw.POBTOT)+ratioMetric('Personas con problema o condición mental',raw.PCLIM_PMEN,raw.POBTOT);
+ $('discapacidad').innerHTML=ratioMetric('Población con discapacidad',raw.PCON_DISC,raw.POBTOT)+ratioMetric('Población con limitación',raw.PCON_LIMI,raw.POBTOT)+ratioMetric('Personas con problema o condición mental',raw.PCLIM_PMEN,raw.POBTOT);
  $('salud').innerHTML=ratioMetric('Población afiliada a servicios de salud',v('% Afiliación Salud'),1,1);
- $('economia').innerHTML=ratioMetric('Población económicamente activa (12+)',raw.PEA,raw.P_12YMAS)+ratioMetric('Población ocupada (12+)',raw.POCUPADA,raw.P_12YMAS)+ratioMetric('Personas ocupadas dentro de la PEA',raw.POCUPADA,raw.PEA);
- $('educacion').innerHTML=metric('Grado promedio de escolaridad (15+)',v('Grado Promedio Escolaridad (15+)'),2)+ratioMetric('Analfabetismo (15+)',v('% Analfabetismo'),1)+ratioMetric('Asistencia escolar (6–11)',v('Asistencia Escolar (6 a 11)'),1);
+ $('economia').innerHTML='';
+ $('educacion').innerHTML=metric('Grado promedio de escolaridad (años) · población de 15 años y más',v('Grado Promedio Escolaridad (15+)'),2)+ratioMetric('Tasa de analfabetismo · población de 15 años y más',v('% Analfabetismo'),1)+ratioMetric('Población de 6 a 11 años que asiste a la escuela',v('Asistencia Escolar (6 a 11)'),1);
  $('fuentes').textContent=`INEGI, Censo de Población y Vivienda 2020 (ITER); Marco Geoestadístico de INEGI, diciembre de 2025; catálogo estatal de pueblos y comunidades indígenas y afromexicanas; CONAPO 2020; CONEVAL 2020; reseña histórica proporcionada por el equipo. Base: ${source}.`;
  $('alcance').textContent='Las cifras corresponden a la fuente indicada y pueden tener universos distintos. Dato no disponible no equivale a cero; * indica dato reservado. La edad mediana es una estimación agrupada, no un dato oficial.';
+ $('referencias').innerHTML=(window.SDH_PDF?.refs||[]).map(([label,url,type])=>`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a>`).join('');
  $('revision').textContent=`${records.length} comunidades en catálogo · Vista previa para revisión · ${source}`;
  reunionRender(r);loadCommunityLocation(r,ex,token);
 }
-let printing=false, originalTitle='';
-function preparePrint(){
- if(!selected)return;
- printing=true;document.body.classList.add('print-mode');
-}
-function finishPrint(){
-  printing=false;document.body.classList.remove('print-mode');
-  $('print-frame').style.removeProperty('--print-scale');
-  $('infografia').style.removeProperty('transform');$('infografia').style.removeProperty('left');$('infografia').style.removeProperty('transform-origin');
-  if(originalTitle){document.title=originalTitle;originalTitle='';}
-}
+let printing=false;
 async function exportPDF(){
-  if(!selected||printing)return;
-  if(document.fonts?.ready)await document.fonts.ready;
-  await Promise.all(Array.from($('infografia').querySelectorAll('img')).map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve()));
-  const foot=$('infografia').querySelector('footer'),layout=$('infografia').querySelector('.layout'),sheet=$('infografia');
-  const top=sheet.getBoundingClientRect().top,contentBottom=layout.getBoundingClientRect().bottom,availableBottom=foot.getBoundingClientRect().top-8;
-  const fit=Math.min(1,(availableBottom-top)/(contentBottom-top));
-  if(fit<1){sheet.style.left='50%';sheet.style.transform=`translateX(-50%) scale(${Math.max(.78,fit).toFixed(3)})`;sheet.style.transformOrigin='top center';status('Ajustando el contenido para conservar una sola hoja A2.');}
-  originalTitle=document.title;
-  document.title=`SDH_${get(selected,'Clave INEGI')}_${String(get(selected,'Comunidad / Localidad')).replace(/[^\p{L}\p{N}]+/gu,'_')}`;
-  preparePrint();
-  try{window.print();}catch(e){finishPrint();status('No se pudo abrir la impresión: '+e.message);}
+ if(!selected||printing)return;
+ printing=true;$('exportar').disabled=true;status('Generando PDF A2…');
+ try{
+  if(!window.SDH_PDF)throw Error('No se cargó el exportador PDF. Recarga la página.');
+  await window.SDH_PDF.download({record:selected,raw:rawFor(selected),extra:extraFor(selected),geometry,history:$('historia-texto').textContent});
+  status('PDF A2 descargado: una página de 59.4 × 42 cm.');
+ }catch(e){status('No se pudo generar el PDF: '+e.message);}
+ finally{printing=false;$('exportar').disabled=false;}
 }
 
 if(typeof document!=='undefined'){
@@ -204,7 +192,6 @@ if(typeof document!=='undefined'){
   $('extra').addEventListener('change',()=>importFile('extra',t=>{const x=JSON.parse(t);if(!x.comunidades||Array.isArray(x.comunidades)||typeof x.comunidades!=='object')throw Error('Falta el objeto comunidades.');extras={...extras,...x.comunidades};render();}));
   $('geo').addEventListener('change',()=>importFile('geo',t=>{geometry=validGeometry(JSON.parse(t));render();}));
   $('exportar').addEventListener('click',exportPDF);
-  window.addEventListener('beforeprint',preparePrint);window.addEventListener('afterprint',finishPrint);
   Promise.allSettled([json('complementos.json').then(x=>{extras={...extras,...(x.comunidades??{})};}),json('guanajuato-municipios.geojson').then(x=>{geometry=validGeometry(x);}).catch(()=>json(CONFIG.geoUrl).then(x=>{geometry=validGeometry(x);})).catch(()=>{})]).then(()=>{if(selected)render();});if(typeof SDH_RESPALDO!=='undefined'&&Array.isArray(SDH_RESPALDO.records)){useRecords(SDH_RESPALDO.records,`Copia de consulta del ${SDH_RESPALDO.fechaConsulta} · pendiente de actualización en línea`);}load();
 }
 if(typeof module!=='undefined')module.exports={number,percentage,parseCSV,recordsFromRows,canonical,ratio,contains,validGeometry};

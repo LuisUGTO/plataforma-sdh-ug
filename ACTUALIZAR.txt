@@ -1,13 +1,15 @@
-GENERADOR SDH / UG — PROTOTIPO A2 ALINEADO A LAS OBSERVACIONES
+GENERADOR SDH / UG — CORRECCIÓN A2 DEL 7 DE OCTUBRE DE 2026
 
-El sitio usa `index.html`, `app.js`, `styles.css`, la carpeta `assets` y los archivos de datos de este paquete. Sube el paquete completo a la raíz del repositorio de GitHub Pages; no publiques solamente el HTML.
+Extrae el ZIP y sube TODOS sus archivos y la carpeta assets a la raíz del repositorio de GitHub Pages, reemplazando la versión anterior. Ahora pdf-export.js también es necesario; no subas solo el HTML. Este paquete no publica el sitio ni modifica la matriz compartida por sí solo.
 
-La página consulta la pestaña `Base 107` de Google Sheets y conserva una copia local para el catálogo. El mapa muestra Guanajuato completo, resalta el municipio y coloca la comunidad con las coordenadas ITER cuando están disponibles.
+Selecciona una comunidad y pulsa Guardar PDF A2. El archivo se descarga directamente en una página horizontal de 594 × 420 mm (59.4 × 42 cm), sin abrir el diálogo de impresión. Para imprimir el PDF descargado al tamaño original, selecciona papel A2 y escala 100%.
 
-El generador produce una página A2 horizontal de 594 × 420 mm. Para guardarla, selecciona una comunidad y pulsa `Guardar PDF A2`. En el diálogo de impresión usa A2 horizontal, tamaño original, márgenes ninguno y gráficos de fondo. La impresión aplica un ajuste proporcional si hace falta para mantener el pie de fuentes en la misma hoja.
+Se corrigieron la reducción del contenido y la superposición de notas; se concentran las fuentes en un espacio propio. El mapa muestra Guanajuato completo con el municipio y la localidad. Se añadieron las referencias de la página 4 del Perfil Comunidades Indígenas, distinguiendo datos usados de referencias del proyecto.
 
-La pirámide usa grupos quinquenales cuando los datos están completos. La edad mediana de Alonso Yáñez (21.1 años) es una aproximación para datos agrupados, no un valor oficial publicado; la ficha metodológica para incorporar a la matriz está en `FICHA_edad_mediana.md`. El promedio de hijas e hijos nacidos vivos conserva el universo documentado por `PROM_HNV` de ITER: mujeres de 12 años y más.
+El catálogo completo sigue separado del buscador, que permite localizar una comunidad, municipio o clave. Se consulta Base 107 de Google Sheets y se conserva el respaldo local si la consulta falla. Los datos ITER, grupos de edad y cartografía son los insumos locales incluidos; no se vuelven actuales solo por actualizar la base de Sheets.
 
-Los indicadores sin una fuente o denominador compatible se muestran como dato no disponible. La matriz no contiene ocupantes por dormitorio, por lo que ese indicador no se calcula. La sección de fuentes concentra la procedencia estadística y las notas de cobertura.
+La revisión visual y estadística de esta entrega corresponde a Alonso Yáñez, clave 110030008. La generación de las 107 comunidades del respaldo pasó la comprobación de espacio, sin sustituir la revisión individual de sus datos.
 
-Este paquete es local y no modifica la hoja compartida ni publica el sitio por sí solo.
+Consulta REVISION_15_OBSERVACIONES.md para ver cada punto. Quedan tres aclaraciones: incorporar FICHA_edad_mediana.md a la matriz; obtener ocupantes por dormitorio de una fuente compatible; confirmar con el profesor el universo de fecundidad. PROM_HNV conserva mujeres de 12 años y más. La mediana de 21.1 años es una estimación para datos agrupados, no un dato oficial.
+
+Los datos no disponibles no se convierten en cero. En Alonso Yáñez, discapacidad se corrigió a 1.4%, las barras económicas muestran la composición por sexo de PEA y población ocupada, y etnicidad contiene cuatro porcentajes más la autoadscripción Otomí.
