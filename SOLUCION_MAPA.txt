@@ -1,0 +1,9 @@
+CORRECCIÓN DE CARGA DEL MAPA — 8 DE OCTUBRE DE 2026
+
+El mapa actualizado enviado por Luis se convirtió a un JPEG válido de 3507 × 2480 píxeles y se incluyó en assets/mapa-alonso-yanez.jpeg. No se modificó su contenido cartográfico.
+
+Reemplaza TODOS los archivos del paquete en el sitio, incluida la carpeta assets. Para este problema son esenciales app.js, pdf-export.js y assets/mapa-alonso-yanez.jpeg. Conserva el nombre completo y la extensión .jpeg, sin agregar .png o .jpg al final. Después de que termine la publicación en GitHub Pages, recarga con Ctrl+F5.
+
+El exportador renueva la consulta de las imágenes y muestra el nombre del archivo que falla. Si el mapa no carga, primero comprueba que assets/mapa-alonso-yanez.jpeg esté publicado como imagen válida. No basta cambiar la extensión de otro archivo: el contenido debe ser una imagen que el navegador pueda leer.
+
+El PDF adjunto se generó localmente con el mapa actualizado y está listo para revisión. No se publicó el sitio desde este paquete.
