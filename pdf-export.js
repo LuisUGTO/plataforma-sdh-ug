@@ -34,7 +34,8 @@ function tw(s,pt,bold=false){return Array.from(String(s)).reduce((a,c)=>a+charWi
 function wrap(s,width,pt,bold=false){let out=[],line='';for(const word of String(s).split(/\s+/)){const candidate=line?line+' '+word:word;if(tw(candidate,pt,bold)>width&&line){out.push(line);line=word;}else line=candidate;}if(line)out.push(line);return out.length?out:[''];}
 function rgb(color){return color.replace('#','').match(/../g).map(c=>(parseInt(c,16)/255).toFixed(4)).join(' ');}
 class PDF{
- constructor(){this.cmd=[];this.links=[];this.bounds=[];}
+ constructor(){this.cmd=[];this.links=[];this.bounds=[];this.images=[];}
+ image(data,x,y,w,h){const name="Picture"+this.images.length;this.images.push({...data,name});this.cmd.push(`q ${w*MM} 0 0 ${h*MM} ${x*MM} ${(H-y-h)*MM} cm /${name} Do Q`);}
  text(s,x,y,pt=11,bold=false,color=C.text,width=1000,align='left'){
   const lines=wrap(s,width,pt,bold),step=pt*1.2/MM;
   for(let i=0;i<lines.length;i++){let dx=align==='right'?width-tw(lines[i],pt,bold):align==='center'?(width-tw(lines[i],pt,bold))/2:0;this.cmd.push(`BT /${bold?'F2':'F1'} ${pt} Tf ${rgb(color)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-y-i*step)-pt/MM)*MM} Tm <${hex(lines[i])}> Tj ET`);}
@@ -55,12 +56,12 @@ class PDF{
   const encoder=new TextEncoder(),objects=[];
   objects.push(encoder.encode('<< /Type /Catalog /Pages 2 0 R >>'));
   objects.push(encoder.encode('<< /Type /Pages /Kids [3 0 R] /Count 1 >>'));
-  const imageId=logo?7:null,linkStart=logo?8:7;
-  objects.push(encoder.encode(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W*MM} ${H*MM}] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> ${logo?'/XObject << /Logo 7 0 R >>':''} >> /Contents 6 0 R /Annots [${this.links.map((l,i)=>(linkStart+i)+' 0 R').join(' ')}] >>`));
+  const images=[...this.images,...(logo?[{...logo,name:"Logo"}]:[])],linkStart=7+images.length;
+  objects.push(encoder.encode(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W*MM} ${H*MM}] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> ${images.length?'/XObject << '+images.map((im,i)=>'/'+im.name+' '+(7+i)+' 0 R').join(' ')+' >>':''} >> /Contents 6 0 R /Annots [${this.links.map((l,i)=>(linkStart+i)+' 0 R').join(' ')}] >>`));
   objects.push(encoder.encode('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>'));
   objects.push(encoder.encode('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'));
   const stream=data=>join([encoder.encode(`<< /Length ${data.length} >>\nstream\n`),data,encoder.encode('\nendstream')]);objects.push(stream(encoder.encode(content)));
-  if(logo)objects.push(join([encoder.encode(`<< /Type /XObject /Subtype /Image /Width ${logo.pxWidth} /Height ${logo.pxHeight} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${logo.bytes.length} >>\nstream\n`),logo.bytes,encoder.encode('\nendstream')]));
+  images.forEach(im=>objects.push(join([encoder.encode(`<< /Type /XObject /Subtype /Image /Width ${im.pxWidth} /Height ${im.pxHeight} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${im.bytes.length} >>\nstream\n`),im.bytes,encoder.encode('\nendstream')])));
   this.links.forEach(l=>objects.push(encoder.encode(`<< /Type /Annot /Subtype /Link /Rect [${l.x*MM} ${(H-l.y-l.h)*MM} ${(l.x+l.w)*MM} ${(H-l.y)*MM}] /Border [0 0 0] /A << /S /URI /URI (${l.url.replace(/[()\\]/g,'\\$&')}) >> >>`)));
   let parts=[encoder.encode('%PDF-1.4\n')],offsets=[0],size=parts[0].length;objects.forEach((o,i)=>{offsets.push(size);const part=join([encoder.encode(`${i+1} 0 obj\n`),o,encoder.encode('\nendobj\n')]);parts.push(part);size+=part.length;});const xref=size;parts.push(encoder.encode(`xref\n0 ${objects.length+1}\n0000000000 65535 f \n${offsets.slice(1).map(o=>String(o).padStart(10,'0')+' 00000 n ').join('\n')}\ntrailer\n<< /Size ${objects.length+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`));return join(parts);
  }
@@ -78,10 +79,12 @@ function drawMap(p,g,raw,key,name,x,y,w,h){
 function median(extra,total){const bins=extra?.edades;if(!bins?.length||extra.parcial||num(total)===null)return null;let sum=0,expected=0;for(const b of bins){if(b.desde!==expected||num(b.hombres)===null||num(b.mujeres)===null)return null;sum+=+b.hombres + +b.mujeres;expected=b.hasta===null?Infinity:b.hasta+1;}if(sum!==+total||bins.at(-1).hasta!==null)return null;let prev=0;for(const b of bins){const n=+b.hombres + +b.mujeres;if(prev+n>=total/2){if(b.hasta===null||!n)return null;return b.desde+(total/2-prev)/n*(b.hasta-b.desde+1);}prev+=n;}return null;}
 function pyramid(p,extra,total,men,women,x,y,w){
  const bins=extra?.edades;if(!bins?.length||!num(total)){p.card('Pirámide poblacional','Datos pendientes',x,y,w,{small:true});return y+17;}
- p.text(pct(div(men,total)),x,y+2,24,true,C.green,45,'center');p.text('Hombres',x,y+12,11,true,C.green,45,'center');p.text(pct(div(women,total)),x+w-45,y+2,24,true,C.purple,45,'center');p.text('Mujeres',x+w-45,y+12,11,true,C.purple,45,'center');
- const center=x+w/2,gap=7,bw=(w-30)/2-7,max=Math.max(1,...bins.flatMap(b=>[num(b.hombres)||0,num(b.mujeres)||0]).map(n=>n/total*100)),scale=Math.ceil(max),step=3.4;
- [...bins].reverse().forEach((b,i)=>{const yy=y+i*step;const a=div(b.hombres,total),z=div(b.mujeres,total);if(a!==null)p.rect(center-gap-bw*(a*100/scale),yy,bw*(a*100/scale),2.6,C.green);if(z!==null)p.rect(center+gap,yy,bw*(z*100/scale),2.6,C.purple);p.text(b.hasta===null?b.desde+'+':b.desde+'-'+b.hasta,center-gap,yy,7.5,false,C.text,gap*2,'center');});
- const end=y+bins.length*step;p.text(scale+'%',x+10,end,8,false,C.text,20);p.text('0',center-gap-3,end,8,false,C.text,3);p.text('0',center+gap,end,8,false,C.text,3);p.text(scale+'%',x+w-25,end,8,false,C.text,15,'right');return end+7;
+ p.text(pct(div(men,total)),x+13,y+2,17,true,C.green,32,'center');p.text('Hombres',x+13,y+9,9,true,C.green,32,'center');p.text(pct(div(women,total)),x+w-32,y+2,17,true,C.purple,32,'center');p.text('Mujeres',x+w-32,y+9,9,true,C.purple,32,'center');
+ const labelWidth=11,center=x+labelWidth+(w-labelWidth)/2,bw=(w-labelWidth-4)/2,max=Math.max(1,...bins.flatMap(b=>[num(b.hombres)||0,num(b.mujeres)||0]).map(n=>n/total*100)),scale=Math.ceil(max/2)*2,step=3.4;
+ [...bins].reverse().forEach((b,i)=>{const yy=y+i*step;const a=div(b.hombres,total),z=div(b.mujeres,total);if(a!==null)p.rect(center-bw*(a*100/scale),yy,bw*(a*100/scale),2.6,C.green);if(z!==null)p.rect(center,yy,bw*(z*100/scale),2.6,C.purple);p.text(b.hasta===null?b.desde+'+':b.desde+'-'+b.hasta,x,yy,7.5,false,C.text,labelWidth-1,'right');});
+ const end=y+bins.length*step;p.line(center-bw,end,center+bw,end,C.line,.2);
+ for(let tick=-scale;tick<=scale;tick+=2){const tx=center+bw*tick/scale;p.line(tx,end,tx,end+1.2,C.line,.2);p.text(String(Math.abs(tick)),tx-3,end+1.5,8,false,C.text,6,'center');}
+ p.text('%',x+w-5,end+5,7,false,C.text,5,'right');return end+9;
 }
 function render(model,logo=null){
  const p=new PDF(),r=model.record||{},raw=model.raw||{};const get=k=>r[norm(k)]??r[k];const name=get('Comunidad / Localidad')||raw.NOM_LOC||'Comunidad';const key=get('Clave INEGI')||raw['Clave INEGI'];const total=raw.POBTOT??get('Población Total');
@@ -89,11 +92,18 @@ function render(model,logo=null){
  if(logo){const ratio=logo.pxHeight/logo.pxWidth;logo={...logo,x:498,y:14,w:75,h:75*ratio};}
  let x=11,w=202,y=52;
  y=p.title('Breve historia de la comunidad',x,y,w,'book');const hh=p.text(model.history||'Reseña histórica pendiente.',x+3,y+2,11.2,false,C.text,w-6);y+=hh+7;
- y=p.title('Territorio y ubicación geográfica',x,y,w,'map');drawMap(p,model.geometry,raw,key,name,x,y,w,72);y+=75;
+ y=p.title('Territorio y ubicación geográfica',x,y,w,'map');const teamMap=String(key)==='110030008'&&model.mapImage;const mapHeight=teamMap?96:72;if(teamMap){const iw=Math.min(w,mapHeight*model.mapImage.pxWidth/model.mapImage.pxHeight),ih=iw*model.mapImage.pxHeight/model.mapImage.pxWidth;p.image(model.mapImage,x+(w-iw)/2,y,iw,ih);}else drawMap(p,model.geometry,raw,key,name,x,y,w,mapHeight);y+=mapHeight+3;
  const geo=[['Municipio',get('Municipio')||raw.NOM_MUN],['Altitud',fmt(raw.ALTITUD)+' m'],['Latitud',raw.LATITUD||'Dato no disponible'],['Longitud',raw.LONGITUD||'Dato no disponible']];const gw=(w-3)/2;geo.forEach(([label,value],i)=>p.card(label,value,x+(i%2)*(gw+3),y+Math.floor(i/2)*12,gw,{small:true,labelFraction:.36}));y+=27;
- y=p.title('Composición por edad y sexo',x,y,w);y=p.card('Población total',fmt(total),x,y,w,{highlight:true,big:true});y=pyramid(p,model.extra,total,raw.POBMAS??get('Población Hombres'),raw.POBFEM??get('Población Mujeres'),x,y+1,w);
- y=p.card('Hombres por cada 100 mujeres',fmt(raw.REL_H_M??get('Relación Hombres-Mujeres'),1),x,y,w);
- const med=median(model.extra,total);y=p.card('Edad mediana estimada (años)',fmt(med,1),x,y,w);p.text('Estimación agrupada; ver ficha metodológica adjunta.',x,y,8.5,false,C.text,w);y+=5;y=p.title('Situación conyugal',x,y,w,'rings');y=p.pie([['Soltera o nunca unida',raw.P12YM_SOLT],['Casada o unida',raw.P12YM_CASA],['Separada, divorciada o viuda',raw.P12YM_SEPA]],raw.P_12YMAS,x,y,w);p.text('Población de 12 años y más.',x,y,8.3,false,C.text,w);p.bounds.push({column:1,bottom:y+5});
+ y=p.title('Composición por edad y sexo',x,y,w);
+ const demographicTop=y, cardWidth=96, chartX=x+102;
+ p.rect(x,y,cardWidth,18,C.blue);p.text('Población total',x+3,y+5.5,12,true,'#FFFFFF',cardWidth-35);p.text(fmt(total),x+cardWidth-32,y+4,24,true,'#FFFFFF',29,'right');
+ function explanatoryCard(label,value,note,yy){const h=22;p.rect(x,yy,cardWidth,h,'#FFFFFF',C.line,.2);p.text(label,x+2,yy+1.5,11,true,C.text,cardWidth-30);p.text(value,x+cardWidth-28,yy+1,19,true,C.teal,26,'right');p.text(note,x+2,yy+9,9.5,false,C.text,cardWidth-4);return yy+h+4;}
+ const rel=raw.REL_H_M??get('Relación Hombres-Mujeres');
+ explanatoryCard('Relación hombres-mujeres',fmt(rel,1),num(rel)===null?'Dato pendiente.':`Existen aproximadamente ${Math.round(+rel)} hombres por cada 100 mujeres.`,y+23);
+ const med=median(model.extra,total);
+ explanatoryCard('Edad mediana estimada',fmt(med,1),med===null?'Dato pendiente.':`Según la estimación, la mitad de la población tiene ${fmt(med,1)} años o menos.`,y+49);
+ const chartBottom=pyramid(p,model.extra,total,raw.POBMAS??get('Población Hombres'),raw.POBFEM??get('Población Mujeres'),chartX,demographicTop,w-102);
+ y=Math.max(demographicTop+74,chartBottom)+3;y=p.title('Situación conyugal',x,y,w,'rings');y=p.pie([['Soltera o nunca unida',raw.P12YM_SOLT],['Casada o unida',raw.P12YM_CASA],['Separada, divorciada o viuda',raw.P12YM_SEPA]],raw.P_12YMAS,x,y,w);p.text('Población de 12 años y más.',x,y,8.3,false,C.text,w);p.bounds.push({column:1,bottom:y+5});
  x=220;w=175;y=52;
  y=p.title('Vivienda',x,y,w,'housing');y=p.card('Promedio de ocupantes por vivienda',fmt(raw.PROM_OCUP??get('Promedio Ocupantes por Vivienda'),2),x,y,w);y=p.card('Promedio de ocupantes por cuarto',fmt(raw.PRO_OCUP_C??get('Promedio Ocupantes por Cuarto'),2),x,y,w);y=p.card('Promedio de ocupantes por dormitorio','Dato no disponible',x,y,w,{small:true});
  const groups=[['Disponibilidad de servicios en la vivienda',[['Electricidad','VPH_C_ELEC'],['Agua entubada','VPH_AGUADV'],['Drenaje','VPH_DRENAJ'],['Servicio sanitario','VPH_EXCSA'],['Tinaco','VPH_TINACO'],['Cisterna o aljibe','VPH_CISTER']]],['Disponibilidad de bienes',[['Refrigerador','VPH_REFRI'],['Lavadora','VPH_LAVAD'],['Automóvil','VPH_AUTOM'],['Motocicleta','VPH_MOTO'],['Bicicleta','VPH_BICI']]],['Tecnologías de la información',[['Televisor','VPH_TV'],['Teléfono celular','VPH_CEL'],['Internet','VPH_INTER'],['Computadora o laptop','VPH_PC']]]];
@@ -112,14 +122,14 @@ function render(model,logo=null){
  p.bounds.push({column:3,bottom:y});
  const footer=374;if(p.bounds.some(b=>b.bottom>footer-3))throw Error('El contenido supera el área reservada. Revisar distribución: '+JSON.stringify(p.bounds));
  p.line(11,footer,583,footer,C.sky,.7);p.text('FUENTES Y REFERENCIAS',11,footer+2,11,true,C.blue,572);
- p.text('Datos: INEGI, ITER CPV 2020; CONAPO 2020; CONEVAL 2020. Cartografía: Marco Geoestadístico, diciembre de 2025. Historia y autoadscripción: insumos del equipo y catálogo estatal.',11,footer+7,8.3,false,C.text,572);
+ p.text('Datos: INEGI, ITER CPV 2020; CONAPO 2020; CONEVAL 2020. '+(teamMap?'Mapa local: proporcionado por el equipo; fuente y fecha cartográficas por documentar.':'Cartografía: Marco Geoestadístico, diciembre de 2025.')+' Historia y autoadscripción: insumos del equipo y catálogo estatal.',11,footer+7,8.3,false,C.text,572);
  p.text('Referencias del perfil del proyecto (los enlaces de EIC 2025 son antecedentes metodológicos; no se usan para atribuir cifras a esta localidad):',11,footer+12,8.3,false,C.text,572);
  const rw=185;refs.forEach(([label,url],i)=>p.link(label,url,11+(i%3)*191,footer+17+Math.floor(i/3)*3.7,rw));
  p.text('Edad mediana: estimación agrupada, no cifra oficial. Dato no disponible no equivale a cero. % con denominadores propios de cada indicador. SDH / UG · Prototipo A2 · 1 de 1',11,411,8.2,false,C.text,572);
  return {bytes:p.finish(logo),bounds:p.bounds};
 }
-async function logoBytes(){const image=new Image();image.src='assets/logo-sdh-descriptivo-horizontal.png';await image.decode();const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.98));return {bytes:new Uint8Array(await blob.arrayBuffer()),pxWidth:canvas.width,pxHeight:canvas.height};}
-async function download(model){const logo=await logoBytes(),result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
+async function imageBytes(src){const image=new Image();image.src=src;await image.decode();const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.98));return {bytes:new Uint8Array(await blob.arrayBuffer()),pxWidth:canvas.width,pxHeight:canvas.height};}
+async function download(model){const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');if(String(model.record[norm('Clave INEGI')]??model.record['Clave INEGI'])==='110030008')model={...model,mapImage:await imageBytes('assets/mapa-alonso-yanez.jpeg')};const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
 const api={render,download,refs,median,setWidths:(normal,bold)=>{widths.normal=normal;widths.bold=bold;}};
 root.SDH_PDF=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);

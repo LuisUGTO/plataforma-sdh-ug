@@ -13,3 +13,5 @@ La revisión visual y estadística de esta entrega corresponde a Alonso Yáñez,
 Consulta REVISION_15_OBSERVACIONES.md para ver cada punto. Quedan tres aclaraciones: incorporar FICHA_edad_mediana.md a la matriz; obtener ocupantes por dormitorio de una fuente compatible; confirmar con el profesor el universo de fecundidad. PROM_HNV conserva mujeres de 12 años y más. La mediana de 21.1 años es una estimación para datos agrupados, no un dato oficial.
 
 Los datos no disponibles no se convierten en cero. En Alonso Yáñez, discapacidad se corrigió a 1.4%, las barras económicas muestran la composición por sexo de PEA y población ocupada, y etnicidad contiene cuatro porcentajes más la autoadscripción Otomí.
+
+Ajuste de mapa y pirámide: Alonso Yáñez usa el mapa del equipo (assets/mapa-alonso-yanez.jpeg); las demás comunidades conservan el mapa estatal. La fuente y fecha del mapa local deben documentarse. Pirámide con edades a la izquierda, barras unidas y un solo cero. Población total en recuadro azul de 18 mm de altura.
