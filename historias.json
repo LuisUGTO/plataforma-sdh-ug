@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "comunidades": {
+    "110030008": {
+      "texto": "Alonso Yáñez es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada aproximadamente entre 1905 y 1921. Su nombre se atribuye a un hacendado que vivió antiguamente en el lugar. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Reseña utilizada en el piloto revisado por Carlos"
+    },
+    "110030018": {
+      "texto": "Banda es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1670. Se desconoce con exactitud de dónde proviene su nombre. Fue reconocida como comunidad indígena por el gobierno del Estado de Guanajuato en 2012.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Pendiente de validación histórica y bibliográfica"
+    },
+    "110030022": {
+      "texto": "Los Barrones es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1880. Su nombre proviene del apellido Barrón. Fue reconocida como comunidad indígena por el gobierno del Estado de Guanajuato en 2012.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Pendiente de validación histórica y bibliográfica"
+    },
+    "110030030": {
+      "texto": "Bordo Colorado es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1958. Su nombre deriva del color de la tierra y por la ubicación de un bordo dentro de dicha comunidad. Fue reconocida como comunidad indígena por el gobierno del Estado de Guanajuato en 2012.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Pendiente de validación histórica y bibliográfica"
+    },
+    "110030053": {
+      "texto": "Capilla Blanca es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1850. Su nombre deriva del color de su capilla principal. Fue reconocida como comunidad indígena por el gobierno del Estado de Guanajuato en 2012.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Pendiente de validación histórica y bibliográfica"
+    },
+    "110030064": {
+      "texto": "Ciénega de Juana Ruiz es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, se desconoce con exactitud su año de fundación; no obstante, los pobladores consideran que alrededor del año de 1600 fue su fundación. Su nombre deriva de una antigua hacienda llamada “Ciénega”; y “Juana Ruiz” por el nombre de la dueña de dicha hacienda. Fue reconocida como comunidad indígena por el gobierno del Estado de Guanajuato en 2012.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Pendiente de validación histórica y bibliográfica"
+    },
+    "110030067": {
+      "texto": "La Cieneguita es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, se desconoce con exactitud su año de fundación. Su nombre deriva de un manantial cercano a la comunidad. Fue reconocida como comunidad indígena por el gobierno del Estado de Guanajuato en 2012.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Pendiente de validación histórica y bibliográfica"
+    },
+    "110030083": {
+      "texto": "La Cruz del Palmar es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fue fundada en 1516. Se desconoce con exactitud el significado de su nombre puesto que tiene diversos orígenes atribuidos por los habitantes, algunos de ellos son: uno de los primeros pobladores, el cacique Agustín del Palmar o la antigua denominación “Santa Cruz del Palmar”. Fue reconocida como comunidad indígena por el gobierno del Estado de Guanajuato en 2012.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Pendiente de validación histórica y bibliográfica"
+    },
+    "110030084": {
+      "texto": "La Cuadrilla es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, se desconoce con exactitud su año de fundación; no obstante, los pobladores consideran que alrededor del año de 1700 fue su fundación. Su nombre deriva de las cuadrillas de trabajadores que laboraban en la hacienda. Fue reconocida como comunidad indígena por el gobierno del Estado de Guanajuato en 2012.",
+      "fuente": "Introducción de las comunidades indígenas; insumo del equipo, octubre de 2026",
+      "estado": "Pendiente de validación histórica y bibliográfica"
+    }
+  }
+}
