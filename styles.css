@@ -32,3 +32,36 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 #discapacidad-grafica .bar strong{right:0;width:14mm;text-align:right;color:var(--gray)}#discapacidad-grafica .track{height:3.3mm}
 .section-pair .pie{gap:7mm}
 #escolaridad .vertical-chart,#asistencia .vertical-chart{height:43.5mm}
+
+/* Etnicidad: three cards left; language prevalence and composition right. */
+#etnicidad .ethnicity-left{display:grid;gap:1mm}#etnicidad .ethnicity-right h4{font-size:8.5pt;margin:3mm 0 2mm}
+#etnicidad .pie{gap:4mm;align-items:flex-start}#etnicidad .pie svg{width:24mm;height:24mm}
+#etnicidad .pie-legend div{display:grid;grid-template-columns:2mm 1fr;gap:.5mm 1.5mm;font-size:9.2pt;margin:0 0 2mm}
+#etnicidad .pie-legend span{max-width:none}#etnicidad .pie-legend strong{grid-column:2;margin:0;font-size:11pt}
+.language-placeholder{width:24mm;height:24mm;border:.2mm solid var(--line);border-radius:50%;background:#F2F4F7;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:2mm;text-align:center;font-size:8pt}
+
+/* INEGI-style pie legends: marker, percentage, label on the same row. */
+.section-pair .pie-legend div,#etnicidad .pie-legend div{display:grid;grid-template-columns:2mm 12mm minmax(0,1fr);column-gap:1.5mm;align-items:start;font-size:9.2pt}
+.section-pair .pie-legend i,#etnicidad .pie-legend i{grid-column:1;margin-top:1mm}
+.section-pair .pie-legend strong,#etnicidad .pie-legend strong{grid-column:2;grid-row:1;font-size:9.3pt;text-align:right;margin:0;line-height:1.2}
+.section-pair .pie-legend span,#etnicidad .pie-legend span{grid-column:3;grid-row:1;max-width:none;line-height:1.2}
+#etnicidad .pie{min-height:32mm;align-items:center}#etnicidad .pie-legend div{margin:0;min-height:16mm}
+
+/* Carlos, 13 October: values follow each bar end, vertically centered. */
+.bar .track{position:relative}
+.bar .track .bar-value,#servicios .bar .track .bar-value,#bienes .bar .track .bar-value,#tic .bar .track .bar-value,#discapacidad-grafica .bar .track .bar-value{right:auto;top:50%;width:auto;white-space:nowrap;text-align:left;transform:translateY(-50%);margin-left:1.3mm;font-size:9.3pt;color:var(--gray);line-height:1}
+
+/* Carlos, 14 October 2026: header B in three columns and approved pictograms. */
+.doc-header{height:35mm;display:grid;grid-template-columns:202mm 175mm 181mm;gap:7mm;align-items:center;border-bottom:.65mm solid var(--sky);padding:0;position:relative}
+.header-identity{grid-column:1;min-width:0}
+.doc-header .header-identity h2{font:bold 36pt/1.2 Arial,Helvetica,sans-serif;margin:0 0 2mm;color:var(--blue)}
+.doc-header #identificacion{font:12pt/1.2 Arial,Helvetica,sans-serif;margin:0;color:var(--blue)}
+.header-panorama{grid-column:2;text-align:center;font:bold 13.5pt/1.2 Arial,Helvetica,sans-serif;color:var(--blue)}
+.header-panorama span{display:block}
+.header-brand{grid-column:3;display:flex;justify-content:center;align-items:center}
+.doc-header .header-brand img{position:static;width:100mm;height:auto;max-height:35mm;object-fit:contain}
+.block h3 .section-icon{width:8.4mm;height:8.4mm;flex-shrink:0;padding:0;background:var(--blue);object-fit:contain}
+.sources{background:linear-gradient(to bottom,#FFFFFF 0%,#E9F4FB 100%);padding:2mm 0;margin-top:3mm}
+.header-identity,.header-panorama,.header-brand{transform:translateY(-2.675mm)}
+.block h3{position:relative;min-height:9mm;line-height:7mm;padding-left:10mm}
+.block h3 .section-icon{position:absolute;left:0;top:-.7mm}

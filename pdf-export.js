@@ -9,6 +9,7 @@ const div=(a,b)=>{a=num(a);b=num(b);return a!==null&&b>0&&a>=0&&a<=b?a/b:null;};
 const fmt=(v,d=0)=>num(v)===null?'Dato no disponible':Number(v).toLocaleString('es-MX',{minimumFractionDigits:d,maximumFractionDigits:d});
 const pct=v=>v===null||v===undefined?'Dato no disponible':(v*100).toFixed(1)+'%';
 const I=root.SDH_INDICADORES||(typeof require==='function'?require('./indicadores.js'):null);
+const ICONS=root.SDH_ICONOGRAFIA||(typeof require==='function'?require('./iconografia.js'):null);
 const refs=[
  ['Consejo Nacional de Evaluación de la Política de Desarrollo Social. (2021).','Índice de Rezago Social 2020: Anexos','[Conjunto de datos].','https://www.coneval.org.mx/Medicion/IRS/Paginas/Indice_de_Rezago_Social_2020_anexos.aspx'],
  ['Consejo Nacional de Población. (2021).','Índices de marginación 2020','[Conjunto de datos]. Gobierno de México.','https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372'],
@@ -45,13 +46,69 @@ class PDF{
  line(x1,y1,x2,y2,color=C.line,lw=.25){this.cmd.push(`q ${rgb(color)} RG ${lw*MM} w ${x1*MM} ${(H-y1)*MM} m ${x2*MM} ${(H-y2)*MM} l S Q`);}
  path(points,fill,stroke='#FFFFFF',lw=.2){if(!points.length)return;const p=points.map((pt,i)=>`${pt[0]*MM} ${(H-pt[1])*MM} ${i?'l':'m'}`).join(' ');this.cmd.push(`q ${rgb(fill)} rg ${rgb(stroke)} RG ${lw*MM} w ${p} h B Q`);}
  circle(x,y,r,fill,stroke=null){const k=.5522847498*r,px=x*MM,py=(H-y)*MM;const q=(a,b)=>`${(px+a*MM).toFixed(3)} ${(py+b*MM).toFixed(3)}`;this.cmd.push(`q ${rgb(fill)} rg ${stroke?rgb(stroke)+' RG ':''}${q(r,0)} m ${q(r,k)} ${q(k,r)} ${q(0,r)} c ${q(-k,r)} ${q(-r,k)} ${q(-r,0)} c ${q(-r,-k)} ${q(-k,-r)} ${q(0,-r)} c ${q(k,-r)} ${q(r,-k)} ${q(r,0)} c ${stroke?'B':'f'} Q`);}
- icon(kind,x,y){this.rect(x,y,7,7,C.blue);const white='#FFFFFF';if(kind==='family'){this.circle(x+2.2,y+2,.8,white);this.circle(x+4.9,y+3,.65,white);this.line(x+2.2,y+3.2,x+2.2,y+5.8,white,.5);this.line(x+4.9,y+4,x+4.9,y+5.8,white,.5);this.line(x+2.2,y+4,x+4.9,y+4.5,white,.4);}else if(kind==='health'){this.rect(x+2.7,y+1.2,1.6,4.6,white);this.rect(x+1.2,y+2.7,4.6,1.6,white);}else if(kind==='economy'||kind==='social'){[2,3.2,4.6].forEach((h,i)=>this.rect(x+1+i*1.7,y+5.8-h,1,h,white));}else if(kind==='map'){this.line(x+1,y+1.4,x+1,y+5.7,white,.4);this.line(x+3,y+1,x+3,y+5.3,white,.4);this.line(x+5.8,y+1.4,x+5.8,y+5.7,white,.4);this.line(x+1,y+1.4,x+3,y+1,white,.4);this.line(x+3,y+1,x+5.8,y+1.4,white,.4);this.line(x+1,y+5.7,x+3,y+5.3,white,.4);this.line(x+3,y+5.3,x+5.8,y+5.7,white,.4);}else if(kind==='disability'){this.circle(x+3.6,y+1.5,.7,white);this.line(x+3.2,y+2.7,x+3.2,y+4.5,white,.5);this.line(x+3.2,y+4.5,x+5,y+4.5,white,.5);this.line(x+5,y+4.5,x+6,y+6,white,.5);this.circle(x+2.6,y+4.9,1.6,C.blue,white);}else if(kind==='housing'){this.line(x+1,y+3,x+3.5,y+1,white,.4);this.line(x+3.5,y+1,x+6,y+3,white,.4);this.rect(x+1.7,y+3,3.6,2.8,null,white,.4);}else if(kind==='rings'){this.circle(x+2.6,y+3.5,1.7,C.blue,white);this.circle(x+4.3,y+3.5,1.7,C.blue,white);}else if(kind==='book'){this.rect(x+1.6,y+1.2,3.8,4.6,null,white,.4);this.line(x+2.3,y+2.5,x+4.6,y+2.5,white,.3);this.line(x+2.3,y+3.6,x+4.6,y+3.6,white,.3);}else{this.circle(x+3.5,y+1.9,.85,white);this.line(x+3.5,y+3,x+3.5,y+5.1,white,.45);this.line(x+1.5,y+3.3,x+5.5,y+3.3,white,.45);this.line(x+3.5,y+4.7,x+2.1,y+6,white,.45);this.line(x+3.5,y+4.7,x+4.9,y+6,white,.45);}}
- title(label,x,y,w,kind='person'){this.icon(kind,x,y);const h=this.text(label,x+9,y+.3,15,true,C.blue,w-9);const bottom=y+Math.max(7,h)+1.5;this.line(x,bottom,x+w,bottom,C.blue,.65);return bottom+2.3;}
+ icon(name,x,y){
+  const icon=ICONS?.icons[name];if(!icon)throw Error('Falta el ícono '+name+'. Revisa iconografia.js.');
+  const size=8.4,top=y-.7,scale=size/ICONS.size;
+  this.rect(x,top,size,size,C.blue);
+  this.cmd.push(`q ${scale*MM} 0 0 ${-scale*MM} ${x*MM} ${(H-top)*MM} cm 1 1 1 rg 1 1 1 RG`);
+  icon.paths.forEach(path=>{
+   const commands=path.commands.map(([op,...values])=>op==='Z'?'h':values.join(' ')+' '+({M:'m',L:'l',C:'c'}[op])).join(' ');
+   const paint=path.fill?(path.stroke?'B':'f')+(path.rule==='evenodd'?'*':''):path.stroke?'S':'n';
+   this.cmd.push(`q ${path.width} w ${path.cap==='round'?1:0} J ${path.join==='round'?1:0} j ${commands} ${paint} Q`);
+  });this.cmd.push('Q');
+ }
+ title(label,x,y,w,kind='person'){
+  this.icon(ICONS.sectionIcons[label]||kind,x,y);
+  const h=this.text(label,x+10,y+.3,15,true,C.blue,w-10),bottom=y+Math.max(7,h)+1.5;
+  this.line(x,bottom,x+w,bottom,C.blue,.65);return bottom+2.3;
+ }
+ gradient(x,y,w,h){
+  const a=[255,255,255],b=[233,244,251],steps=128;
+  for(let i=0;i<steps;i++){const t=i/(steps-1),color='#'+a.map((v,k)=>Math.round(v+(b[k]-v)*t).toString(16).padStart(2,'0')).join('');this.rect(x,y+h*i/steps,w,h/steps+.015,color);}
+ }
  card(label,value,x,y,w,opts={}){const l=cardLayout(label,value,w,opts.minHeight||8,'',opts.small),color=opts.highlight?'#FFFFFF':C.text;this.rect(x,y,w,l.h,opts.highlight?C.blue:'#FFFFFF',C.line,.2);this.text(l.lines.join('\n'),x+2,y+1.5,LABEL_PT,true,color,l.labelWidth);this.text(value,x+w-2-l.valueWidth,y+(l.h-l.valueLines.length*l.valuePt*1.2/MM)/2,l.valuePt,true,opts.highlight?'#FFFFFF':C.blue,l.valueWidth,'right');return y+l.h+1.5;}
- bars(items,x,y,w,opts={}){const colors=[C.teal,C.blue,C.purple,C.orange,C.green],fraction=opts.labelFraction??.46,pt=opts.pt??9.5,step=opts.step??4.5;items.forEach(([label,value],i)=>{const lh=this.text(label,x,y+.6,pt,false,C.text,w*fraction-2),h=Math.max(step,lh+.3);if(value!==null){const start=x+w*fraction,barWidth=w*(1-fraction)-15,barEnd=start+barWidth*value;this.rect(start,y+2,barWidth*value,opts.thickness||2.7,colors[i%colors.length]);this.text(pct(value),opts.fixedValues?x+w-14:Math.min(barEnd+1,x+w-13),y+.3,9.3,true,C.text,opts.fixedValues?14:13,opts.fixedValues?'right':'left');}else this.text('N/D',x+w-13,y+.6,9,false,C.text,13,'right');y+=h;});return y;}
- verticalBars(items,x,y,w,h=36,opts={}){const scale=opts.adaptive?Math.max(.1,Math.ceil(Math.max(0,...items.map(a=>num(a[1])||0))*10)/10):1,colors=opts.colors||[C.teal,C.blue,C.purple,C.orange],plot=h-(opts.labelsHeight||15)-5,base=y+5+plot,slot=w/items.length;this.line(x,base,x+w,base,C.line,.2);items.forEach(([label,v],i)=>{const xx=x+i*slot,bw=slot*.42;if(v!==null){const bh=plot*v/scale;this.rect(xx+(slot-bw)/2,base-bh,bw,bh,colors[i%colors.length]);this.text(pct(v),xx,Math.max(y,base-bh-4.2),opts.valuePt||9.3,true,C.text,slot,'center');}else this.text('N/D',xx,y+5,8.5,false,C.text,slot,'center');label.split('|').forEach((part,j)=>this.text(part,xx+.4,base+1.3+j*(opts.labelPt||8.2)*1.15/MM,opts.labelPt||8.2,false,C.text,slot-.8,'center'));});return y+h;}
+ // Chart values use one baseline and an exact Helvetica anchor; they never wrap.
+ chartValue(s,x,baseline,pt=9.3,align='left'){
+  const dx=align==='center'?-tw(s,pt,true)/2:align==='right'?-tw(s,pt,true):0;
+  this.cmd.push(`BT /F2 ${pt} Tf ${rgb(C.text)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-baseline)*MM).toFixed(3)} Tm <${hex(s)}> Tj ET`);
+ }
+ bars(items,x,y,w,opts={}){
+  const colors=[C.teal,C.blue,C.purple,C.orange,C.green],fraction=opts.labelFraction??.46,pt=opts.pt??9.5,step=opts.step??4.5,valuePt=9.3,thickness=opts.thickness||2.7;
+  items.forEach(([label,value],i)=>{
+   const lh=this.text(label,x,y+.6,pt,false,C.text,w*fraction-2),h=Math.max(step,lh+.3),barY=y+2,baseline=barY+thickness/2+.718*valuePt/MM/2;
+   if(value!==null){const start=x+w*fraction,barWidth=w*(1-fraction)-15,barEnd=start+barWidth*value;this.rect(start,barY,barWidth*value,thickness,colors[i%colors.length]);this.chartValue(pct(value),barEnd+1.3,baseline,valuePt);}
+   else this.chartValue('N/D',x+w,baseline,9,'right');
+   y+=h;
+  });return y;
+ }
+ verticalBars(items,x,y,w,h=36,opts={}){
+  const scale=opts.adaptive?Math.max(.1,Math.ceil(Math.max(0,...items.map(a=>num(a[1])||0))*10)/10):1,colors=opts.colors||[C.teal,C.blue,C.purple,C.orange],valuePt=opts.valuePt||9.3,gap=1.6,head=valuePt/MM+gap,plot=h-(opts.labelsHeight||15)-head,base=y+head+plot,slot=w/items.length;
+  this.line(x,base,x+w,base,C.line,.2);
+  items.forEach(([label,v],i)=>{
+   const center=x+(i+.5)*slot,bw=slot*.42;
+   if(v!==null){const bh=plot*v/scale,top=base-bh;this.rect(center-bw/2,top,bw,bh,colors[i%colors.length]);this.chartValue(pct(v),center,top-gap,valuePt,'center');}
+   else this.chartValue('N/D',center,y+head,8.5,'center');
+   label.split('|').forEach((part,j)=>this.text(part,center-slot/2+.4,base+1.3+j*(opts.labelPt||8.2)*1.15/MM,opts.labelPt||8.2,false,C.text,slot-.8,'center'));
+  });return y+h;
+ }
  sideCard(label,value,x,y,w,note='',minHeight=18){const l=cardLayout(label,value,w,minHeight,note);this.rect(x,y,w,l.h,'#FFFFFF',C.line,.2);this.text(l.lines.join('\n'),x+2,y+1.5,LABEL_PT,true,C.text,l.labelWidth);this.text(value,x+w-2-l.valueWidth,y+(l.h-l.valueLines.length*l.valuePt*1.2/MM)/2,l.valuePt,true,C.blue,l.valueWidth,'right');if(note)this.text(l.noteLines.join('\n'),x+2,y+l.labelHeight+3.5,9,false,C.text,l.labelWidth);return y+l.h+2;}
- pie(items,total,x,y,w){const vals=items.map(a=>num(a[1]));total=num(total);if(!total||vals.some(v=>v===null)||vals.reduce((a,b)=>a+b,0)>total)return this.card('Distribución','Datos pendientes',x,y,w,{small:true});const list=items.slice(),sum=vals.reduce((a,b)=>a+b,0);if(sum<total)list.push(['No especificada',total-sum]);const r=w<130?12:15,cx=x+r,cy=y+r,colors=[C.teal,C.purple,C.orange];let a=-Math.PI/2,ly=y;list.forEach(([label,n],i)=>{const next=a+Number(n)/total*2*Math.PI,pts=[[cx,cy]];for(let t=a;t<=next;t+=.03)pts.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);pts.push([cx+r*Math.cos(next),cy+r*Math.sin(next)]);if(n>0)this.path(pts,colors[i%3],'#FFFFFF',.2);const lx=x+2*r+8;this.circle(lx,ly+2,1,colors[i%3]);const lh=this.text(label,lx+3,ly,9.2,false,C.text,w-(lx-x)-3);this.text(pct(div(n,total)),lx+3,ly+lh+.5,11,true,C.text,w-(lx-x)-3);ly+=lh+6;a=next;});return Math.max(y+2*r,ly);}
+ pieLegend(items,x,y,w,opts={}){
+  let ly=y+(opts.language?2:0),bottom=y;const valueWidth=12,labelX=x+16.5,labelWidth=w-16.5;
+  items.forEach(([label,value,color])=>{this.circle(x+.8,ly+1.8,1,color);const vh=this.text(value,x+3,ly,9.3,true,C.text,valueWidth,'right');const text=opts.language?label.replace('Habla lengua indígena y','Habla lengua indígena\ny'):label;const lh=this.text(text,labelX,ly,9.2,false,C.text,labelWidth);bottom=Math.max(bottom,ly+lh,ly+vh);ly+=opts.language?16:Math.max(lh,vh)+3;});return bottom;
+ }
+ pie(items,total,x,y,w,opts={}){
+  const vals=items.map(a=>num(a[1]));total=num(total);if(!total||vals.some(v=>v===null)||vals.reduce((a,b)=>a+b,0)>total)return this.card('Distribución','Datos pendientes',x,y,w,{small:true});
+  const list=items.slice(),sum=vals.reduce((a,b)=>a+b,0);if(sum<total)list.push(['No especificada',total-sum]);
+  const r=w<130?12:15,height=opts.language?32:2*r,cx=x+r,cy=y+height/2,colors=[C.teal,C.purple,C.orange];let a=-Math.PI/2;
+  list.forEach(([label,n],i)=>{const next=a+Number(n)/total*2*Math.PI,pts=[[cx,cy]];for(let t=a;t<=next;t+=.03)pts.push([cx+r*Math.cos(t),cy+r*Math.sin(t)]);pts.push([cx+r*Math.cos(next),cy+r*Math.sin(next)]);if(n===total)this.circle(cx,cy,r,colors[i%3]);else if(n>0)this.path(pts,colors[i%3],'#FFFFFF',.2);a=next;});
+  const lx=x+2*r+(opts.legendGap??8),entries=list.map(([label,n],i)=>[label,pct(div(n,total)),colors[i%3]]);const bottom=this.pieLegend(entries,lx,y,w-(lx-x),opts);return Math.max(y+height,bottom);
+ }
+ languagePie(model,x,y,w){
+  if(model.status==='ready')return this.pie(model.items,model.total,x,y,w,{legendGap:4,language:true});
+  this.circle(x+12,y+16,11.8,'#F2F4F7',C.line);this.text(model.status==='empty'?'Sin hablantes':'Datos pendientes',x+1,y+12.5,8,false,C.text,22,'center');
+  const entries=model.items.map(([label,n],i)=>[label,model.status==='empty'?'No aplica':n===null||!(model.total>0)?'N/D':pct(div(n,model.total)),[C.teal,C.purple][i]]);
+  const bottom=this.pieLegend(entries,x+28,y,w-28,{language:true});return Math.max(y+32,bottom);
+ }
  tile(label,value,x,y,w,h=21){const l=cardLayout(label,value,w,h);this.rect(x,y,w,l.h,'#FFFFFF',C.line,.2);this.text(l.lines.join('\n'),x+2,y+1.5,LABEL_PT,true,C.text,l.labelWidth);this.text(value,x+w-2-l.valueWidth,y+(l.h-l.valueLines.length*l.valuePt*1.2/MM)/2,l.valuePt,true,C.blue,l.valueWidth,'right');return y+l.h;}
  reference(ref,x,y,w){const pt=9.7,step=pt*1.2/MM,indent=12.7;const [author,title,tail,url]=ref;const tokens=[...author.split(/\s+/).map(t=>[t,false]),...title.split(/\s+/).map(t=>[t,'italic']),...tail.split(/\s+/).filter(Boolean).map(t=>[t,false])];let line=[],lineWidth=0,yy=y,first=true;const flush=()=>{let xx=x+(first?0:indent);for(const [word,style]of line){this.text(word,xx,yy,pt,style,C.text);xx+=tw(word+' ',pt,style);}yy+=step;first=false;line=[];lineWidth=0;};for(const token of tokens){const width=tw(token[0]+' ',pt,token[1]);if(line.length&&lineWidth+width>w-(first?0:indent))flush();line.push(token);lineWidth+=width;}if(line.length)flush();this.text(url,x+indent,yy,8.7,false,C.text,w-indent);const uh=wrap(url,w-indent,8.7).length*8.7*1.2/MM;this.links.push({x:x+indent,y:yy,w:w-indent,h:uh,url});return yy+uh+2;}
  link(label,url,x,y,w){const h=this.text(label,x,y,8.2,false,C.blue,w);this.links.push({x,y,w,h,url});return h;}
@@ -92,11 +149,30 @@ function pyramid(p,extra,total,men,women,x,y,w){
  for(let tick=-scale;tick<=scale;tick+=2){const tx=center+bw*tick/scale;p.line(tx,end,tx,end+1.2,C.line,.2);p.text(String(Math.abs(tick)),tx-3,end+1.5,8,false,C.text,6,'center');}
  p.text('%',x+w-5,end+5,7,false,C.text,5,'right');return end+9;
 }
+
+const panoramaLines=['PANORAMA SOCIODEMOGRÁFICO','DE LOS PUEBLOS Y COMUNIDADES','INDÍGENAS Y AFROMEXICANAS','DEL ESTADO DE GUANAJUATO'];
+function headerLayout(name,identification,variant='B',logoRatio=1496/4452){
+ const chosen=variant==='A'?'A':'B',identityWidth=202,identPt=12;
+ let namePt=36,nameLines,identLines=wrap(identification,identityWidth,identPt);
+ do{nameLines=wrap(name,identityWidth,namePt);if(nameLines.length*namePt*1.2/MM+2+identLines.length*identPt*1.2/MM<=34)break;namePt-=.5;}while(namePt>16);
+ const nameH=nameLines.length*namePt*1.2/MM,identH=identLines.length*identPt*1.2/MM,total=nameH+2+identH,identityY=8+(35-total)/2;
+ const panorama={x:chosen==='B'?220:402,w:chosen==='B'?175:181,pt:13.5,lines:panoramaLines};
+ panorama.y=8+(35-panoramaLines.length*panorama.pt*1.2/MM)/2;
+ const logoRegion=chosen==='B'?{x:402,w:181}:{x:220,w:175},logoW=100,logoH=logoW*logoRatio;
+ return {variant:chosen,name:{x:11,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:11,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama,logo:{x:logoRegion.x+(logoRegion.w-logoW)/2,y:8+(35-logoH)/2,w:logoW,h:logoH}};
+}
+
 function render(model,logo=null){
- if(!I)throw Error('No se cargó indicadores.js.');
+ if(!I||!ICONS)throw Error('Faltan indicadores.js o iconografia.js. Sube el generador completo.');
  const p=new PDF(),r=model.record||{},raw=model.raw||{},m=I.build(r,raw,model.extra),get=k=>r[norm(k)]??r[k],name=get('Comunidad / Localidad')||raw.NOM_LOC||'Comunidad',key=get('Clave INEGI')||raw['Clave INEGI'];
- p.rect(0,0,W,3,C.blue);p.text('PANORAMA SOCIODEMOGRÁFICO DE LOS PUEBLOS Y COMUNIDADES INDÍGENAS Y AFROMEXICANAS DEL ESTADO DE GUANAJUATO',11,9,10,true,C.text,475);p.text(name,11,19,36,true,C.blue,460);p.text(`${get('Municipio')||raw.NOM_MUN}, Guanajuato · Clave INEGI: ${key}`,11,36,12,false,C.blue,470);p.line(11,46,583,46,C.sky,1);
- if(logo)logo={...logo,x:498,y:14,w:75,h:75*logo.pxHeight/logo.pxWidth};
+ const identification=`${get('Municipio')||raw.NOM_MUN}, Guanajuato · Clave INEGI: ${key}`;
+ const header=headerLayout(name,identification,model.headerVariant||'B',logo?logo.pxHeight/logo.pxWidth:1496/4452);
+ p.rect(0,0,W,3,C.blue);
+ p.text(name,header.name.x,header.name.y,header.name.pt,true,C.blue,header.name.w);
+ p.text(identification,header.identification.x,header.identification.y,header.identification.pt,false,C.blue,header.identification.w);
+ p.text(header.panorama.lines.join('\n'),header.panorama.x,header.panorama.y,header.panorama.pt,true,C.blue,header.panorama.w,'center');
+ p.line(11,46,583,46,C.sky,.65);
+ if(logo)logo={...logo,...header.logo};
  let x=11,w=202,y=52;
  y=p.title('Breve historia de la comunidad',x,y,w,'book');y+=p.justified(model.history||'Reseña histórica pendiente.',x+2,y+1,11,w-4)+5;
  y=p.title('Territorio y ubicación geográfica',x,y,w,'map');const teamMap=String(key)==='110030008'&&model.mapImage,mapHeight=teamMap?92:72;
@@ -113,12 +189,17 @@ function render(model,logo=null){
  const fb=p.sideCard(...m.fertility,x,fy,half,'',29);const ch=p.text('Población de 12 años y más según situación conyugal',x+half+5,cy,9.5,true,C.text,half);const cb=p.pie(m.marital,raw.P_12YMAS,x+half+5,cy+ch+2,half);p.bounds.push({column:1,bottom:Math.max(fb,cb)});
  x=220;w=175;y=52;const ew=(w-4)/2;
  y=p.title('Vivienda',x,y,w,'housing');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value,highlight]=m.housing[row*2+i];bottom=Math.max(bottom,p.card(label,value,x+i*(ew+4),y,ew,{highlight,minHeight:row===0?17:13,labelFraction:.72}));}y=bottom;}
- m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+1,x+w,y+1,C.line,.25);y+=3;}y+=1;y+=p.text(label,x,y,10.5,true,C.text,w)+1.5;y=p.bars(items,x,y,w,{fixedValues:true});});
- y+=2;y=p.title('Etnicidad',x,y,w);m.ethnicity.forEach(([label,value],i)=>p.tile(label,value,x+(i%2)*(ew+4),y+Math.floor(i/2)*22,ew,21));y+=66;
+ m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+1,x+w,y+1,C.line,.25);y+=3;}y+=1;y+=p.text(label,x,y,10.5,true,C.text,w)+1.5;y=p.bars(items,x,y,w,{});});
+ y+=2;y=p.title('Etnicidad',x,y,w);const ethnicTop=y;let ethnicLeft=y;
+ for(const i of [0,2,3]){const [label,value]=m.ethnicity[i];ethnicLeft=p.tile(label,value,x,ethnicLeft,ew,21)+1;}
+ const [languageLabel,languageValue]=m.ethnicity[1],languageCardBottom=p.tile(languageLabel,languageValue,x+ew+4,ethnicTop,ew,21);
+ const languageCaption=p.text('Población de 3 años y más hablante de lengua indígena según condición de habla española',x+ew+4,languageCardBottom+3,8.5,true,C.text,ew);
+ const ethnicRight=p.languagePie(m.language,x+ew+4,languageCardBottom+3+languageCaption+2,ew);y=Math.max(ethnicLeft,ethnicRight,ethnicTop+66);
+
  y+=1;y=p.title('Desarrollo social',x,y,w,'social');m.social.forEach(([label,value],i)=>p.tile(label,value,x+i*(ew+4),y,ew,13));y+=16;
  const ry=p.title('Religión',x,y,ew,'book'),my=p.title('Migración',x+ew+4,y,ew,'map');const rh=p.text('Población total por grupo religioso',x,ry,9.3,true,C.text,ew);const rb=p.bars(m.religion,x,ry+rh+2,ew,{labelFraction:.62,pt:8.9,step:6});let mb=my;m.migration.forEach(([label,value])=>{mb=p.sideCard(label,value,x+ew+4,mb,ew,'',17);});const migrationBottom=mb-2;p.bounds.push({column:2,bottom:Math.max(rb,mb)});
  x=402;w=181;y=52;const left=78,right=w-left-5,rx=x+left+5,cw=(w-4)/2;
- y=p.title('Discapacidad',x,y,w,'disability');let dy=y;m.disability.forEach(([label,value])=>{dy=p.sideCard(label,value,x,dy,left,'',16);});const dh=p.text('Población con discapacidad por actividad con dificultad',rx,y,9.5,true,C.text,right);const db=p.bars(m.disabilityActivities,rx,y+dh+2,right,{labelFraction:.62,pt:9,step:7,fixedValues:true,thickness:3.3});y=Math.max(dy,db)+3;
+ y=p.title('Discapacidad',x,y,w,'disability');let dy=y;m.disability.forEach(([label,value])=>{dy=p.sideCard(label,value,x,dy,left,'',16);});const dh=p.text('Población con discapacidad por actividad con dificultad',rx,y,9.5,true,C.text,right);const db=p.bars(m.disabilityActivities,rx,y+dh+2,right,{labelFraction:.62,pt:9,step:7,thickness:3.3});y=Math.max(dy,db)+3;
  y=p.title('Afiliación a servicios de salud',x,y,w,'health');let hy=y;m.health.forEach(([label,value,note])=>{hy=p.sideCard(label,value,x,hy,left,note||'',18);});const hb=p.verticalBars(m.institutions,rx,y+2,right,44,{labelPt:7.2,valuePt:8.2,labelsHeight:19});y=Math.max(hy,hb)+3;
  y=p.title('Características económicas',x,y,w,'economy');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value]=m.economy[row*2+i];bottom=Math.max(bottom,p.sideCard(label,value,x+i*(cw+4),y,cw,'',16));}y=bottom;}
  const sh=p.text('PEA según sexo',x,y+1,9.5,true,C.text,cw),oh=p.text('Población de 12 años y más ocupada según sexo',x+cw+4,y+1,9.5,true,C.text,cw),chartY=y+Math.max(sh,oh)+3;
@@ -129,15 +210,16 @@ function render(model,logo=null){
  const ed=p.verticalBars(m.schooling,x,edY,cw,educationHeight,{adaptive:true,labelsHeight:17,labelPt:8.5});p.verticalBars(m.attendance,x+cw+4,edY,cw,educationHeight,{colors:[C.teal],labelsHeight:17,labelPt:8.5});
  p.text('Nota:',x,ed+1,8.5,true,C.text,10);const nh=p.text('Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.',x+9,ed+1,8.5,false,C.text,cw-9);p.bounds.push({column:3,bottom:ed+nh+3});
  const footer=367;if(p.bounds.some(b=>b.bottom>footer-3))throw Error('El contenido supera el área reservada. Revisar distribución: '+JSON.stringify(p.bounds));
+ if(model.referencesGradient!==false)p.gradient(11,365,572,53);
  const refTop=p.title('Fuentes y referencias',11,footer,572,'book');let refBottom=refTop;
  // Two columns in bibliographic order, with APA hanging indent and italic titles.
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
  if(refBottom>417)throw Error('Las referencias exceden el margen inferior.');
- return {bytes:p.finish(logo),bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight}};
+ return {bytes:p.finish(logo),header,bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight}};
 }
 async function imageBytes(src){const image=new Image();image.src=src+(src.includes('?')?'&':'?')+'v='+Date.now();try{await image.decode();}catch{throw Error('No se pudo leer '+src+'. Revisa la carpeta assets, el nombre completo y que el archivo sea una imagen válida.');}const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.98));if(!blob)throw Error('No se pudo preparar la imagen '+src+' para el PDF.');return {bytes:new Uint8Array(await blob.arrayBuffer()),pxWidth:canvas.width,pxHeight:canvas.height};}
-async function download(model){const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');if(String(model.record[norm('Clave INEGI')]??model.record['Clave INEGI'])==='110030008')model={...model,mapImage:await imageBytes('assets/mapa-alonso-yanez.jpeg')};const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
-const api={render,download,refs,median,labelLines,labelLimit,cardLayout,setWidths:(normal,bold)=>{widths.normal=normal;widths.bold=bold;}};
+async function download(model){const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');if(String(model.record[norm('Clave INEGI')]??model.record['Clave INEGI'])==='110030008')model={...model,mapImage:await imageBytes('assets/mapa-alonso-yanez.png')};const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
+const api={render,download,headerLayout,refs,median,labelLines,labelLimit,cardLayout,setWidths:(normal,bold)=>{widths.normal=normal;widths.bold=bold;}};
 root.SDH_PDF=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
 
