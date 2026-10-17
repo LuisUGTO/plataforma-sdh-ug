@@ -45,7 +45,7 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 .section-pair .pie-legend i,#etnicidad .pie-legend i{grid-column:1;margin-top:1mm}
 .section-pair .pie-legend strong,#etnicidad .pie-legend strong{grid-column:2;grid-row:1;font-size:9.3pt;text-align:right;margin:0;line-height:1.2}
 .section-pair .pie-legend span,#etnicidad .pie-legend span{grid-column:3;grid-row:1;max-width:none;line-height:1.2}
-#etnicidad .pie{min-height:32mm;align-items:center}#etnicidad .pie-legend{display:grid;gap:3mm}#etnicidad .pie-legend div{margin:0;min-height:0}
+#etnicidad .pie{min-height:32mm;align-items:center}#etnicidad .pie-legend{display:grid;gap:3mm}#etnicidad .pie-legend div{margin:0;min-height:0}#etnicidad .language-placeholder+.pie-legend div{grid-template-columns:2mm 16mm minmax(0,1fr)}#etnicidad .language-placeholder+.pie-legend strong{white-space:nowrap}
 
 /* Carlos, 13 October: values follow each bar end, vertically centered. */
 .bar .track{position:relative}

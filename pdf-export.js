@@ -93,7 +93,7 @@ class PDF{
  }
  sideCard(label,value,x,y,w,note='',minHeight=18){const l=cardLayout(label,value,w,minHeight,note);this.rect(x,y,w,l.h,'#FFFFFF',C.line,.2);this.text(l.lines.join('\n'),x+2,y+1.5,LABEL_PT,true,C.text,l.labelWidth);this.text(value,x+w-2-l.valueWidth,y+(l.h-l.valueLines.length*l.valuePt*1.2/MM)/2,l.valuePt,true,C.blue,l.valueWidth,'right');if(note)this.text(l.noteLines.join('\n'),x+2,y+l.labelHeight+3.5,9,false,C.text,l.labelWidth);return y+l.h+2;}
  pieLegend(items,x,y,w,opts={}){
-  const valueWidth=12,labelX=x+16.5,labelWidth=w-16.5,gap=3;
+  const valueWidth=opts.valueWidth||12,labelX=x+4.5+valueWidth,labelWidth=w-4.5-valueWidth,gap=3;
   const rows=items.map(([label,value,color])=>{const text=opts.language?label.replace('Habla lengua indígena y','Habla lengua indígena\ny'):label,vh=wrap(value,valueWidth,9.3,true).length*9.3*1.2/MM,lh=wrap(text,labelWidth,9.2,false).length*9.2*1.2/MM;return {text,value,color,h:Math.max(lh,vh)};});
   const totalH=rows.reduce((s,r)=>s+r.h,0)+Math.max(0,rows.length-1)*gap;
   let ly=opts.language?y+Math.max(0,(32-totalH)/2):y,bottom=y;
@@ -110,7 +110,7 @@ class PDF{
   if(model.status==='ready')return this.pie(model.items,model.total,x,y,w,{legendGap:4,language:true});
   this.circle(x+12,y+16,11.8,'#F2F4F7',C.line);this.text(model.status==='empty'?'Sin hablantes':'Datos pendientes',x+1,y+12.5,8,false,C.text,22,'center');
   const entries=model.items.map(([label,n],i)=>[label,model.status==='empty'?'No aplica':n===null||!(model.total>0)?'N/D':pct(div(n,model.total)),[C.teal,C.purple][i]]);
-  const bottom=this.pieLegend(entries,x+28,y,w-28,{language:true});return Math.max(y+32,bottom);
+  const bottom=this.pieLegend(entries,x+28,y,w-28,{language:true,valueWidth:model.status==='empty'?16:12});return Math.max(y+32,bottom);
  }
  tile(label,value,x,y,w,h=21){const l=cardLayout(label,value,w,h);this.rect(x,y,w,l.h,'#FFFFFF',C.line,.2);this.text(l.lines.join('\n'),x+2,y+1.5,LABEL_PT,true,C.text,l.labelWidth);this.text(value,x+w-2-l.valueWidth,y+(l.h-l.valueLines.length*l.valuePt*1.2/MM)/2,l.valuePt,true,C.blue,l.valueWidth,'right');return y+l.h;}
  reference(ref,x,y,w){const pt=9.7,step=pt*1.2/MM,indent=12.7;const [author,title,tail,url]=ref;const tokens=[...author.split(/\s+/).map(t=>[t,false]),...title.split(/\s+/).map(t=>[t,'italic']),...tail.split(/\s+/).filter(Boolean).map(t=>[t,false])];let line=[],lineWidth=0,yy=y,first=true;const flush=()=>{let xx=x+(first?0:indent);for(const [word,style]of line){this.text(word,xx,yy,pt,style,C.text);xx+=tw(word+' ',pt,style);}yy+=step;first=false;line=[];lineWidth=0;};for(const token of tokens){const width=tw(token[0]+' ',pt,token[1]);if(line.length&&lineWidth+width>w-(first?0:indent))flush();line.push(token);lineWidth+=width;}if(line.length)flush();this.text(url,x+indent,yy,8.7,false,C.text,w-indent);const uh=wrap(url,w-indent,8.7).length*8.7*1.2/MM;this.links.push({x:x+indent,y:yy,w:w-indent,h:uh,url});return yy+uh+2;}
