@@ -10,7 +10,7 @@ function percentage(v){if(missing(v)||String(v).includes('*'))return null;const 
 function display(v,digits=0){if(String(v).includes('*'))return 'Dato reservado';const n=number(v);return n===null?'Dato no disponible':n.toLocaleString('es-MX',{minimumFractionDigits:digits,maximumFractionDigits:digits});}
 function percentText(v){const p=percentage(v);return p===null?(String(v).includes('*')?'Dato reservado':'Dato no disponible'):p.toFixed(1)+'%';}
 function parseCSV(text){let rows=[],row=[],v='',quote=false;const separator=text.split(/\r?\n/)[0].includes(';')?';':',';for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(quote&&text[i+1]==='"'){v+='"';i++;}else quote=!quote;}else if(c===separator&&!quote){row.push(v);v='';}else if((c==='\n'||c==='\r')&&!quote){if(c==='\r'&&text[i+1]==='\n')i++;row.push(v);if(row.some(Boolean))rows.push(row);row=[];v='';}else v+=c;}if(quote)throw Error('El CSV tiene comillas sin cerrar.');if(v||row.length){row.push(v);rows.push(row);}return rows;}
-function recordsFromRows(rows,labels=[]){const isKey=c=>norm(c)==='clave inegi';let header=labels;let start=0;const h=rows.findIndex(r=>r.some(isKey));if(h>=0){header=rows[h];start=h+1;}if(!header.some(isKey))throw Error('No se encontró el encabezado Clave INEGI.');const key=header.findIndex(isKey);const out=rows.slice(start).filter(r=>/^11\d{7}$/.test(String(r[key]??'').trim().padStart(9,'0'))).map(r=>Object.fromEntries(header.map((k,i)=>[String(k).trim(),r[i]??null])));if(!out.length)throw Error('No se encontraron comunidades de Guanajuato.');return out;}
+function recordsFromRows(rows,labels=[]){const isKey=c=>norm(c)==='clave inegi'||norm(c).endsWith(' clave inegi');let header=labels;let start=0;const h=rows.findIndex(r=>r.some(isKey));if(h>=0){header=rows[h];start=h+1;}if(!header.some(isKey))throw Error('No se encontró el encabezado Clave INEGI.');const key=header.findIndex(isKey);const out=rows.slice(start).filter(r=>/^11\d{7}$/.test(String(r[key]??'').trim().padStart(9,'0'))).map(r=>Object.fromEntries(header.map((k,i)=>[i===key?'Clave INEGI':String(k).trim(),r[i]??null])));if(!out.length)throw Error('No se encontraron comunidades de Guanajuato.');return out;}
 function canonical(records){return records.map(r=>Object.fromEntries(Object.entries(r).map(([k,v])=>[norm(k),v])));}
 const get=(r,key)=>r[norm(key)];
 function metric(label,value,digits=0,highlight=false){const text=display(value,digits);return `<div class="metric${highlight?' highlight':''}"><span>${esc(label)}</span><strong${number(value)===null?' class="unavailable"':''}>${esc(text)}</strong></div>`;}
@@ -22,7 +22,7 @@ const reunion=window.SDH_REUNION||{iter:{},historia:{}};
 const H=window.SDH_HISTORIAS_API||(typeof require==='function'?require('./historias.js'):null);
 if(typeof document!=='undefined'&&(!H||!window.SDH_INDICADORES||!window.SDH_ICONOGRAFIA||!window.SDH_PDF)){$('estado').textContent='Faltan archivos del generador. Sube el paquete completo, incluidos historias.js, indicadores.js e iconografia.js, y recarga con Ctrl+F5.';$('comunidad').innerHTML='<option>Archivos del generador incompletos</option>';return;}
 let histories=H.fromJSON(window.SDH_HISTORIAS||{comunidades:{}}),historyImported=false;
-const historyFor=r=>histories[String(get(r,'Clave INEGI'))]?.texto||'Reseña histórica pendiente.';
+const historyFor=r=>histories[String(get(r,'Clave INEGI'))]?.texto||'Rese\u00f1a hist\u00f3rica pendiente.';
 function rawFor(r){return reunion.iter[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]||{};}
 function supplement(r){
  const raw=rawFor(r);
