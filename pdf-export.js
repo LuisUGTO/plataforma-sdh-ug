@@ -93,8 +93,11 @@ class PDF{
  }
  sideCard(label,value,x,y,w,note='',minHeight=18){const l=cardLayout(label,value,w,minHeight,note);this.rect(x,y,w,l.h,'#FFFFFF',C.line,.2);this.text(l.lines.join('\n'),x+2,y+1.5,LABEL_PT,true,C.text,l.labelWidth);this.text(value,x+w-2-l.valueWidth,y+(l.h-l.valueLines.length*l.valuePt*1.2/MM)/2,l.valuePt,true,C.blue,l.valueWidth,'right');if(note)this.text(l.noteLines.join('\n'),x+2,y+l.labelHeight+3.5,9,false,C.text,l.labelWidth);return y+l.h+2;}
  pieLegend(items,x,y,w,opts={}){
-  let ly=y+(opts.language?2:0),bottom=y;const valueWidth=12,labelX=x+16.5,labelWidth=w-16.5;
-  items.forEach(([label,value,color])=>{this.circle(x+.8,ly+1.8,1,color);const vh=this.text(value,x+3,ly,9.3,true,C.text,valueWidth,'right');const text=opts.language?label.replace('Habla lengua indígena y','Habla lengua indígena\ny'):label;const lh=this.text(text,labelX,ly,9.2,false,C.text,labelWidth);bottom=Math.max(bottom,ly+lh,ly+vh);ly+=opts.language?16:Math.max(lh,vh)+3;});return bottom;
+  const valueWidth=12,labelX=x+16.5,labelWidth=w-16.5,gap=3;
+  const rows=items.map(([label,value,color])=>{const text=opts.language?label.replace('Habla lengua indígena y','Habla lengua indígena\ny'):label,vh=wrap(value,valueWidth,9.3,true).length*9.3*1.2/MM,lh=wrap(text,labelWidth,9.2,false).length*9.2*1.2/MM;return {text,value,color,h:Math.max(lh,vh)};});
+  const totalH=rows.reduce((s,r)=>s+r.h,0)+Math.max(0,rows.length-1)*gap;
+  let ly=opts.language?y+Math.max(0,(32-totalH)/2):y,bottom=y;
+  rows.forEach(r=>{this.circle(x+.8,ly+1.8,1,r.color);const vh=this.text(r.value,x+3,ly,9.3,true,C.text,valueWidth,'right');const lh=this.text(r.text,labelX,ly,9.2,false,C.text,labelWidth);bottom=Math.max(bottom,ly+lh,ly+vh);ly+=r.h+gap;});return bottom;
  }
  pie(items,total,x,y,w,opts={}){
   const vals=items.map(a=>num(a[1]));total=num(total);if(!total||vals.some(v=>v===null)||vals.reduce((a,b)=>a+b,0)>total)return this.card('Distribución','Datos pendientes',x,y,w,{small:true});
