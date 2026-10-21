@@ -39,6 +39,8 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 #etnicidad .pie-legend div{display:grid;grid-template-columns:2mm 1fr;gap:.5mm 1.5mm;font-size:9.2pt;margin:0 0 2mm}
 #etnicidad .pie-legend span{max-width:none}#etnicidad .pie-legend strong{grid-column:2;margin:0;font-size:11pt}
 .language-placeholder{width:24mm;height:24mm;border:.2mm solid var(--line);border-radius:50%;background:#F2F4F7;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:2mm;text-align:center;font-size:8pt}
+.language-empty{height:32mm;display:flex;align-items:center;justify-content:center;padding:0 2mm;text-align:center;font-size:9.2pt;line-height:1.2}
+.community-map{background:#fff;border:0}
 
 /* INEGI-style pie legends: marker, percentage, label on the same row. */
 .section-pair .pie-legend div,#etnicidad .pie-legend div{display:grid;grid-template-columns:2mm 12mm minmax(0,1fr);column-gap:1.5mm;align-items:start;font-size:9.2pt}
