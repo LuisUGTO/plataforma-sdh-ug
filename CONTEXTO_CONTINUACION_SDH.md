@@ -60,6 +60,17 @@ Los relatos de estado Git que Luis pegó no fueron uniformes: en distintos momen
 7. **Validar salida:** navegador, PDF A2 de Alonso y al menos una comunidad con distribución disponible, una con distribución no calculable y una con datos de edad/mapa especiales. Confirmar una página, tamaño A2, leyendas, logo, mapa y que el dato fuente no haya cambiado.
 8. Entregar a Luis un reporte corto de archivos tocados, decisiones pendientes y comprobaciones. Commit/push solo si Luis lo autoriza expresamente.
 
+## Pendientes comunicados por Luis el 20 de octubre de 2026
+
+- En la próxima actualización, eliminar el degradado azul del pie de la infografía, en fuentes y referencias, y dejar el fondo completamente blanco tanto en la vista web como en el PDF. No aplicar todavía; conservar medidas A2 y estructura.
+- Luis informó que Carlos ya explicó el caso de San Agustín y que el propio Carlos entregará la solución. Mantener pendiente la integración del dato/criterio definitivo; no estimar ni sustituir datos de otra localidad.
+- Audio recibido: `C:/Users/luisa/Downloads/WhatsApp Ptt 2026-10-20 at 7.58.34 PM.ogg`. Su contenido debe revisarse como insumo, no como autorización para cambiar el generador. El usuario pidió anotar pendientes y revisar el audio sin generar ni modificar la infografía por ahora.
+- Audio revisado mediante transcripción automática local (duración aproximada: 1 min 37 s). Carlos confirma que revisará la entrega y comunicará detalles que encuentre.
+- **San Agustín, criterio explicado en el audio:** preparar la pirámide con **cuatro grandes grupos de edad**, que Carlos enviará. Los intervalos disponibles son desiguales (menciona grupos de dos, cinco y tres años), por lo que no permite construir grupos quinquenales uniformes con esos insumos. Aún faltan límites de los cuatro grupos, conteos y la fuente definitiva. Esto no proporciona una edad mediana ni autoriza estimarla.
+- **San Agustín, territorio pendiente:** Carlos todavía debe decidir entre usar la unidad censal completa o únicamente las manzanas seleccionadas para el polígono de San Agustín, después de consultar con el equipo correspondiente. La sigla de la unidad y el nombre del área consultada no se distinguen con certeza en la transcripción; confirmar esos nombres y el territorio definitivo con Carlos. No unir todavía datos ni cambiar la ficha.
+- **Encabezado:** Carlos sigue esperando la propuesta del área de diseño. Si no la recibe, plantea avanzar con el encabezado que ya tenían pensado. Esperar su definición concreta y la siguiente instrucción de Luis; conservar por ahora el encabezado actual.
+- Carlos plantea cerrar estos pendientes para iniciar después la producción masiva. El audio no autoriza al asistente a generar fichas masivamente, publicar ni cambiar el código en esta revisión.
+
 ## Límites para el asistente del chat nuevo
 
 - Luis usó Antigravity para cambios directos al repositorio; aquí puede pedir revisión técnica y, dentro del proyecto local, cambios concretos si así lo decide.
