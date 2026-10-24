@@ -63,7 +63,7 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 .header-brand{grid-column:3;display:flex;justify-content:center;align-items:center}
 .doc-header .header-brand img{position:static;width:100mm;height:auto;max-height:35mm;object-fit:contain}
 .block h3 .section-icon{width:8.4mm;height:8.4mm;flex-shrink:0;padding:0;background:var(--blue);object-fit:contain}
-.sources{background:linear-gradient(to bottom,#FFFFFF 0%,#E9F4FB 100%);padding:2mm 0;margin-top:3mm}
+.sources{background:#FFFFFF;padding:2mm 0;margin-top:3mm}
 .header-identity,.header-panorama,.header-brand{transform:translateY(-2.675mm)}
 .block h3{position:relative;min-height:9mm;line-height:7mm;padding-left:10mm}
 .block h3 .section-icon{position:absolute;left:0;top:-.7mm}

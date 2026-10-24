@@ -214,7 +214,7 @@ function render(model,logo=null){
  const ed=p.verticalBars(m.schooling,x,edY,cw,educationHeight,{adaptive:true,labelsHeight:17,labelPt:8.5});p.verticalBars(m.attendance,x+cw+4,edY,cw,educationHeight,{colors:[C.teal],labelsHeight:17,labelPt:8.5});
  p.text('Nota:',x,ed+1,8.5,true,C.text,10);const nh=p.text('Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.',x+9,ed+1,8.5,false,C.text,cw-9);p.bounds.push({column:3,bottom:ed+nh+3});
  const footer=367;if(p.bounds.some(b=>b.bottom>footer-3))throw Error('El contenido supera el área reservada. Revisar distribución: '+JSON.stringify(p.bounds));
- if(model.referencesGradient!==false)p.gradient(11,365,572,53);
+ // El pie conserva el fondo blanco de la página, sin modificar su distribución.
  const refTop=p.title('Fuentes y referencias',11,footer,572,'book');let refBottom=refTop;
  // Two columns in bibliographic order, with APA hanging indent and italic titles.
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}

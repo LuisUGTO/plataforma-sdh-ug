@@ -62,7 +62,7 @@ Los relatos de estado Git que Luis pegó no fueron uniformes: en distintos momen
 
 ## Pendientes comunicados por Luis el 20 de octubre de 2026
 
-- En la próxima actualización, eliminar el degradado azul del pie de la infografía, en fuentes y referencias, y dejar el fondo completamente blanco tanto en la vista web como en el PDF. No aplicar todavía; conservar medidas A2 y estructura.
+- Eliminar el degradado azul del pie de la infografía y dejar el fondo completamente blanco en la vista web y el PDF. **Aplicado el 23 de octubre de 2026**, al integrar los seis mapas faltantes, conservando medidas A2 y estructura.
 - Luis informó que Carlos ya explicó el caso de San Agustín y que el propio Carlos entregará la solución. Mantener pendiente la integración del dato/criterio definitivo; no estimar ni sustituir datos de otra localidad.
 - Audio recibido: `C:/Users/luisa/Downloads/WhatsApp Ptt 2026-10-20 at 7.58.34 PM.ogg`. Su contenido debe revisarse como insumo, no como autorización para cambiar el generador. El usuario pidió anotar pendientes y revisar el audio sin generar ni modificar la infografía por ahora.
 - Audio revisado mediante transcripción automática local (duración aproximada: 1 min 37 s). Carlos confirma que revisará la entrega y comunicará detalles que encuentre.
@@ -70,6 +70,14 @@ Los relatos de estado Git que Luis pegó no fueron uniformes: en distintos momen
 - **San Agustín, territorio pendiente:** Carlos todavía debe decidir entre usar la unidad censal completa o únicamente las manzanas seleccionadas para el polígono de San Agustín, después de consultar con el equipo correspondiente. La sigla de la unidad y el nombre del área consultada no se distinguen con certeza en la transcripción; confirmar esos nombres y el territorio definitivo con Carlos. No unir todavía datos ni cambiar la ficha.
 - **Encabezado:** Carlos sigue esperando la propuesta del área de diseño. Si no la recibe, plantea avanzar con el encabezado que ya tenían pensado. Esperar su definición concreta y la siguiente instrucción de Luis; conservar por ahora el encabezado actual.
 - Carlos plantea cerrar estos pendientes para iniciar después la producción masiva. El audio no autoriza al asistente a generar fichas masivamente, publicar ni cambiar el código en esta revisión.
+
+## Integración de mapas del 23 de octubre de 2026
+
+- Se recibieron y copiaron sin alterar los seis PNG de `C:/Users/luisa/Downloads/Mapas de 6 comunidades/` a `assets/Mapas/`. Sus claves son `110040065`, `110040071`, `110090001`, `110140255`, `110280064` y `110330110`; cada imagen mide 3507 × 2480 píxeles.
+- `mapas.js` registra las 107 claves de la base. Alonso Yáñez conserva el mapa piloto aprobado en `assets/mapa-alonso-yanez.png`; su variante de `assets/Mapas/` no lo sustituye.
+- La incorporación del mapa de San Agustín no valida ni cambia los datos demográficos, la edad mediana ni los cuatro grupos etarios pendientes de Carlos.
+- Se actualizan en `index.html` las referencias de caché de mapas, estilos y exportador. No se cambia el encabezado ni se hace commit, push o publicación.
+- Validación: 107 claves con mapa y comparación de estructura de las 107 fichas; ocho descargas reales en Chrome (los seis mapas nuevos, Alonso y El Rucio), con PDF de una página A2 de 594 × 420 mm, seis enlaces de referencias y fondo blanco. Los seis PNG copiados coinciden byte a byte con sus originales. Pruebas realizadas con el respaldo local, sin consultar la hoja en vivo.
 
 ## Límites para el asistente del chat nuevo
 
