@@ -67,3 +67,15 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 .header-identity,.header-panorama,.header-brand{transform:translateY(-2.675mm)}
 .block h3{position:relative;min-height:9mm;line-height:7mm;padding-left:10mm}
 .block h3 .section-icon{position:absolute;left:0;top:-.7mm}
+
+/* Align column endings using space between sections, without scaling charts. */
+.layout{align-items:stretch}
+.column{display:flex;flex-direction:column;justify-content:space-between;gap:3mm}
+.column>.block{margin-bottom:0}
+#etnicidad .ethnicity-left{gap:.5mm}
+#etnicidad .metric{min-height:19.5mm;grid-template-columns:minmax(0,1fr) minmax(26mm,max-content)}
+#etnicidad .pie{min-height:28mm}
+.language-empty{height:28mm}
+.territory-data{grid-template-columns:repeat(2,minmax(0,1fr))}
+.territory-data .metric{grid-template-columns:minmax(16mm,1fr) minmax(26mm,3fr)}
+.territory-data .metric strong{min-width:0;overflow-wrap:break-word}
