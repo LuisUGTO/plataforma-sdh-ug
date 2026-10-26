@@ -22,7 +22,7 @@ const reunion=window.SDH_REUNION||{iter:{},historia:{}};
 const H=window.SDH_HISTORIAS_API||(typeof require==='function'?require('./historias.js'):null);
 if(typeof document!=='undefined'&&(!H||!window.SDH_INDICADORES||!window.SDH_ICONOGRAFIA||!window.SDH_PDF||!window.SDH_MAPAS)){$('estado').textContent='Faltan archivos del generador. Sube el paquete completo, incluidos historias.js, indicadores.js, iconografia.js y mapas.js, y recarga con Ctrl+F5.';$('comunidad').innerHTML='<option>Archivos del generador incompletos</option>';return;}
 let histories=H.fromJSON(window.SDH_HISTORIAS||{comunidades:{}}),historyImported=false;
-const historyFor=r=>histories[String(get(r,'Clave INEGI'))]?.texto||'Rese\u00f1a hist\u00f3rica pendiente.';
+const historyFor=r=>histories[String(get(r,'Clave INEGI'))]?.texto||'Introducci\u00f3n pendiente.';
 function rawFor(r){return reunion.iter[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]||{};}
 function supplement(r){
  const raw=rawFor(r);
@@ -77,15 +77,21 @@ function reunionRender(r){
  $('asistencia').innerHTML='<h4>Asistencia escolar</h4>'+verticalChart(m.attendance,'Asistencia escolar',{colors:['#008E95']});
  $('referencias').innerHTML=(window.SDH_PDF?.refs||[]).map(([author,title,tail,url])=>`<p>${esc(author)} <em>${esc(title)}</em> ${esc(tail)} <a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a></p>`).join('');
 }
-function historyStatus(){if($('historia-estado'))$('historia-estado').textContent=`${Object.keys(histories).length} historias disponibles; las demás conservan su espacio pendiente.`;}
+async function importFile(id,consume){
+ const input=$(id),file=input.files?.[0];if(!file)return;
+ try{await consume(await file.text());}
+ catch(error){status('No se pudo importar el archivo: '+error.message);}
+ finally{input.value='';}
+}
+function historyStatus(){if($('historia-estado'))$('historia-estado').textContent=`${Object.keys(histories).length} introducciones disponibles.`;}
 function importHistories(text){const added=H.fromRows(parseCSV(text),records.map(r=>String(get(r,'Clave INEGI'))));histories={...histories,...added};historyImported=true;historyStatus();if(selected)render();return Object.keys(added).length;}
-function downloadHistoryTemplate(){const blob=new Blob([H.csv(records,histories)],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Historias_comunidades_SDH.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
+function downloadHistoryTemplate(){const blob=new Blob([H.csv(records,histories)],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Introducciones_comunidades_SDH.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);}
 async function loadHistories(){
  try{const data=H.fromJSON(await json('historias.json?v='+Date.now()));if(!historyImported)histories=data;}catch{/* Se conserva el respaldo del paquete. */}
  if(historyImported)return;
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);let foundCSV=false;
  try{const response=await fetch('historias.csv?v='+Date.now(),{signal:controller.signal});if(response.ok){foundCSV=true;const text=await response.text(),data=H.fromRows(parseCSV(text),records.map(r=>String(get(r,'Clave INEGI'))));if(!historyImported)histories={...histories,...data};}}
- catch(error){if(foundCSV)status('No se cargó el CSV de historias: '+error.message);}
+ catch(error){if(foundCSV)status('No se cargó el CSV de introducciones: '+error.message);}
  finally{clearTimeout(timer);historyStatus();if(selected)render();}
 }
 function dms(value){const m=String(value||'').match(/(\d+)[°º]\s*(\d+)'\s*([\d.]+)"\s*([NSEW])/);return m?(Number(m[1])+Number(m[2])/60+Number(m[3])/3600)*(/[SW]/.test(m[4])?-1:1):null;}
@@ -200,7 +206,7 @@ if(typeof document!=='undefined'){
   $('extra').addEventListener('change',()=>importFile('extra',t=>{const x=JSON.parse(t);if(!x.comunidades||Array.isArray(x.comunidades)||typeof x.comunidades!=='object')throw Error('Falta el objeto comunidades.');extras={...extras,...x.comunidades};render();}));
   $('geo').addEventListener('change',()=>importFile('geo',t=>{geometry=validGeometry(JSON.parse(t));render();}));
   $('exportar').addEventListener('click',exportPDF);
-  $('historias-csv').addEventListener('change',()=>importFile('historias-csv',t=>{const count=importHistories(t);status(`${count} historias incorporadas para esta sesión.`);}));
+  $('historias-csv').addEventListener('change',()=>importFile('historias-csv',t=>{const count=importHistories(t);status(`${count} introducciones incorporadas para esta sesión.`);}));
   $('historias-plantilla').addEventListener('click',downloadHistoryTemplate);historyStatus();
   Promise.allSettled([json('complementos.json').then(x=>{extras={...extras,...(x.comunidades??{})};}),json('guanajuato-municipios.geojson').then(x=>{geometry=validGeometry(x);}).catch(()=>json(CONFIG.geoUrl).then(x=>{geometry=validGeometry(x);})).catch(()=>{})]).then(()=>{if(selected)render();});if(typeof SDH_RESPALDO!=='undefined'&&Array.isArray(SDH_RESPALDO.records)){useRecords(SDH_RESPALDO.records,`Copia de consulta del ${SDH_RESPALDO.fechaConsulta} · pendiente de actualización en línea`);}load();loadHistories();
 }

@@ -178,7 +178,7 @@ function render(model,logo=null){
  p.line(11,46,583,46,C.sky,.65);
  if(logo)logo={...logo,...header.logo};
  let x=11,w=202,y=52;
- y=p.title('Breve historia de la comunidad',x,y,w,'book');y+=p.justified(model.history||'Rese\u00f1a hist\u00f3rica pendiente.',x+2,y+1,11,w-4)+5;
+ y=p.title('Introducción',x,y,w,'historia');y+=p.justified(model.history||'Introducci\u00f3n pendiente.',x+2,y+1,11,w-4)+5;
  y=p.title('Territorio y ubicación geográfica',x,y,w,'map');const teamMap=model.mapImage,mapHeight=String(key)==='110030008'&&teamMap?92:72;
  if(teamMap){const iw=Math.min(w,mapHeight*model.mapImage.pxWidth/model.mapImage.pxHeight);p.image(model.mapImage,x+(w-iw)/2,y,iw,iw*model.mapImage.pxHeight/model.mapImage.pxWidth);}else drawMap(p,model.geometry,raw,key,name,x,y,w,mapHeight);y+=mapHeight+3;
  const gw=(w-3)/2,geo=[['Municipio',get('Municipio')||raw.NOM_MUN||'Dato no disponible'],['Altitud',num(raw.ALTITUD)===null?'Dato no disponible':fmt(raw.ALTITUD)+' m'],['Latitud',raw.LATITUD||'Dato no disponible'],['Longitud',raw.LONGITUD||'Dato no disponible']];
