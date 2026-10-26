@@ -85,16 +85,16 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 @font-face{font-family:SDHVollkorn;src:url('assets/fuentes/Vollkorn-ExtraBold.ttf') format('truetype');font-weight:800;font-display:block}
 @font-face{font-family:SDHHelveticaLight;src:url('assets/fuentes/HelveticaNeueLTStd-Light.otf') format('opentype');font-weight:300;font-display:block}
 @font-face{font-family:SDHHelveticaRoman;src:url('assets/fuentes/HelveticaNeueLTStd-Roman.otf') format('opentype');font-weight:400;font-display:block}
-/* Carlos's proposal: full-width blue panel, rounded end and separate title/logo. */
+/* Approved header: content-aligned margins, shorter blue panel and horizontal logo. */
 .sheet{border-top:0;padding-top:0}
 .doc-header.header-propuesta{display:block;width:594mm;height:46mm;margin:0 0 6mm -11mm;border:0}
-.header-propuesta::before{content:'';position:absolute;left:0;top:0;width:268mm;height:43mm;border-radius:0 21.5mm 21.5mm 0;background:var(--blue)}
-.header-propuesta::after{content:'';position:absolute;left:0;top:40mm;width:594mm;height:3.5mm;background:var(--blue)}
+.header-propuesta::before{content:'';position:absolute;left:11mm;top:0;width:225mm;height:43mm;border-radius:0 21.5mm 21.5mm 0;background:var(--blue)}
+.header-propuesta::after{content:'';position:absolute;left:11mm;top:40mm;width:572mm;height:3.5mm;background:var(--blue)}
 .header-propuesta .header-identity,.header-propuesta .header-panorama,.header-propuesta .header-brand{position:absolute;transform:none;font-kerning:none;font-variant-ligatures:none}
-.header-propuesta .header-identity{left:11.5mm;width:235mm}
+.header-propuesta .header-identity{left:22.5mm;width:197mm}
 .doc-header.header-propuesta .header-identity h2{font:800 34pt/1.2 SDHVollkorn,serif;color:#fff;margin:0 0 2mm}
 .doc-header.header-propuesta #identificacion{font:400 14pt/1.2 SDHHelveticaRoman,sans-serif;color:var(--pale)}
-.header-propuesta .header-panorama{left:302.5mm;width:232mm;height:36mm;text-align:left;font:300 24pt/1.2 SDHHelveticaLight,sans-serif}
+.header-propuesta .header-panorama{left:260mm;width:202mm;height:36mm;text-align:left;font:300 24pt/1.2 SDHHelveticaLight,sans-serif}
 .header-propuesta .header-panorama span{position:absolute;left:0;width:100%}
 .header-propuesta .header-panorama span:first-child{font-family:SDHVollkorn,serif;font-weight:800;margin:0}
 .doc-header.header-propuesta .header-brand img{width:100%;height:100%;max-height:none;object-fit:contain}
@@ -105,7 +105,9 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 .sheet{font-family:SDHHelvetica,sans-serif;font-kerning:none;font-variant-ligatures:none}
 
 #economia .economy-note{margin:1mm 0;font-size:8.5pt;line-height:1.2}
-#composicion-nota{margin:2mm 0 0;font-weight:700}
+#composicion-nota{margin:2mm 0 0}
+.note{font-weight:400}
+.note b,.note strong{font-weight:700}
 #servicios .bar,#bienes .bar,#tic .bar{min-height:4.32mm}
 #discapacidad .metric{min-height:15mm}
 #salud .metric{min-height:16mm}

@@ -48,6 +48,22 @@ class PDF{
   for(let i=0;i<lines.length;i++){let dx=align==='right'?width-tw(lines[i],pt,bold):align==='center'?(width-tw(lines[i],pt,bold))/2:0;this.cmd.push(`BT /${bold==='headline'?'F4':bold==='support'?'F5':bold==='identity'?'F6':bold==='italic'?'F3':bold?'F2':'F1'} ${pt} Tf ${rgb(color)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-y-i*step)-pt/MM)*MM} Tm <${hex(lines[i])}> Tj ET`);}
   return lines.length*step;
  }
+ note(s,x,y,pt=8.5,color=C.text,width=1000){
+  const match=String(s??'').match(/^\s*(Nota:)(?:\s+|$)/);
+  if(!match)return this.text(s,x,y,pt,false,color,width);
+  const label=match[1],offset=tw(label,pt,true)+tw(' ',pt),step=pt*1.2/MM,lines=[];
+  let line='',first=true;
+  for(const paragraph of String(s).slice(match[0].length).split(/\r?\n/)){
+   for(const word of paragraph.split(/\s+/).filter(Boolean)){
+    const candidate=line?line+' '+word:word;
+    if(line&&tw(candidate,pt)>width-(first?offset:0)){lines.push(line);line=word;first=false;}else line=candidate;
+   }
+   lines.push(line);line='';first=false;
+  }
+  this.text(label,x,y,pt,true,color);
+  lines.forEach((text,i)=>{if(text)this.text(text,x+(i?0:offset),y+i*step,pt,false,color,width-(i?0:offset)+.001);});
+  return Math.max(1,lines.length)*step;
+ }
  rotatedText(s,x,y,pt=8.5){this.cmd.push(`BT /F2 ${pt} Tf ${rgb(C.text)} rg 0 1 -1 0 ${x*MM} ${(H-y)*MM} Tm <${hex(s)}> Tj ET`);}
  justified(s,x,y,pt,width){const lines=wrap(s,width,pt),step=pt*1.35/MM;lines.forEach((line,i)=>{const spaces=(line.match(/ /g)||[]).length,wordSpace=i<lines.length-1&&spaces?(width-tw(line,pt))*MM/spaces:0;this.cmd.push(`BT /F1 ${pt} Tf ${rgb(C.text)} rg ${wordSpace.toFixed(3)} Tw 1 0 0 1 ${x*MM} ${(H-y-i*step)*MM-pt} Tm <${hex(line)}> Tj 0 Tw ET`);});return lines.length*step;}
  rect(x,y,w,h,fill=null,stroke=null,lw=.25){this.cmd.push(`q ${fill?rgb(fill)+' rg ':''}${stroke?rgb(stroke)+' RG '+(lw*MM)+' w ':''}${x*MM} ${(H-y-h)*MM} ${w*MM} ${h*MM} re ${fill&&stroke?'B':fill?'f':'S'} Q`);}
@@ -172,19 +188,19 @@ function pyramid(p,extra,total,men,women,x,y,w){
  p.text('%',x+w-5,end+5,7,false,C.text,5,'right');return end+9;
 }
 
-// Proportions measured from Carlos's proposal, within the existing A2 header.
+// Approved header: content-aligned margins and the horizontal institutional logo.
 const panoramaLines=['PANORAMA SOCIODEMOGRÁFICO','DE LOS PUEBLOS Y COMUNIDADES INDÍGENAS Y','AFROMEXICANAS DEL ESTADO DE GUANAJUATO'];
-function headerLayout(name,identification,variant='Carlos',logoRatio=1375/1465){
+function headerLayout(name,identification,variant='Carlos',logoRatio=1496/4452){
  if(!FONTS?.headline||!FONTS?.support||!FONTS?.identity)throw Error('Faltan las tipografías oficiales del encabezado. Revisa tipografia.js y assets/fuentes.');
- const identityWidth=235,identPt=14,identLines=wrap(identification,identityWidth,identPt,'identity');
+ const identityWidth=197,identPt=14,identLines=wrap(identification,identityWidth,identPt,'identity');
  let namePt=34;
  while(namePt>24&&wrap(name,identityWidth,namePt,'headline').length>1)namePt-=.5;
  const nameLines=wrap(name,identityWidth,namePt,'headline'),nameH=nameLines.length*namePt*1.2/MM,identH=identLines.length*identPt*1.2/MM;
  const identityY=(40.2-nameH-2-identH)/2-1;
  if(identityY<2)throw Error('El nombre excede el espacio del encabezado: '+name);
  const titlePt=190/tw(panoramaLines[0],1,'headline'),supportPt=192.5/tw(panoramaLines[2],1,'support');
- const logoH=35.5,logoW=logoH/logoRatio;
- return {variant:'Carlos',panel:{w:268,h:43},name:{x:11.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:11.5,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama:{x:302.5,y:3.5,w:232,pt:titlePt,supportPt,supportY:16.65,supportStep:9.65,lines:panoramaLines},logo:{x:566-logoW/2,y:2.35,w:logoW,h:logoH}};
+ const logoW=Math.min(100,35.5/logoRatio),logoH=logoW*logoRatio;
+ return {variant:'Carlos',panel:{x:11,w:225,h:43},name:{x:22.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:22.5,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama:{x:260,y:3.5,w:202,pt:titlePt,supportPt,supportY:16.65,supportStep:9.65,lines:panoramaLines},logo:{x:583-logoW,y:20.1-logoH/2,w:logoW,h:logoH}};
 }
 
 function render(model,logo=null){
@@ -196,8 +212,8 @@ function compose(model,logo=null,options={}){
  if(!I||!ICONS)throw Error('Faltan indicadores.js o iconografia.js. Sube el generador completo.');
  const p=new PDF(),r=model.record||{},raw=model.raw||{},m=I.build(r,raw,model.extra),get=k=>r[norm(k)]??r[k],name=get('Comunidad / Localidad')||raw.NOM_LOC||'Comunidad',key=get('Clave INEGI')||raw['Clave INEGI'];
  const identification=`${get('Municipio')||raw.NOM_MUN}, Guanajuato · Clave INEGI: ${key}`;
- const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1375/1465);
- p.rect(0,0,246.5,43,C.blue);p.circle(246.5,21.5,21.5,C.blue);p.rect(0,40,W,3.5,C.blue);
+ const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452);
+ p.rect(11,0,203.5,43,C.blue);p.circle(214.5,21.5,21.5,C.blue);p.rect(11,40,W-22,3.5,C.blue);
  p.text(name,header.name.x,header.name.y,header.name.pt,'headline','#FFFFFF',header.name.w);
  p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#C8D8EB',header.identification.w);
  p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',C.blue,header.panorama.w);
@@ -215,7 +231,7 @@ function compose(model,logo=null,options={}){
  explanatory('Relación hombres-mujeres',fmt(m.relation,1),num(m.relation)===null?'Dato pendiente.':`Existen ${Math.round(+m.relation)} hombres por cada 100 mujeres`,y+23);
  explanatory('Edad mediana',fmt(m.age,m.ageDigits??1),m.age===null?'Dato pendiente.':`La mitad de la población tiene ${fmt(m.age,m.ageDigits??1)} años o menos`,y+49);
  y=Math.max(top+73,pyramid(p,model.extra,m.total,m.men,m.women,x+102,top+2,w-102))+3;
- if(m.notes.composition)y+=p.text(m.notes.composition,x,y,8.5,true,C.text,w)+2;
+ if(m.notes.composition)y+=p.note(m.notes.composition,x,y,8.5,C.text,w)+2;
  y+=gaps[0];
  const half=(w-5)/2,fy=p.title('Fecundidad',x,y,half,'family'),cy=p.title('Situación conyugal',x+half+5,y,half,'rings');
  // Preserve the original layout footprint so only the fertility card changes.
@@ -235,7 +251,7 @@ function compose(model,logo=null,options={}){
  y=p.title('Discapacidad',x,y,w,'disability');let dy=y;m.disability.forEach(([label,value])=>{dy=p.sideCard(label,value,x,dy,left,'',15);});const dh=p.text('Población con discapacidad por actividad con dificultad',rx,y,9.5,true,C.text,right);const db=p.bars(m.disabilityActivities,rx,y+dh+2,right,{labelFraction:.62,pt:9,step:7,thickness:3.3});y=Math.max(dy,db)+3+gaps[2];
  y=p.title('Afiliación a servicios de salud',x,y,w,'health');let hy=y;m.health.forEach(([label,value,note])=>{hy=p.sideCard(label,value,x,hy,left,note||'',16);});const hb=p.verticalBars(m.institutions,rx,y+2,right,36,{labelPt:7.2,valuePt:8.2,labelsHeight:11});y=Math.max(hy,hb)+3+gaps[2];
  y=p.title('Características económicas',x,y,w,'economy');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value]=m.economy[row*2+i];bottom=Math.max(bottom,p.sideCard(label,value,x+i*(cw+4),y,cw,'',16));}y=bottom;}
- if(m.notes.activity){y+=1;const noteHeight=Math.max(p.text(m.notes.activity,x,y,8.5,false,C.text,cw),p.text(m.notes.occupation,x+cw+4,y,8.5,false,C.text,cw));y+=noteHeight+1;}
+ if(m.notes.activity){y+=1;const noteHeight=Math.max(p.note(m.notes.activity,x,y,8.5,C.text,cw),p.note(m.notes.occupation,x+cw+4,y,8.5,C.text,cw));y+=noteHeight+1;}
  const sh=p.text('PEA según sexo',x,y+1,9.5,true,C.text,cw),oh=p.text('Población de 12 años y más ocupada según sexo',x+cw+4,y+1,9.5,true,C.text,cw),chartY=y+Math.max(sh,oh)+3;
  p.verticalBars(m.sexPEA,x,chartY,cw,29,{colors:[C.purple,C.green],labelsHeight:6});p.verticalBars(m.sexOccupied,x+cw+4,chartY,cw,29,{colors:[C.purple,C.green],labelsHeight:6});y=chartY+32;
  y+=gaps[2];y=p.title('Características educativas',x,y,w,'book');let bottom=y;m.education.forEach(([label,value],i)=>{bottom=Math.max(bottom,p.sideCard(label,value,x+i*(cw+4),y,cw,'',18));});y=bottom;
@@ -248,12 +264,12 @@ function compose(model,logo=null,options={}){
  const refTop=p.title('Fuentes y referencias',11,footer,572,'book');let refBottom=refTop;
  // Two columns in bibliographic order, with APA hanging indent and italic titles.
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
- if(model.extra?.notaRevision)refBottom+=1+p.text(model.extra.notaRevision,11,refBottom+1,9,false,C.blue,572);
+ if(model.extra?.notaRevision)refBottom+=1+p.note(model.extra.notaRevision,11,refBottom+1,9,C.blue,572);
  if(refBottom>417)throw Error('Las referencias exceden el margen inferior.');
  return {bytes:options.measureOnly?null:p.finish(logo),header,bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight,columnBottoms:p.bounds.map(b=>b.bottom-2),closingTarget:CONTENT_BOTTOM}};
 }
 async function imageBytes(src){const image=new Image();image.src=src+(src.includes('?')?'&':'?')+'v='+Date.now();try{await image.decode();}catch{throw Error('No se pudo leer '+src+'. Revisa la carpeta assets, el nombre completo y que el archivo sea una imagen válida.');}const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.98));if(!blob)throw Error('No se pudo preparar la imagen '+src+' para el PDF.');return {bytes:new Uint8Array(await blob.arrayBuffer()),pxWidth:canvas.width,pxHeight:canvas.height};}
-async function download(model){const logo=await imageBytes('assets/logotipo Gto descriptivo vertical (2).png');const maps=root.SDH_MAPAS||(typeof require==='function'?require('./mapas.js'):null);if(!maps)throw Error('Falta mapas.js. Sube el generador completo y recarga la página.');const mapPath=maps.pathFor(model.record[norm('Clave INEGI')]??model.record['Clave INEGI']);if(mapPath)model={...model,mapImage:await imageBytes(mapPath)};const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
+async function download(model){const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');const maps=root.SDH_MAPAS||(typeof require==='function'?require('./mapas.js'):null);if(!maps)throw Error('Falta mapas.js. Sube el generador completo y recarga la página.');const mapPath=maps.pathFor(model.record[norm('Clave INEGI')]??model.record['Clave INEGI']);if(mapPath)model={...model,mapImage:await imageBytes(mapPath)};const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
 const api={render,download,headerLayout,refs,median,labelLines,labelLimit,cardLayout};
 root.SDH_PDF=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);

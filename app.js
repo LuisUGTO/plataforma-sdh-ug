@@ -3,6 +3,7 @@
 const CONFIG = {sheetId:'1qy6A46hMpRNKSIyIJ0H9vNv4T-KBngCQ', sheet:'Base 107', geoUrl:'https://gaia.inegi.org.mx/wscatgeo/v2/geo/mgem/11'};
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const noteHTML = v => esc(v).replace(/^(\s*)(Nota:)/,'$1<strong>$2</strong>');
 const norm = v => String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const missing = v => v == null || String(v).trim()==='' || /^(nd|n\/d|sd|s\/d|na|n\/a|null)$/i.test(String(v).trim());
 function number(v){if(missing(v)||String(v).includes('*'))return null;let s=String(v).trim().replace(/,/g,'');return /^[-+]?\d+(\.\d+)?$/.test(s)&&Number.isFinite(Number(s))?Number(s):null;}
@@ -55,7 +56,7 @@ function verticalChart(items,title,opts={}){
  });return svg+'</svg>';
 }
 function labelHTML(label){return window.SDH_PDF.labelLines(label).map(esc).join('<br>');}
-function valueCard(label,value,highlight=false,note=''){return `<div class="metric${highlight?' highlight':''}"><span>${labelHTML(label)}${note?'<small>'+esc(note)+'</small>':''}</span><strong${value==='Dato no disponible'?' class="unavailable"':''}>${esc(value)}</strong></div>`;}
+function valueCard(label,value,highlight=false,note=''){return `<div class="metric${highlight?' highlight':''}"><span>${labelHTML(label)}${note?'<small>'+noteHTML(note)+'</small>':''}</span><strong${value==='Dato no disponible'?' class="unavailable"':''}>${esc(value)}</strong></div>`;}
 function renderBars(items){return items.map(([label,value],index)=>bar(label,value,index)).join('');}
 function reunionRender(r){
  const raw=rawFor(r),m=window.SDH_INDICADORES.build(r,raw,extraFor(r));
@@ -63,7 +64,7 @@ function reunionRender(r){
  $('territorio').innerHTML=[textMetric('Municipio',get(r,'Municipio')),textMetric('Altitud',number(raw.ALTITUD)===null?'Dato no disponible':`${display(raw.ALTITUD)} m`),textMetric('Latitud',raw.LATITUD),textMetric('Longitud',raw.LONGITUD)].join('');
  $('poblacion').textContent=display(m.total);pyramid(r,extraFor(r));
  $('demografia').innerHTML=demographicCard('Relación hombres-mujeres',display(m.relation,1),number(m.relation)===null?'Dato pendiente.':`Existen ${Math.round(number(m.relation))} hombres por cada 100 mujeres`)+demographicCard('Edad mediana',display(m.age,m.ageDigits??1),m.age===null?'Dato pendiente.':`La mitad de la población tiene ${display(m.age,m.ageDigits??1)} años o menos`);
- let compositionNote=$('composicion-nota');if(!compositionNote){compositionNote=document.createElement('p');compositionNote.id='composicion-nota';compositionNote.className='note';$('demografia').closest('.demographic-layout').after(compositionNote);}compositionNote.textContent=m.notes.composition;compositionNote.hidden=!m.notes.composition;
+ let compositionNote=$('composicion-nota');if(!compositionNote){compositionNote=document.createElement('p');compositionNote.id='composicion-nota';compositionNote.className='note';$('demografia').closest('.demographic-layout').after(compositionNote);}compositionNote.innerHTML=noteHTML(m.notes.composition);compositionNote.hidden=!m.notes.composition;
  $('fecundidad').innerHTML=valueCard(...m.fertility);
  $('conyugal').innerHTML='<h4>Población de 12 años y más según situación conyugal</h4>'+circular(m.marital,raw.P_12YMAS,'Situación conyugal').replace(/<p class="note">[\s\S]*?<\/p>$/,'');
  $('vivienda').innerHTML=m.housing.map(([a,b,c])=>valueCard(a,b,c)).join('');
@@ -72,9 +73,9 @@ function reunionRender(r){
  $('religion').innerHTML='<h4>Población total por grupo religioso</h4>'+renderBars(m.religion);$('migracion').innerHTML=m.migration.map(([a,b])=>valueCard(a,b)).join('');
  $('discapacidad').innerHTML=m.disability.map(([a,b])=>valueCard(a,b)).join('');$('discapacidad-grafica').innerHTML='<h4>Población con discapacidad por actividad con dificultad</h4>'+renderBars(m.disabilityActivities);
  $('salud').innerHTML=m.health.map(([a,b,n])=>valueCard(a,b,false,n)).join('');$('instituciones').innerHTML=verticalChart(m.institutions,'Afiliación por institución',{small:true});
- $('economia').innerHTML=m.economy.map(([a,b])=>valueCard(a,b)).join('')+(m.notes.activity?`<p class="note economy-note">${esc(m.notes.activity)}</p><p class="note economy-note">${esc(m.notes.occupation)}</p>`:'');$('economia-sexo').innerHTML='<div><h4>PEA según sexo</h4>'+verticalChart(m.sexPEA,'PEA según sexo',{colors:['#84369B','#319356'],economy:true})+'</div><div><h4>Población de 12 años y más ocupada según sexo</h4>'+verticalChart(m.sexOccupied,'Población ocupada según sexo',{colors:['#84369B','#319356'],economy:true})+'</div>';
+ $('economia').innerHTML=m.economy.map(([a,b])=>valueCard(a,b)).join('')+(m.notes.activity?`<p class="note economy-note">${noteHTML(m.notes.activity)}</p><p class="note economy-note">${noteHTML(m.notes.occupation)}</p>`:'');$('economia-sexo').innerHTML='<div><h4>PEA según sexo</h4>'+verticalChart(m.sexPEA,'PEA según sexo',{colors:['#84369B','#319356'],economy:true})+'</div><div><h4>Población de 12 años y más ocupada según sexo</h4>'+verticalChart(m.sexOccupied,'Población ocupada según sexo',{colors:['#84369B','#319356'],economy:true})+'</div>';
  $('educacion').innerHTML=m.education.map(([a,b])=>valueCard(a,b)).join('');
- $('escolaridad').innerHTML='<h4>Población según nivel de escolaridad, por grupo de edad de referencia</h4>'+verticalChart(m.schooling,'Escolaridad por grupo de edad',{adaptive:true})+'<p class="note"><b>Nota:</b> Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.</p>';
+ $('escolaridad').innerHTML='<h4>Población según nivel de escolaridad, por grupo de edad de referencia</h4>'+verticalChart(m.schooling,'Escolaridad por grupo de edad',{adaptive:true})+'<p class="note">'+noteHTML('Nota: Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.')+'</p>';
  $('asistencia').innerHTML='<h4>Asistencia escolar</h4>'+verticalChart(m.attendance,'Asistencia escolar',{colors:['#008E95']});
  $('referencias').innerHTML=(window.SDH_PDF?.refs||[]).map(([author,title,tail,url])=>`<p>${esc(author)} <em>${esc(title)}</em> ${esc(tail)} <a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a></p>`).join('');
 }
@@ -127,7 +128,7 @@ function searchCommunities(){
 }
 async function load(){if(busy)return;busy=true;$('actualizar').disabled=true;status('Consultando la base compartida…');try{const url=`https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(CONFIG.sheet)}`;const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),15000);let text;try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('No se pudo consultar Sheets');text=await r.text();}finally{clearTimeout(timer);}const match=text.match(/setResponse\(([\s\S]*)\);?\s*$/);if(!match)throw Error('La fuente no devolvió una tabla.');const data=JSON.parse(match[1]);if(data.status==='error'||!data.table)throw Error('La pestaña no está disponible.');useRecords(recordsFromRows(data.table.rows.map(r=>r.c.map(c=>c?.v??null)),data.table.cols.map(c=>c.label)),`Base compartida · consulta ${new Date().toLocaleString('es-MX')}`);}catch(error){if(records.length){status('No se pudo actualizar. Se conserva la última base cargada: '+source);}else{try{const backup=await json('datos-respaldo.json');useRecords(backup.records,`Copia de consulta del ${backup.fechaConsulta} · sin actualización en línea`);}catch{status('No se pudo leer la base. Importa un CSV o abre el proyecto mediante un servidor web.');}}}finally{busy=false;$('actualizar').disabled=false;}}
 function extraFor(r){return extras[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]??null;}
-function demographicCard(label,value,note){return `<div class="demographic-card"><div class="demographic-label"><b>${labelHTML(label)}</b><small>${esc(note)}</small></div><strong>${esc(value)}</strong></div>`;}
+function demographicCard(label,value,note){return `<div class="demographic-card"><div class="demographic-label"><b>${labelHTML(label)}</b><small>${noteHTML(note)}</small></div><strong>${esc(value)}</strong></div>`;}
 function pyramid(r,extra){
   const raw=rawFor(r),total=number(raw.POBTOT??get(r,'Población Total'));
   const bins=extra?.edades;
@@ -193,10 +194,10 @@ function render(){
  $('nombre').textContent=get(r,'Comunidad / Localidad');$('identificacion').textContent=`${get(r,'Municipio')}, Guanajuato · Clave INEGI: ${get(r,'Clave INEGI')}`;
  const header=window.SDH_PDF.headerLayout($('nombre').textContent,$('identificacion').textContent,'Carlos');$('nombre').style.fontSize=header.name.pt+'pt';
  const docHeader=document.querySelector('.doc-header');docHeader.classList.add('header-propuesta');
- const identity=docHeader.querySelector('.header-identity');identity.style.top=header.name.y+'mm';
- const panorama=docHeader.querySelector('.header-panorama');panorama.style.top=header.panorama.y+'mm';panorama.innerHTML=header.panorama.lines.map((line,i)=>`<span style="top:${i?header.panorama.supportY-header.panorama.y+(i-1)*header.panorama.supportStep:0}mm;font-size:${i?header.panorama.supportPt:header.panorama.pt}pt">${esc(line)}</span>`).join('');
+ const identity=docHeader.querySelector('.header-identity');Object.assign(identity.style,{left:header.name.x+'mm',top:header.name.y+'mm',width:header.name.w+'mm'});
+ const panorama=docHeader.querySelector('.header-panorama');Object.assign(panorama.style,{left:header.panorama.x+'mm',top:header.panorama.y+'mm',width:header.panorama.w+'mm'});panorama.innerHTML=header.panorama.lines.map((line,i)=>`<span style="top:${i?header.panorama.supportY-header.panorama.y+(i-1)*header.panorama.supportStep:0}mm;font-size:${i?header.panorama.supportPt:header.panorama.pt}pt">${esc(line)}</span>`).join('');
  const brand=docHeader.querySelector('.header-brand');Object.assign(brand.style,{left:header.logo.x+'mm',top:header.logo.y+'mm',width:header.logo.w+'mm',height:header.logo.h+'mm'});
- const brandImage=brand.querySelector('img');if(!brandImage.getAttribute('src').includes('logotipo Gto'))brandImage.src='assets/logotipo Gto descriptivo vertical (2).png';brandImage.alt='Guanajuato, Gobierno de la Gente, Secretaría de Derechos Humanos';
+ const brandImage=brand.querySelector('img');if(brandImage.getAttribute('src')!=='assets/logo-sdh-descriptivo-horizontal.png')brandImage.src='assets/logo-sdh-descriptivo-horizontal.png';brandImage.alt='Guanajuato, Gobierno de la Gente, Secretaría de Derechos Humanos';
  $('revision').textContent=`${records.length} comunidades en catálogo · Vista previa para revisión · ${source}`+(extraFor(r)?.notaRevision?' · '+extraFor(r).notaRevision:'');
  reunionRender(r);loadCommunityLocation(r,extraFor(r),token);
 }
