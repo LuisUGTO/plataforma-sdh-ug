@@ -12033,7 +12033,15 @@
         }
       ],
       "pendienteValidacion": true,
-      "notaRevision": "San Agustín: insumo en revisión. PEA: 1,002; ocupados + desocupados: 995. Pirámide, edad mediana y alcance territorial pendientes de validación."
+      "criteriosCarlos": {
+        "fecha": "2026-10-26",
+        "fuente": "Observaciones de Carlos compartidas por Luis; interpretación de la categoría en Religión confirmada por Luis el 26 de octubre de 2026.",
+        "edadMediana": 31,
+        "religionNoEspecificado": 7,
+        "notaComposicion": "Nota: Los datos corresponden a la suma de las manzanas que conforman la localidad, conforme a la información censal por localidad, AGEB y manzana urbana, INEGI, 2020.",
+        "notaActividad": "Nota: Los porcentajes no suman 100% porque para 7 personas no se especificó su condición de actividad.",
+        "notaOcupacion": "Nota: Los porcentajes no suman 100% porque para 7 personas no se especificó su condición de ocupación."
+      }
     }
   }
 }

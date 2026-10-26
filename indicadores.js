@@ -17,7 +17,7 @@ function median(extra,total){
 const ordered=items=>items.map((a,i)=>({a,i})).sort((a,b)=>((number(b.a[1])??-1)-(number(a.a[1])??-1))||a.i-b.i).map(x=>x.a);
 function build(record={},raw={},extra=null){
  const get=k=>record[norm(k)]??record[k],total=raw.POBTOT??get('Población Total'),housing=raw.VIVPARH_CV;
- const official=number(get('Edad mediana')),bins=extra?.edades,sexConsistent=!bins||((number(raw.POBMAS??get('Población Hombres'))===null||bins.reduce((a,b)=>a+(number(b.hombres)??0),0)===number(raw.POBMAS??get('Población Hombres')))&&(number(raw.POBFEM??get('Población Mujeres'))===null||bins.reduce((a,b)=>a+(number(b.mujeres)??0),0)===number(raw.POBFEM??get('Población Mujeres')))),estimated=sexConsistent?median(extra,total):null,age=official??estimated;
+ const criteria=extra?.criteriosCarlos||{},official=number(criteria.edadMediana)??number(get('Edad mediana')),bins=extra?.edades,sexConsistent=!bins||((number(raw.POBMAS??get('Población Hombres'))===null||bins.reduce((a,b)=>a+(number(b.hombres)??0),0)===number(raw.POBMAS??get('Población Hombres')))&&(number(raw.POBFEM??get('Población Mujeres'))===null||bins.reduce((a,b)=>a+(number(b.mujeres)??0),0)===number(raw.POBFEM??get('Población Mujeres')))),estimated=sexConsistent?median(extra,total):null,age=official??estimated;
  const model={total,men:raw.POBMAS??get('Población Hombres'),women:raw.POBFEM??get('Población Mujeres'),age,ageEstimated:official===null&&estimated!==null,relation:raw.REL_H_M??get('Relación Hombres-Mujeres')};
  model.housing=[['Total de viviendas particulares habitadas',format(raw.TVIVPARHAB),true],['Población en viviendas particulares habitadas',format(raw.OCUPVIVPAR),true],['Promedio de ocupantes por vivienda',format(raw.PROM_OCUP??get('Promedio Ocupantes por Vivienda'),2)],['Promedio de ocupantes por cuarto',format(raw.PRO_OCUP_C??get('Promedio Ocupantes por Cuarto'),2)]];
  const group=(title,items)=>[title,ordered(items.map(([label,field])=>[label,ratio(raw[field],housing)]))];
@@ -40,6 +40,9 @@ function build(record={},raw={},extra=null){
  model.education=[['Grado promedio de escolaridad de la población de 15 años y más',format(raw.GRAPROES??get('Grado Promedio Escolaridad (15+)'),2)],['Población de 15 años y más analfabeta',percent(ratio(raw.P15YM_AN,raw.P_15YMAS))]];
  model.schooling=[['Sin escolaridad|(15+)',ratio(raw.P15YM_SE,raw.P_15YMAS)],['Primaria|completa (15+)',ratio(raw.P15PRI_CO,raw.P_15YMAS)],['Secundaria|completa (15+)',ratio(raw.P15SEC_CO,raw.P_15YMAS)],['Posbásica|(18+)',ratio(raw.P18YM_PB,raw.P_18YMAS)]];
  model.attendance=[['3 a 5|años',complement(raw.P_3A5,raw.P3A5_NOA)],['6 a 11|años',complement(raw.P_6A11,raw.P6A11_NOA)],['12 a 14|años',complement(raw.P_12A14,raw.P12A14NOA)],['15 a 17|años',ratio(raw.P15A17A,raw.P_15A17)],['18 a 24|años',ratio(raw.P18A24A,raw.P_18A24)]];
+ if(number(criteria.edadMediana)!==null)model.ageDigits=0;
+ if(number(criteria.religionNoEspecificado)!==null)model.religion=ordered([...model.religion,['No especificado',ratio(criteria.religionNoEspecificado,total)]]);
+ model.notes={composition:criteria.notaComposicion||'',activity:criteria.notaActividad||'',occupation:criteria.notaOcupacion||''};
  return model;
 }
 root.SDH_INDICADORES={build,number,ratio,format,percent,median,ordered};if(typeof module!=='undefined')module.exports=root.SDH_INDICADORES;

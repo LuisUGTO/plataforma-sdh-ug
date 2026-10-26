@@ -29,15 +29,15 @@ const LABEL_REFERENCE='Población de 3 años y más que',LABEL_PT=9.5;
 function labelLimit(){return tw(LABEL_REFERENCE,LABEL_PT,true)+.001;}
 function labelText(label){const stem='Población de 3 años y más que habla alguna lengua indígena';if(label.startsWith(stem)){const rest=label.slice(stem.length).trim();return LABEL_REFERENCE+'\nhabla alguna lengua indígena'+(rest?'\n'+rest:'');}if(label==='Pueblo indígena por autoadscripción')return 'Pueblo indígena por\nautoadscripción';return label;}
 function labelLines(label,width=labelLimit()){return wrap(labelText(label),Math.min(width,labelLimit()),LABEL_PT,true);}
-function cardLayout(label,value,w,minHeight=8,note='',small=false){
+function cardLayout(label,value,w,minHeight=8,note='',small=false,singleLine=false){
  const valuePt=value==='Dato no disponible'?9.5:small?12:18;
  const minLabelWidth=Math.max(15,...labelText(label).split(/\s+/).map(word=>Math.min(labelLimit(),tw(word,LABEL_PT,true))));
- const naturalValueWidth=small?tw(value,valuePt,true):Math.max(...String(value).split(/\s+/).map(word=>tw(word,valuePt,true)));
+ const naturalValueWidth=small||singleLine?tw(value,valuePt,true):Math.max(...String(value).split(/\s+/).map(word=>tw(word,valuePt,true)));
  const valueWidth=Math.min(Math.max(26,w-7-minLabelWidth),Math.max(26,naturalValueWidth)),labelWidth=Math.max(minLabelWidth,Math.min(labelLimit(),w-7-valueWidth));
  const lines=labelLines(label,labelWidth),noteLines=note?wrap(note,labelWidth,9):[],valueLines=wrap(value,valueWidth,valuePt,true),labelHeight=lines.length*LABEL_PT*1.2/MM,noteHeight=noteLines.length*9*1.2/MM,h=Math.max(minHeight,labelHeight+(note?noteHeight+2:0)+3,valueLines.length*valuePt*1.2/MM+3);
  return {valuePt,valueWidth,labelWidth,lines,labelHeight,noteLines,noteHeight,valueLines,h};
 }
-const ETHNIC_CARD_HEIGHT=19.5,ETHNIC_GAP=.5,LANGUAGE_HEIGHT=28,CONTENT_BOTTOM=362;
+const ETHNIC_CARD_HEIGHT=18.5,ETHNIC_GAP=2,LANGUAGE_HEIGHT=28,CONTENT_BOTTOM=362;
 
 function rgb(color){return color.replace('#','').match(/../g).map(c=>(parseInt(c,16)/255).toFixed(4)).join(' ');}
 class PDF{
@@ -121,7 +121,7 @@ class PDF{
   const entries=model.items.map(([label,n],i)=>[label,n===null||!(model.total>0)?'N/D':pct(div(n,model.total)),[C.teal,C.purple][i]]);
   const bottom=this.pieLegend(entries,x+28,y,w-28,{language:true,valueWidth:12});return Math.max(y+LANGUAGE_HEIGHT,bottom);
  }
- tile(label,value,x,y,w,h=21){const l=cardLayout(label,value,w,h);this.rect(x,y,w,l.h,'#FFFFFF',C.line,.2);this.text(l.lines.join('\n'),x+2,y+1.5,LABEL_PT,true,C.text,l.labelWidth);this.text(value,x+w-2-l.valueWidth,y+(l.h-l.valueLines.length*l.valuePt*1.2/MM)/2,l.valuePt,true,C.blue,l.valueWidth,'right');return y+l.h;}
+ tile(label,value,x,y,w,h=21,singleLine=false){const l=cardLayout(label,value,w,h,'',false,singleLine);this.rect(x,y,w,l.h,'#FFFFFF',C.line,.2);this.text(l.lines.join('\n'),x+2,y+1.5,LABEL_PT,true,C.text,l.labelWidth);this.text(value,x+w-2-l.valueWidth,y+(l.h-l.valueLines.length*l.valuePt*1.2/MM)/2,l.valuePt,true,C.blue,l.valueWidth,'right');return y+l.h;}
  reference(ref,x,y,w){const pt=9.7,step=pt*1.2/MM,indent=12.7;const [author,title,tail,url]=ref;const tokens=[...author.split(/\s+/).map(t=>[t,false]),...title.split(/\s+/).map(t=>[t,'italic']),...tail.split(/\s+/).filter(Boolean).map(t=>[t,false])];let line=[],lineWidth=0,yy=y,first=true;const flush=()=>{let xx=x+(first?0:indent);for(const [word,style]of line){this.text(word,xx,yy,pt,style,C.text);xx+=tw(word+' ',pt,style);}yy+=step;first=false;line=[];lineWidth=0;};for(const token of tokens){const width=tw(token[0]+' ',pt,token[1]);if(line.length&&lineWidth+width>w-(first?0:indent))flush();line.push(token);lineWidth+=width;}if(line.length)flush();this.text(url,x+indent,yy,8.7,false,C.text,w-indent);const uh=wrap(url,w-indent,8.7).length*8.7*1.2/MM;this.links.push({x:x+indent,y:yy,w:w-indent,h:uh,url});return yy+uh+2;}
  link(label,url,x,y,w){const h=this.text(label,x,y,8.2,false,C.blue,w);this.links.push({x,y,w,h,url});return h;}
  finish(logo){
@@ -212,25 +212,28 @@ function compose(model,logo=null,options={}){
  p.rect(x,y,cardWidth,18,C.blue);p.text('Población total',x+3,y+5.5,12,true,'#FFFFFF',cardWidth-35);p.text(fmt(m.total),x+cardWidth-32,y+4,24,true,'#FFFFFF',29,'right');
  const explanatory=(label,value,note,yy)=>p.sideCard(label,value,x,yy,cardWidth,note,22);
  explanatory('Relación hombres-mujeres',fmt(m.relation,1),num(m.relation)===null?'Dato pendiente.':`Existen ${Math.round(+m.relation)} hombres por cada 100 mujeres`,y+23);
- explanatory('Edad mediana',fmt(m.age,1),m.age===null?'Dato pendiente.':`La mitad de la población tiene ${fmt(m.age,1)} años o menos`,y+49);
- y=Math.max(top+73,pyramid(p,model.extra,m.total,m.men,m.women,x+102,top+2,w-102))+3+gaps[0];
+ explanatory('Edad mediana',fmt(m.age,m.ageDigits??1),m.age===null?'Dato pendiente.':`La mitad de la población tiene ${fmt(m.age,m.ageDigits??1)} años o menos`,y+49);
+ y=Math.max(top+73,pyramid(p,model.extra,m.total,m.men,m.women,x+102,top+2,w-102))+3;
+ if(m.notes.composition)y+=p.text(m.notes.composition,x,y,8.5,false,C.text,w)+2;
+ y+=gaps[0];
  const half=(w-5)/2,fy=p.title('Fecundidad',x,y,half,'family'),cy=p.title('Situación conyugal',x+half+5,y,half,'rings');
  const fb=p.sideCard(...m.fertility,x,fy,half,'',29);const ch=p.text('Población de 12 años y más según situación conyugal',x+half+5,cy,9.5,true,C.text,half);const cb=p.pie(m.marital,raw.P_12YMAS,x+half+5,cy+ch+2,half),maritalReady=num(raw.P_12YMAS)>0&&m.marital.every(a=>num(a[1])!==null)&&m.marital.reduce((sum,a)=>sum+Number(a[1]),0)<=Number(raw.P_12YMAS);p.bounds.push({column:1,bottom:Math.max(fb-2,cb-(maritalReady?0:1.5))+2});
  x=220;w=175;y=52;const ew=(w-4)/2;
- y=p.title('Vivienda',x,y,w,'housing');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value,highlight]=m.housing[row*2+i];bottom=Math.max(bottom,p.card(label,value,x+i*(ew+4),y,ew,{highlight,minHeight:row===0?17:13,labelFraction:.72}));}y=bottom;}
- m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+1,x+w,y+1,C.line,.25);y+=3;}y+=1;y+=p.text(label,x,y,10.5,true,C.text,w)+1.5;y=p.bars(items,x,y,w,{});});
+ y=p.title('Vivienda',x,y,w,'housing');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value,highlight]=m.housing[row*2+i];bottom=Math.max(bottom,p.card(label,value,x+i*(ew+4),y,ew,{highlight,minHeight:row===0?17:12,labelFraction:.72}));}y=bottom;}
+ m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+1,x+w,y+1,C.line,.25);y+=3;}y+=1;y+=p.text(label,x,y,10.5,true,C.text,w)+1.5;y=p.bars(items,x,y,w,{step:4.32});});
  y+=2+gaps[1];y=p.title('Etnicidad',x,y,w);const ethnicTop=y;let ethnicLeft=y;
  for(const i of [0,2,3]){const [label,value]=m.ethnicity[i];ethnicLeft=p.tile(label,value,x,ethnicLeft,ew,ETHNIC_CARD_HEIGHT)+ETHNIC_GAP;}
  const [languageLabel,languageValue]=m.ethnicity[1],languageCardBottom=p.tile(languageLabel,languageValue,x+ew+4,ethnicTop,ew,ETHNIC_CARD_HEIGHT);
  const languageCaption=p.text('Población de 3 años y más hablante de lengua indígena según condición de habla española',x+ew+4,languageCardBottom+3,8.5,true,C.text,ew);
  const ethnicRight=p.languagePie(m.language,x+ew+4,languageCardBottom+3+languageCaption+2,ew);y=Math.max(ethnicLeft,ethnicRight,ethnicTop+60);
 
- y+=1+gaps[1];y=p.title('Desarrollo social',x,y,w,'social');const socialHeight=Math.max(...m.social.map(([label,value])=>cardLayout(label,value,ew,13).h));let socialBottom=y;m.social.forEach(([label,value],i)=>{socialBottom=Math.max(socialBottom,p.tile(label,value,x+i*(ew+4),y,ew,socialHeight));});y=socialBottom+3+gaps[1];
+ y+=1+gaps[1];y=p.title('Desarrollo social',x,y,w,'social');const socialHeight=Math.max(...m.social.map(([label,value])=>cardLayout(label,value,ew,13,'',false,true).h));let socialBottom=y;m.social.forEach(([label,value],i)=>{socialBottom=Math.max(socialBottom,p.tile(label,value,x+i*(ew+4),y,ew,socialHeight,true));});y=socialBottom+4+gaps[1];
  const ry=p.title('Religión',x,y,ew,'book'),my=p.title('Migración',x+ew+4,y,ew,'map');const rh=p.text('Población total por grupo religioso',x,ry,9.3,true,C.text,ew);const rb=p.bars(m.religion,x,ry+rh+2,ew,{labelFraction:.62,pt:8.9,step:6});let mb=my;m.migration.forEach(([label,value])=>{mb=p.sideCard(label,value,x+ew+4,mb,ew,'',17);});const migrationBottom=mb-2;p.bounds.push({column:2,bottom:Math.max(rb,migrationBottom)+2});
  x=402;w=181;y=52;const left=78,right=w-left-5,rx=x+left+5,cw=(w-4)/2;
- y=p.title('Discapacidad',x,y,w,'disability');let dy=y;m.disability.forEach(([label,value])=>{dy=p.sideCard(label,value,x,dy,left,'',16);});const dh=p.text('Población con discapacidad por actividad con dificultad',rx,y,9.5,true,C.text,right);const db=p.bars(m.disabilityActivities,rx,y+dh+2,right,{labelFraction:.62,pt:9,step:7,thickness:3.3});y=Math.max(dy,db)+3+gaps[2];
- y=p.title('Afiliación a servicios de salud',x,y,w,'health');let hy=y;m.health.forEach(([label,value,note])=>{hy=p.sideCard(label,value,x,hy,left,note||'',18);});const hb=p.verticalBars(m.institutions,rx,y+2,right,44,{labelPt:7.2,valuePt:8.2,labelsHeight:19});y=Math.max(hy,hb)+3+gaps[2];
+ y=p.title('Discapacidad',x,y,w,'disability');let dy=y;m.disability.forEach(([label,value])=>{dy=p.sideCard(label,value,x,dy,left,'',15);});const dh=p.text('Población con discapacidad por actividad con dificultad',rx,y,9.5,true,C.text,right);const db=p.bars(m.disabilityActivities,rx,y+dh+2,right,{labelFraction:.62,pt:9,step:7,thickness:3.3});y=Math.max(dy,db)+3+gaps[2];
+ y=p.title('Afiliación a servicios de salud',x,y,w,'health');let hy=y;m.health.forEach(([label,value,note])=>{hy=p.sideCard(label,value,x,hy,left,note||'',16);});const hb=p.verticalBars(m.institutions,rx,y+2,right,36,{labelPt:7.2,valuePt:8.2,labelsHeight:11});y=Math.max(hy,hb)+3+gaps[2];
  y=p.title('Características económicas',x,y,w,'economy');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value]=m.economy[row*2+i];bottom=Math.max(bottom,p.sideCard(label,value,x+i*(cw+4),y,cw,'',16));}y=bottom;}
+ if(m.notes.activity){y+=1;const noteHeight=Math.max(p.text(m.notes.activity,x,y,8.5,false,C.text,cw),p.text(m.notes.occupation,x+cw+4,y,8.5,false,C.text,cw));y+=noteHeight+1;}
  const sh=p.text('PEA según sexo',x,y+1,9.5,true,C.text,cw),oh=p.text('Población de 12 años y más ocupada según sexo',x+cw+4,y+1,9.5,true,C.text,cw),chartY=y+Math.max(sh,oh)+3;
  p.verticalBars(m.sexPEA,x,chartY,cw,29,{colors:[C.purple,C.green],labelsHeight:6});p.verticalBars(m.sexOccupied,x+cw+4,chartY,cw,29,{colors:[C.purple,C.green],labelsHeight:6});y=chartY+32;
  y+=gaps[2];y=p.title('Características educativas',x,y,w,'book');let bottom=y;m.education.forEach(([label,value],i)=>{bottom=Math.max(bottom,p.sideCard(label,value,x+i*(cw+4),y,cw,'',18));});y=bottom;
