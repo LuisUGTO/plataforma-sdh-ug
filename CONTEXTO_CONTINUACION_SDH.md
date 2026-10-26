@@ -1,6 +1,6 @@
 # Continuación del proyecto SDH–UG
 
-**Actualizado:** 20 de octubre de 2026  
+**Actualizado:** 26 de octubre de 2026
 **Uso:** contexto breve para continuar el trabajo en un chat abierto desde el proyecto local de Codex.  
 **Fuente:** conversación previa con Luis y reportes que compartió de Antigravity. Los reportes describen acciones realizadas, pero hay que confirmar el estado real en el repositorio antes de editar o publicar.
 
@@ -137,6 +137,14 @@ Esta actualización sustituye el pendiente de implementar el encabezado. Falta l
 - Luis autorizó reducir **solo el cuadro de Fecundidad**, aceptando que su borde inferior no coincida con Situación conyugal. La altura del cuadro en PDF pasa de 29 a **18 mm**, sin modificar ancho, texto, cifra ni tipografía. La pantalla ya utilizaba 18 mm y se conserva.
 - Se mantiene la reserva anterior de espacio al calcular la columna para evitar que esta reducción mueva Situación conyugal, el encabezado o cualquier otro contenido. Se compararon las instrucciones de dibujo de las 107 fichas antes y después: únicamente cambian el borde inferior del cuadro y la posición vertical de su cifra. Se verificaron dos descargas reales de Chrome, Alonso Yáñez (2.70) y San Agustín (2.12), con una página A2 y fuentes institucionales.
 - El exportador se referencia en `index.html` como `20261026-b3`. La muestra de Alonso Yáñez con el cuadro compacto se entrega en `output/pdf/SDH_110030008_Alonso_Yáñez_A2_20261026_fecundidad.pdf`. No se publica ni se hace commit/push.
+
+## Pirámide de San Agustín integrada el 26 de octubre de 2026
+
+- Carlos entregó `grupos_edad_4.csv`. Se conserva una copia exacta en `assets/grupos_edad_4.csv`, SHA-256 `86b87659e8cf2a532f113c1953b62d935137001746270decb4a5dc7ec1d4606e`. Los grupos son 0–14, 15–17, 18–59 y 60+; hombres: 251, 56, 563 y 126; mujeres: 254, 63, 680 y 143. Suman 996 hombres y 1,140 mujeres: 2,136 personas.
+- Se representa el desglose por sexo exactamente como fue recibido. Hay dos diferencias internas en el CSV: 18–59 tiene un total declarado de 1,242 y un desglose de 1,243; 60+ declara 270 y su desglose suma 269. No se redistribuyen personas ni se corrige la fuente. Las diferencias quedan registradas en `fuenteGrupos.diferenciasPorGrupo` para aclararlas con Carlos. Luis pidió aplicar el mejor criterio; esto no constituye una validación de esas diferencias por Carlos.
+- Solo la entrada de San Agustín en `edades-respaldo.json` cambia al nuevo insumo. `gruposAmplios: true` adapta el espaciado de sus cuatro barras y la escala de porcentajes sobre la población total; se retira el aviso de grupos pendientes. Los totales declarados y cálculos de cada fila se conservan como procedencia, sin usarlos para alterar los conteos por sexo. Los criterios previos permanecen: edad mediana 31, siete personas en Religión y las dos notas económicas.
+- La nota censal completa de Composición por edad y sexo se muestra **en negrita** en pantalla y PDF. Se preservan el encabezado, las fuentes institucionales, el cuadro de Fecundidad de 18 mm, los valores sociales en una línea, la estructura y el A2 horizontal. Los mapas siguen siendo provisionales.
+- `index.html` sincroniza los respaldos locales y referencia estilos, aplicación y exportador como `20261026-b4`. Validación: las instrucciones de dibujo de los PDF de las otras 106 comunidades son idénticas; 107 composiciones sin los cruces comprobados y con cierres alineados; dos descargas reales de Chrome; San Agustín inspeccionado visualmente con cuatro grupos, nota en Helvetica Neue LT Std Bold incorporada, una página de 594 × 420 mm y ningún carácter fuera de página. La muestra queda en `output/pdf/SDH_110090001_San_Agustín_A2_20261026_piramide.pdf`. Sin cambios a la DB en línea, commit, push, publicación ni producción masiva.
 
 ## Límites para el asistente del chat nuevo
 

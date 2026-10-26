@@ -151,19 +151,21 @@ function pyramid(r,extra){
     });
     const hom=number(raw.POBMAS??get(r,'Población Hombres')),muj=number(raw.POBFEM??get(r,'Población Mujeres'));
     if(sumH+sumM>total||(hom!==null&&sumH>hom)||(muj!==null&&sumM>muj))throw Error('Suma mayor al total');
-    const scale=Math.ceil(Math.max(1,...data.flatMap(b=>[b.h??0,b.m??0]).map(v=>v/total*100))/2)*2;
-    const chartHeight=data.length*10+34;
+    const broad=extra.gruposAmplios===true,maximum=Math.max(1,...data.flatMap(b=>[b.h??0,b.m??0]).map(v=>v/total*100));
+    const tickStep=broad?Math.max(2,Math.ceil(maximum/16)*2):2,scale=Math.ceil(maximum/tickStep)*tickStep;
+    const plotTop=broad?22:15,rowStep=broad?12:10,barHeight=broad?8:7;
+    const chartHeight=broad?plotTop+data.length*rowStep+15:data.length*10+34;
     const center=190,bw=135;
     let svg=`<svg viewBox="0 0 340 ${chartHeight}" role="img" aria-label="Pirámide por edad y sexo; porcentajes sobre población total, edades a la izquierda.">`;
-    svg+=`<text x="8" y="${15+data.length*10/2}" transform="rotate(-90 8 ${15+data.length*10/2})" text-anchor="middle" font-size="9" font-weight="bold" fill="#54585A">Años</text>`;
+    svg+=`<text x="8" y="${plotTop+data.length*rowStep/2}" transform="rotate(-90 8 ${plotTop+data.length*rowStep/2})" text-anchor="middle" font-size="9" font-weight="bold" fill="#54585A">Años</text>`;
     [...data].reverse().forEach((b,i)=>{
-      const y=15+i*10;const label=`${b.desde}${b.hasta===null?'+':'–'+b.hasta}`;
+      const y=plotTop+i*rowStep;const label=`${b.desde}${b.hasta===null?'+':'–'+b.hasta}`;
       svg+=`<text x="43" y="${y+7}" text-anchor="end" font-size="8.5" fill="#63666A">${label}</text>`;
-      if(b.h!==null){const w=b.h/total*100/scale*bw;svg+=`<rect x="${center-w}" y="${y}" width="${w}" height="7" fill="#319356"><title>${label}, hombres: ${b.h}</title></rect>`;}
-      if(b.m!==null){const w=b.m/total*100/scale*bw;svg+=`<rect x="${center}" y="${y}" width="${w}" height="7" fill="#84369B"><title>${label}, mujeres: ${b.m}</title></rect>`;}
+      if(b.h!==null){const w=b.h/total*100/scale*bw;svg+=`<rect x="${center-w}" y="${y}" width="${w}" height="${barHeight}" fill="#319356"><title>${label}, hombres: ${b.h}</title></rect>`;}
+      if(b.m!==null){const w=b.m/total*100/scale*bw;svg+=`<rect x="${center}" y="${y}" width="${w}" height="${barHeight}" fill="#84369B"><title>${label}, mujeres: ${b.m}</title></rect>`;}
     });
     const ay=chartHeight-15;svg+=`<line x1="${center-bw}" y1="${ay}" x2="${center+bw}" y2="${ay}" stroke="#C8C9C7"/>`;
-    for(let tick=-scale;tick<=scale;tick+=2){const tx=center+bw*tick/scale;svg+=`<line x1="${tx}" y1="${ay}" x2="${tx}" y2="${ay+3}" stroke="#C8C9C7"/><text x="${tx}" y="${ay+12}" text-anchor="middle" font-size="9">${Math.abs(tick)}</text>`;}
+    for(let tick=-scale;tick<=scale;tick+=tickStep){const tx=center+bw*tick/scale;svg+=`<line x1="${tx}" y1="${ay}" x2="${tx}" y2="${ay+3}" stroke="#C8C9C7"/><text x="${tx}" y="${ay+12}" text-anchor="middle" font-size="9">${Math.abs(tick)}</text>`;}
     svg+=`<text x="334" y="${ay+12}" font-size="9">%</text></svg>`;
     const partial=unknown>0||extra.parcial||sumH+sumM<total;
     $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(ratio(raw.POBMAS??get(r,'Población Hombres'),total)))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(ratio(raw.POBFEM??get(r,'Población Mujeres'),total)))}</strong><span>Mujeres</span></div>`+svg+(partial?'<p class="note">Distribución parcial: faltan valores por edad o sexo.</p>':'');

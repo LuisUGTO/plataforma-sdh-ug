@@ -105,7 +105,7 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 .sheet{font-family:SDHHelvetica,sans-serif;font-kerning:none;font-variant-ligatures:none}
 
 #economia .economy-note{margin:1mm 0;font-size:8.5pt;line-height:1.2}
-#composicion-nota{margin:2mm 0 0}
+#composicion-nota{margin:2mm 0 0;font-weight:700}
 #servicios .bar,#bienes .bar,#tic .bar{min-height:4.32mm}
 #discapacidad .metric{min-height:15mm}
 #salud .metric{min-height:16mm}

@@ -11980,59 +11980,43 @@
       ]
     },
     "110090001|San Agustín": {
-      "fuenteEdades": "Insumo original San Agustín del archivo compartido; cifras preliminares sin validación territorial",
-      "parcial": true,
+      "fuenteEdades": "Cuatro grupos de edad enviados por Carlos y compartidos por Luis el 26 de octubre de 2026; CSV original conservado en assets/grupos_edad_4.csv",
+      "parcial": false,
       "edades": [
         {
           "desde": 0,
-          "hasta": 2,
-          "hombres": 49,
-          "mujeres": 49
-        },
-        {
-          "desde": 3,
-          "hasta": 5,
-          "hombres": 43,
-          "mujeres": 54
-        },
-        {
-          "desde": 6,
-          "hasta": 11,
-          "hombres": 105,
-          "mujeres": 111
-        },
-        {
-          "desde": 12,
           "hasta": 14,
-          "hombres": 47,
-          "mujeres": 36
+          "hombres": 251,
+          "mujeres": 254,
+          "total": 505,
+          "calculo": "POBTOT − P_15YMAS"
         },
         {
           "desde": 15,
           "hasta": 17,
-          "hombres": 55,
-          "mujeres": 61
+          "hombres": 56,
+          "mujeres": 63,
+          "total": 119,
+          "calculo": "P_15YMAS − P_18YMAS"
         },
         {
           "desde": 18,
-          "hasta": 24,
-          "hombres": 121,
-          "mujeres": 157
-        },
-        {
-          "desde": 25,
           "hasta": 59,
-          "hombres": null,
-          "mujeres": null
+          "hombres": 563,
+          "mujeres": 680,
+          "total": 1242,
+          "calculo": "P_18YMAS − P_60YMAS"
         },
         {
           "desde": 60,
           "hasta": null,
           "hombres": 126,
-          "mujeres": 143
+          "mujeres": 143,
+          "total": 270,
+          "calculo": "P_60YMAS"
         }
       ],
-      "pendienteValidacion": true,
+      "pendienteValidacion": false,
       "criteriosCarlos": {
         "fecha": "2026-10-26",
         "fuente": "Observaciones de Carlos compartidas por Luis; interpretación de la categoría en Religión confirmada por Luis el 26 de octubre de 2026.",
@@ -12041,6 +12025,30 @@
         "notaComposicion": "Nota: Los datos corresponden a la suma de las manzanas que conforman la localidad, conforme a la información censal por localidad, AGEB y manzana urbana, INEGI, 2020.",
         "notaActividad": "Nota: Los porcentajes no suman 100% porque para 7 personas no se especificó su condición de actividad.",
         "notaOcupacion": "Nota: Los porcentajes no suman 100% porque para 7 personas no se especificó su condición de ocupación."
+      },
+      "gruposAmplios": true,
+      "fuenteGrupos": {
+        "archivo": "assets/grupos_edad_4.csv",
+        "sha256": "86b87659e8cf2a532f113c1953b62d935137001746270decb4a5dc7ec1d4606e",
+        "fechaRecepcion": "2026-10-26",
+        "totalesDeclarados": {
+          "Total": 2136,
+          "Mujeres": 1140,
+          "Hombres": 996
+        },
+        "diferenciasPorGrupo": [
+          {
+            "grupo": "18-59",
+            "totalDeclarado": 1242,
+            "sumaPorSexo": 1243
+          },
+          {
+            "grupo": "60+",
+            "totalDeclarado": 270,
+            "sumaPorSexo": 269
+          }
+        ],
+        "criterioIntegracion": "Se representan los conteos por sexo recibidos, sin redistribuir personas. Se conservan los totales declarados y sus diferencias para aclaración con Carlos. Luis pidió aplicar el mejor criterio para integrar el insumo; no implica validación de las diferencias por Carlos."
       }
     }
   }

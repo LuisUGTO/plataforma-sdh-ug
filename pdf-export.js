@@ -163,11 +163,12 @@ function pyramid(p,extra,total,men,women,x,y,w){
  const bins=extra?.edades;if(!bins?.length||!num(total)){p.card('Pirámide poblacional','Datos pendientes',x,y,w,{small:true});return y+17;}
  p.text(pct(div(men,total)),x+13,y+2,17,true,C.green,32,'center');p.text('Hombres',x+13,y+9,9,true,C.green,32,'center');p.text(pct(div(women,total)),x+w-32,y+2,17,true,C.purple,32,'center');p.text('Mujeres',x+w-32,y+9,9,true,C.purple,32,'center');
  if(extra?.pendienteValidacion){p.text('Pirámide poblacional pendiente de validación',x+3,y+20,11,true,C.text,w-6,'center');p.text('Se esperan los cuatro grupos de edad y sus conteos por sexo.',x+3,y+33,9.5,false,C.text,w-6,'center');return y+46;}
- p.rotatedText('Años',x+.4,y+bins.length*3.4/2+tw('Años',8.5,true)/2,8.5);
- const labelWidth=11,center=x+labelWidth+(w-labelWidth)/2,bw=(w-labelWidth-4)/2,max=Math.max(1,...bins.flatMap(b=>[num(b.hombres)||0,num(b.mujeres)||0]).map(n=>n/total*100)),scale=Math.ceil(max/2)*2,step=3.4;
- [...bins].reverse().forEach((b,i)=>{const yy=y+i*step;const a=div(b.hombres,total),z=div(b.mujeres,total);if(a!==null)p.rect(center-bw*(a*100/scale),yy,bw*(a*100/scale),2.6,C.green);if(z!==null)p.rect(center,yy,bw*(z*100/scale),2.6,C.purple);p.text(b.hasta===null?b.desde+'+':b.desde+'-'+b.hasta,x,yy,7.5,false,C.text,labelWidth-1,'right');});
- const end=y+bins.length*step;p.line(center-bw,end,center+bw,end,C.line,.2);
- for(let tick=-scale;tick<=scale;tick+=2){const tx=center+bw*tick/scale;p.line(tx,end,tx,end+1.2,C.line,.2);p.text(String(Math.abs(tick)),tx-3,end+1.5,8,false,C.text,6,'center');}
+ const broad=extra.gruposAmplios===true,plotTop=broad?18:0,step=broad?10:3.4,barHeight=broad?6.5:2.6;
+ p.rotatedText('Años',x+.4,y+plotTop+bins.length*step/2+tw('Años',8.5,true)/2,8.5);
+ const labelWidth=11,center=x+labelWidth+(w-labelWidth)/2,bw=(w-labelWidth-4)/2,max=Math.max(1,...bins.flatMap(b=>[num(b.hombres)||0,num(b.mujeres)||0]).map(n=>n/total*100)),tickStep=broad?Math.max(2,Math.ceil(max/16)*2):2,scale=Math.ceil(max/tickStep)*tickStep;
+ [...bins].reverse().forEach((b,i)=>{const yy=y+plotTop+i*step;const a=div(b.hombres,total),z=div(b.mujeres,total);if(a!==null)p.rect(center-bw*(a*100/scale),yy,bw*(a*100/scale),barHeight,C.green);if(z!==null)p.rect(center,yy,bw*(z*100/scale),barHeight,C.purple);p.text(b.hasta===null?b.desde+'+':b.desde+'-'+b.hasta,x,yy,7.5,false,C.text,labelWidth-1,'right');});
+ const end=y+plotTop+bins.length*step;p.line(center-bw,end,center+bw,end,C.line,.2);
+ for(let tick=-scale;tick<=scale;tick+=tickStep){const tx=center+bw*tick/scale;p.line(tx,end,tx,end+1.2,C.line,.2);p.text(String(Math.abs(tick)),tx-3,end+1.5,8,false,C.text,6,'center');}
  p.text('%',x+w-5,end+5,7,false,C.text,5,'right');return end+9;
 }
 
@@ -214,7 +215,7 @@ function compose(model,logo=null,options={}){
  explanatory('Relación hombres-mujeres',fmt(m.relation,1),num(m.relation)===null?'Dato pendiente.':`Existen ${Math.round(+m.relation)} hombres por cada 100 mujeres`,y+23);
  explanatory('Edad mediana',fmt(m.age,m.ageDigits??1),m.age===null?'Dato pendiente.':`La mitad de la población tiene ${fmt(m.age,m.ageDigits??1)} años o menos`,y+49);
  y=Math.max(top+73,pyramid(p,model.extra,m.total,m.men,m.women,x+102,top+2,w-102))+3;
- if(m.notes.composition)y+=p.text(m.notes.composition,x,y,8.5,false,C.text,w)+2;
+ if(m.notes.composition)y+=p.text(m.notes.composition,x,y,8.5,true,C.text,w)+2;
  y+=gaps[0];
  const half=(w-5)/2,fy=p.title('Fecundidad',x,y,half,'family'),cy=p.title('Situación conyugal',x+half+5,y,half,'rings');
  // Preserve the original layout footprint so only the fertility card changes.
