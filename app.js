@@ -20,7 +20,7 @@ function ratio(numerator,denominator){const a=number(numerator),b=number(denomin
 function ratioMetric(label,numerator,denominator,digits=1){const value=ratio(numerator,denominator);return `<div class="metric"><span>${esc(label)}</span><strong${value===null?' class="unavailable"':''}>${value===null?'Dato no disponible':(value*100).toFixed(digits)+'%'}</strong></div>`;}
 const reunion=window.SDH_REUNION||{iter:{},historia:{}};
 const H=window.SDH_HISTORIAS_API||(typeof require==='function'?require('./historias.js'):null);
-if(typeof document!=='undefined'&&(!H||!window.SDH_INDICADORES||!window.SDH_ICONOGRAFIA||!window.SDH_PDF||!window.SDH_MAPAS)){$('estado').textContent='Faltan archivos del generador. Sube el paquete completo, incluidos historias.js, indicadores.js, iconografia.js y mapas.js, y recarga con Ctrl+F5.';$('comunidad').innerHTML='<option>Archivos del generador incompletos</option>';return;}
+if(typeof document!=='undefined'&&(!H||!window.SDH_INDICADORES||!window.SDH_ICONOGRAFIA||!window.SDH_PDF||!window.SDH_MAPAS||!window.SDH_TIPOGRAFIA)){$('estado').textContent='Faltan archivos del generador. Sube el paquete completo, incluidos historias.js, indicadores.js, iconografia.js, mapas.js y tipografia.js, y recarga con Ctrl+F5.';$('comunidad').innerHTML='<option>Archivos del generador incompletos</option>';return;}
 let histories=H.fromJSON(window.SDH_HISTORIAS||{comunidades:{}}),historyImported=false;
 const historyFor=r=>histories[String(get(r,'Clave INEGI'))]?.texto||'Introducci\u00f3n pendiente.';
 function rawFor(r){return reunion.iter[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]||{};}
@@ -130,6 +130,9 @@ function demographicCard(label,value,note){return `<div class="demographic-card"
 function pyramid(r,extra){
   const raw=rawFor(r),total=number(raw.POBTOT??get(r,'Población Total'));
   const bins=extra?.edades;
+  if(extra?.pendienteValidacion){
+    $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(ratio(raw.POBMAS??get(r,'Población Hombres'),total)))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(ratio(raw.POBFEM??get(r,'Población Mujeres'),total)))}</strong><span>Mujeres</span></div><div class="missing pyramid-pending">Pirámide poblacional pendiente de validación<small>Se esperan los cuatro grupos de edad y sus conteos por sexo.</small></div>`;return;
+  }
   if(!Array.isArray(bins)||!bins.length||total===null||total<=0){
     $('piramide').innerHTML='<div class="missing">Pirámide poblacional pendiente<small>Se necesitan conteos por edad y sexo; los porcentajes totales no permiten calcularlos.</small></div>';return;
   }
@@ -184,8 +187,14 @@ async function loadCommunityLocation(r,extra,token){
 function render(){
  if(!$('comunidad').options.length)return;const r=records[Number($('comunidad').value)];if(!r)return;
  selected=r;const token=++generation;$('infografia').hidden=false;$('exportar').disabled=false;
- $('nombre').textContent=get(r,'Comunidad / Localidad');$('identificacion').textContent=`${get(r,'Municipio')}, Guanajuato · Clave INEGI: ${get(r,'Clave INEGI')}`;const header=window.SDH_PDF.headerLayout($('nombre').textContent,$('identificacion').textContent,'B');$('nombre').style.fontSize=header.name.pt+'pt';
- $('revision').textContent=`${records.length} comunidades en catálogo · Vista previa para revisión · ${source}`;
+ $('nombre').textContent=get(r,'Comunidad / Localidad');$('identificacion').textContent=`${get(r,'Municipio')}, Guanajuato · Clave INEGI: ${get(r,'Clave INEGI')}`;
+ const header=window.SDH_PDF.headerLayout($('nombre').textContent,$('identificacion').textContent,'Carlos');$('nombre').style.fontSize=header.name.pt+'pt';
+ const docHeader=document.querySelector('.doc-header');docHeader.classList.add('header-propuesta');
+ const identity=docHeader.querySelector('.header-identity');identity.style.top=header.name.y+'mm';
+ const panorama=docHeader.querySelector('.header-panorama');panorama.style.top=header.panorama.y+'mm';panorama.innerHTML=header.panorama.lines.map((line,i)=>`<span style="top:${i?header.panorama.supportY-header.panorama.y+(i-1)*header.panorama.supportStep:0}mm;font-size:${i?header.panorama.supportPt:header.panorama.pt}pt">${esc(line)}</span>`).join('');
+ const brand=docHeader.querySelector('.header-brand');Object.assign(brand.style,{left:header.logo.x+'mm',top:header.logo.y+'mm',width:header.logo.w+'mm',height:header.logo.h+'mm'});
+ const brandImage=brand.querySelector('img');if(!brandImage.getAttribute('src').includes('logotipo Gto'))brandImage.src='assets/logotipo Gto descriptivo vertical (2).png';brandImage.alt='Guanajuato, Gobierno de la Gente, Secretaría de Derechos Humanos';
+ $('revision').textContent=`${records.length} comunidades en catálogo · Vista previa para revisión · ${source}`+(extraFor(r)?.notaRevision?' · '+extraFor(r).notaRevision:'');
  reunionRender(r);loadCommunityLocation(r,extraFor(r),token);
 }
 let printing=false;

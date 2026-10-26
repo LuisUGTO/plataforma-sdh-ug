@@ -10,6 +10,7 @@ const fmt=(v,d=0)=>num(v)===null?'Dato no disponible':Number(v).toLocaleString('
 const pct=v=>v===null||v===undefined?'Dato no disponible':(v*100).toFixed(1)+'%';
 const I=root.SDH_INDICADORES||(typeof require==='function'?require('./indicadores.js'):null);
 const ICONS=root.SDH_ICONOGRAFIA||(typeof require==='function'?require('./iconografia.js'):null);
+const FONTS=root.SDH_TIPOGRAFIA||(typeof require==='function'?require('./tipografia.js'):null);
 const refs=[
  ['Consejo Nacional de Evaluación de la Política de Desarrollo Social. (2021).','Índice de Rezago Social 2020: Anexos','[Conjunto de datos].','https://www.coneval.org.mx/Medicion/IRS/Paginas/Indice_de_Rezago_Social_2020_anexos.aspx'],
  ['Consejo Nacional de Población. (2021).','Índices de marginación 2020','[Conjunto de datos]. Gobierno de México.','https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372'],
@@ -18,9 +19,8 @@ const refs=[
  ['Instituto Nacional de los Pueblos Indígenas. (s.f.).','Catálogo Nacional de Pueblos y Comunidades Indígenas y Afromexicanas.','','https://catalogo.inpi.gob.mx/cedulas/'],
  ['Secretaría del Nuevo Comienzo. (s.f.).','Monografías de las comunidades indígenas del estado de Guanajuato.','Gobierno del Estado de Guanajuato.','https://portalsocial.guanajuato.gob.mx/alcance/localidad']
 ];
-const widths={normal:null,bold:null};
-// Widths are installed by the project build from standard Helvetica AFM metrics.
-function charWidth(c,bold){const arr=widths[bold===true?'bold':'normal'];return arr?arr[winCode(c)]??556:(/[ilI .,]/.test(c)?260:/[MW]/.test(c)?850:540);}
+// All measurements use the same institutional font files embedded in the PDF.
+function charWidth(c,style){const role=style===true?'bold':style||'normal',metrics=FONTS?.[role]?.widths;if(!metrics)throw Error('Falta la tipografía institucional '+role+'. Revisa tipografia.js.');return metrics[winCode(c)]??metrics[63];}
 function winCode(c){const special={'–':150,'—':151,'’':146,'‘':145,'“':147,'”':148,'…':133,'•':149,'€':128};return special[c]??(c.charCodeAt(0)<=255?c.charCodeAt(0):63);}
 function hex(s){return Array.from(String(s)).map(c=>winCode(c).toString(16).padStart(2,'0')).join('');}
 function tw(s,pt,bold=false){return Array.from(String(s)).reduce((a,c)=>a+charWidth(c,bold),0)*pt/1000/MM;}
@@ -45,7 +45,7 @@ class PDF{
  image(data,x,y,w,h){const name="Picture"+this.images.length;this.images.push({...data,name});this.cmd.push(`q ${w*MM} 0 0 ${h*MM} ${x*MM} ${(H-y-h)*MM} cm /${name} Do Q`);}
  text(s,x,y,pt=11,bold=false,color=C.text,width=1000,align='left'){
   const lines=wrap(s,width,pt,bold),step=pt*1.2/MM;
-  for(let i=0;i<lines.length;i++){let dx=align==='right'?width-tw(lines[i],pt,bold):align==='center'?(width-tw(lines[i],pt,bold))/2:0;this.cmd.push(`BT /${bold==='italic'?'F3':bold?'F2':'F1'} ${pt} Tf ${rgb(color)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-y-i*step)-pt/MM)*MM} Tm <${hex(lines[i])}> Tj ET`);}
+  for(let i=0;i<lines.length;i++){let dx=align==='right'?width-tw(lines[i],pt,bold):align==='center'?(width-tw(lines[i],pt,bold))/2:0;this.cmd.push(`BT /${bold==='headline'?'F4':bold==='support'?'F5':bold==='identity'?'F6':bold==='italic'?'F3':bold?'F2':'F1'} ${pt} Tf ${rgb(color)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-y-i*step)-pt/MM)*MM} Tm <${hex(lines[i])}> Tj ET`);}
   return lines.length*step;
  }
  rotatedText(s,x,y,pt=8.5){this.cmd.push(`BT /F2 ${pt} Tf ${rgb(C.text)} rg 0 1 -1 0 ${x*MM} ${(H-y)*MM} Tm <${hex(s)}> Tj ET`);}
@@ -130,13 +130,21 @@ class PDF{
   objects.push(encoder.encode('<< /Type /Catalog /Pages 2 0 R >>'));
   objects.push(encoder.encode('<< /Type /Pages /Kids [3 0 R] /Count 1 >>'));
   const images=[...this.images,...(logo?[{...logo,name:"Logo"}]:[])],linkStart=8+images.length;
-  objects.push(encoder.encode(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W*MM} ${H*MM}] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 7 0 R >> ${images.length?'/XObject << '+images.map((im,i)=>'/'+im.name+' '+(8+i)+' 0 R').join(' ')+' >>':''} >> /Contents 6 0 R /Annots [${this.links.map((l,i)=>(linkStart+i)+' 0 R').join(' ')}] >>`));
-  objects.push(encoder.encode('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>'));
-  objects.push(encoder.encode('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'));
+  const faces=[['F1','normal'],['F2','bold'],['F3','italic'],['F4','headline'],['F5','support'],['F6','identity']].filter(([id,role])=>FONTS?.[role]&&content.includes('/'+id+' ')),fontStart=linkStart+this.links.length;
+  for(const role of ['normal','bold','italic'])if(!FONTS?.[role])throw Error('Falta la tipografía institucional '+role+'. Revisa tipografia.js.');
+  objects.push(encoder.encode(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W*MM} ${H*MM}] /Resources << /Font << ${faces.map(([id],i)=>'/'+id+' '+(fontStart+i*3)+' 0 R').join(' ')} >> ${images.length?'/XObject << '+images.map((im,i)=>'/'+im.name+' '+(8+i)+' 0 R').join(' ')+' >>':''} >> /Contents 6 0 R /Annots [${this.links.map((l,i)=>(linkStart+i)+' 0 R').join(' ')}] >>`));
+  objects.push(encoder.encode('null'));
+  objects.push(encoder.encode('null'));
   const stream=data=>join([encoder.encode(`<< /Length ${data.length} >>\nstream\n`),data,encoder.encode('\nendstream')]);objects.push(stream(encoder.encode(content)));
-  objects.push(encoder.encode('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>'));
+  objects.push(encoder.encode('null'));
   images.forEach(im=>objects.push(join([encoder.encode(`<< /Type /XObject /Subtype /Image /Width ${im.pxWidth} /Height ${im.pxHeight} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${im.bytes.length} >>\nstream\n`),im.bytes,encoder.encode('\nendstream')])));
   this.links.forEach(l=>objects.push(encoder.encode(`<< /Type /Annot /Subtype /Link /Rect [${l.x*MM} ${(H-l.y-l.h)*MM} ${(l.x+l.w)*MM} ${(H-l.y)*MM}] /Border [0 0 0] /A << /S /URI /URI (${l.url.replace(/[()\\]/g,'\\$&')}) >> >>`)));
+  faces.forEach(([,role],i)=>{
+   const f=FONTS[role],first=fontStart+i*3,data=Uint8Array.from(atob(f.data),c=>c.charCodeAt(0)),cff=f.kind==='Type1C';
+   objects.push(encoder.encode(`<< /Type /Font /Subtype /${cff?'Type1':'TrueType'} /BaseFont /${f.name} /Encoding /WinAnsiEncoding /FirstChar 0 /LastChar 255 /Widths [${f.widths.join(' ')}] /FontDescriptor ${first+1} 0 R >>`));
+   objects.push(encoder.encode(`<< /Type /FontDescriptor /FontName /${f.name} /Flags ${(role==='headline'?34:32)+(f.italicAngle?64:0)} /FontBBox [${f.bbox.join(' ')}] /ItalicAngle ${f.italicAngle} /Ascent ${f.ascent} /Descent ${f.descent} /CapHeight ${f.capHeight} /StemV 100 /FontFile${cff?'3':'2'} ${first+2} 0 R >>`));
+   objects.push(join([encoder.encode(`<< /Length ${data.length} ${cff?'/Subtype /Type1C':'/Length1 '+data.length} >>\nstream\n`),data,encoder.encode('\nendstream')]));
+  });
   let parts=[encoder.encode('%PDF-1.4\n')],offsets=[0],size=parts[0].length;objects.forEach((o,i)=>{offsets.push(size);const part=join([encoder.encode(`${i+1} 0 obj\n`),o,encoder.encode('\nendobj\n')]);parts.push(part);size+=part.length;});const xref=size;parts.push(encoder.encode(`xref\n0 ${objects.length+1}\n0000000000 65535 f \n${offsets.slice(1).map(o=>String(o).padStart(10,'0')+' 00000 n ').join('\n')}\ntrailer\n<< /Size ${objects.length+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`));return join(parts);
  }
 }
@@ -154,6 +162,7 @@ function median(extra,total){return I.median(extra,total);}
 function pyramid(p,extra,total,men,women,x,y,w){
  const bins=extra?.edades;if(!bins?.length||!num(total)){p.card('Pirámide poblacional','Datos pendientes',x,y,w,{small:true});return y+17;}
  p.text(pct(div(men,total)),x+13,y+2,17,true,C.green,32,'center');p.text('Hombres',x+13,y+9,9,true,C.green,32,'center');p.text(pct(div(women,total)),x+w-32,y+2,17,true,C.purple,32,'center');p.text('Mujeres',x+w-32,y+9,9,true,C.purple,32,'center');
+ if(extra?.pendienteValidacion){p.text('Pirámide poblacional pendiente de validación',x+3,y+20,11,true,C.text,w-6,'center');p.text('Se esperan los cuatro grupos de edad y sus conteos por sexo.',x+3,y+33,9.5,false,C.text,w-6,'center');return y+46;}
  p.rotatedText('Años',x+.4,y+bins.length*3.4/2+tw('Años',8.5,true)/2,8.5);
  const labelWidth=11,center=x+labelWidth+(w-labelWidth)/2,bw=(w-labelWidth-4)/2,max=Math.max(1,...bins.flatMap(b=>[num(b.hombres)||0,num(b.mujeres)||0]).map(n=>n/total*100)),scale=Math.ceil(max/2)*2,step=3.4;
  [...bins].reverse().forEach((b,i)=>{const yy=y+i*step;const a=div(b.hombres,total),z=div(b.mujeres,total);if(a!==null)p.rect(center-bw*(a*100/scale),yy,bw*(a*100/scale),2.6,C.green);if(z!==null)p.rect(center,yy,bw*(z*100/scale),2.6,C.purple);p.text(b.hasta===null?b.desde+'+':b.desde+'-'+b.hasta,x,yy,7.5,false,C.text,labelWidth-1,'right');});
@@ -162,16 +171,19 @@ function pyramid(p,extra,total,men,women,x,y,w){
  p.text('%',x+w-5,end+5,7,false,C.text,5,'right');return end+9;
 }
 
-const panoramaLines=['PANORAMA SOCIODEMOGRÁFICO','DE LOS PUEBLOS Y COMUNIDADES','INDÍGENAS Y AFROMEXICANAS','DEL ESTADO DE GUANAJUATO'];
-function headerLayout(name,identification,variant='B',logoRatio=1496/4452){
- const chosen=variant==='A'?'A':'B',identityWidth=202,identPt=12;
- let namePt=36,nameLines,identLines=wrap(identification,identityWidth,identPt);
- do{nameLines=wrap(name,identityWidth,namePt);if(nameLines.length*namePt*1.2/MM+2+identLines.length*identPt*1.2/MM<=34)break;namePt-=.5;}while(namePt>16);
- const nameH=nameLines.length*namePt*1.2/MM,identH=identLines.length*identPt*1.2/MM,total=nameH+2+identH,identityY=8+(35-total)/2;
- const panorama={x:chosen==='B'?220:402,w:chosen==='B'?175:181,pt:13.5,lines:panoramaLines};
- panorama.y=8+(35-panoramaLines.length*panorama.pt*1.2/MM)/2;
- const logoRegion=chosen==='B'?{x:402,w:181}:{x:220,w:175},logoW=100,logoH=logoW*logoRatio;
- return {variant:chosen,name:{x:11,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:11,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama,logo:{x:logoRegion.x+(logoRegion.w-logoW)/2,y:8+(35-logoH)/2,w:logoW,h:logoH}};
+// Proportions measured from Carlos's proposal, within the existing A2 header.
+const panoramaLines=['PANORAMA SOCIODEMOGRÁFICO','DE LOS PUEBLOS Y COMUNIDADES INDÍGENAS Y','AFROMEXICANAS DEL ESTADO DE GUANAJUATO'];
+function headerLayout(name,identification,variant='Carlos',logoRatio=1375/1465){
+ if(!FONTS?.headline||!FONTS?.support||!FONTS?.identity)throw Error('Faltan las tipografías oficiales del encabezado. Revisa tipografia.js y assets/fuentes.');
+ const identityWidth=235,identPt=14,identLines=wrap(identification,identityWidth,identPt,'identity');
+ let namePt=34;
+ while(namePt>24&&wrap(name,identityWidth,namePt,'headline').length>1)namePt-=.5;
+ const nameLines=wrap(name,identityWidth,namePt,'headline'),nameH=nameLines.length*namePt*1.2/MM,identH=identLines.length*identPt*1.2/MM;
+ const identityY=(40.2-nameH-2-identH)/2-1;
+ if(identityY<2)throw Error('El nombre excede el espacio del encabezado: '+name);
+ const titlePt=190/tw(panoramaLines[0],1,'headline'),supportPt=192.5/tw(panoramaLines[2],1,'support');
+ const logoH=35.5,logoW=logoH/logoRatio;
+ return {variant:'Carlos',panel:{w:268,h:43},name:{x:11.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:11.5,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama:{x:302.5,y:3.5,w:232,pt:titlePt,supportPt,supportY:16.65,supportStep:9.65,lines:panoramaLines},logo:{x:566-logoW/2,y:2.35,w:logoW,h:logoH}};
 }
 
 function render(model,logo=null){
@@ -183,12 +195,12 @@ function compose(model,logo=null,options={}){
  if(!I||!ICONS)throw Error('Faltan indicadores.js o iconografia.js. Sube el generador completo.');
  const p=new PDF(),r=model.record||{},raw=model.raw||{},m=I.build(r,raw,model.extra),get=k=>r[norm(k)]??r[k],name=get('Comunidad / Localidad')||raw.NOM_LOC||'Comunidad',key=get('Clave INEGI')||raw['Clave INEGI'];
  const identification=`${get('Municipio')||raw.NOM_MUN}, Guanajuato · Clave INEGI: ${key}`;
- const header=headerLayout(name,identification,model.headerVariant||'B',logo?logo.pxHeight/logo.pxWidth:1496/4452);
- p.rect(0,0,W,3,C.blue);
- p.text(name,header.name.x,header.name.y,header.name.pt,true,C.blue,header.name.w);
- p.text(identification,header.identification.x,header.identification.y,header.identification.pt,false,C.blue,header.identification.w);
- p.text(header.panorama.lines.join('\n'),header.panorama.x,header.panorama.y,header.panorama.pt,true,C.blue,header.panorama.w,'center');
- p.line(11,46,583,46,C.sky,.65);
+ const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1375/1465);
+ p.rect(0,0,246.5,43,C.blue);p.circle(246.5,21.5,21.5,C.blue);p.rect(0,40,W,3.5,C.blue);
+ p.text(name,header.name.x,header.name.y,header.name.pt,'headline','#FFFFFF',header.name.w);
+ p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#C8D8EB',header.identification.w);
+ p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',C.blue,header.panorama.w);
+ header.panorama.lines.slice(1).forEach((line,i)=>p.text(line,header.panorama.x,header.panorama.supportY+i*header.panorama.supportStep,header.panorama.supportPt,'support',C.blue,header.panorama.w));
  if(logo)logo={...logo,...header.logo};
  const gaps=options.gaps||[0,0,0];let x=11,w=202,y=52;
  y=p.title('Introducción',x,y,w,'historia');y+=p.justified(model.history||'Introducci\u00f3n pendiente.',x+2,y+1,11,w-4)+5+gaps[0];
@@ -231,14 +243,12 @@ function compose(model,logo=null,options={}){
  const refTop=p.title('Fuentes y referencias',11,footer,572,'book');let refBottom=refTop;
  // Two columns in bibliographic order, with APA hanging indent and italic titles.
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
+ if(model.extra?.notaRevision)refBottom+=1+p.text(model.extra.notaRevision,11,refBottom+1,9,false,C.blue,572);
  if(refBottom>417)throw Error('Las referencias exceden el margen inferior.');
  return {bytes:options.measureOnly?null:p.finish(logo),header,bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight,columnBottoms:p.bounds.map(b=>b.bottom-2),closingTarget:CONTENT_BOTTOM}};
 }
 async function imageBytes(src){const image=new Image();image.src=src+(src.includes('?')?'&':'?')+'v='+Date.now();try{await image.decode();}catch{throw Error('No se pudo leer '+src+'. Revisa la carpeta assets, el nombre completo y que el archivo sea una imagen válida.');}const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.98));if(!blob)throw Error('No se pudo preparar la imagen '+src+' para el PDF.');return {bytes:new Uint8Array(await blob.arrayBuffer()),pxWidth:canvas.width,pxHeight:canvas.height};}
-async function download(model){const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');const maps=root.SDH_MAPAS||(typeof require==='function'?require('./mapas.js'):null);if(!maps)throw Error('Falta mapas.js. Sube el generador completo y recarga la página.');const mapPath=maps.pathFor(model.record[norm('Clave INEGI')]??model.record['Clave INEGI']);if(mapPath)model={...model,mapImage:await imageBytes(mapPath)};const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
-const api={render,download,headerLayout,refs,median,labelLines,labelLimit,cardLayout,setWidths:(normal,bold)=>{widths.normal=normal;widths.bold=bold;}};
+async function download(model){const logo=await imageBytes('assets/logotipo Gto descriptivo vertical (2).png');const maps=root.SDH_MAPAS||(typeof require==='function'?require('./mapas.js'):null);if(!maps)throw Error('Falta mapas.js. Sube el generador completo y recarga la página.');const mapPath=maps.pathFor(model.record[norm('Clave INEGI')]??model.record['Clave INEGI']);if(mapPath)model={...model,mapImage:await imageBytes(mapPath)};const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
+const api={render,download,headerLayout,refs,median,labelLines,labelLimit,cardLayout};
 root.SDH_PDF=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
-
-globalThis.SDH_PDF.setWidths([761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584, 584, 556, 1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 278, 278, 278, 469, 556, 333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500, 334, 260, 334, 584, 761, 556, 556, 222, 556, 333, 1000, 556, 556, 333, 1000, 667, 333, 1000, 556, 611, 556, 556, 222, 222, 333, 333, 350, 556, 1000, 333, 1000, 500, 333, 944, 556, 500, 667, 278, 333, 556, 556, 556, 556, 260, 556, 333, 737, 370, 556, 584, 333, 737, 333, 400, 584, 333, 333, 333, 556, 537, 278, 333, 333, 365, 556, 834, 834, 834, 611, 667, 667, 667, 667, 667, 667, 1000, 722, 667, 667, 667, 667, 278, 278, 278, 278, 722, 722, 778, 778, 778, 778, 778, 584, 778, 722, 722, 722, 722, 667, 667, 611, 556, 556, 556, 556, 556, 556, 889, 500, 556, 556, 556, 556, 278, 278, 278, 278, 556, 556, 556, 556, 556, 556, 556, 584, 611, 556, 556, 556, 556, 500, 556, 500],[761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 761, 278, 333, 474, 556, 556, 889, 722, 238, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611, 975, 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556, 333, 556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611, 611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584, 761, 556, 556, 278, 556, 500, 1000, 556, 556, 333, 1000, 667, 333, 1000, 556, 611, 556, 556, 278, 278, 500, 500, 350, 556, 1000, 333, 1000, 556, 333, 944, 556, 500, 667, 278, 333, 556, 556, 556, 556, 280, 556, 333, 737, 370, 556, 584, 333, 737, 333, 400, 584, 333, 333, 333, 611, 556, 278, 333, 333, 365, 556, 834, 834, 834, 611, 722, 722, 722, 722, 722, 722, 1000, 722, 667, 667, 667, 667, 278, 278, 278, 278, 722, 722, 778, 778, 778, 778, 778, 584, 778, 722, 722, 722, 722, 667, 667, 611, 556, 556, 556, 556, 556, 556, 889, 556, 556, 556, 556, 556, 278, 278, 278, 278, 611, 611, 611, 611, 611, 611, 611, 584, 611, 611, 611, 611, 611, 556, 611, 556]);
-

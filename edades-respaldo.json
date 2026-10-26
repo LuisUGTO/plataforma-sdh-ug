@@ -12031,7 +12031,9 @@
           "hombres": 126,
           "mujeres": 143
         }
-      ]
+      ],
+      "pendienteValidacion": true,
+      "notaRevision": "San Agustín: insumo en revisión. PEA: 1,002; ocupados + desocupados: 995. Pirámide, edad mediana y alcance territorial pendientes de validación."
     }
   }
 }
