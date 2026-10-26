@@ -217,7 +217,8 @@ function compose(model,logo=null,options={}){
  if(m.notes.composition)y+=p.text(m.notes.composition,x,y,8.5,false,C.text,w)+2;
  y+=gaps[0];
  const half=(w-5)/2,fy=p.title('Fecundidad',x,y,half,'family'),cy=p.title('Situación conyugal',x+half+5,y,half,'rings');
- const fb=p.sideCard(...m.fertility,x,fy,half,'',29);const ch=p.text('Población de 12 años y más según situación conyugal',x+half+5,cy,9.5,true,C.text,half);const cb=p.pie(m.marital,raw.P_12YMAS,x+half+5,cy+ch+2,half),maritalReady=num(raw.P_12YMAS)>0&&m.marital.every(a=>num(a[1])!==null)&&m.marital.reduce((sum,a)=>sum+Number(a[1]),0)<=Number(raw.P_12YMAS);p.bounds.push({column:1,bottom:Math.max(fb-2,cb-(maritalReady?0:1.5))+2});
+ // Preserve the original layout footprint so only the fertility card changes.
+ const fertilityFootprint=fy+cardLayout(...m.fertility,half,29).h+2;p.sideCard(...m.fertility,x,fy,half,'',18);const ch=p.text('Población de 12 años y más según situación conyugal',x+half+5,cy,9.5,true,C.text,half);const cb=p.pie(m.marital,raw.P_12YMAS,x+half+5,cy+ch+2,half),maritalReady=num(raw.P_12YMAS)>0&&m.marital.every(a=>num(a[1])!==null)&&m.marital.reduce((sum,a)=>sum+Number(a[1]),0)<=Number(raw.P_12YMAS);p.bounds.push({column:1,bottom:Math.max(fertilityFootprint-2,cb-(maritalReady?0:1.5))+2});
  x=220;w=175;y=52;const ew=(w-4)/2;
  y=p.title('Vivienda',x,y,w,'housing');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value,highlight]=m.housing[row*2+i];bottom=Math.max(bottom,p.card(label,value,x+i*(ew+4),y,ew,{highlight,minHeight:row===0?17:12,labelFraction:.72}));}y=bottom;}
  m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+1,x+w,y+1,C.line,.25);y+=3;}y+=1;y+=p.text(label,x,y,10.5,true,C.text,w)+1.5;y=p.bars(items,x,y,w,{step:4.32});});

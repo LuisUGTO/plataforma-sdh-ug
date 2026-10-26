@@ -132,6 +132,12 @@ Esta actualización sustituye el pendiente de implementar el encabezado. Falta l
 - Luis señaló que también debía mostrarse “Muy bajo” en una sola línea. El exportador ahora reserva el ancho de la frase completa para los valores de Desarrollo social; la vista web usa una columna de valor con ancho natural y sin salto de línea. También se comprueba “Muy alto”. No se reduce el tamaño de letra ni se cambia el dato.
 - Se validan las 214 tarjetas de las 107 comunidades, sus etiquetas y la alineación de columnas. Se mantienen los ajustes anteriores de San Agustín y el A2. Las referencias de estilos y exportador en `index.html` pasan a `20261026-b2`. La nueva muestra se entrega como `output/pdf/SDH_110090001_San_Agustín_A2_20261026_b2.pdf`; la muestra anterior se conserva como historial.
 
+### Corrección complementaria: cuadro compacto de Fecundidad
+
+- Luis autorizó reducir **solo el cuadro de Fecundidad**, aceptando que su borde inferior no coincida con Situación conyugal. La altura del cuadro en PDF pasa de 29 a **18 mm**, sin modificar ancho, texto, cifra ni tipografía. La pantalla ya utilizaba 18 mm y se conserva.
+- Se mantiene la reserva anterior de espacio al calcular la columna para evitar que esta reducción mueva Situación conyugal, el encabezado o cualquier otro contenido. Se compararon las instrucciones de dibujo de las 107 fichas antes y después: únicamente cambian el borde inferior del cuadro y la posición vertical de su cifra. Se verificaron dos descargas reales de Chrome, Alonso Yáñez (2.70) y San Agustín (2.12), con una página A2 y fuentes institucionales.
+- El exportador se referencia en `index.html` como `20261026-b3`. La muestra de Alonso Yáñez con el cuadro compacto se entrega en `output/pdf/SDH_110030008_Alonso_Yáñez_A2_20261026_fecundidad.pdf`. No se publica ni se hace commit/push.
+
 ## Límites para el asistente del chat nuevo
 
 - Luis usó Antigravity para cambios directos al repositorio; aquí puede pedir revisión técnica y, dentro del proyecto local, cambios concretos si así lo decide.
