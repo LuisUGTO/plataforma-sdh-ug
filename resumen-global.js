@@ -33,30 +33,34 @@ function build(records,iter){
  const municipalities=new Set(sources.map(s=>s.key.slice(0,5)));
  const high=label=>sources.filter(s=>['alto','muy alto'].includes(norm(get(s.record,label)))).length;
  const classificationCoverage=label=>sources.every(s=>['muy bajo','bajo','medio','alto','muy alto'].includes(norm(get(s.record,label))));
- const ageFields=['P_15YMAS_M','P_15YMAS_F','P_18YMAS_M','P_18YMAS_F','P_60YMAS_M','P_60YMAS_F'];
- const validAges=sources.every(s=>['M','F'].every(sex=>{const a=count(s.raw[sex==='M'?'POBMAS':'POBFEM']),b=count(s.raw['P_15YMAS_'+sex]),c=count(s.raw['P_18YMAS_'+sex]),d=count(s.raw['P_60YMAS_'+sex]);return [a,b,c,d].every(v=>v!==null)&&a>=b&&b>=c&&c>=d;}));
- const ages=validAges&&ageFields.every(f=>raw[f]!==null)?[
-  {desde:0,hasta:14,hombres:raw.POBMAS-raw.P_15YMAS_M,mujeres:raw.POBFEM-raw.P_15YMAS_F},
-  {desde:15,hasta:17,hombres:raw.P_15YMAS_M-raw.P_18YMAS_M,mujeres:raw.P_15YMAS_F-raw.P_18YMAS_F},
-  {desde:18,hasta:59,hombres:raw.P_18YMAS_M-raw.P_60YMAS_M,mujeres:raw.P_18YMAS_F-raw.P_60YMAS_F},
-  {desde:60,hasta:null,hombres:raw.P_60YMAS_M,mujeres:raw.P_60YMAS_F}
- ]:[];
+ // Only the pyramid excludes San Agustín; every other aggregate still uses 107 localities.
+ const ageSources=sources.filter(s=>s.key!=='110090001'),ageCoverage={};
+ const ageSum=field=>{const values=ageSources.map(s=>count(s.raw[field]));ageCoverage[field]=values.filter(v=>v!==null).length;return ageCoverage[field]===ageSources.length?values.reduce((a,b)=>a+b,0):null;};
+ const ageBins=Array.from({length:18},(_,i)=>{const desde=i*5,hasta=i===17?null:desde+4,stem='P_'+desde+(hasta===null?'YMAS':'A'+hasta);return {desde,hasta,hombres:ageSum(stem+'_M'),mujeres:ageSum(stem+'_F')};});
+ const agePopulation=field=>ageSources.reduce((sum,s)=>sum+count(s.raw[field]),0);
+ const universe={communityCount:ageSources.length,total:agePopulation('POBTOT'),men:agePopulation('POBMAS'),women:agePopulation('POBFEM'),sourceKeys:ageSources.map(s=>s.key),excludedKeys:['110090001'],fieldCoverage:ageCoverage};
+ universe.completeFields=ageBins.every(b=>b.hombres!==null&&b.mujeres!==null);
+ universe.ageCounts=universe.completeFields?{men:ageBins.reduce((sum,b)=>sum+b.hombres,0),women:ageBins.reduce((sum,b)=>sum+b.mujeres,0)}:null;
+ universe.populationGap=universe.ageCounts?universe.total-universe.ageCounts.men-universe.ageCounts.women:null;
+ universe.differencesByLocality=ageSources.flatMap(s=>{const sums={};for(const [sex,suffix,pop]of [['men','M','POBMAS'],['women','F','POBFEM']]){const values=ageBins.map(b=>count(s.raw['P_'+b.desde+(b.hasta===null?'YMAS':'A'+b.hasta)+'_'+suffix]));sums[sex]=values.every(v=>v!==null)?count(s.raw[pop])-values.reduce((a,b)=>a+b,0):null;}return sums.men||sums.women||sums.men===null||sums.women===null?[{key:s.key,...sums}]:[];});
+ const validAges=universe.completeFields&&universe.populationGap>=0&&universe.differencesByLocality.every(s=>s.men!==null&&s.women!==null&&s.men>=0&&s.women>=0);
+ const ages=validAges?ageBins:[];
+ universe.gapExplained=validAges;
  const religionFields=['PCATOLICA','PRO_CRIEVA','POTRAS_REL','PSIN_RELIG'];
  const validReligion=sources.every(s=>{const values=religionFields.map(f=>count(s.raw[f])),total=count(s.raw.POBTOT);return total!==null&&values.every(v=>v!==null)&&values.reduce((a,b)=>a+b,0)<=total;});
  const difference=(total,...parts)=>[total,...parts].every(v=>v!==null)?total-parts.reduce((a,b)=>a+b,0):null;
  const gaps={activity:difference(raw.P_12YMAS,raw.PEA,raw.PE_INAC),occupation:difference(raw.PEA,raw.POCUPADA,raw.PDESOCUP)};
  const validLanguage=sources.every(s=>{const values=['P3YM_HLI','P3HLI_HE','P3HLINHE'].map(f=>count(s.raw[f]));return values.every(v=>v!==null)&&values[1]+values[2]<=values[0];});
- const ageTotals=[difference(raw.POBTOT,raw.P_15YMAS),difference(raw.P_15YMAS,raw.P_18YMAS),difference(raw.P_18YMAS,raw.P_60YMAS),raw.P_60YMAS];
- const extra={global:true,gruposAmplios:true,parcial:!validAges,edades:ages,communityCount:EXPECTED,municipalityCount:municipalities.size,
+ const pyramidNote='Nota: La pirámide incluye '+ageSources.length+' localidades ('+universe.total.toLocaleString('es-MX')+' habitantes); excluye a San Agustín por no contar con grupos quinquenales comparables. '+(validAges&&universe.populationGap?'El desglose por edad difiere en '+universe.populationGap+' personas del total. ':'')+'Los demás indicadores incluyen las 107 localidades.';
+ const extra={global:true,gruposAmplios:false,parcial:!validAges||universe.populationGap>0,edades:ages,pyramidUniverse:universe,communityCount:EXPECTED,municipalityCount:municipalities.size,
   highMarginalization:classificationCoverage('Grado Marginación (CONAPO)')?high('Grado Marginación (CONAPO)'):null,
   highSocialLag:classificationCoverage('Grado Rezago Social (CONEVAL)')?high('Grado Rezago Social (CONEVAL)'):null,
   communitiesWithSpeakers:coverage.P3YM_HLI===EXPECTED?sources.filter(s=>count(s.raw.P3YM_HLI)>0).length:null,
   religionResidual:validReligion?raw.POBTOT-religionFields.reduce((a,f)=>a+raw[f],0):null,
   languageResidual:validLanguage?raw.P3YM_HLI-raw.P3HLI_HE-raw.P3HLINHE:null,
-  ageDifferences:ages.map((b,i)=>({desde:b.desde,hasta:b.hasta,totalDeclarado:ageTotals[i],sumaPorSexo:b.hombres+b.mujeres})).filter(b=>b.totalDeclarado!==null&&b.totalDeclarado!==b.sumaPorSexo),
   coverage,gaps,sourceKeys:[...seen],
-  fuenteEdades:'Suma de conteos censales por sexo; grupos 0–14, 15–17, 18–59 y 60+. No se estima una mediana.',
-  criteriosCarlos:{notaComposicion:'Nota: Se reúne toda la población de las 107 localidades, no solo la indígena. Los desgloses por edad y sexo conservan las diferencias del insumo de San Agustín.',
+  fuenteEdades:'Conteos censales quinquenales de 106 localidades, de 0–4 a 85+. San Agustín (110090001) se excluye solo de la pirámide; no se estima ni reparte su población por edad.',
+  criteriosCarlos:{notaComposicion:pyramidNote,
    notaActividad:gaps.activity?'Nota: El total y el desglose de actividad difieren en '+gaps.activity.toLocaleString('es-MX')+' personas.':'',
    notaOcupacion:gaps.occupation?'Nota: El total de la PEA y su desglose ocupacional difieren en '+gaps.occupation.toLocaleString('es-MX')+' personas.':''}
  };

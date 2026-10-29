@@ -134,10 +134,10 @@ async function load(){if(busy)return;busy=true;$('actualizar').disabled=true;sta
 function extraFor(r){return isGlobal(r)?globalData.extra:extras[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]??null;}
 function demographicCard(label,value,note){return `<div class="demographic-card"><div class="demographic-label"><b>${labelHTML(label)}</b><small>${noteHTML(note)}</small></div><strong>${esc(value)}</strong></div>`;}
 function pyramid(r,extra){
-  const raw=rawFor(r),total=number(raw.POBTOT??get(r,'Población Total'));
+  const raw=rawFor(r),universe=extra?.pyramidUniverse,total=number(universe?.total??raw.POBTOT??get(r,'Población Total')),men=number(universe?.men??raw.POBMAS??get(r,'Población Hombres')),women=number(universe?.women??raw.POBFEM??get(r,'Población Mujeres'));
   const bins=extra?.edades;
   if(extra?.pendienteValidacion){
-    $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(ratio(raw.POBMAS??get(r,'Población Hombres'),total)))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(ratio(raw.POBFEM??get(r,'Población Mujeres'),total)))}</strong><span>Mujeres</span></div><div class="missing pyramid-pending">Pirámide poblacional pendiente de validación<small>Se esperan los cuatro grupos de edad y sus conteos por sexo.</small></div>`;return;
+    $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(ratio(men,total)))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(ratio(women,total)))}</strong><span>Mujeres</span></div><div class="missing pyramid-pending">Pirámide poblacional pendiente de validación<small>Se esperan los cuatro grupos de edad y sus conteos por sexo.</small></div>`;return;
   }
   if(!Array.isArray(bins)||!bins.length||total===null||total<=0){
     $('piramide').innerHTML='<div class="missing">Pirámide poblacional pendiente<small>Se necesitan conteos por edad y sexo; los porcentajes totales no permiten calcularlos.</small></div>';return;
@@ -154,7 +154,7 @@ function pyramid(r,extra){
       if(m===null)unknown++;else sumM+=m;
       return {...b,h,m};
     });
-    const hom=number(raw.POBMAS??get(r,'Población Hombres')),muj=number(raw.POBFEM??get(r,'Población Mujeres'));
+    const hom=number(men),muj=number(women);
     if(sumH+sumM>total||(hom!==null&&sumH>hom)||(muj!==null&&sumM>muj))throw Error('Suma mayor al total');
     const broad=extra.gruposAmplios===true,maximum=Math.max(1,...data.flatMap(b=>[b.h??0,b.m??0]).map(v=>v/total*100));
     const tickStep=broad?Math.max(2,Math.ceil(maximum/16)*2):2,scale=Math.ceil(maximum/tickStep)*tickStep;
@@ -172,8 +172,8 @@ function pyramid(r,extra){
     const ay=chartHeight-15;svg+=`<line x1="${center-bw}" y1="${ay}" x2="${center+bw}" y2="${ay}" stroke="#C8C9C7"/>`;
     for(let tick=-scale;tick<=scale;tick+=tickStep){const tx=center+bw*tick/scale;svg+=`<line x1="${tx}" y1="${ay}" x2="${tx}" y2="${ay+3}" stroke="#C8C9C7"/><text x="${tx}" y="${ay+12}" text-anchor="middle" font-size="9">${Math.abs(tick)}</text>`;}
     svg+=`<text x="334" y="${ay+12}" font-size="9">%</text></svg>`;
-    const partial=unknown>0||extra.parcial||sumH+sumM<total;
-    $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(ratio(raw.POBMAS??get(r,'Población Hombres'),total)))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(ratio(raw.POBFEM??get(r,'Población Mujeres'),total)))}</strong><span>Mujeres</span></div>`+svg+(partial?'<p class="note">Distribución parcial: faltan valores por edad o sexo.</p>':'');
+    const partial=unknown>0||extra.parcial||sumH+sumM<total,explained=universe?.gapExplained&&universe.completeFields&&universe.populationGap===total-sumH-sumM;
+    $('piramide').innerHTML=`<div class="sex-callout men"><strong>${esc(percentText(ratio(men,total)))}</strong><span>Hombres</span></div><div class="sex-callout women"><strong>${esc(percentText(ratio(women,total)))}</strong><span>Mujeres</span></div>`+svg+(partial&&!explained?'<p class="note">Distribución parcial: faltan valores por edad o sexo.</p>':'');
   }catch{$('piramide').innerHTML='<div class="missing">Distribución por edad inconsistente: revisar intervalos y totales.</div>';}
 }
 

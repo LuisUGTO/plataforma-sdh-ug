@@ -176,6 +176,7 @@ function drawMap(p,g,raw,key,name,x,y,w,h){
 }
 function median(extra,total){return I.median(extra,total);}
 function pyramid(p,extra,total,men,women,x,y,w){
+ if(extra?.pyramidUniverse){total=extra.pyramidUniverse.total;men=extra.pyramidUniverse.men;women=extra.pyramidUniverse.women;}
  const bins=extra?.edades;if(!bins?.length||!num(total)){p.card('Pirámide poblacional','Datos pendientes',x,y,w,{small:true});return y+17;}
  p.text(pct(div(men,total)),x+13,y+2,17,true,C.green,32,'center');p.text('Hombres',x+13,y+9,9,true,C.green,32,'center');p.text(pct(div(women,total)),x+w-32,y+2,17,true,C.purple,32,'center');p.text('Mujeres',x+w-32,y+9,9,true,C.purple,32,'center');
  if(extra?.pendienteValidacion){p.text('Pirámide poblacional pendiente de validación',x+3,y+20,11,true,C.text,w-6,'center');p.text('Se esperan los cuatro grupos de edad y sus conteos por sexo.',x+3,y+33,9.5,false,C.text,w-6,'center');return y+46;}
