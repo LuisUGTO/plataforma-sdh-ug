@@ -94,9 +94,10 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 .header-propuesta .header-identity{left:22.5mm;width:197mm}
 .doc-header.header-propuesta .header-identity h2{font:800 34pt/1.2 SDHVollkorn,serif;color:#fff;margin:0 0 2mm}
 .doc-header.header-propuesta #identificacion{font:400 14pt/1.2 SDHHelveticaRoman,sans-serif;color:var(--pale)}
-.header-propuesta .header-panorama{left:260mm;width:202mm;height:36mm;text-align:left;font:300 24pt/1.2 SDHHelveticaLight,sans-serif}
+.header-propuesta .header-panorama{left:260mm;width:202mm;height:36mm;text-align:center;font:800 22pt/1.2 SDHVollkorn,serif}
 .header-propuesta .header-panorama span{position:absolute;left:0;width:100%}
-.header-propuesta .header-panorama span:first-child{font-family:SDHVollkorn,serif;font-weight:800;margin:0}
+.header-propuesta .header-panorama span{color:var(--blue)}
+.header-propuesta .header-panorama span:nth-child(2){color:var(--sky)}
 .doc-header.header-propuesta .header-brand img{width:100%;height:100%;max-height:none;object-fit:contain}
 
 @font-face{font-family:SDHHelvetica;src:url('assets/fuentes/HelveticaNeueLTStd-Roman.otf') format('opentype');font-weight:400;font-style:normal;font-display:block}

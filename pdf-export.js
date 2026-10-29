@@ -189,7 +189,7 @@ function pyramid(p,extra,total,men,women,x,y,w){
 }
 
 // Approved header: content-aligned margins and the horizontal institutional logo.
-const panoramaLines=['PANORAMA SOCIODEMOGRÁFICO','DE LOS PUEBLOS Y COMUNIDADES INDÍGENAS Y','AFROMEXICANAS DEL ESTADO DE GUANAJUATO'];
+const panoramaLines=['Panorama Sociodemográfico de los','Pueblos y Comunidades Indígenas y Afromexicanas','del Estado de Guanajuato'];
 function headerLayout(name,identification,variant='Carlos',logoRatio=1496/4452){
  if(!FONTS?.headline||!FONTS?.support||!FONTS?.identity)throw Error('Faltan las tipografías oficiales del encabezado. Revisa tipografia.js y assets/fuentes.');
  const identityWidth=197,identPt=14,identLines=wrap(identification,identityWidth,identPt,'identity');
@@ -198,9 +198,9 @@ function headerLayout(name,identification,variant='Carlos',logoRatio=1496/4452){
  const nameLines=wrap(name,identityWidth,namePt,'headline'),nameH=nameLines.length*namePt*1.2/MM,identH=identLines.length*identPt*1.2/MM;
  const identityY=(40.2-nameH-2-identH)/2-1;
  if(identityY<2)throw Error('El nombre excede el espacio del encabezado: '+name);
- const titlePt=190/tw(panoramaLines[0],1,'headline'),supportPt=192.5/tw(panoramaLines[2],1,'support');
+ const titlePt=Math.min(34,...panoramaLines.map(line=>194/tw(line,1,'headline'))),supportPt=titlePt;
  const logoW=Math.min(100,35.5/logoRatio),logoH=logoW*logoRatio;
- return {variant:'Carlos',panel:{x:11,w:225,h:43},name:{x:22.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:22.5,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama:{x:260,y:3.5,w:202,pt:titlePt,supportPt,supportY:16.65,supportStep:9.65,lines:panoramaLines},logo:{x:583-logoW,y:20.1-logoH/2,w:logoW,h:logoH}};
+ return {variant:'Carlos',panel:{x:11,w:225,h:43},name:{x:22.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:22.5,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama:{x:260,y:3.5,w:202,pt:titlePt,supportPt,supportY:15,supportStep:11.5,lines:panoramaLines,colors:[C.blue,C.sky,C.blue]},logo:{x:583-logoW,y:20.1-logoH/2,w:logoW,h:logoH}};
 }
 
 function render(model,logo=null){
@@ -216,8 +216,8 @@ function compose(model,logo=null,options={}){
  p.rect(11,0,203.5,43,C.blue);p.circle(214.5,21.5,21.5,C.blue);p.rect(11,40,W-22,3.5,C.blue);
  p.text(name,header.name.x,header.name.y,header.name.pt,'headline','#FFFFFF',header.name.w);
  p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#C8D8EB',header.identification.w);
- p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',C.blue,header.panorama.w);
- header.panorama.lines.slice(1).forEach((line,i)=>p.text(line,header.panorama.x,header.panorama.supportY+i*header.panorama.supportStep,header.panorama.supportPt,'support',C.blue,header.panorama.w));
+ p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',header.panorama.colors[0],header.panorama.w,'center');
+ header.panorama.lines.slice(1).forEach((line,i)=>p.text(line,header.panorama.x,header.panorama.supportY+i*header.panorama.supportStep,header.panorama.supportPt,'headline',header.panorama.colors[i+1],header.panorama.w,'center'));
  if(logo)logo={...logo,...header.logo};
  const gaps=options.gaps||[0,0,0];let x=11,w=202,y=52;
  y=p.title('Introducción',x,y,w,'historia');y+=p.justified(model.history||'Introducci\u00f3n pendiente.',x+2,y+1,11,w-4)+5+gaps[0];

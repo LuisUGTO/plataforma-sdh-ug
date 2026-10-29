@@ -1,6 +1,6 @@
 # Continuación del proyecto SDH–UG
 
-**Actualizado:** 26 de octubre de 2026
+**Actualizado:** 28 de octubre de 2026
 **Uso:** contexto breve para continuar el trabajo en un chat abierto desde el proyecto local de Codex.  
 **Fuente:** conversación previa con Luis y reportes que compartió de Antigravity. Los reportes describen acciones realizadas, pero hay que confirmar el estado real en el repositorio antes de editar o publicar.
 
@@ -160,6 +160,14 @@ Esta actualización sustituye el pendiente de implementar el encabezado. Falta l
 - `app.js` centraliza el formato en `noteHTML`, escapando el contenido antes de marcar únicamente la etiqueta. Se aplica a Composición, las dos notas económicas, Educación y los textos auxiliares de tarjetas. `styles.css` deja los párrafos de nota con peso normal y las etiquetas con peso 700. El PDF utiliza un método para dibujar la etiqueta en Helvetica Neue LT Std Bold y el cuerpo en Roman; Educación ya tenía este formato y lo conserva. Las notas de revisión también emplean la regla cuando comienzan con “Nota:”.
 - `index.html` actualiza estilos, aplicación y exportador a `20261026-b6`. Se mantienen el encabezado con márgenes y logo horizontal grande, todos los textos y datos, las fuentes institucionales, las posiciones y la página A2 horizontal de 594 × 420 mm.
 - Validación: 107 composiciones comparadas, con las otras 106 exportaciones idénticas y solo tres notas de San Agustín reformateadas; encabezados y geometría sin cambios. Se verificaron las 110 notas en las 107 vistas web y una descarga real de Chrome. El PDF de San Agustín conserva el texto íntegro y muestra sus cuatro etiquetas “Nota:” en Bold con los cuerpos en Roman, sin caracteres fuera de página. Muestra: `output/pdf/SDH_110090001_San_Agustín_A2_20261026_notas.pdf`. Sin cambios a la DB, commit, push ni publicación.
+
+## Encabezado ganador aplicado el 28 de octubre de 2026
+
+- Luis eligió el encabezado del archivo `C:/Users/luisa/Downloads/SDH_110090001_San_Agustín (2).pdf` y autorizó aplicarlo al generador. Se comprobó que su composición coincide exactamente con la prueba `output/pdf/SDH_110090001_San_Agustín_A2_prueba_titulo_tonos_azules.pdf`. Las pruebas del día 27 se habían realizado sin modificar el código; esta actualización sí incorpora al código la versión elegida.
+- El título queda centrado sobre blanco, en tres líneas: “Panorama Sociodemográfico de los”, “Pueblos y Comunidades Indígenas y Afromexicanas” y “del Estado de Guanajuato”. Las tres usan **Vollkorn ExtraBold de aproximadamente 21.8848 pt**, con azul intenso `#004B87` en la primera y tercera y azul claro `#69B3E7` en la segunda. Se conservan las posiciones exactas del PDF ganador: bloque en x=260 mm, ancho 202 mm y líneas en y=3.5, 15 y 26.5 mm. La franja azul sigue solo detrás del nombre de la comunidad; el logo horizontal, márgenes y separaciones anteriores se mantienen.
+- `headerLayout` centraliza los textos, tamaños, posiciones y colores para `pdf-export.js` y `app.js`. `styles.css` aplica Vollkorn, centrado y colores al título completo, y el encabezado inicial del HTML coincide con los textos nuevos. `index.html` referencia estilos, exportador y aplicación como `20261028-b1`.
+- Validación: comparación de las 107 composiciones, con cuerpos y geometría sin cambios; 107 vistas web con nombres completos y título ganador, además de las 110 notas con solo “Nota:” en negrita; dos descargas reales (San Agustín y Rinconcillo), una página A2 de 594 × 420 mm, fuentes incorporadas y ningún carácter fuera de página. **Las instrucciones de dibujo del PDF descargado de San Agustín son idénticas a las del archivo ganador enviado por Luis.** La muestra queda en `output/pdf/SDH_110090001_San_Agustín_A2_20261028_encabezado_ganador.pdf`.
+- No se modifican datos, mapas, introducciones, fuentes ni otros insumos. Los pendientes de mapas definitivos y las diferencias internas del CSV de San Agustín siguen como estaban documentados. El índice hipervinculado del documento conjunto se ha explicado, pero aún no se ha construido. Sin commit, push, publicación ni producción masiva.
 
 ## Límites para el asistente del chat nuevo
 
