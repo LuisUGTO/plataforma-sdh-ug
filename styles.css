@@ -109,6 +109,8 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 #composicion-nota{margin:2mm 0 0}
 .note{font-weight:400}
 .note b,.note strong{font-weight:700}
+.global-map{height:92mm;background:#fff;border:0}
+.global-method{max-width:1120px;margin:12px auto;padding:12px 18px;background:#fff;border:1px solid var(--line);font-size:13px;line-height:1.5}
 #servicios .bar,#bienes .bar,#tic .bar{min-height:4.32mm}
 #discapacidad .metric{min-height:15mm}
 #salud .metric{min-height:16mm}

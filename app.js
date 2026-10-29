@@ -21,10 +21,12 @@ function ratio(numerator,denominator){const a=number(numerator),b=number(denomin
 function ratioMetric(label,numerator,denominator,digits=1){const value=ratio(numerator,denominator);return `<div class="metric"><span>${esc(label)}</span><strong${value===null?' class="unavailable"':''}>${value===null?'Dato no disponible':(value*100).toFixed(digits)+'%'}</strong></div>`;}
 const reunion=window.SDH_REUNION||{iter:{},historia:{}};
 const H=window.SDH_HISTORIAS_API||(typeof require==='function'?require('./historias.js'):null);
-if(typeof document!=='undefined'&&(!H||!window.SDH_INDICADORES||!window.SDH_ICONOGRAFIA||!window.SDH_PDF||!window.SDH_MAPAS||!window.SDH_TIPOGRAFIA)){$('estado').textContent='Faltan archivos del generador. Sube el paquete completo, incluidos historias.js, indicadores.js, iconografia.js, mapas.js y tipografia.js, y recarga con Ctrl+F5.';$('comunidad').innerHTML='<option>Archivos del generador incompletos</option>';return;}
+if(typeof document!=='undefined'&&(!H||!window.SDH_INDICADORES||!window.SDH_ICONOGRAFIA||!window.SDH_PDF||!window.SDH_MAPAS||!window.SDH_TIPOGRAFIA||!window.SDH_GLOBAL)){$('estado').textContent='Faltan archivos del generador. Sube el paquete completo, incluido resumen-global.js, y recarga con Ctrl+F5.';$('comunidad').innerHTML='<option>Archivos del generador incompletos</option>';return;}
+let globalData=null;
+const isGlobal=r=>get(r,'Clave INEGI')===window.SDH_GLOBAL.KEY;
 let histories=H.fromJSON(window.SDH_HISTORIAS||{comunidades:{}}),historyImported=false;
-const historyFor=r=>histories[String(get(r,'Clave INEGI'))]?.texto||'Introducci\u00f3n pendiente.';
-function rawFor(r){return reunion.iter[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]||{};}
+const historyFor=r=>isGlobal(r)?globalData.history:histories[String(get(r,'Clave INEGI'))]?.texto||'Introducci\u00f3n pendiente.';
+function rawFor(r){return isGlobal(r)?globalData.raw:reunion.iter[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]||{};}
 function supplement(r){
  const raw=rawFor(r);
  for(const [label,field] of [['% Tinaco','VPH_TINACO'],['% Cisterna','VPH_CISTER'],['% Motocicleta','VPH_MOTO'],['% Bicicleta','VPH_BICI']]){
@@ -61,9 +63,9 @@ function renderBars(items){return items.map(([label,value],index)=>bar(label,val
 function reunionRender(r){
  const raw=rawFor(r),m=window.SDH_INDICADORES.build(r,raw,extraFor(r));
  $('historia-texto').textContent=historyFor(r);$('historia-fuente').textContent='';
- $('territorio').innerHTML=[textMetric('Municipio',get(r,'Municipio')),textMetric('Altitud',number(raw.ALTITUD)===null?'Dato no disponible':`${display(raw.ALTITUD)} m`),textMetric('Latitud',raw.LATITUD),textMetric('Longitud',raw.LONGITUD)].join('');
+ $('territorio').innerHTML=m.global?[textMetric('Comunidades',display(globalData.extra.communityCount)),textMetric('Municipios',display(globalData.extra.municipalityCount)),textMetric('Entidad',get(r,'Municipio')),textMetric('Cobertura','Catálogo de 107 localidades')].join(''):[textMetric('Municipio',get(r,'Municipio')),textMetric('Altitud',number(raw.ALTITUD)===null?'Dato no disponible':`${display(raw.ALTITUD)} m`),textMetric('Latitud',raw.LATITUD),textMetric('Longitud',raw.LONGITUD)].join('');
  $('poblacion').textContent=display(m.total);pyramid(r,extraFor(r));
- $('demografia').innerHTML=demographicCard('Relación hombres-mujeres',display(m.relation,1),number(m.relation)===null?'Dato pendiente.':`Existen ${Math.round(number(m.relation))} hombres por cada 100 mujeres`)+demographicCard('Edad mediana',display(m.age,m.ageDigits??1),m.age===null?'Dato pendiente.':`La mitad de la población tiene ${display(m.age,m.ageDigits??1)} años o menos`);
+ $('demografia').innerHTML=demographicCard('Relación hombres-mujeres',display(m.relation,1),number(m.relation)===null?'Dato pendiente.':`Existen ${Math.round(number(m.relation))} hombres por cada 100 mujeres`)+(m.global?demographicCard(m.demographicSecondary.label,m.demographicSecondary.value,m.demographicSecondary.note):demographicCard('Edad mediana',display(m.age,m.ageDigits??1),m.age===null?'Dato pendiente.':`La mitad de la población tiene ${display(m.age,m.ageDigits??1)} años o menos`));
  let compositionNote=$('composicion-nota');if(!compositionNote){compositionNote=document.createElement('p');compositionNote.id='composicion-nota';compositionNote.className='note';$('demografia').closest('.demographic-layout').after(compositionNote);}compositionNote.innerHTML=noteHTML(m.notes.composition);compositionNote.hidden=!m.notes.composition;
  $('fecundidad').innerHTML=valueCard(...m.fertility);
  $('conyugal').innerHTML='<h4>Población de 12 años y más según situación conyugal</h4>'+circular(m.marital,raw.P_12YMAS,'Situación conyugal').replace(/<p class="note">[\s\S]*?<\/p>$/,'');
@@ -106,6 +108,7 @@ function fillSelector(){
   const previous=$('comunidad').value;
   $('comunidad').replaceChildren();
   records.forEach((r,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=`${get(r,'Comunidad / Localidad')} · ${get(r,'Municipio')} · ${get(r,'Clave INEGI')}`;$('comunidad').append(o);});
+  try{globalData=window.SDH_GLOBAL.build(records,reunion.iter);const option=document.createElement('option');option.value='global';option.textContent='Resumen global de las 107 comunidades · Propuesta';$('comunidad').append(option);}catch{globalData=null;}
   if([...$('comunidad').options].some(o=>o.value===previous))$('comunidad').value=previous;
   $('comunidad').disabled=records.length===0;
   searchCommunities();
@@ -124,10 +127,11 @@ function searchCommunities(){
     button.addEventListener('click',()=>{$('comunidad').value=String(i);render();$('busqueda-estado').textContent=`Comunidad seleccionada: ${get(r,'Comunidad / Localidad')}`;});
     $('resultados').append(button);
   });
+  if(globalData&&norm('Resumen global de las 107 comunidades').includes(term)){const button=document.createElement('button');button.type='button';button.textContent='Resumen global de las 107 comunidades · Propuesta';button.addEventListener('click',()=>{$('comunidad').value='global';render();$('busqueda-estado').textContent='Resumen global seleccionado.';});$('resultados').append(button);count++;}
   $('busqueda-estado').textContent=count?`${count} coincidencia${count===1?'':'s'}. Selecciona un resultado. El catálogo conserva todas las comunidades.`:'Sin coincidencias. El catálogo completo sigue disponible.';
 }
 async function load(){if(busy)return;busy=true;$('actualizar').disabled=true;status('Consultando la base compartida…');try{const url=`https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(CONFIG.sheet)}`;const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),15000);let text;try{const r=await fetch(url,{signal:controller.signal});if(!r.ok)throw Error('No se pudo consultar Sheets');text=await r.text();}finally{clearTimeout(timer);}const match=text.match(/setResponse\(([\s\S]*)\);?\s*$/);if(!match)throw Error('La fuente no devolvió una tabla.');const data=JSON.parse(match[1]);if(data.status==='error'||!data.table)throw Error('La pestaña no está disponible.');useRecords(recordsFromRows(data.table.rows.map(r=>r.c.map(c=>c?.v??null)),data.table.cols.map(c=>c.label)),`Base compartida · consulta ${new Date().toLocaleString('es-MX')}`);}catch(error){if(records.length){status('No se pudo actualizar. Se conserva la última base cargada: '+source);}else{try{const backup=await json('datos-respaldo.json');useRecords(backup.records,`Copia de consulta del ${backup.fechaConsulta} · sin actualización en línea`);}catch{status('No se pudo leer la base. Importa un CSV o abre el proyecto mediante un servidor web.');}}}finally{busy=false;$('actualizar').disabled=false;}}
-function extraFor(r){return extras[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]??null;}
+function extraFor(r){return isGlobal(r)?globalData.extra:extras[`${get(r,'Clave INEGI')}|${get(r,'Comunidad / Localidad')}`]??null;}
 function demographicCard(label,value,note){return `<div class="demographic-card"><div class="demographic-label"><b>${labelHTML(label)}</b><small>${noteHTML(note)}</small></div><strong>${esc(value)}</strong></div>`;}
 function pyramid(r,extra){
   const raw=rawFor(r),total=number(raw.POBTOT??get(r,'Población Total'));
@@ -180,18 +184,18 @@ function validGeometry(g){if(g.type!=='FeatureCollection'||!Array.isArray(g.feat
 function drawMap(r,point=null,pointSource=''){if(!geometry){$('mapa').innerHTML='<div class="missing">Mapa de Guanajuato pendiente<small>No se pudo cargar la cartografía. Puedes incorporar el GeoJSON oficial.</small></div>';$('map-note').textContent='No se representa una ubicación aproximada o aleatoria.';return;}const features=geometry.features;const coords=features.flatMap(f=>polygons(f).flat(2));const xs=coords.map(p=>p[0]),ys=coords.map(p=>p[1]);const xmin=xs.reduce((a,b)=>Math.min(a,b),Infinity),xmax=xs.reduce((a,b)=>Math.max(a,b),-Infinity),ymin=ys.reduce((a,b)=>Math.min(a,b),Infinity),ymax=ys.reduce((a,b)=>Math.max(a,b),-Infinity);const cos=Math.cos((ymin+ymax)/2*Math.PI/180);const scale=Math.min(250/((xmax-xmin)*cos),115/(ymax-ymin));const dx=(300-(xmax-xmin)*cos*scale)/2,dy=(130-(ymax-ymin)*scale)/2;const project=p=>[dx+(p[0]-xmin)*cos*scale,dy+(ymax-p[1])*scale];const mun=String(get(r,'Clave INEGI')).slice(0,5);let svg='<svg viewBox="0 0 300 150" role="img" aria-label="Mapa completo de Guanajuato con límites municipales">';for(const f of features){const code=String(f.properties.cvegeo??'');const path=polygons(f).map(p=>p.map(ring=>ring.map((pt,i)=>{const [x,y]=project(pt);return `${i?'L':'M'}${x.toFixed(2)},${y.toFixed(2)}`;}).join('')+'Z').join('')).join('');svg+=`<path d="${path}" fill="${code===mun?'#69B3E7':'#C8D8EB'}" stroke="#fff" stroke-width=".55" fill-rule="evenodd"><title>${esc(f.properties.nomgeo??code)}</title></path>`;}const matching=features.find(f=>String(f.properties.cvegeo)===mun);if(point&&matching&&contains(point,matching)){const [x,y]=project(point);svg+=`<circle cx="${x}" cy="${y}" r="3" fill="#004B87" stroke="white" stroke-width="1.2"/><path d="M${x},${y}L${x},138L150,138" stroke="#004B87" fill="none"/><text x="150" y="149" text-anchor="middle" font-size="9" fill="#004B87">${esc(get(r,'Comunidad / Localidad'))}</text>`;$('map-note').textContent='Municipio resaltado · Punto de localidad: '+pointSource;}else{$('map-note').textContent='Municipio resaltado. Ubicación de la comunidad pendiente de validación.';}svg+='</svg>';$('mapa').innerHTML=svg;}
 async function loadCommunityLocation(r,extra,token){
  const key=String(get(r,'Clave INEGI')),mapPath=window.SDH_MAPAS.pathFor(key);
- $('mapa').classList.remove('team-map','community-map');
+ $('mapa').classList.remove('team-map','community-map','global-map');
  if(mapPath){
-  const image=new Image();image.alt='Mapa del equipo: '+get(r,'Comunidad / Localidad')+', red vial y ubicación en Guanajuato';
-  $('mapa').replaceChildren(image);$('mapa').classList.add(key==='110030008'?'team-map':'community-map');$('map-note').textContent='';
-  image.onerror=()=>{if(token!==generation)return;$('mapa').classList.remove('team-map','community-map');drawMap(r);$('map-note').textContent='No se pudo cargar el mapa de esta comunidad. Se conserva el mapa municipal; revisa el archivo '+mapPath+'.';};
+  const image=new Image();image.alt=isGlobal(r)?'Mapa global de las 107 comunidades y sus municipios en Guanajuato':'Mapa del equipo: '+get(r,'Comunidad / Localidad')+', red vial y ubicación en Guanajuato';
+  $('mapa').replaceChildren(image);$('mapa').classList.add(isGlobal(r)?'global-map':key==='110030008'?'team-map':'community-map');$('map-note').textContent='';
+  image.onerror=()=>{if(token!==generation)return;$('mapa').classList.remove('team-map','community-map','global-map');drawMap(r);$('map-note').textContent='No se pudo cargar el mapa. Se conserva el mapa estatal; revisa el archivo '+mapPath+'.';};
   image.src=mapPath;return;
  }
  drawMap(r);const raw=rawFor(r),latRaw=dms(raw.LATITUD),lonRaw=dms(raw.LONGITUD);if(latRaw!==null&&lonRaw!==null){drawMap(r,[lonRaw,latRaw],"ITER 2020 de la matriz; coordenadas de localidad");return;}if(extra?.ubicacion?.validada===true){const lat=extra.ubicacion.latitud,lon=extra.ubicacion.longitud;if(typeof lat==='number'&&typeof lon==='number'&&Number.isFinite(lat)&&Number.isFinite(lon))drawMap(r,[lon,lat],extra.ubicacion.fuente||'Fuente pendiente');return;}if(norm(get(r,'Comunidad / Localidad'))==='san agustin')return;try{const response=await json(`https://gaia.inegi.org.mx/wscatgeo/v2/localidades/${get(r,'Clave INEGI')}`);if(token!==generation)return;const list=Array.isArray(response.datos)?response.datos:[response.datos];const item=list.find(x=>x&&norm(x.nomgeo)===norm(get(r,'Comunidad / Localidad')));if(item){const lat=number(item.latitud),lon=number(item.longitud);if(lat!==null&&lon!==null)drawMap(r,[lon,lat],'Catálogo INEGI; coincidencia de clave y nombre');}}catch{/* Se conserva el mapa estatal y la nota de ubicación pendiente. */}}
 function render(){
- if(!$('comunidad').options.length)return;const r=records[Number($('comunidad').value)];if(!r)return;
+ if(!$('comunidad').options.length)return;const r=$('comunidad').value==='global'&&globalData?canonical([globalData.record])[0]:records[Number($('comunidad').value)];if(!r)return;
  selected=r;const token=++generation;$('infografia').hidden=false;$('exportar').disabled=false;
- $('nombre').textContent=get(r,'Comunidad / Localidad');$('identificacion').textContent=`${get(r,'Municipio')}, Guanajuato · Clave INEGI: ${get(r,'Clave INEGI')}`;
+ $('nombre').textContent=get(r,'Comunidad / Localidad');$('identificacion').textContent=isGlobal(r)?globalData.identification:`${get(r,'Municipio')}, Guanajuato · Clave INEGI: ${get(r,'Clave INEGI')}`;
  const header=window.SDH_PDF.headerLayout($('nombre').textContent,$('identificacion').textContent,'Carlos');$('nombre').style.fontSize=header.name.pt+'pt';
  const docHeader=document.querySelector('.doc-header');docHeader.classList.add('header-propuesta');
  const identity=docHeader.querySelector('.header-identity');Object.assign(identity.style,{left:header.name.x+'mm',top:header.name.y+'mm',width:header.name.w+'mm'});
@@ -199,6 +203,7 @@ function render(){
  const brand=docHeader.querySelector('.header-brand');Object.assign(brand.style,{left:header.logo.x+'mm',top:header.logo.y+'mm',width:header.logo.w+'mm',height:header.logo.h+'mm'});
  const brandImage=brand.querySelector('img');if(brandImage.getAttribute('src')!=='assets/logo-sdh-descriptivo-horizontal.png')brandImage.src='assets/logo-sdh-descriptivo-horizontal.png';brandImage.alt='Guanajuato, Gobierno de la Gente, Secretaría de Derechos Humanos';
  $('revision').textContent=`${records.length} comunidades en catálogo · Vista previa para revisión · ${source}`+(extraFor(r)?.notaRevision?' · '+extraFor(r).notaRevision:'');
+ $('global-metodologia').hidden=!isGlobal(r);
  reunionRender(r);loadCommunityLocation(r,extraFor(r),token);
 }
 let printing=false;

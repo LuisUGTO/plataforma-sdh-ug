@@ -43,6 +43,18 @@ function build(record={},raw={},extra=null){
  if(number(criteria.edadMediana)!==null)model.ageDigits=0;
  if(number(criteria.religionNoEspecificado)!==null)model.religion=ordered([...model.religion,['No especificado',ratio(criteria.religionNoEspecificado,total)]]);
  model.notes={composition:criteria.notaComposicion||'',activity:criteria.notaActividad||'',occupation:criteria.notaOcupacion||''};
+ if(extra?.global){
+  model.global=true;model.age=null;model.ageEstimated=false;
+  model.demographicSecondary={label:'Población de 60 años y más',value:format(raw.P_60YMAS),note:'Representa '+percent(ratio(raw.P_60YMAS,total))+' de la población total.'};
+  model.housing[2]=['Total de viviendas particulares',format(raw.TVIVPAR)];
+  model.housing[3]=['Viviendas de uso temporal',format(raw.VIVPAR_UT)];
+  model.ethnicity[0]=['Comunidades con población hablante de lengua indígena',format(extra.communitiesWithSpeakers)];
+  model.fertility=['Población femenina de 12 años y más',format(raw.P_12YMAS_F)];
+  model.social=[['Comunidades con marginación alta o muy alta',format(extra.highMarginalization)],['Comunidades con rezago social alto o muy alto',format(extra.highSocialLag)]];
+  model.education[0]=['Población de 15 años y más',format(raw.P_15YMAS)];
+  if(number(extra.religionResidual)!==null)model.religion=ordered([...model.religion,['Sin especificar en el desglose',ratio(extra.religionResidual,total)]]);
+  if(number(extra.languageResidual)!==null&&extra.languageResidual>0){model.language.items.push(['Sin especificar en el desglose',extra.languageResidual]);model.language.status='ready';}
+ }
  return model;
 }
 root.SDH_INDICADORES={build,number,ratio,format,percent,median,ordered};if(typeof module!=='undefined')module.exports=root.SDH_INDICADORES;
