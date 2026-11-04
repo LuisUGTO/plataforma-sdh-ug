@@ -116,7 +116,7 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 #vivienda .metric:not(.highlight){min-height:11.5mm}
 .floor-section{margin:1.5mm 0}
 .floor-box{border:0.2mm solid var(--line);background:#fff;margin-bottom:1.5mm}
-.floor-box-title{background:var(--sky);color:var(--blue);padding:0.7mm 2mm;text-align:center;font:bold 9.8pt/1.2 SDHHelvetica,sans-serif;border-bottom:0.2mm solid var(--line)}
+.floor-box-title{background:var(--sky);color:#fff;padding:0.8mm 2mm;text-align:center;font:bold 10.5pt/1.2 SDHHelvetica,sans-serif;letter-spacing:0.02em;border-bottom:0.2mm solid var(--line)}
 .floor-box-body{display:grid;grid-template-columns:1fr 1fr;min-height:11.2mm}
 .floor-box-cell{display:flex;align-items:center;justify-content:space-between;padding:1.2mm 2.5mm}
 .floor-box-cell:last-child{border-left:0.25mm solid var(--line)}

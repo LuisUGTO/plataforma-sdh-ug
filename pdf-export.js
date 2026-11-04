@@ -97,10 +97,10 @@ class PDF{
   this.cmd.push(`BT /F2 ${pt} Tf ${rgb(C.text)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-baseline)*MM).toFixed(3)} Tm <${hex(s)}> Tj ET`);
  }
   floorBox(items,x,y,w){
-   const hh=4.2,bh=11.2,h=hh+bh,halfW=w/2;
+   const hh=4.4,bh=11.2,h=hh+bh,halfW=w/2;
    this.rect(x,y+hh,w,bh,'#FFFFFF',C.line,.2);
    this.rect(x,y,w,hh,C.sky,C.line,.2);
-   this.text('Material del piso de la vivienda',x+2,y+.4,9.5,true,C.blue,w-4,'center');
+   this.text('Material del piso de la vivienda',x+2,y+.35,10.5,true,'#FFFFFF',w-4,'center');
    this.line(x+halfW,y+hh,x+halfW,y+h,C.line,.25);
 
    const valW=20;
