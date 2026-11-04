@@ -111,8 +111,18 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 .note b,.note strong{font-weight:700}
 .global-map{height:92mm;background:#fff;border:0}
 .global-method{max-width:1120px;margin:12px auto;padding:12px 18px;background:#fff;border:1px solid var(--line);font-size:13px;line-height:1.5}
-#servicios .bar,#bienes .bar,#tic .bar{min-height:4.32mm}
+#servicios .bar,#bienes .bar,#tic .bar{min-height:4.02mm;padding:.15mm 0}
+#vivienda .metric.highlight{min-height:15.5mm}
+#vivienda .metric:not(.highlight){min-height:11.5mm}
+.floor-box{border:.2mm solid var(--line);margin:1.5mm 0 1.2mm;background:#fff}
+.floor-box-title{background:#E4E8EC;border-bottom:.2mm solid var(--line);padding:.9mm 2mm;text-align:center;font:bold 9.8pt/1.2 SDHHelvetica,sans-serif;color:var(--gray)}
+.floor-box-grid{display:grid;grid-template-columns:1fr 1fr;padding:1.2mm 2mm 1.3mm;text-align:center}
+.floor-item span{display:block;font-size:9.5pt;line-height:1.2;color:var(--gray)}
+.floor-item strong{display:block;margin-top:.5mm;font-size:14.5pt;line-height:1.1;color:#008E95}
+.floor-item strong.unavailable{font-size:9.5pt;font-weight:normal;color:var(--gray)}
 #discapacidad .metric{min-height:15mm}
 #salud .metric{min-height:16mm}
 #condiciones .metric{grid-template-columns:minmax(0,1fr) max-content}
 #condiciones .metric strong{width:auto;white-space:nowrap}
+
+.no-population-note{padding:16mm 2mm 0;text-align:center;font-size:9.5pt;line-height:1.3}

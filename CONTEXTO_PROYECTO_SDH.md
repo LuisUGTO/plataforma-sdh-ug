@@ -1,5 +1,7 @@
 # Contexto técnico del proyecto SDH–UG
 
+> **Aviso de vigencia — 31 de octubre de 2026:** este documento se conserva como antecedente del 16 de octubre. Para el estado operativo consultar [CONTEXTO_PROYECTO.md](CONTEXTO_PROYECTO.md) y la [auditoría](Documentacion/AUDITORIA_CONTEXTO_2026-10-31.md). Hoy existe Git en la raíz; ya no se trabaja en `outputs/.../generador_B`. Están integrados el encabezado elegido, las fuentes institucionales, el pie blanco, las 107 introducciones, los mapas nuevos y los criterios/pirámide de San Agustín. Los pendientes y límites de prueba que siguen abajo describen aquella entrega y no deben trasladarse automáticamente al estado actual. Se conserva el diccionario técnico como referencia, sujeto al código vigente.
+
 **Fecha de corte:** 16 de octubre de 2026  
 **Propósito:** transferir al siguiente agente una descripción comprobable del generador de infografías y del estado del trabajo, evitando que confunda entregables futuros con funciones ya construidas.
 

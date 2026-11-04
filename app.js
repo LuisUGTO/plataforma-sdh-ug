@@ -52,13 +52,14 @@ function languagePie(model){
 function verticalChart(items,title,opts={}){
  const base=opts.economy?134:105,plot=opts.economy?114:85,slot=320/items.length,colors=opts.colors||['#008E95','#004B87','#84369B','#E66D42'],scale=opts.adaptive?Math.max(.1,Math.ceil(Math.max(0,...items.map(a=>number(a[1])||0))*10)/10):1;
  let svg=`<svg class="vertical-chart" viewBox="0 0 340 160" role="img" aria-label="${esc(title)}"><line x1="10" y1="${base}" x2="330" y2="${base}" stroke="#CED9E3"/>`;
- items.forEach(([label,v],i)=>{const value=number(v),center=10+(i+.5)*slot,bw=slot*.42,h=value===null?0:value/scale*plot,top=base-h;
-  svg+=value===null?`<text x="${center}" y="35" text-anchor="middle" font-size="11">N/D</text>`:`<rect x="${center-bw/2}" y="${top}" width="${bw}" height="${h}" fill="${colors[i%colors.length]}"/><text class="vertical-value" x="${center}" y="${top-6}" text-anchor="middle" font-size="11" font-weight="bold" fill="#54585A">${(value*100).toFixed(1)}%</text>`;
+ items.forEach(([label,v,state],i)=>{const value=number(v),center=10+(i+.5)*slot,bw=slot*.42,h=value===null?0:value/scale*plot,top=base-h;
+  svg+=value===null?`<text x="${center}" y="35" text-anchor="middle" font-size="11">${state==='empty'?'No aplica':'N/D'}</text>`:`<rect x="${center-bw/2}" y="${top}" width="${bw}" height="${h}" fill="${colors[i%colors.length]}"/><text class="vertical-value" x="${center}" y="${top-6}" text-anchor="middle" font-size="11" font-weight="bold" fill="#54585A">${(value*100).toFixed(1)}%</text>`;
   label.split('|').forEach((line,k)=>{svg+=`<text x="${center}" y="${base+14+k*11}" text-anchor="middle" font-size="${opts.small?8:9.5}" fill="#54585A">${esc(line)}</text>`;});
  });return svg+'</svg>';
 }
 function labelHTML(label){return window.SDH_PDF.labelLines(label).map(esc).join('<br>');}
 function valueCard(label,value,highlight=false,note=''){return `<div class="metric${highlight?' highlight':''}"><span>${labelHTML(label)}${note?'<small>'+noteHTML(note)+'</small>':''}</span><strong${value==='Dato no disponible'?' class="unavailable"':''}>${esc(value)}</strong></div>`;}
+function floorBoxHTML(items){return `<div class="floor-box-title">Material del piso de la vivienda</div><div class="floor-box-grid">${items.map(([label,value])=>`<div class="floor-item"><span>${esc(label)}</span><strong${value==='Dato no disponible'?' class="unavailable"':''}>${esc(value)}</strong></div>`).join('')}</div>`;}
 function renderBars(items){return items.map(([label,value],index)=>bar(label,value,index)).join('');}
 function reunionRender(r){
  const raw=rawFor(r),m=window.SDH_INDICADORES.build(r,raw,extraFor(r));
@@ -70,15 +71,16 @@ function reunionRender(r){
  $('fecundidad').innerHTML=valueCard(...m.fertility);
  $('conyugal').innerHTML='<h4>Población de 12 años y más según situación conyugal</h4>'+circular(m.marital,raw.P_12YMAS,'Situación conyugal').replace(/<p class="note">[\s\S]*?<\/p>$/,'');
  $('vivienda').innerHTML=m.housing.map(([a,b,c])=>valueCard(a,b,c)).join('');
+ if($('piso'))$('piso').innerHTML=floorBoxHTML(m.housingFloor);
  ['servicios','bienes','tic'].forEach((id,i)=>$(id).innerHTML=renderBars(m.housingGroups[i][1]));
  $('etnicidad').innerHTML='<div class="ethnicity-left">'+[0,2,3].map(i=>valueCard(...m.ethnicity[i])).join('')+'</div><div class="ethnicity-right">'+valueCard(...m.ethnicity[1])+'<h4>Población de 3 años y más hablante de lengua indígena según condición de habla española</h4>'+languagePie(m.language)+'</div>';$('condiciones').innerHTML=m.social.map(([a,b])=>valueCard(a,b)).join('');
  $('religion').innerHTML='<h4>Población total por grupo religioso</h4>'+renderBars(m.religion);$('migracion').innerHTML=m.migration.map(([a,b])=>valueCard(a,b)).join('');
- $('discapacidad').innerHTML=m.disability.map(([a,b])=>valueCard(a,b)).join('');$('discapacidad-grafica').innerHTML='<h4>Población con discapacidad por actividad con dificultad</h4>'+renderBars(m.disabilityActivities);
+ $('discapacidad').innerHTML=m.disability.map(([a,b])=>valueCard(a,b)).join('');$('discapacidad-grafica').innerHTML='<h4>Población con discapacidad por actividad con dificultad</h4>'+(m.disabilityEmpty?'<p class="no-population-note">No se registró población con discapacidad en esta comunidad.</p>':renderBars(m.disabilityActivities));
  $('salud').innerHTML=m.health.map(([a,b,n])=>valueCard(a,b,false,n)).join('');$('instituciones').innerHTML=verticalChart(m.institutions,'Afiliación por institución',{small:true});
  $('economia').innerHTML=m.economy.map(([a,b])=>valueCard(a,b)).join('')+(m.notes.activity?`<p class="note economy-note">${noteHTML(m.notes.activity)}</p><p class="note economy-note">${noteHTML(m.notes.occupation)}</p>`:'');$('economia-sexo').innerHTML='<div><h4>PEA según sexo</h4>'+verticalChart(m.sexPEA,'PEA según sexo',{colors:['#84369B','#319356'],economy:true})+'</div><div><h4>Población de 12 años y más ocupada según sexo</h4>'+verticalChart(m.sexOccupied,'Población ocupada según sexo',{colors:['#84369B','#319356'],economy:true})+'</div>';
  $('educacion').innerHTML=m.education.map(([a,b])=>valueCard(a,b)).join('');
  $('escolaridad').innerHTML='<h4>Población según nivel de escolaridad, por grupo de edad de referencia</h4>'+verticalChart(m.schooling,'Escolaridad por grupo de edad',{adaptive:true})+'<p class="note">'+noteHTML('Nota: Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.')+'</p>';
- $('asistencia').innerHTML='<h4>Asistencia escolar</h4>'+verticalChart(m.attendance,'Asistencia escolar',{colors:['#008E95']});
+ $('asistencia').innerHTML='<h4>Asistencia escolar</h4>'+verticalChart(m.attendance,'Asistencia escolar',{colors:['#008E95']})+(m.notes.attendance?'<p class="note">'+noteHTML(m.notes.attendance)+'</p>':'');
  $('referencias').innerHTML=(window.SDH_PDF?.refs||[]).map(([author,title,tail,url])=>`<p>${esc(author)} <em>${esc(title)}</em> ${esc(tail)} <a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a></p>`).join('');
 }
 async function importFile(id,consume){

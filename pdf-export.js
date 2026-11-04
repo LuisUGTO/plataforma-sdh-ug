@@ -96,10 +96,11 @@ class PDF{
   const dx=align==='center'?-tw(s,pt,true)/2:align==='right'?-tw(s,pt,true):0;
   this.cmd.push(`BT /F2 ${pt} Tf ${rgb(C.text)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-baseline)*MM).toFixed(3)} Tm <${hex(s)}> Tj ET`);
  }
+ floorBox(items,x,y,w){const hh=5.2,bh=9.6,cw=w/items.length;this.rect(x,y,w,hh+bh,'#FFFFFF',C.line,.2);this.rect(x,y,w,hh,'#E4E8EC',C.line,.2);this.text('Material del piso de la vivienda',x+2,y+.35,9.8,true,C.text,w-4,'center');items.forEach(([label,value],i)=>{const cx=x+i*cw,unavail=value==='Dato no disponible';this.text(label,cx+1,y+hh+.5,9.5,false,C.text,cw-2,'center');this.text(value,cx+1,y+hh+(unavail?4.5:3.3),unavail?9.5:14.5,!unavail,unavail?C.text:C.teal,cw-2,'center');});return y+hh+bh+1.2;}
  bars(items,x,y,w,opts={}){
-  const colors=[C.teal,C.blue,C.purple,C.orange,C.green],fraction=opts.labelFraction??.46,pt=opts.pt??9.5,step=opts.step??4.5,valuePt=9.3,thickness=opts.thickness||2.7;
+  const colors=[C.teal,C.blue,C.purple,C.orange,C.green],fraction=opts.labelFraction??.46,pt=opts.pt??9.5,step=opts.step??4.5,pad=opts.pad??.3,valuePt=9.3,thickness=opts.thickness||2.7;
   items.forEach(([label,value],i)=>{
-   const lh=this.text(label,x,y+.6,pt,false,C.text,w*fraction-2),h=Math.max(step,lh+.3),barY=y+2,baseline=barY+thickness/2+.718*valuePt/MM/2;
+   const lh=this.text(label,x,y+.6,pt,false,C.text,w*fraction-2),h=Math.max(step,lh+pad),barY=y+2,baseline=barY+thickness/2+.718*valuePt/MM/2;
    if(value!==null){const start=x+w*fraction,barWidth=w*(1-fraction)-15,barEnd=start+barWidth*value;this.rect(start,barY,barWidth*value,thickness,colors[i%colors.length]);this.chartValue(pct(value),barEnd+1.3,baseline,valuePt);}
    else this.chartValue('N/D',x+w,baseline,9,'right');
    y+=h;
@@ -108,10 +109,10 @@ class PDF{
  verticalBars(items,x,y,w,h=36,opts={}){
   const scale=opts.adaptive?Math.max(.1,Math.ceil(Math.max(0,...items.map(a=>num(a[1])||0))*10)/10):1,colors=opts.colors||[C.teal,C.blue,C.purple,C.orange],valuePt=opts.valuePt||9.3,gap=1.6,head=valuePt/MM+gap,plot=h-(opts.labelsHeight||15)-head,base=y+head+plot,slot=w/items.length;
   this.line(x,base,x+w,base,C.line,.2);
-  items.forEach(([label,v],i)=>{
+  items.forEach(([label,v,state],i)=>{
    const center=x+(i+.5)*slot,bw=slot*.42;
    if(v!==null){const bh=plot*v/scale,top=base-bh;this.rect(center-bw/2,top,bw,bh,colors[i%colors.length]);this.chartValue(pct(v),center,top-gap,valuePt,'center');}
-   else this.chartValue('N/D',center,y+head,8.5,'center');
+   else this.chartValue(state==='empty'?'No aplica':'N/D',center,y+head,8.5,'center');
    label.split('|').forEach((part,j)=>this.text(part,center-slot/2+.4,base+1.3+j*(opts.labelPt||8.2)*1.15/MM,opts.labelPt||8.2,false,C.text,slot-.8,'center'));
   });return y+h;
  }
@@ -238,9 +239,10 @@ function compose(model,logo=null,options={}){
  // Preserve the original layout footprint so only the fertility card changes.
  const fertilityFootprint=fy+cardLayout(...m.fertility,half,29).h+2;p.sideCard(...m.fertility,x,fy,half,'',18);const ch=p.text('Población de 12 años y más según situación conyugal',x+half+5,cy,9.5,true,C.text,half);const cb=p.pie(m.marital,raw.P_12YMAS,x+half+5,cy+ch+2,half),maritalReady=num(raw.P_12YMAS)>0&&m.marital.every(a=>num(a[1])!==null)&&m.marital.reduce((sum,a)=>sum+Number(a[1]),0)<=Number(raw.P_12YMAS);p.bounds.push({column:1,bottom:Math.max(fertilityFootprint-2,cb-(maritalReady?0:1.5))+2});
  x=220;w=175;y=52;const ew=(w-4)/2;
- y=p.title('Vivienda',x,y,w,'housing');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value,highlight]=m.housing[row*2+i];bottom=Math.max(bottom,p.card(label,value,x+i*(ew+4),y,ew,{highlight,minHeight:row===0?17:12,labelFraction:.72}));}y=bottom;}
- m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+1,x+w,y+1,C.line,.25);y+=3;}y+=1;y+=p.text(label,x,y,10.5,true,C.text,w)+1.5;y=p.bars(items,x,y,w,{step:4.32});});
- y+=2+gaps[1];y=p.title('Etnicidad',x,y,w);const ethnicTop=y;let ethnicLeft=y;
+ y=p.title('Vivienda',x,y,w,'housing');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value,highlight]=m.housing[row*2+i];bottom=Math.max(bottom,p.card(label,value,x+i*(ew+4),y,ew,{highlight,minHeight:row===0?15.5:11.5,labelFraction:.72}));}y=bottom;}
+ y=p.floorBox(m.housingFloor,x,y,w);
+ m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+.8,x+w,y+.8,C.line,.25);y+=1.8;}else y+=.4;y+=p.text(label,x,y,10.5,true,C.text,w)+1;y=p.bars(items,x,y,w,{step:4.02,pad:0});});
+ y+=1.5+gaps[1];y=p.title('Etnicidad',x,y,w);const ethnicTop=y;let ethnicLeft=y;
  for(const i of [0,2,3]){const [label,value]=m.ethnicity[i];ethnicLeft=p.tile(label,value,x,ethnicLeft,ew,ETHNIC_CARD_HEIGHT)+ETHNIC_GAP;}
  const [languageLabel,languageValue]=m.ethnicity[1],languageCardBottom=p.tile(languageLabel,languageValue,x+ew+4,ethnicTop,ew,ETHNIC_CARD_HEIGHT);
  const languageCaption=p.text('Población de 3 años y más hablante de lengua indígena según condición de habla española',x+ew+4,languageCardBottom+3,8.5,true,C.text,ew);
@@ -249,7 +251,7 @@ function compose(model,logo=null,options={}){
  y+=1+gaps[1];y=p.title('Desarrollo social',x,y,w,'social');const socialHeight=Math.max(...m.social.map(([label,value])=>cardLayout(label,value,ew,13,'',false,true).h));let socialBottom=y;m.social.forEach(([label,value],i)=>{socialBottom=Math.max(socialBottom,p.tile(label,value,x+i*(ew+4),y,ew,socialHeight,true));});y=socialBottom+4+gaps[1];
  const ry=p.title('Religión',x,y,ew,'book'),my=p.title('Migración',x+ew+4,y,ew,'map');const rh=p.text('Población total por grupo religioso',x,ry,9.3,true,C.text,ew);const rb=p.bars(m.religion,x,ry+rh+2,ew,{labelFraction:.62,pt:8.9,step:6});let mb=my;m.migration.forEach(([label,value])=>{mb=p.sideCard(label,value,x+ew+4,mb,ew,'',17);});const migrationBottom=mb-2;p.bounds.push({column:2,bottom:Math.max(rb,migrationBottom)+2});
  x=402;w=181;y=52;const left=78,right=w-left-5,rx=x+left+5,cw=(w-4)/2;
- y=p.title('Discapacidad, limitación y condición mental',x,y,w,ICONS.sectionIcons.Discapacidad);let dy=y;m.disability.forEach(([label,value])=>{dy=p.sideCard(label,value,x,dy,left,'',15);});const dh=p.text('Población con discapacidad por actividad con dificultad',rx,y,9.5,true,C.text,right);const db=p.bars(m.disabilityActivities,rx,y+dh+2,right,{labelFraction:.62,pt:9,step:7,thickness:3.3});y=Math.max(dy,db)+3+gaps[2];
+ y=p.title('Discapacidad, limitación y condición mental',x,y,w,ICONS.sectionIcons.Discapacidad);let dy=y;m.disability.forEach(([label,value])=>{dy=p.sideCard(label,value,x,dy,left,'',15);});const dh=p.text('Población con discapacidad por actividad con dificultad',rx,y,9.5,true,C.text,right);const db=m.disabilityEmpty?y+dh+18+p.text('No se registró población con discapacidad en esta comunidad.',rx,y+dh+18,9.5,false,C.text,right,'center'):p.bars(m.disabilityActivities,rx,y+dh+2,right,{labelFraction:.62,pt:9,step:7,thickness:3.3});y=Math.max(dy,db)+3+gaps[2];
  y=p.title('Afiliación a servicios de salud',x,y,w,'health');let hy=y;m.health.forEach(([label,value,note])=>{hy=p.sideCard(label,value,x,hy,left,note||'',16);});const hb=p.verticalBars(m.institutions,rx,y+2,right,36,{labelPt:7.2,valuePt:8.2,labelsHeight:11});y=Math.max(hy,hb)+3+gaps[2];
  y=p.title('Características económicas',x,y,w,'economy');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value]=m.economy[row*2+i];bottom=Math.max(bottom,p.sideCard(label,value,x+i*(cw+4),y,cw,'',16));}y=bottom;}
  if(m.notes.activity){y+=1;const noteHeight=Math.max(p.note(m.notes.activity,x,y,8.5,C.text,cw),p.note(m.notes.occupation,x+cw+4,y,8.5,C.text,cw));y+=noteHeight+1;}
@@ -259,7 +261,7 @@ function compose(model,logo=null,options={}){
  const eh=p.text('Población según nivel de escolaridad, por grupo de edad de referencia',x,y,9.5,true,C.text,cw),ah=p.text('Asistencia escolar',x+cw+4,y,9.5,true,C.text,cw),edY=y+Math.max(eh,ah)+2;
  const educationHeight=43.5;
  const ed=p.verticalBars(m.schooling,x,edY,cw,educationHeight,{adaptive:true,labelsHeight:17,labelPt:8.5});p.verticalBars(m.attendance,x+cw+4,edY,cw,educationHeight,{colors:[C.teal],labelsHeight:17,labelPt:8.5});
- p.text('Nota:',x,ed+1,8.5,true,C.text,10);const nh=p.text('Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.',x+9,ed+1,8.5,false,C.text,cw-9);p.bounds.push({column:3,bottom:ed+nh+3});
+ p.text('Nota:',x,ed+1,8.5,true,C.text,10);const nh=Math.max(p.text('Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.',x+9,ed+1,8.5,false,C.text,cw-9),m.notes.attendance?p.note(m.notes.attendance,x+cw+4,ed+1,8.5,C.text,cw):0);p.bounds.push({column:3,bottom:ed+nh+3});
  const footer=367;if(p.bounds.some(b=>b.bottom>footer-3+.001))throw Error('El contenido supera el área reservada. Revisar distribución: '+JSON.stringify(p.bounds));
  // El pie conserva el fondo blanco de la página, sin modificar su distribución.
  const refTop=p.title('Fuentes y referencias',11,footer,572,'book');let refBottom=refTop;

@@ -3728,7 +3728,13 @@
           "hombres": 12,
           "mujeres": 16
         }
-      ]
+      ],
+      "parcial": true,
+      "criteriosCarlos": {
+        "fecha": "2026-10-29",
+        "fuente": "Luis confirmó conservar la edad mediana como Dato no disponible y señalarlo en la entrega; no se atribuye una edad a Carlos.",
+        "notaComposicion": "Nota: La edad mediana no está disponible. El desglose por edad y sexo suma 3,167 personas, frente a una población total de 3,170."
+      }
     },
     "110060005|El Carricillo": {
       "fuenteEdades": "INEGI, Censo 2020, Insumo ITER 2020 del archivo compartido; revisión pendiente. Copia consultada el 06/10/2026",
@@ -12049,6 +12055,744 @@
           }
         ],
         "criterioIntegracion": "Se representan los conteos por sexo recibidos, sin redistribuir personas. Se conservan los totales declarados y sus diferencias para aclaración con Carlos. Luis pidió aplicar el mejor criterio para integrar el insumo; no implica validación de las diferencias por Carlos."
+      }
+    },
+    "110030136|El Lindero de la Petaca": {
+      "fuenteEdades": "INEGI, Censo 2020; campos quinquenales por sexo ya presentes en insumos-reunion.json. Integrados para el lote autorizado el 29 de octubre de 2026.",
+      "parcial": false,
+      "edades": [
+        {
+          "desde": 0,
+          "hasta": 4,
+          "hombres": 17,
+          "mujeres": 15
+        },
+        {
+          "desde": 5,
+          "hasta": 9,
+          "hombres": 12,
+          "mujeres": 15
+        },
+        {
+          "desde": 10,
+          "hasta": 14,
+          "hombres": 15,
+          "mujeres": 11
+        },
+        {
+          "desde": 15,
+          "hasta": 19,
+          "hombres": 10,
+          "mujeres": 13
+        },
+        {
+          "desde": 20,
+          "hasta": 24,
+          "hombres": 12,
+          "mujeres": 10
+        },
+        {
+          "desde": 25,
+          "hasta": 29,
+          "hombres": 12,
+          "mujeres": 13
+        },
+        {
+          "desde": 30,
+          "hasta": 34,
+          "hombres": 9,
+          "mujeres": 7
+        },
+        {
+          "desde": 35,
+          "hasta": 39,
+          "hombres": 9,
+          "mujeres": 10
+        },
+        {
+          "desde": 40,
+          "hasta": 44,
+          "hombres": 8,
+          "mujeres": 8
+        },
+        {
+          "desde": 45,
+          "hasta": 49,
+          "hombres": 5,
+          "mujeres": 6
+        },
+        {
+          "desde": 50,
+          "hasta": 54,
+          "hombres": 8,
+          "mujeres": 6
+        },
+        {
+          "desde": 55,
+          "hasta": 59,
+          "hombres": 2,
+          "mujeres": 1
+        },
+        {
+          "desde": 60,
+          "hasta": 64,
+          "hombres": 2,
+          "mujeres": 0
+        },
+        {
+          "desde": 65,
+          "hasta": 69,
+          "hombres": 3,
+          "mujeres": 3
+        },
+        {
+          "desde": 70,
+          "hasta": 74,
+          "hombres": 2,
+          "mujeres": 2
+        },
+        {
+          "desde": 75,
+          "hasta": 79,
+          "hombres": 1,
+          "mujeres": 2
+        },
+        {
+          "desde": 80,
+          "hasta": 84,
+          "hombres": 1,
+          "mujeres": 0
+        },
+        {
+          "desde": 85,
+          "hasta": null,
+          "hombres": 1,
+          "mujeres": 0
+        }
+      ],
+      "procedenciaEdades": {
+        "archivo": "insumos-reunion.json",
+        "sha256": "c16873a441944e54bbd041c80f48d60228db5152c2399aa990721fa794d44dea",
+        "clave": "110030136",
+        "fechaIntegracion": "2026-10-29",
+        "campos": "P_0A4_M/F a P_80A84_M/F y P_85YMAS_M/F",
+        "sumaHombres": 129,
+        "sumaMujeres": 122
+      }
+    },
+    "110030252|El Salto ": {
+      "fuenteEdades": "INEGI, Censo 2020; campos quinquenales por sexo ya presentes en insumos-reunion.json. Integrados para el lote autorizado el 29 de octubre de 2026.",
+      "parcial": false,
+      "edades": [
+        {
+          "desde": 0,
+          "hasta": 4,
+          "hombres": 9,
+          "mujeres": 17
+        },
+        {
+          "desde": 5,
+          "hasta": 9,
+          "hombres": 9,
+          "mujeres": 15
+        },
+        {
+          "desde": 10,
+          "hasta": 14,
+          "hombres": 11,
+          "mujeres": 12
+        },
+        {
+          "desde": 15,
+          "hasta": 19,
+          "hombres": 12,
+          "mujeres": 15
+        },
+        {
+          "desde": 20,
+          "hasta": 24,
+          "hombres": 13,
+          "mujeres": 13
+        },
+        {
+          "desde": 25,
+          "hasta": 29,
+          "hombres": 9,
+          "mujeres": 12
+        },
+        {
+          "desde": 30,
+          "hasta": 34,
+          "hombres": 5,
+          "mujeres": 7
+        },
+        {
+          "desde": 35,
+          "hasta": 39,
+          "hombres": 11,
+          "mujeres": 9
+        },
+        {
+          "desde": 40,
+          "hasta": 44,
+          "hombres": 6,
+          "mujeres": 8
+        },
+        {
+          "desde": 45,
+          "hasta": 49,
+          "hombres": 5,
+          "mujeres": 5
+        },
+        {
+          "desde": 50,
+          "hasta": 54,
+          "hombres": 3,
+          "mujeres": 5
+        },
+        {
+          "desde": 55,
+          "hasta": 59,
+          "hombres": 6,
+          "mujeres": 7
+        },
+        {
+          "desde": 60,
+          "hasta": 64,
+          "hombres": 5,
+          "mujeres": 3
+        },
+        {
+          "desde": 65,
+          "hasta": 69,
+          "hombres": 4,
+          "mujeres": 0
+        },
+        {
+          "desde": 70,
+          "hasta": 74,
+          "hombres": 2,
+          "mujeres": 1
+        },
+        {
+          "desde": 75,
+          "hasta": 79,
+          "hombres": 0,
+          "mujeres": 0
+        },
+        {
+          "desde": 80,
+          "hasta": 84,
+          "hombres": 1,
+          "mujeres": 3
+        },
+        {
+          "desde": 85,
+          "hasta": null,
+          "hombres": 3,
+          "mujeres": 2
+        }
+      ],
+      "procedenciaEdades": {
+        "archivo": "insumos-reunion.json",
+        "sha256": "c16873a441944e54bbd041c80f48d60228db5152c2399aa990721fa794d44dea",
+        "clave": "110030252",
+        "fechaIntegracion": "2026-10-29",
+        "campos": "P_0A4_M/F a P_80A84_M/F y P_85YMAS_M/F",
+        "sumaHombres": 114,
+        "sumaMujeres": 134
+      }
+    },
+    "110400010|Cieneguilla ": {
+      "fuenteEdades": "INEGI, Censo 2020; campos quinquenales por sexo ya presentes en insumos-reunion.json. Integrados para el lote autorizado el 29 de octubre de 2026.",
+      "parcial": false,
+      "edades": [
+        {
+          "desde": 0,
+          "hasta": 4,
+          "hombres": 33,
+          "mujeres": 44
+        },
+        {
+          "desde": 5,
+          "hasta": 9,
+          "hombres": 37,
+          "mujeres": 39
+        },
+        {
+          "desde": 10,
+          "hasta": 14,
+          "hombres": 51,
+          "mujeres": 37
+        },
+        {
+          "desde": 15,
+          "hasta": 19,
+          "hombres": 44,
+          "mujeres": 36
+        },
+        {
+          "desde": 20,
+          "hasta": 24,
+          "hombres": 34,
+          "mujeres": 31
+        },
+        {
+          "desde": 25,
+          "hasta": 29,
+          "hombres": 34,
+          "mujeres": 28
+        },
+        {
+          "desde": 30,
+          "hasta": 34,
+          "hombres": 22,
+          "mujeres": 36
+        },
+        {
+          "desde": 35,
+          "hasta": 39,
+          "hombres": 22,
+          "mujeres": 28
+        },
+        {
+          "desde": 40,
+          "hasta": 44,
+          "hombres": 23,
+          "mujeres": 29
+        },
+        {
+          "desde": 45,
+          "hasta": 49,
+          "hombres": 23,
+          "mujeres": 16
+        },
+        {
+          "desde": 50,
+          "hasta": 54,
+          "hombres": 9,
+          "mujeres": 19
+        },
+        {
+          "desde": 55,
+          "hasta": 59,
+          "hombres": 15,
+          "mujeres": 18
+        },
+        {
+          "desde": 60,
+          "hasta": 64,
+          "hombres": 12,
+          "mujeres": 17
+        },
+        {
+          "desde": 65,
+          "hasta": 69,
+          "hombres": 13,
+          "mujeres": 16
+        },
+        {
+          "desde": 70,
+          "hasta": 74,
+          "hombres": 9,
+          "mujeres": 7
+        },
+        {
+          "desde": 75,
+          "hasta": 79,
+          "hombres": 4,
+          "mujeres": 9
+        },
+        {
+          "desde": 80,
+          "hasta": 84,
+          "hombres": 2,
+          "mujeres": 7
+        },
+        {
+          "desde": 85,
+          "hasta": null,
+          "hombres": 5,
+          "mujeres": 8
+        }
+      ],
+      "procedenciaEdades": {
+        "archivo": "insumos-reunion.json",
+        "sha256": "c16873a441944e54bbd041c80f48d60228db5152c2399aa990721fa794d44dea",
+        "clave": "110400010",
+        "fechaIntegracion": "2026-10-29",
+        "campos": "P_0A4_M/F a P_80A84_M/F y P_85YMAS_M/F",
+        "sumaHombres": 392,
+        "sumaMujeres": 425
+      }
+    },
+    "110400040|El Salto  ": {
+      "fuenteEdades": "INEGI, Censo 2020; campos quinquenales por sexo ya presentes en insumos-reunion.json. Integrados para el lote autorizado el 29 de octubre de 2026.",
+      "parcial": false,
+      "edades": [
+        {
+          "desde": 0,
+          "hasta": 4,
+          "hombres": 19,
+          "mujeres": 26
+        },
+        {
+          "desde": 5,
+          "hasta": 9,
+          "hombres": 19,
+          "mujeres": 17
+        },
+        {
+          "desde": 10,
+          "hasta": 14,
+          "hombres": 13,
+          "mujeres": 13
+        },
+        {
+          "desde": 15,
+          "hasta": 19,
+          "hombres": 23,
+          "mujeres": 18
+        },
+        {
+          "desde": 20,
+          "hasta": 24,
+          "hombres": 17,
+          "mujeres": 22
+        },
+        {
+          "desde": 25,
+          "hasta": 29,
+          "hombres": 13,
+          "mujeres": 21
+        },
+        {
+          "desde": 30,
+          "hasta": 34,
+          "hombres": 15,
+          "mujeres": 10
+        },
+        {
+          "desde": 35,
+          "hasta": 39,
+          "hombres": 10,
+          "mujeres": 10
+        },
+        {
+          "desde": 40,
+          "hasta": 44,
+          "hombres": 9,
+          "mujeres": 6
+        },
+        {
+          "desde": 45,
+          "hasta": 49,
+          "hombres": 3,
+          "mujeres": 8
+        },
+        {
+          "desde": 50,
+          "hasta": 54,
+          "hombres": 4,
+          "mujeres": 8
+        },
+        {
+          "desde": 55,
+          "hasta": 59,
+          "hombres": 6,
+          "mujeres": 6
+        },
+        {
+          "desde": 60,
+          "hasta": 64,
+          "hombres": 2,
+          "mujeres": 3
+        },
+        {
+          "desde": 65,
+          "hasta": 69,
+          "hombres": 2,
+          "mujeres": 1
+        },
+        {
+          "desde": 70,
+          "hasta": 74,
+          "hombres": 2,
+          "mujeres": 2
+        },
+        {
+          "desde": 75,
+          "hasta": 79,
+          "hombres": 0,
+          "mujeres": 4
+        },
+        {
+          "desde": 80,
+          "hasta": 84,
+          "hombres": 2,
+          "mujeres": 4
+        },
+        {
+          "desde": 85,
+          "hasta": null,
+          "hombres": 1,
+          "mujeres": 1
+        }
+      ],
+      "procedenciaEdades": {
+        "archivo": "insumos-reunion.json",
+        "sha256": "c16873a441944e54bbd041c80f48d60228db5152c2399aa990721fa794d44dea",
+        "clave": "110400040",
+        "fechaIntegracion": "2026-10-29",
+        "campos": "P_0A4_M/F a P_80A84_M/F y P_85YMAS_M/F",
+        "sumaHombres": 160,
+        "sumaMujeres": 180
+      }
+    },
+    "110400051|Xoconostle": {
+      "fuenteEdades": "INEGI, Censo 2020; campos quinquenales por sexo ya presentes en insumos-reunion.json. Integrados para el lote autorizado el 29 de octubre de 2026.",
+      "parcial": false,
+      "edades": [
+        {
+          "desde": 0,
+          "hasta": 4,
+          "hombres": 10,
+          "mujeres": 5
+        },
+        {
+          "desde": 5,
+          "hasta": 9,
+          "hombres": 8,
+          "mujeres": 7
+        },
+        {
+          "desde": 10,
+          "hasta": 14,
+          "hombres": 7,
+          "mujeres": 5
+        },
+        {
+          "desde": 15,
+          "hasta": 19,
+          "hombres": 6,
+          "mujeres": 12
+        },
+        {
+          "desde": 20,
+          "hasta": 24,
+          "hombres": 7,
+          "mujeres": 6
+        },
+        {
+          "desde": 25,
+          "hasta": 29,
+          "hombres": 5,
+          "mujeres": 7
+        },
+        {
+          "desde": 30,
+          "hasta": 34,
+          "hombres": 5,
+          "mujeres": 1
+        },
+        {
+          "desde": 35,
+          "hasta": 39,
+          "hombres": 2,
+          "mujeres": 6
+        },
+        {
+          "desde": 40,
+          "hasta": 44,
+          "hombres": 2,
+          "mujeres": 4
+        },
+        {
+          "desde": 45,
+          "hasta": 49,
+          "hombres": 4,
+          "mujeres": 1
+        },
+        {
+          "desde": 50,
+          "hasta": 54,
+          "hombres": 1,
+          "mujeres": 2
+        },
+        {
+          "desde": 55,
+          "hasta": 59,
+          "hombres": 0,
+          "mujeres": 2
+        },
+        {
+          "desde": 60,
+          "hasta": 64,
+          "hombres": 1,
+          "mujeres": 2
+        },
+        {
+          "desde": 65,
+          "hasta": 69,
+          "hombres": 5,
+          "mujeres": 3
+        },
+        {
+          "desde": 70,
+          "hasta": 74,
+          "hombres": 2,
+          "mujeres": 2
+        },
+        {
+          "desde": 75,
+          "hasta": 79,
+          "hombres": 1,
+          "mujeres": 0
+        },
+        {
+          "desde": 80,
+          "hasta": 84,
+          "hombres": 2,
+          "mujeres": 0
+        },
+        {
+          "desde": 85,
+          "hasta": null,
+          "hombres": 0,
+          "mujeres": 0
+        }
+      ],
+      "procedenciaEdades": {
+        "archivo": "insumos-reunion.json",
+        "sha256": "c16873a441944e54bbd041c80f48d60228db5152c2399aa990721fa794d44dea",
+        "clave": "110400051",
+        "fechaIntegracion": "2026-10-29",
+        "campos": "P_0A4_M/F a P_80A84_M/F y P_85YMAS_M/F",
+        "sumaHombres": 68,
+        "sumaMujeres": 65
+      }
+    },
+    "110450006|Mineral la Aurora": {
+      "fuenteEdades": "INEGI, Censo 2020; campos quinquenales por sexo ya presentes en insumos-reunion.json. Integrados para el lote autorizado el 29 de octubre de 2026.",
+      "parcial": false,
+      "edades": [
+        {
+          "desde": 0,
+          "hasta": 4,
+          "hombres": 2,
+          "mujeres": 3
+        },
+        {
+          "desde": 5,
+          "hasta": 9,
+          "hombres": 0,
+          "mujeres": 0
+        },
+        {
+          "desde": 10,
+          "hasta": 14,
+          "hombres": 0,
+          "mujeres": 2
+        },
+        {
+          "desde": 15,
+          "hasta": 19,
+          "hombres": 1,
+          "mujeres": 2
+        },
+        {
+          "desde": 20,
+          "hasta": 24,
+          "hombres": 2,
+          "mujeres": 6
+        },
+        {
+          "desde": 25,
+          "hasta": 29,
+          "hombres": 1,
+          "mujeres": 1
+        },
+        {
+          "desde": 30,
+          "hasta": 34,
+          "hombres": 0,
+          "mujeres": 0
+        },
+        {
+          "desde": 35,
+          "hasta": 39,
+          "hombres": 0,
+          "mujeres": 0
+        },
+        {
+          "desde": 40,
+          "hasta": 44,
+          "hombres": 0,
+          "mujeres": 0
+        },
+        {
+          "desde": 45,
+          "hasta": 49,
+          "hombres": 0,
+          "mujeres": 2
+        },
+        {
+          "desde": 50,
+          "hasta": 54,
+          "hombres": 2,
+          "mujeres": 2
+        },
+        {
+          "desde": 55,
+          "hasta": 59,
+          "hombres": 2,
+          "mujeres": 1
+        },
+        {
+          "desde": 60,
+          "hasta": 64,
+          "hombres": 0,
+          "mujeres": 0
+        },
+        {
+          "desde": 65,
+          "hasta": 69,
+          "hombres": 2,
+          "mujeres": 1
+        },
+        {
+          "desde": 70,
+          "hasta": 74,
+          "hombres": 0,
+          "mujeres": 1
+        },
+        {
+          "desde": 75,
+          "hasta": 79,
+          "hombres": 1,
+          "mujeres": 0
+        },
+        {
+          "desde": 80,
+          "hasta": 84,
+          "hombres": 0,
+          "mujeres": 1
+        },
+        {
+          "desde": 85,
+          "hasta": null,
+          "hombres": 1,
+          "mujeres": 0
+        }
+      ],
+      "procedenciaEdades": {
+        "archivo": "insumos-reunion.json",
+        "sha256": "c16873a441944e54bbd041c80f48d60228db5152c2399aa990721fa794d44dea",
+        "clave": "110450006",
+        "fechaIntegracion": "2026-10-29",
+        "campos": "P_0A4_M/F a P_80A84_M/F y P_85YMAS_M/F",
+        "sumaHombres": 14,
+        "sumaMujeres": 22
       }
     }
   }
