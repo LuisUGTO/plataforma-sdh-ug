@@ -96,7 +96,7 @@ class PDF{
   const dx=align==='center'?-tw(s,pt,true)/2:align==='right'?-tw(s,pt,true):0;
   this.cmd.push(`BT /F2 ${pt} Tf ${rgb(C.text)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-baseline)*MM).toFixed(3)} Tm <${hex(s)}> Tj ET`);
  }
- floorBox(items,x,y,w){const hh=5.2,bh=9.6,cw=w/items.length;this.rect(x,y,w,hh+bh,'#FFFFFF',C.line,.2);this.rect(x,y,w,hh,'#E4E8EC',C.line,.2);this.text('Material del piso de la vivienda',x+2,y+.35,9.8,true,C.text,w-4,'center');items.forEach(([label,value],i)=>{const cx=x+i*cw,unavail=value==='Dato no disponible';this.text(label,cx+1,y+hh+.5,9.5,false,C.text,cw-2,'center');this.text(value,cx+1,y+hh+(unavail?4.5:3.3),unavail?9.5:14.5,!unavail,unavail?C.text:C.teal,cw-2,'center');});return y+hh+bh+1.2;}
+ floorBox(items,x,y,w){const hh=5.2,bh=9.6,cw=w/items.length;this.rect(x,y,w,hh+bh,'#FFFFFF',C.line,.2);this.rect(x,y,w,hh,C.blue,C.blue,.2);this.text('Material del piso de la vivienda',x+2,y+.34,10,true,'#FFFFFF',w-4,'center');items.forEach(([label,value],i)=>{const cx=x+i*cw,unavail=value==='Dato no disponible';this.text(label,cx+1,y+hh+.35,LABEL_PT,true,C.text,cw-2,'center');this.text(value,cx+1,y+hh+(unavail?4.5:2.76),unavail?9.5:16,!unavail,unavail?C.text:C.blue,cw-2,'center');});return y+hh+bh+1.2;}
  bars(items,x,y,w,opts={}){
   const colors=[C.teal,C.blue,C.purple,C.orange,C.green],fraction=opts.labelFraction??.46,pt=opts.pt??9.5,step=opts.step??4.5,pad=opts.pad??.3,valuePt=9.3,thickness=opts.thickness||2.7;
   items.forEach(([label,value],i)=>{

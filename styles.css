@@ -115,11 +115,11 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 #vivienda .metric.highlight{min-height:15.5mm}
 #vivienda .metric:not(.highlight){min-height:11.5mm}
 .floor-box{border:.2mm solid var(--line);margin:1.5mm 0 1.2mm;background:#fff}
-.floor-box-title{background:#E4E8EC;border-bottom:.2mm solid var(--line);padding:.9mm 2mm;text-align:center;font:bold 9.8pt/1.2 SDHHelvetica,sans-serif;color:var(--gray)}
-.floor-box-grid{display:grid;grid-template-columns:1fr 1fr;padding:1.2mm 2mm 1.3mm;text-align:center}
-.floor-item span{display:block;font-size:9.5pt;line-height:1.2;color:var(--gray)}
-.floor-item strong{display:block;margin-top:.5mm;font-size:14.5pt;line-height:1.1;color:#008E95}
-.floor-item strong.unavailable{font-size:9.5pt;font-weight:normal;color:var(--gray)}
+.floor-box-title{background:var(--blue);margin:-.2mm -.2mm 0;padding:.85mm 2mm;text-align:center;font:bold 10pt/1.2 SDHHelvetica,sans-serif;color:#fff}
+.floor-box-grid{display:grid;grid-template-columns:1fr 1fr;padding:1.1mm 2mm 1.15mm;text-align:center}
+.floor-item span{display:block;font:bold 9.5pt/1.2 SDHHelvetica,sans-serif;color:var(--gray)}
+.floor-item strong{display:block;margin-top:.55mm;font:bold 16pt/1.05 SDHHelvetica,sans-serif;color:var(--blue)}
+.floor-item strong.unavailable{font:normal 9.5pt/1.2 SDHHelvetica,sans-serif;color:var(--gray)}
 #discapacidad .metric{min-height:15mm}
 #salud .metric{min-height:16mm}
 #condiciones .metric{grid-template-columns:minmax(0,1fr) max-content}
