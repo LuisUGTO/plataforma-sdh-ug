@@ -96,7 +96,30 @@ class PDF{
   const dx=align==='center'?-tw(s,pt,true)/2:align==='right'?-tw(s,pt,true):0;
   this.cmd.push(`BT /F2 ${pt} Tf ${rgb(C.text)} rg 1 0 0 1 ${((x+dx)*MM).toFixed(3)} ${((H-baseline)*MM).toFixed(3)} Tm <${hex(s)}> Tj ET`);
  }
- floorBox(items,x,y,w){const hh=5.2,bh=9.6,cw=w/items.length;this.rect(x,y,w,hh+bh,'#FFFFFF',C.line,.2);this.rect(x,y,w,hh,C.blue,C.blue,.2);this.text('Material del piso de la vivienda',x+2,y+.34,10,true,'#FFFFFF',w-4,'center');items.forEach(([label,value],i)=>{const cx=x+i*cw,unavail=value==='Dato no disponible';this.text(label,cx+1,y+hh+.35,LABEL_PT,true,C.text,cw-2,'center');this.text(value,cx+1,y+hh+(unavail?4.5:2.76),unavail?9.5:16,!unavail,unavail?C.text:C.blue,cw-2,'center');});return y+hh+bh+1.2;}
+  floorBox(items,x,y,w){
+   const hh=4.2,bh=11.2,h=hh+bh,halfW=w/2;
+   this.rect(x,y+hh,w,bh,'#FFFFFF',C.line,.2);
+   this.rect(x,y,w,hh,C.sky,C.line,.2);
+   this.text('Material del piso de la vivienda',x+2,y+.4,9.5,true,C.blue,w-4,'center');
+   this.line(x+halfW,y+hh,x+halfW,y+h,C.line,.25);
+
+   const valW=20;
+   const v1Pt=items[0][1]==='Dato no disponible'?9.5:13;
+   this.text(items[0][0],x+2.5,y+hh+3.6,9.5,true,C.text,halfW-valW-4);
+   this.text(items[0][1],x+halfW-2.5-valW,y+hh+(v1Pt===13?2.85:3.6),v1Pt,true,C.blue,valW,'right');
+
+   const rx=x+halfW+2.5,rw=halfW-valW-4;
+   const rLines=items[1][0].includes('madera, ') ? ['Cemento o firme, madera,', items[1][0].split('madera, ')[1]] : wrap(items[1][0],rw,8.8,true);
+   const rStep=8.8*1.15/MM;
+   const rTop=y+hh+(bh-rLines.length*rStep)/2+0.3;
+   rLines.forEach((line,i)=>{
+    this.text(line,rx,rTop+i*rStep,8.8,true,C.text,rw);
+   });
+   const v2Pt=items[1][1]==='Dato no disponible'?9.5:13;
+   this.text(items[1][1],x+w-2.5-valW,y+hh+(v2Pt===13?2.85:3.6),v2Pt,true,C.blue,valW,'right');
+
+   return y+h+1.2;
+ }
  bars(items,x,y,w,opts={}){
   const colors=[C.teal,C.blue,C.purple,C.orange,C.green],fraction=opts.labelFraction??.46,pt=opts.pt??9.5,step=opts.step??4.5,pad=opts.pad??.3,valuePt=9.3,thickness=opts.thickness||2.7;
   items.forEach(([label,value],i)=>{
@@ -240,8 +263,8 @@ function compose(model,logo=null,options={}){
  const fertilityFootprint=fy+cardLayout(...m.fertility,half,29).h+2;p.sideCard(...m.fertility,x,fy,half,'',18);const ch=p.text('Población de 12 años y más según situación conyugal',x+half+5,cy,9.5,true,C.text,half);const cb=p.pie(m.marital,raw.P_12YMAS,x+half+5,cy+ch+2,half),maritalReady=num(raw.P_12YMAS)>0&&m.marital.every(a=>num(a[1])!==null)&&m.marital.reduce((sum,a)=>sum+Number(a[1]),0)<=Number(raw.P_12YMAS);p.bounds.push({column:1,bottom:Math.max(fertilityFootprint-2,cb-(maritalReady?0:1.5))+2});
  x=220;w=175;y=52;const ew=(w-4)/2;
  y=p.title('Vivienda',x,y,w,'housing');for(let row=0;row<2;row++){let bottom=y;for(let i=0;i<2;i++){const [label,value,highlight]=m.housing[row*2+i];bottom=Math.max(bottom,p.card(label,value,x+i*(ew+4),y,ew,{highlight,minHeight:row===0?15.5:11.5,labelFraction:.72}));}y=bottom;}
- y=p.floorBox(m.housingFloor,x,y,w);
- m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+.8,x+w,y+.8,C.line,.25);y+=1.8;}else y+=.4;y+=p.text(label,x,y,10.5,true,C.text,w)+1;y=p.bars(items,x,y,w,{step:4.02,pad:0});});
+ y=p.floorBox(m.housingFloor,x,y,w,ew);
+ m.housingGroups.forEach(([label,items],i)=>{if(i){p.line(x,y+1.5,x+w,y+1.5,C.line,.25);y+=2.8;}else y+=.4;y+=p.text(label,x,y,10.5,true,C.text,w)+1;y=p.bars(items,x,y,w,{step:3.94,pad:0});});
  y+=1.5+gaps[1];y=p.title('Etnicidad',x,y,w);const ethnicTop=y;let ethnicLeft=y;
  for(const i of [0,2,3]){const [label,value]=m.ethnicity[i];ethnicLeft=p.tile(label,value,x,ethnicLeft,ew,ETHNIC_CARD_HEIGHT)+ETHNIC_GAP;}
  const [languageLabel,languageValue]=m.ethnicity[1],languageCardBottom=p.tile(languageLabel,languageValue,x+ew+4,ethnicTop,ew,ETHNIC_CARD_HEIGHT);

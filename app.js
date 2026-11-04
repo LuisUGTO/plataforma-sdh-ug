@@ -59,7 +59,11 @@ function verticalChart(items,title,opts={}){
 }
 function labelHTML(label){return window.SDH_PDF.labelLines(label).map(esc).join('<br>');}
 function valueCard(label,value,highlight=false,note=''){return `<div class="metric${highlight?' highlight':''}"><span>${labelHTML(label)}${note?'<small>'+noteHTML(note)+'</small>':''}</span><strong${value==='Dato no disponible'?' class="unavailable"':''}>${esc(value)}</strong></div>`;}
-function floorBoxHTML(items){return `<div class="floor-box-title">Material del piso de la vivienda</div><div class="floor-box-grid">${items.map(([label,value])=>`<div class="floor-item"><span>${esc(label)}</span><strong${value==='Dato no disponible'?' class="unavailable"':''}>${esc(value)}</strong></div>`).join('')}</div>`;}
+function floorBoxHTML(items){
+  const [tierra,cemento]=items;
+  const cementoLabel=cemento[0].replace('madera, ','madera,<br>');
+  return `<div class="floor-box"><div class="floor-box-title">Material del piso de la vivienda</div><div class="floor-box-body"><div class="floor-box-cell"><span class="floor-box-label">${esc(tierra[0])}</span><strong class="floor-box-val">${esc(tierra[1])}</strong></div><div class="floor-box-cell"><span class="floor-box-label">${cementoLabel}</span><strong class="floor-box-val">${esc(cemento[1])}</strong></div></div></div>`;
+}
 function renderBars(items){return items.map(([label,value],index)=>bar(label,value,index)).join('');}
 function reunionRender(r){
  const raw=rawFor(r),m=window.SDH_INDICADORES.build(r,raw,extraFor(r));
