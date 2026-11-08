@@ -30,16 +30,16 @@ const server = http.createServer((req, res) => {
   fs.createReadStream(p).pipe(res);
 });
 
-await new Promise(r => server.listen(8793, '127.0.0.1', r));
+await new Promise(r => server.listen(8794, '127.0.0.1', r));
 
-const profile = path.join(process.env.TEMP, 'sdh-chrome-portal-shot');
+const profile = path.join(process.env.TEMP, 'sdh-chrome-portal-shot-v2');
 const chrome = spawn(CHROME, [
   '--headless=new',
   '--disable-gpu',
-  '--remote-debugging-port=9349',
+  '--remote-debugging-port=9350',
   '--remote-allow-origins=*',
   `--user-data-dir=${profile}`,
-  'http://127.0.0.1:8793/portal/index.html'
+  'http://127.0.0.1:8794/portal/index.html'
 ], { stdio: 'ignore' });
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -47,7 +47,7 @@ let target;
 for (let i = 0; i < 40 && !target; i++) {
   await sleep(300);
   try {
-    const list = await (await fetch('http://127.0.0.1:9349/json/list')).json();
+    const list = await (await fetch('http://127.0.0.1:9350/json/list')).json();
     target = list.find(t => t.type === 'page');
   } catch {}
 }
@@ -76,21 +76,32 @@ await sleep(1500);
 await send('Emulation.setDeviceMetricsOverride', { width: 1600, height: 1000, deviceScaleFactor: 1, mobile: false });
 await sleep(1000);
 
-// Capture full view
-const shot = await send('Page.captureScreenshot', { format: 'png' });
-const outShot = path.join(BRAIN, 'portal_desktop_preview.png');
-fs.writeFileSync(outShot, Buffer.from(shot.data, 'base64'));
-console.log('Saved portal_desktop_preview.png successfully!');
+// 1. Capture default desktop view with the discrete button
+const shot1 = await send('Page.captureScreenshot', { format: 'png' });
+fs.writeFileSync(path.join(BRAIN, 'portal_desktop_preview.png'), Buffer.from(shot1.data, 'base64'));
+console.log('Saved portal_desktop_preview.png!');
 
-// Also test clicking first community card to capture modal with official icons
+// 2. Click the toggle reference button to display the municipal letters reference box
 await send('Runtime.evaluate', {
-  expression: `document.querySelector('.community-card').click();`
+  expression: `document.getElementById('btn-toggle-ref').click();`
 });
-await sleep(800);
-const modalShot = await send('Page.captureScreenshot', { format: 'png' });
-const outModalShot = path.join(BRAIN, 'portal_modal_preview.png');
-fs.writeFileSync(outModalShot, Buffer.from(modalShot.data, 'base64'));
-console.log('Saved portal_modal_preview.png successfully!');
+await sleep(400);
+const shot2 = await send('Page.captureScreenshot', { format: 'png' });
+fs.writeFileSync(path.join(BRAIN, 'portal_reference_open_preview.png'), Buffer.from(shot2.data, 'base64'));
+console.log('Saved portal_reference_open_preview.png!');
+
+// 3. Zoom in to test dynamic scale updating
+await send('Runtime.evaluate', {
+  expression: `
+    document.getElementById('btn-zoom-in').click();
+    document.getElementById('btn-zoom-in').click();
+    document.getElementById('btn-zoom-in').click();
+  `
+});
+await sleep(600);
+const shot3 = await send('Page.captureScreenshot', { format: 'png' });
+fs.writeFileSync(path.join(BRAIN, 'portal_zoomed_dynamic_scale_preview.png'), Buffer.from(shot3.data, 'base64'));
+console.log('Saved portal_zoomed_dynamic_scale_preview.png!');
 
 ws.close();
 chrome.kill();

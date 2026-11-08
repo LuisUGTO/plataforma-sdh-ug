@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Portal Geográfico de Comunidades | Secretaría de Derechos Humanos de Guanajuato</title>
   <link rel="icon" href="../assets/logo-sdh-icon.png">
-  <link rel="stylesheet" href="styles.css?v=20261108-v2">
+  <link rel="stylesheet" href="styles.css?v=20261108-v3">
 </head>
 <body>
 
@@ -123,17 +123,17 @@
           </svg>
         </div>
 
-        <!-- Escala gráfica aproximada -->
-        <div class="map-scale" aria-label="Escala gráfica aproximada">
-          <span class="scale-text">Escala 1 : 1 300 000 aprox.</span>
-          <div class="scale-bar">
+        <!-- Escala gráfica dinámica -->
+        <div class="map-scale" id="map-scale" aria-label="Escala gráfica">
+          <span class="scale-text" id="scale-ratio-text">Escala dinámica</span>
+          <div class="scale-bar" id="scale-bar">
             <span class="scale-seg seg-dark"></span>
             <span class="scale-seg seg-light"></span>
           </div>
           <div class="scale-labels">
             <span>0</span>
-            <span>25</span>
-            <span>50 km</span>
+            <span id="scale-mid-val">25</span>
+            <span id="scale-max-val">50 km</span>
           </div>
         </div>
 
@@ -144,12 +144,53 @@
           <button id="btn-zoom-reset" title="Restablecer vista de Guanajuato" aria-label="Restablecer vista">⟲</button>
         </div>
 
-        <!-- Leyenda / Guía del mapa -->
-        <div class="map-legend">
-          <span class="legend-title">Simbología Oficial</span>
-          <div class="legend-item"><span class="legend-dot active-dot"></span><span>107 Comunidades reconocidas</span></div>
-          <div class="legend-item"><span class="legend-poly active-poly"></span><span>13 Municipios con presencia (A–M)</span></div>
-          <div class="legend-item"><span class="legend-poly base-poly"></span><span>Resto del estado (33 municipios)</span></div>
+        <!-- Bloque inferior derecho: Referencia de Municipios (A-M) y Simbología -->
+        <div class="map-overlay-bottom-right">
+
+          <!-- Cajita desplegable de Municipios A-M -->
+          <div id="mun-reference-box" class="mun-reference-box" hidden>
+            <div class="ref-header">
+              <div class="ref-header-title">
+                <span class="ref-header-badge">A–M</span>
+                <strong>Municipios con presencia</strong>
+              </div>
+              <button id="btn-close-ref" class="btn-close-ref" title="Cerrar referencia">✕</button>
+            </div>
+            <div class="ref-list" id="ref-mun-list">
+              <div class="ref-item" data-mun="Apaseo el Alto"><span class="ref-badge">A</span><span class="ref-name">Apaseo el Alto</span><span class="ref-count">3 com.</span></div>
+              <div class="ref-item" data-mun="Atarjea"><span class="ref-badge">B</span><span class="ref-name">Atarjea</span><span class="ref-count">4 com.</span></div>
+              <div class="ref-item" data-mun="Comonfort"><span class="ref-badge">C</span><span class="ref-name">Comonfort</span><span class="ref-count">14 com.</span></div>
+              <div class="ref-item" data-mun="Dolores Hidalgo Cuna de la Independencia Nacional"><span class="ref-badge">D</span><span class="ref-name">Dolores Hidalgo</span><span class="ref-count">4 com.</span></div>
+              <div class="ref-item" data-mun="Salvatierra"><span class="ref-badge">E</span><span class="ref-name">Salvatierra</span><span class="ref-count">2 com.</span></div>
+              <div class="ref-item" data-mun="San Luis de la Paz"><span class="ref-badge">F</span><span class="ref-name">San Luis de la Paz</span><span class="ref-count">4 com.</span></div>
+              <div class="ref-item" data-mun="San Miguel de Allende"><span class="ref-badge">G</span><span class="ref-name">San Miguel de Allende</span><span class="ref-count">30 com.</span></div>
+              <div class="ref-item" data-mun="Santa Catarina"><span class="ref-badge">H</span><span class="ref-name">Santa Catarina</span><span class="ref-count">1 com.</span></div>
+              <div class="ref-item" data-mun="Tierra Blanca"><span class="ref-badge">I</span><span class="ref-name">Tierra Blanca</span><span class="ref-count">22 com.</span></div>
+              <div class="ref-item" data-mun="Valle de Santiago"><span class="ref-badge">J</span><span class="ref-name">Valle de Santiago</span><span class="ref-count">2 com.</span></div>
+              <div class="ref-item" data-mun="Victoria"><span class="ref-badge">K</span><span class="ref-name">Victoria</span><span class="ref-count">15 com.</span></div>
+              <div class="ref-item" data-mun="Villagrán"><span class="ref-badge">L</span><span class="ref-name">Villagrán</span><span class="ref-count">1 com.</span></div>
+              <div class="ref-item" data-mun="Xichú"><span class="ref-badge">M</span><span class="ref-name">Xichú</span><span class="ref-count">5 com.</span></div>
+            </div>
+            <div class="ref-footer">
+              <small>Haz clic en cualquier municipio para ubicarlo</small>
+            </div>
+          </div>
+
+          <!-- Botón discreto para alternar la referencia de letras -->
+          <button id="btn-toggle-ref" class="btn-toggle-ref" aria-expanded="false" title="Ver catálogo de letras A a M">
+            <span class="ref-toggle-badge">A–M</span>
+            <span>Referencia de Municipios</span>
+            <span class="ref-toggle-chevron">▾</span>
+          </button>
+
+          <!-- Leyenda / Guía del mapa -->
+          <div class="map-legend">
+            <span class="legend-title">Simbología Oficial</span>
+            <div class="legend-item"><span class="legend-dot active-dot"></span><span>107 Comunidades reconocidas</span></div>
+            <div class="legend-item"><span class="legend-poly active-poly"></span><span>13 Municipios con presencia (A–M)</span></div>
+            <div class="legend-item"><span class="legend-poly base-poly"></span><span>Resto del estado (33 municipios)</span></div>
+          </div>
+
         </div>
 
         <!-- Tooltip flotante al pasar el cursor -->
@@ -238,6 +279,6 @@
   <!-- Scripts con datos precompilados y motor de mapa vectorial -->
   <script src="municipios.js?v=20261103"></script>
   <script src="datos-comunidades.js?v=20261103"></script>
-  <script src="app.js?v=20261108-v2"></script>
+  <script src="app.js?v=20261108-v3"></script>
 </body>
 </html>

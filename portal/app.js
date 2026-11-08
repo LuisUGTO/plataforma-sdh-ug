@@ -220,7 +220,81 @@
   function updateTransform(animate = false) {
     zoomGroup.style.transition = animate ? 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
     zoomGroup.setAttribute('transform', `translate(${panX}, ${panY}) scale(${currentZoom})`);
+    updateDynamicScale();
   }
+
+  // Escala gráfica dinámica y precisa según el zoom y tamaño de pantalla
+  function updateDynamicScale() {
+    const scaleBar = $('scale-bar');
+    const scaleRatio = $('scale-ratio-text');
+    const scaleMid = $('scale-mid-val');
+    const scaleMax = $('scale-max-val');
+    if (!scaleBar || !scaleMax) return;
+
+    const rect = wrapper.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+
+    const svgAspect = SVG_W / SVG_H;
+    const viewAspect = rect.width / rect.height;
+
+    let renderH = rect.height;
+    if (viewAspect > svgAspect) {
+      renderH = rect.height;
+    } else {
+      renderH = rect.width / svgAspect;
+    }
+
+    const screenPxPerSvgPx = (renderH / SVG_H) * currentZoom;
+    const kmPerSvgPx = 110.74 / scale;
+    const kmPerScreenPx = kmPerSvgPx / screenPxPerSvgPx;
+
+    const niceDists = [
+      100, 75, 50, 40, 30, 25, 20, 15, 10, 8, 5, 4, 3, 2, 1,
+      0.8, 0.5, 0.4, 0.25, 0.2, 0.1
+    ];
+
+    let chosenDist = 50;
+    let chosenWidth = 90;
+
+    for (const d of niceDists) {
+      const w = d / kmPerScreenPx;
+      if (w >= 65 && w <= 135) {
+        chosenDist = d;
+        chosenWidth = w;
+        break;
+      }
+    }
+
+    if (!chosenWidth || chosenWidth < 50 || chosenWidth > 150) {
+      chosenDist = niceDists.reduce((prev, curr) => {
+        const wPrev = prev / kmPerScreenPx;
+        const wCurr = curr / kmPerScreenPx;
+        return Math.abs(wCurr - 90) < Math.abs(wPrev - 90) ? curr : prev;
+      });
+      chosenWidth = chosenDist / kmPerScreenPx;
+    }
+
+    const ratioVal = Math.round(kmPerScreenPx * (96 / 2.54) * 100000);
+    const roundRatio = Math.round(ratioVal / 10000) * 10000;
+    if (scaleRatio) {
+      scaleRatio.textContent = `Escala 1 : ${roundRatio.toLocaleString('es-MX')}`;
+    }
+
+    scaleBar.style.width = `${Math.round(chosenWidth)}px`;
+
+    const midDist = chosenDist / 2;
+    if (chosenDist >= 1) {
+      scaleMid.textContent = Number.isInteger(midDist) ? midDist : midDist.toFixed(1);
+      scaleMax.textContent = `${chosenDist} km`;
+    } else {
+      const midM = Math.round(midDist * 1000);
+      const maxM = Math.round(chosenDist * 1000);
+      scaleMid.textContent = midM;
+      scaleMax.textContent = `${maxM} m`;
+    }
+  }
+
+  window.addEventListener('resize', updateDynamicScale);
 
   wrapper.addEventListener('mousedown', e => {
     if (e.target.closest('.map-controls') || e.target.closest('.map-legend')) return;
@@ -279,6 +353,20 @@
     panX = (rect.width / 2) - c.svgX * currentZoom;
     panY = (rect.height / 2) - c.svgY * currentZoom;
     updateTransform(true);
+  }
+
+  function centerOnMunicipality(munName) {
+    const norm = munName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const mComm = communities.filter(c => c.municipio.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') === norm && c.svgX && c.svgY);
+    if (mComm.length > 0) {
+      const avgX = mComm.reduce((sum, c) => sum + c.svgX, 0) / mComm.length;
+      const avgY = mComm.reduce((sum, c) => sum + c.svgY, 0) / mComm.length;
+      currentZoom = 2.8;
+      const rect = wrapper.getBoundingClientRect();
+      panX = (rect.width / 2) - avgX * currentZoom;
+      panY = (rect.height / 2) - avgY * currentZoom;
+      updateTransform(true);
+    }
   }
 
   // =========================================================================
@@ -451,5 +539,45 @@
   window.addEventListener('keydown', e => {
     if (e.key === 'Escape' && !modal.hidden) closeModal();
   });
+
+  // =========================================================================
+  // 7. Referencia Desplegable de Municipios (A–M)
+  // =========================================================================
+  const btnToggleRef = $('btn-toggle-ref');
+  const btnCloseRef = $('btn-close-ref');
+  const munRefBox = $('mun-reference-box');
+
+  if (btnToggleRef && munRefBox) {
+    btnToggleRef.addEventListener('click', e => {
+      e.stopPropagation();
+      const isHidden = munRefBox.hidden;
+      munRefBox.hidden = !isHidden;
+      btnToggleRef.classList.toggle('open', isHidden);
+      btnToggleRef.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+    });
+
+    if (btnCloseRef) {
+      btnCloseRef.addEventListener('click', e => {
+        e.stopPropagation();
+        munRefBox.hidden = true;
+        btnToggleRef.classList.remove('open');
+        btnToggleRef.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    // Al hacer clic en un municipio de la lista A–M:
+    document.querySelectorAll('.ref-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const mun = item.getAttribute('data-mun');
+        if (!mun) return;
+        munSelect.value = mun;
+        filterCommunities();
+        centerOnMunicipality(mun);
+      });
+    });
+  }
+
+  // Inicializar cálculo de escala dinámica en el primer render
+  setTimeout(updateDynamicScale, 150);
 
 })();
