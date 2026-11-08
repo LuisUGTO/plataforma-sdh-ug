@@ -118,21 +118,21 @@
       let cx = sumX / ptCount;
       let cy = sumY / ptCount;
 
-      // Coordenadas cartográficas optimizadas para no solaparse con ningún pin de comunidad
+      // Coordenadas cartográficas optimizadas matemáticamente para máxima holgura (sin solape de pines ni fronteras)
       const letterPositions = {
-        'A': { cx: 612, cy: 575 }, // Apaseo el Alto
-        'B': { cx: 885, cy: 255 }, // Atarjea
-        'C': { cx: 518, cy: 425 }, // Comonfort
-        'D': { cx: 455, cy: 295 }, // Dolores Hidalgo
-        'E': { cx: 480, cy: 662 }, // Salvatierra
-        'F': { cx: 640, cy: 175 }, // San Luis de la Paz
-        'G': { cx: 555, cy: 370 }, // San Miguel de Allende
-        'H': { cx: 786, cy: 285 }, // Santa Catarina
-        'I': { cx: 758, cy: 345 }, // Tierra Blanca
-        'J': { cx: 350, cy: 582 }, // Valle de Santiago
-        'K': { cx: 725, cy: 185 }, // Victoria
-        'L': { cx: 436, cy: 532 }, // Villagrán (despejado del pin Suchitlán)
-        'M': { cx: 810, cy: 215 }  // Xichú
+        'A': { cx: 607, cy: 575 }, // Apaseo el Alto (border: 25.2px, pin: 30.5px)
+        'B': { cx: 881, cy: 267 }, // Atarjea (border: 19.2px, pin: 24.4px)
+        'C': { cx: 507, cy: 451 }, // Comonfort (border: 19.6px, pin: 24.6px)
+        'D': { cx: 532, cy: 267 }, // Dolores Hidalgo (border: 37.5px, pin: 46.5px)
+        'E': { cx: 486, cy: 637 }, // Salvatierra (border: 27.9px, pin: 35.4px)
+        'F': { cx: 649, cy: 184 }, // San Luis de la Paz (border: 43.7px, pin: 55.0px)
+        'G': { cx: 590, cy: 378 }, // San Miguel de Allende (border: 45.6px, pin: 57.1px)
+        'H': { cx: 787, cy: 283 }, // Santa Catarina (border: 16.3px, pin: 20.5px)
+        'I': { cx: 749, cy: 361 }, // Tierra Blanca (border: 11.2px, pin: 26.5px)
+        'J': { cx: 352, cy: 595 }, // Valle de Santiago (border: 34.7px, pin: 44.0px)
+        'K': { cx: 739, cy: 209 }, // Victoria (border: 32.8px, pin: 41.0px)
+        'L': { cx: 465, cy: 531 }, // Villagrán (border: 13.1px, pin: 16.2px)
+        'M': { cx: 817, cy: 188 }  // Xichú (border: 26.6px, pin: 34.1px)
       };
 
       if (letterPositions[letter]) {
