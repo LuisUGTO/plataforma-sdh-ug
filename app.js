@@ -230,6 +230,8 @@ if(typeof document!=='undefined'){
   $('extra').addEventListener('change',()=>importFile('extra',t=>{const x=JSON.parse(t);if(!x.comunidades||Array.isArray(x.comunidades)||typeof x.comunidades!=='object')throw Error('Falta el objeto comunidades.');extras={...extras,...x.comunidades};render();}));
   $('geo').addEventListener('change',()=>importFile('geo',t=>{geometry=validGeometry(JSON.parse(t));render();}));
   $('exportar').addEventListener('click',exportPDF);
+  $('descargar-mapa-global')?.addEventListener('click',async()=>{status('Generando Lámina de Mapa Global A2...');try{await window.SDH_PDF.downloadGlobalMapSheet();status('Mapa Global descargado.');}catch(e){status('Error: '+e.message);}});
+  $('descargar-indice')?.addEventListener('click',async()=>{status('Generando Lámina de Índice A2...');try{await window.SDH_PDF.downloadIndexSheet();status('Índice descargado.');}catch(e){status('Error: '+e.message);}});
   $('historias-csv').addEventListener('change',()=>importFile('historias-csv',t=>{const count=importHistories(t);status(`${count} introducciones incorporadas para esta sesión.`);}));
   $('historias-plantilla').addEventListener('click',downloadHistoryTemplate);historyStatus();
   Promise.allSettled([json('complementos.json').then(x=>{extras={...extras,...(x.comunidades??{})};}),json('guanajuato-municipios.geojson').then(x=>{geometry=validGeometry(x);}).catch(()=>json(CONFIG.geoUrl).then(x=>{geometry=validGeometry(x);})).catch(()=>{})]).then(()=>{if(selected)render();});if(typeof SDH_RESPALDO!=='undefined'&&Array.isArray(SDH_RESPALDO.records)){useRecords(SDH_RESPALDO.records,`Copia de consulta del ${SDH_RESPALDO.fechaConsulta} · pendiente de actualización en línea`);}load();loadHistories();

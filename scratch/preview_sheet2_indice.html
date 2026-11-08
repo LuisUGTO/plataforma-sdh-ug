@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Preview Lámina 2 - Índice de Comunidades</title>
+<style>
+  @font-face {
+    font-family: 'Kelson Sans';
+    src: url('../assets/fuentes/KelsonSans-Bold.otf') format('opentype');
+    font-weight: bold;
+  }
+  @font-face {
+    font-family: 'Museo Sans';
+    src: url('../assets/fuentes/MuseoSans-500.otf') format('opentype');
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: 'Museo Sans';
+    src: url('../assets/fuentes/MuseoSans-700.otf') format('opentype');
+    font-weight: 700;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #525659;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Museo Sans', Arial, sans-serif;
+  }
+  .a2-page {
+    width: 1782px;
+    height: 1260px;
+    background: #FFFFFF;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Header styling */
+  .header-container {
+    position: absolute;
+    top: 0;
+    left: 33px;
+    right: 33px;
+    height: 130px;
+  }
+  .header-left-pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 610px;
+    height: 129px;
+    background: #004B87;
+    border-bottom-right-radius: 65px;
+    border-top-right-radius: 65px;
+    padding: 22px 35px;
+    color: #FFFFFF;
+  }
+  .header-left-pill h1 {
+    font-family: 'Kelson Sans', Arial, sans-serif;
+    font-size: 38px;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+  }
+  .header-left-pill p {
+    font-family: 'Museo Sans', Arial, sans-serif;
+    font-size: 16px;
+    color: #C8D8EB;
+    margin-top: 6px;
+  }
+  .header-center-title {
+    position: absolute;
+    left: 680px;
+    top: 10px;
+    width: 610px;
+    text-align: center;
+    font-family: 'Kelson Sans', Arial, sans-serif;
+  }
+  .header-center-title .line1 { font-size: 26px; color: #004B87; }
+  .header-center-title .line2 { font-size: 26px; color: #69B3E7; }
+  .header-center-title .line3 { font-size: 26px; color: #004B87; }
+  .header-right-logo {
+    position: absolute;
+    right: 0;
+    top: 15px;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .header-right-logo img {
+    max-height: 85px;
+    max-width: 290px;
+    object-fit: contain;
+  }
+  .header-bottom-bar {
+    position: absolute;
+    top: 120px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: #004B87;
+  }
+  /* Table container */
+  .tables-grid {
+    position: absolute;
+    top: 142.5px;
+    left: 33px;
+    width: 1716px;
+    height: 940px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .table-block {
+    border: 1px solid #CED9E3;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #FFFFFF;
+  }
+  .table-header {
+    background: #004B87;
+    color: #FFFFFF;
+    display: flex;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 7px 10px;
+    letter-spacing: 0.5px;
+  }
+  .th-clave { width: 82px; }
+  .th-comunidad { flex: 1.25; }
+  .th-municipio { flex: 1; }
+  .table-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .table-row {
+    display: flex;
+    padding: 4px 10px;
+    font-size: 13px;
+    line-height: 1.2;
+    border-bottom: 0.5px solid #CED9E3;
+    flex: 1;
+    align-items: center;
+  }
+  .table-row:nth-child(even) {
+    background: #F4F7FA;
+  }
+  .td-clave {
+    width: 82px;
+    color: #54585A;
+    font-family: monospace;
+    font-size: 12.5px;
+    letter-spacing: -0.2px;
+  }
+  .td-comunidad {
+    flex: 1.25;
+    color: #004B87;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding-right: 6px;
+  }
+  .td-municipio {
+    flex: 1;
+    color: #54585A;
+    font-size: 12.5px;
+  }
+  /* Footer */
+  .footer-container {
+    position: absolute;
+    bottom: 0;
+    left: 33px;
+    right: 33px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 20px;
+  }
+  .references-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #004B87;
+    border-bottom: 1px solid #CED9E3;
+    padding-bottom: 3px;
+    margin-bottom: 5px;
+  }
+  .references-columns {
+    display: flex;
+    gap: 30px;
+    font-size: 11px;
+    line-height: 1.35;
+    color: #54585A;
+  }
+  .references-col { flex: 1; }
+  .references-col p { margin-bottom: 4px; }
+  .references-col a { color: #004B87; text-decoration: none; }
+  .bottom-legal-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E6E7E8;
+    padding-top: 6px;
+    font-size: 13px;
+    color: #717579;
+  }
+  .page-num {
+    font-weight: 700;
+    font-size: 17px;
+    color: #54585A;
+  }
+</style>
+</head>
+<body>
+<div class="a2-page">
+  <!-- Header -->
+  <div class="header-container">
+    <div class="header-left-pill">
+      <h1>Índice de Comunidades</h1>
+      <p>Catálogo de las 107 comunidades indígenas por municipio y clave INEGI</p>
+    </div>
+    <div class="header-center-title">
+      <div class="line1">Panorama Sociodemográfico de los</div>
+      <div class="line2">Pueblos y Comunidades Indígenas y Afromexicanas</div>
+      <div class="line3">del Estado de Guanajuato</div>
+    </div>
+    <div class="header-right-logo">
+      <img src="../assets/logo-sdh-descriptivo-horizontal.png" alt="Secretaría de Derechos Humanos">
+    </div>
+    <div class="header-bottom-bar"></div>
+  </div>
+
+  <!-- Tables Grid populated dynamically by script -->
+  <div class="tables-grid" id="grid"></div>
+
+  <!-- Footer -->
+  <div class="footer-container">
+    <div>
+      <div class="references-title">Fuentes y referencias</div>
+      <div class="references-columns">
+        <div class="references-col">
+          <p>Consejo Nacional de Evaluación de la Política de Desarrollo Social (2024). <em>Índice de Rezago Social 2020: Anexo</em>. CONEVAL. <a href="https://www.coneval.org.mx/Medicion/IRS/Paginas/Indice_de_Rezago_Social_2020.aspx">https://www.coneval.org.mx/Medicion/IRS/Paginas/Indice_de_Rezago_Social_2020.aspx</a></p>
+          <p>Consejo Nacional de Población (2021). <em>Índices de marginación 2020: Conjunto de datos</em>. CONAPO. <a href="https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372">https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372</a></p>
+          <p>Instituto Nacional de Estadística y Geografía (2021a). <em>Censo de Población y Vivienda 2020: Principales resultados por localidad (ITER)</em>. INEGI. <a href="https://www.inegi.org.mx/programas/ccpv/2020/#microdatos">https://www.inegi.org.mx/programas/ccpv/2020/#microdatos</a></p>
+        </div>
+        <div class="references-col">
+          <p>Instituto Nacional de Estadística y Geografía (2021b). <em>Marco geoestadístico: Censo de Población y Vivienda 2020</em>. INEGI. <a href="https://www.inegi.org.mx/temas/mg/#descargas">https://www.inegi.org.mx/temas/mg/#descargas</a></p>
+          <p>Instituto Nacional de los Pueblos Indígenas (2021). <em>Catálogo Nacional de Pueblos y Comunidades Indígenas y Afromexicanas</em>. INPI. <a href="https://catalogo.inpi.gob.mx/comunidades/">https://catalogo.inpi.gob.mx/comunidades/</a></p>
+          <p>Secretaría de Derechos Humanos (s.f.). <em>Micrositio de las comunidades indígenas del estado de Guanajuato</em>. SDH. <a href="https://personas.guanajuato.gob.mx/seccion-indigena">https://personas.guanajuato.gob.mx/seccion-indigena</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-legal-bar">
+      <span>Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato</span>
+      <span class="page-num">2</span>
+    </div>
+  </div>
+</div>
+
+<script src="../respaldo-interfaz.js"></script>
+<script>
+  const records = window.SDH_RESPALDO?.records || [];
+  const grid = document.getElementById('grid');
+  const rowsPerCol = 27;
+  for (let c = 0; c < 4; c++) {
+    const block = document.createElement('div');
+    block.className = 'table-block';
+    block.innerHTML = `
+      <div class="table-header">
+        <div class="th-clave">Clave INEGI</div>
+        <div class="th-comunidad">Comunidad</div>
+        <div class="th-municipio">Municipio</div>
+      </div>
+      <div class="table-body" id="col-${c}"></div>
+    `;
+    grid.appendChild(block);
+    const body = block.querySelector('.table-body');
+    for (let r = 0; r < rowsPerCol; r++) {
+      const idx = c * rowsPerCol + r;
+      if (idx >= records.length) break;
+      const rec = records[idx];
+      const key = rec['Clave INEGI'] || rec.key || '';
+      const com = rec['Comunidad / Localidad'] || rec.name || '';
+      const mun = rec['Municipio'] || rec.mun || '';
+      const row = document.createElement('div');
+      row.className = 'table-row';
+      row.innerHTML = `
+        <div class="td-clave">${key}</div>
+        <div class="td-comunidad">${com}</div>
+        <div class="td-municipio">${mun}</div>
+      `;
+      body.appendChild(row);
+    }
+  }
+</script>
+</body>
+</html>

@@ -215,17 +215,18 @@ function pyramid(p,extra,total,men,women,x,y,w){
 
 // Approved header: content-aligned margins and the horizontal institutional logo.
 const panoramaLines=['Panorama Sociodemográfico de los','Pueblos y Comunidades Indígenas y Afromexicanas','del Estado de Guanajuato'];
-function headerLayout(name,identification,variant='Carlos',logoRatio=1496/4452){
+function headerLayout(name,identification='',variant='Carlos',logoRatio=1496/4452){
  if(!FONTS?.headline||!FONTS?.support||!FONTS?.identity)throw Error('Faltan las tipografías oficiales del encabezado. Revisa tipografia.js y assets/fuentes.');
- const identityWidth=197,identPt=14,identLines=wrap(identification,identityWidth,identPt,'identity');
+ const identityWidth=197,identLines=identification?wrap(identification,identityWidth,14,'identity').filter(l=>l.trim()):[];
+ const identH=identLines.length?identLines.length*14*1.2/MM:0;
  let namePt=34;
- while(namePt>24&&wrap(name,identityWidth,namePt,'headline').length>1)namePt-=.5;
- const nameLines=wrap(name,identityWidth,namePt,'headline'),nameH=nameLines.length*namePt*1.2/MM,identH=identLines.length*identPt*1.2/MM;
- const identityY=(40.2-nameH-2-identH)/2-1;
+ while(namePt>18&&wrap(name,identityWidth,namePt,'headline').length>(identH?1:2))namePt-=.5;
+ const nameLines=wrap(name,identityWidth,namePt,'headline'),nameH=nameLines.length*namePt*1.2/MM;
+ const identityY=identH?(40.2-nameH-2-identH)/2-1:(40.2-nameH)/2;
  if(identityY<2)throw Error('El nombre excede el espacio del encabezado: '+name);
  const titlePt=Math.min(34,...panoramaLines.map(line=>194/tw(line,1,'headline'))),supportPt=titlePt;
  const logoW=Math.min(100,35.5/logoRatio),logoH=logoW*logoRatio;
- return {variant:'Carlos',panel:{x:11,w:225,h:43},name:{x:22.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:22.5,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama:{x:260,y:3.5,w:202,pt:titlePt,supportPt,supportY:15,supportStep:11.5,lines:panoramaLines,colors:[C.blue,C.sky,C.blue]},logo:{x:583-logoW,y:20.1-logoH/2,w:logoW,h:logoH}};
+ return {variant:'Carlos',panel:{x:11,w:225,h:43},name:{x:22.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:22.5,y:identityY+nameH+2,w:identityWidth,pt:14,lines:identLines},panorama:{x:260,y:3.5,w:202,pt:titlePt,supportPt,supportY:15,supportStep:11.5,lines:panoramaLines,colors:[C.blue,C.sky,C.blue]},logo:{x:583-logoW,y:20.1-logoH/2,w:logoW,h:logoH}};
 }
 
 function render(model,logo=null){
@@ -292,10 +293,206 @@ function compose(model,logo=null,options={}){
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
  if(model.extra?.notaRevision)refBottom+=1+p.note(model.extra.notaRevision,11,refBottom+1,9,C.blue,572);
  if(refBottom>417)throw Error('Las referencias exceden el margen inferior.');
+ if(model.pageNumber!=null){
+  p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
+  p.text(String(model.pageNumber),553,412.5,12,true,'#54585A',30,'right');
+ }
  return {bytes:options.measureOnly?null:p.finish(logo),header,bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight,columnBottoms:p.bounds.map(b=>b.bottom-2),closingTarget:CONTENT_BOTTOM}};
 }
+function renderGlobalMapSheet(options={},logo=null){
+ const p=new PDF(),name='Distribución territorial de los pueblos y comunidades indígenas y afromexicanas de Guanajuato',identification='';
+ const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452);
+ if(logo)logo={...logo,...header.logo};
+ p.rect(11,0,203.5,43,C.blue);p.circle(214.5,21.5,21.5,C.blue);p.rect(11,40,W-22,3.5,C.blue);
+ p.text(name,header.name.x,header.name.y,header.name.pt,'headline','#FFFFFF',header.name.w);
+ if(identification)p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#C8D8EB',header.identification.w);
+ p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',header.panorama.colors[0],header.panorama.w,'center');
+ header.panorama.lines.slice(1).forEach((line,i)=>p.text(line,header.panorama.x,header.panorama.supportY+i*header.panorama.supportStep,header.panorama.supportPt,'headline',header.panorama.colors[i+1],header.panorama.w,'center'));
+
+ const mapBoxY=47.5,mapBoxH=367-3-mapBoxY,mapBoxW=572;
+ if(options.mapImage){
+  const imgRatio=options.mapImage.pxWidth/options.mapImage.pxHeight;
+  let imgH=mapBoxH,imgW=imgH*imgRatio;
+  if(imgW>mapBoxW){imgW=mapBoxW;imgH=imgW/imgRatio;}
+  const imgX=11+(mapBoxW-imgW)/2,imgY=mapBoxY+(mapBoxH-imgH)/2;
+  p.image(options.mapImage,imgX,imgY,imgW,imgH);
+ }
+
+ const footer=367,refTop=p.title('Fuentes y referencias',11,footer,572,'book');
+ let refBottom=refTop;
+ for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
+
+ p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
+ p.text('1',553,412.5,12,true,'#54585A',30,'right');
+ return {bytes:p.finish(logo),referenceBottom:refBottom};
+}
+function renderIndexSheet(records=[],logo=null){
+ const p=new PDF(),name='Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato',identification='';
+ const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452);
+ if(logo)logo={...logo,...header.logo};
+ p.rect(11,0,203.5,43,C.blue);p.circle(214.5,21.5,21.5,C.blue);p.rect(11,40,W-22,3.5,C.blue);
+ p.text(name,header.name.x,header.name.y,header.name.pt,'headline','#FFFFFF',header.name.w);
+ if(identification)p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#C8D8EB',header.identification.w);
+ p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',header.panorama.colors[0],header.panorama.w,'center');
+ header.panorama.lines.slice(1).forEach((line,i)=>p.text(line,header.panorama.x,header.panorama.supportY+i*header.panorama.supportStep,header.panorama.supportPt,'headline',header.panorama.colors[i+1],header.panorama.w,'center'));
+
+ const colGap=6,colW=(572-3*colGap)/4,tableTop=47.5,headerH=8,rowH=11.2,rowsPerCol=27;
+ const wClave=26,wCom=61,wMun=51.5;
+ for(let c=0;c<4;c++){
+  const colX=11+c*(colW+colGap);
+  p.rect(colX,tableTop,colW,headerH,C.blue,null);
+  p.text('Clave INEGI',colX+2,tableTop+2.2,9,true,'#FFFFFF',wClave);
+  p.text('Comunidad',colX+wClave+2,tableTop+2.2,9,true,'#FFFFFF',wCom);
+  p.text('Municipio',colX+wClave+wCom+2,tableTop+2.2,9,true,'#FFFFFF',wMun);
+
+  for(let r=0;r<rowsPerCol;r++){
+   const idx=c*rowsPerCol+r;
+   if(idx>=records.length)break;
+   const rec=records[idx],rowY=tableTop+headerH+r*rowH,isEven=r%2===1;
+   if(isEven)p.rect(colX,rowY,colW,rowH,'#F4F7FA',null);
+   else p.rect(colX,rowY,colW,rowH,'#FFFFFF',null);
+   p.line(colX,rowY+rowH,colX+colW,rowY+rowH,C.line,.15);
+
+   const key=rec['Clave INEGI']||rec.key||'',comName=rec['Comunidad / Localidad']||rec.name||'',munName=rec['Municipio']||rec.mun||'';
+   p.text(key,colX+2,rowY+(rowH-9.5*1.2/MM)/2,9.5,false,'#54585A',wClave-2);
+
+   const comLines=wrap(comName,wCom-3,10,true),comStep=10*1.15/MM,comY=rowY+(rowH-comLines.length*comStep)/2+.3;
+   comLines.forEach((line,li)=>p.text(line,colX+wClave+2,comY+li*comStep,10,true,C.blue,wCom-3));
+
+   const munLines=wrap(munName,wMun-3,9,false),munStep=9*1.15/MM,munY=rowY+(rowH-munLines.length*munStep)/2+.3;
+   munLines.forEach((line,li)=>p.text(line,colX+wClave+wCom+2,munY+li*munStep,9,false,'#54585A',wMun-3));
+  }
+  p.rect(colX,tableTop,colW,headerH+rowsPerCol*rowH,null,C.line,.25);
+ }
+
+ const footer=367,refTop=p.title('Fuentes y referencias',11,footer,572,'book');
+ let refBottom=refTop;
+ for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
+
+ p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
+ p.text('2',553,412.5,12,true,'#54585A',30,'right');
+ return {bytes:p.finish(logo),referenceBottom:refBottom};
+}
 async function imageBytes(src){const image=new Image();image.src=src+(src.includes('?')?'&':'?')+'v='+Date.now();try{await image.decode();}catch{throw Error('No se pudo leer '+src+'. Revisa la carpeta assets, el nombre completo y que el archivo sea una imagen válida.');}const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.98));if(!blob)throw Error('No se pudo preparar la imagen '+src+' para el PDF.');return {bytes:new Uint8Array(await blob.arrayBuffer()),pxWidth:canvas.width,pxHeight:canvas.height};}
-async function download(model){const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');const maps=root.SDH_MAPAS||(typeof require==='function'?require('./mapas.js'):null);if(!maps)throw Error('Falta mapas.js. Sube el generador completo y recarga la página.');const mapPath=maps.pathFor(model.record[norm('Clave INEGI')]??model.record['Clave INEGI']);if(mapPath)model={...model,mapImage:await imageBytes(mapPath)};const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=model.extra?.global?'SDH_Resumen_global_107_comunidades_A2.pdf':`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);return result.bounds;}
-const api={render,download,headerLayout,refs,median,labelLines,labelLimit,cardLayout};
+async function download(model){
+ const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');
+ const maps=root.SDH_MAPAS||(typeof require==='function'?require('./mapas.js'):null);
+ if(!maps)throw Error('Falta mapas.js. Sube el generador completo y recarga la página.');
+ const mapPath=maps.pathFor(model.record[norm('Clave INEGI')]??model.record['Clave INEGI']);
+ if(mapPath)model={...model,mapImage:await imageBytes(mapPath)};
+ if(model.pageNumber==null&&model.record&&!model.extra?.global&&root.SDH_RESPALDO?.records){
+  const k=model.record[norm('Clave INEGI')]??model.record['Clave INEGI'];
+  const idx=root.SDH_RESPALDO.records.findIndex(r=>(r['Clave INEGI']??r[norm('Clave INEGI')])===k);
+  if(idx>=0)model={...model,pageNumber:idx+3};
+ }
+ const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download=model.extra?.global?'SDH_Resumen_global_107_comunidades_A2.pdf':`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;
+ document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),10000);
+ return result.bounds;
+}
+async function composeInegiGlobalMapImage(src='assets/New_mapas/Mapa global de las comunidades indígenas.png'){
+ const rawMap=new Image();rawMap.src=src;await rawMap.decode();
+ const c=document.createElement('canvas');c.width=4000;c.height=2213;
+ const ctx=c.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,c.width,c.height);
+ const mapW=2213,mapH=2213;
+ ctx.drawImage(rawMap,0,0,2488,2480,0,0,mapW,mapH);
+
+ const scX=mapW/2488,scY=mapH/2480;
+ ctx.fillStyle='#FFFFFF';
+ ctx.fillRect(2312*scX,2080*scY,(2480-2312)*scX,(2220-2080)*scY);
+ ctx.fillRect(2260*scX,2220*scY,(2480-2260)*scX,(2402-2220)*scY);
+
+ ctx.save();
+ ctx.translate(145,470);
+ ctx.beginPath();ctx.arc(0,0,56,0,Math.PI*2);ctx.strokeStyle='#CED9E3';ctx.lineWidth=2.5;ctx.stroke();
+ ctx.strokeStyle='#004B87';ctx.lineWidth=2.5;ctx.beginPath();
+ ctx.moveTo(56,0);ctx.lineTo(68,0);
+ ctx.moveTo(0,56);ctx.lineTo(0,68);
+ ctx.moveTo(-56,0);ctx.lineTo(-68,0);
+ ctx.stroke();
+ ctx.beginPath();ctx.moveTo(0,-85);ctx.lineTo(0,0);ctx.lineTo(-22,0);ctx.closePath();ctx.fillStyle='#004B87';ctx.fill();
+ ctx.beginPath();ctx.moveTo(0,-85);ctx.lineTo(22,0);ctx.lineTo(0,0);ctx.closePath();ctx.fillStyle='#69B3E7';ctx.fill();
+ ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,36);ctx.lineTo(-22,0);ctx.closePath();ctx.fillStyle='#E6E7E8';ctx.fill();
+ ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(22,0);ctx.lineTo(0,36);ctx.closePath();ctx.fillStyle='#FFFFFF';ctx.fill();ctx.strokeStyle='#CED9E3';ctx.lineWidth=1;ctx.stroke();
+ ctx.beginPath();ctx.arc(0,0,6,0,Math.PI*2);ctx.fillStyle='#004B87';ctx.fill();
+ ctx.beginPath();ctx.arc(0,0,2.5,0,Math.PI*2);ctx.fillStyle='#FFFFFF';ctx.fill();
+ ctx.fillStyle='#004B87';ctx.font='bold 54px "Segoe UI", Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';
+ ctx.fillText('N',0,-96);
+ ctx.restore();
+
+ const srcNoreste={x:1620,y:480,w:760,h:700},srcCentro={x:1060,y:840,w:620,h:600};
+ const bNoreste={x:srcNoreste.x*scX,y:srcNoreste.y*scY,w:srcNoreste.w*scX,h:srcNoreste.h*scY};
+ const bCentro={x:srcCentro.x*scX,y:srcCentro.y*scY,w:srcCentro.w*scX,h:srcCentro.h*scY};
+
+ ctx.strokeStyle='#004B87';ctx.lineWidth=4.5;
+ ctx.strokeRect(bNoreste.x,bNoreste.y,bNoreste.w,bNoreste.h);
+ ctx.fillStyle='#004B87';ctx.fillRect(bNoreste.x,bNoreste.y,160,32);
+ ctx.fillStyle='#FFFFFF';ctx.font='bold 18px "Segoe UI", Arial, sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+ ctx.fillText('Ampliación 1',bNoreste.x+12,bNoreste.y+16);
+
+ ctx.strokeStyle='#004B87';ctx.lineWidth=4.5;
+ ctx.strokeRect(bCentro.x,bCentro.y,bCentro.w,bCentro.h);
+ ctx.fillStyle='#004B87';ctx.fillRect(bCentro.x,bCentro.y,160,32);
+ ctx.fillStyle='#FFFFFF';ctx.font='bold 18px "Segoe UI", Arial, sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+ ctx.fillText('Ampliación 2',bCentro.x+12,bCentro.y+16);
+
+ ctx.strokeStyle='#CED9E3';ctx.lineWidth=2.5;ctx.strokeRect(0,0,mapW,mapH);
+
+ const rightX=2285,rightW=4000-rightX,zoomH=1060,gapY=2213-2*zoomH,pad=40;
+
+ ctx.save();ctx.beginPath();ctx.rect(rightX,0,rightW,zoomH);ctx.clip();ctx.fillStyle='#F8FAFC';ctx.fillRect(rightX,0,rightW,zoomH);
+ const scale1=Math.min((rightW-2*pad)/srcNoreste.w,(zoomH-2*pad-56)/srcNoreste.h);
+ const dw1=srcNoreste.w*scale1,dh1=srcNoreste.h*scale1,dx1=rightX+(rightW-dw1)/2,dy1=60+(zoomH-60-dh1)/2;
+ ctx.drawImage(rawMap,srcNoreste.x,srcNoreste.y,srcNoreste.w,srcNoreste.h,dx1,dy1,dw1,dh1);
+ ctx.restore();
+
+ ctx.fillStyle='#004B87';ctx.fillRect(rightX,0,rightW,54);
+ ctx.fillStyle='#FFFFFF';ctx.font='bold 26px "Segoe UI", Arial, sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+ ctx.fillText('Ampliación 1: Región Noreste / Sierra Gorda',rightX+24,27);
+ ctx.fillStyle='#C8D8EB';ctx.font='500 20px "Segoe UI", Arial, sans-serif';ctx.textAlign='right';
+ ctx.fillText('51 comunidades · Tierra Blanca, Victoria, Santa Catarina y aledaños',rightX+rightW-24,27);
+ ctx.strokeStyle='#004B87';ctx.lineWidth=3.5;ctx.strokeRect(rightX,0,rightW,zoomH);
+
+ const y2=zoomH+gapY;
+ ctx.save();ctx.beginPath();ctx.rect(rightX,y2,rightW,zoomH);ctx.clip();ctx.fillStyle='#F8FAFC';ctx.fillRect(rightX,y2,rightW,zoomH);
+ const scale2=Math.min((rightW-2*pad)/srcCentro.w,(zoomH-2*pad-56)/srcCentro.h);
+ const dw2=srcCentro.w*scale2,dh2=srcCentro.h*scale2,dx2=rightX+(rightW-dw2)/2,dy2=y2+60+(zoomH-60-dh2)/2;
+ ctx.drawImage(rawMap,srcCentro.x,srcCentro.y,srcCentro.w,srcCentro.h,dx2,dy2,dw2,dh2);
+ ctx.restore();
+
+ ctx.fillStyle='#004B87';ctx.fillRect(rightX,y2,rightW,54);
+ ctx.fillStyle='#FFFFFF';ctx.font='bold 26px "Segoe UI", Arial, sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+ ctx.fillText('Ampliación 2: Región Centro',rightX+24,y2+27);
+ ctx.fillStyle='#C8D8EB';ctx.font='500 20px "Segoe UI", Arial, sans-serif';ctx.textAlign='right';
+ ctx.fillText('48 comunidades · San Miguel de Allende, Comonfort y Dolores Hidalgo',rightX+rightW-24,y2+27);
+ ctx.strokeStyle='#004B87';ctx.lineWidth=3.5;ctx.strokeRect(rightX,y2,rightW,zoomH);
+
+ ctx.strokeStyle='#004B87';ctx.lineWidth=3;ctx.setLineDash([12,10]);
+ ctx.beginPath();ctx.moveTo(bNoreste.x+bNoreste.w,bNoreste.y+bNoreste.h/2);ctx.lineTo(rightX,zoomH/2);ctx.stroke();
+ ctx.beginPath();ctx.moveTo(bCentro.x+bCentro.w,bCentro.y+bCentro.h/2);ctx.lineTo(rightX,y2+zoomH/2);ctx.stroke();
+ ctx.setLineDash([]);
+
+ const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.98));
+ const ab=await blob.arrayBuffer();
+ return {bytes:new Uint8Array(ab),pxWidth:c.width,pxHeight:c.height};
+}
+async function downloadGlobalMapSheet(){
+ const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');
+ const mapImage=await imageBytes('assets/New_mapas/Mapa global de las comunidades indígenas.png');
+ const result=renderGlobalMapSheet({mapImage},logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download='SDH_000_Mapa_Global_A2.pdf';
+ document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),10000);
+}
+async function downloadIndexSheet(){
+ const logo=await imageBytes('assets/logo-sdh-descriptivo-horizontal.png');
+ const records=root.SDH_RESPALDO?.records||[];
+ const result=renderIndexSheet(records,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download='SDH_000_Indice_107_Comunidades_A2.pdf';
+ document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),10000);
+}
+const api={render,download,headerLayout,refs,median,labelLines,labelLimit,cardLayout,renderGlobalMapSheet,renderIndexSheet,downloadGlobalMapSheet,downloadIndexSheet,composeInegiGlobalMapImage};
 root.SDH_PDF=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);

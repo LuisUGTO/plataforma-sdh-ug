@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Portal Geográfico de Comunidades | Secretaría de Derechos Humanos de Guanajuato</title>
   <link rel="icon" href="../assets/logo-sdh-icon.png">
-  <link rel="stylesheet" href="styles.css?v=20261103-p1">
+  <link rel="stylesheet" href="styles.css?v=20261108-v2">
 </head>
 <body>
 
@@ -20,14 +20,32 @@
         <h1>Plataforma Sociodemográfica de Pueblos y Comunidades Indígenas y Afromexicanas</h1>
         <p>Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato</p>
       </div>
-      <div class="header-stats">
-        <div class="stat-pill">
-          <strong id="stat-comunidades">107</strong>
-          <span>Comunidades</span>
+      <div class="header-right">
+        <div class="header-actions">
+          <a href="../Infografias_nuevas_2026-11-03/SDH_000_Mapa_Global_A2.pdf" target="_blank" class="header-btn" title="Ver Mapa Global A2 en PDF">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+            <span>Mapa Global A2</span>
+          </a>
+          <a href="../Infografias_nuevas_2026-11-03/SDH_000_Indice_107_Comunidades_A2.pdf" target="_blank" class="header-btn" title="Ver Padrón de 107 Comunidades A2 en PDF">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Padrón Estatal A2</span>
+          </a>
         </div>
-        <div class="stat-pill">
-          <strong id="stat-municipios">13</strong>
-          <span>Municipios</span>
+        <div class="header-stats">
+          <div class="stat-pill" title="107 Comunidades reconocidas en el padrón estatal">
+            <img src="../assets/iconos/vector/poblacion.svg" alt="" class="stat-icon" aria-hidden="true">
+            <div class="stat-info">
+              <strong id="stat-comunidades">107</strong>
+              <span>Comunidades</span>
+            </div>
+          </div>
+          <div class="stat-pill" title="13 Municipios con presencia comunitaria">
+            <img src="../assets/iconos/vector/territorio.svg" alt="" class="stat-icon" aria-hidden="true">
+            <div class="stat-info">
+              <strong id="stat-municipios">13</strong>
+              <span>Municipios</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -54,7 +72,7 @@
             <option value="">Todos los municipios (13)</option>
           </select>
           <select id="filtro-pueblo" aria-label="Filtrar por pueblo originario">
-            <option value="">Todos los pueblos originarios</option>
+            <option value="">Todos los pueblos</option>
           </select>
         </div>
 
@@ -82,9 +100,42 @@
           </defs>
           <g id="map-zoom-group">
             <g id="layer-municipios" class="layer-municipios"></g>
+            <g id="layer-mun-labels" class="layer-mun-labels"></g>
             <g id="layer-pins" class="layer-pins"></g>
           </g>
         </svg>
+
+        <!-- Rosa de los vientos / Norte oficial -->
+        <div class="map-compass" title="Norte geográfico" aria-label="Norte geográfico">
+          <svg viewBox="0 0 70 80" width="46" height="52" aria-hidden="true">
+            <text x="35" y="14" text-anchor="middle" font-size="13" font-weight="800" font-family="'SDHVollkorn', Georgia, serif" fill="#004B87">N</text>
+            <circle cx="35" cy="46" r="23" fill="#FFFFFF" stroke="#004B87" stroke-width="1.6" filter="url(#pin-shadow)" />
+            <circle cx="35" cy="46" r="19" fill="none" stroke="#CED9E3" stroke-width="1" stroke-dasharray="2 2" />
+            <line x1="35" y1="25" x2="35" y2="67" stroke="#004B87" stroke-width="1" />
+            <line x1="14" y1="46" x2="56" y2="46" stroke="#004B87" stroke-width="1" />
+            <!-- Aguja Norte -->
+            <polygon points="35,26 39,46 35,43" fill="#004B87" />
+            <polygon points="35,26 31,46 35,43" fill="#69B3E7" />
+            <!-- Aguja Sur -->
+            <polygon points="35,66 38.5,46 35,49" fill="#B0BEC5" />
+            <polygon points="35,66 31.5,46 35,49" fill="#78909C" />
+            <circle cx="35" cy="46" r="2.8" fill="#004B87" />
+          </svg>
+        </div>
+
+        <!-- Escala gráfica aproximada -->
+        <div class="map-scale" aria-label="Escala gráfica aproximada">
+          <span class="scale-text">Escala 1 : 1 300 000 aprox.</span>
+          <div class="scale-bar">
+            <span class="scale-seg seg-dark"></span>
+            <span class="scale-seg seg-light"></span>
+          </div>
+          <div class="scale-labels">
+            <span>0</span>
+            <span>25</span>
+            <span>50 km</span>
+          </div>
+        </div>
 
         <!-- Controles de navegación en el mapa -->
         <div class="map-controls">
@@ -95,10 +146,10 @@
 
         <!-- Leyenda / Guía del mapa -->
         <div class="map-legend">
-          <span class="legend-title">Simbología</span>
+          <span class="legend-title">Simbología Oficial</span>
           <div class="legend-item"><span class="legend-dot active-dot"></span><span>107 Comunidades reconocidas</span></div>
-          <div class="legend-item"><span class="legend-poly active-poly"></span><span>13 Municipios con presencia</span></div>
-          <div class="legend-item"><span class="legend-poly base-poly"></span><span>Resto del estado</span></div>
+          <div class="legend-item"><span class="legend-poly active-poly"></span><span>13 Municipios con presencia (A–M)</span></div>
+          <div class="legend-item"><span class="legend-poly base-poly"></span><span>Resto del estado (33 municipios)</span></div>
         </div>
 
         <!-- Tooltip flotante al pasar el cursor -->
@@ -123,32 +174,44 @@
       </div>
 
       <div class="modal-body">
-        <!-- Indicadores Clave -->
+        <!-- Indicadores Clave con Iconografía Oficial -->
         <div class="modal-metrics-grid">
           <div class="metric-box">
-            <small>Población total</small>
+            <div class="metric-head">
+              <img src="../assets/iconos/vector/poblacion.svg" class="metric-icon" alt="" aria-hidden="true">
+              <small>Población total</small>
+            </div>
             <strong id="modal-pob">-</strong>
           </div>
           <div class="metric-box">
-            <small>Viviendas habitadas</small>
+            <div class="metric-head">
+              <img src="../assets/iconos/vector/vivienda.svg" class="metric-icon" alt="" aria-hidden="true">
+              <small>Viviendas habitadas</small>
+            </div>
             <strong id="modal-viv">-</strong>
           </div>
           <div class="metric-box">
-            <small>Hablantes de lengua indígena</small>
+            <div class="metric-head">
+              <img src="../assets/iconos/vector/etnicidad.svg" class="metric-icon" alt="" aria-hidden="true">
+              <small>Hablantes de lengua</small>
+            </div>
             <strong id="modal-hli">-</strong>
           </div>
         </div>
 
-        <!-- Reseña Histórica -->
+        <!-- Reseña Histórica con Iconografía Oficial -->
         <div class="modal-history-section">
-          <h3>Reseña histórica y contexto comunitario</h3>
+          <div class="section-title-wrap">
+            <img src="../assets/iconos/vector/historia.svg" class="section-icon" alt="" aria-hidden="true">
+            <h3>Reseña histórica y contexto comunitario</h3>
+          </div>
           <p id="modal-historia" class="modal-history-text"></p>
         </div>
 
-        <!-- Coordenadas Geográficas -->
+        <!-- Coordenadas Geográficas con Iconografía Oficial -->
         <div class="modal-geo-section">
           <div class="geo-info">
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#004B87" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+            <img src="../assets/iconos/vector/territorio.svg" class="section-icon" alt="" aria-hidden="true">
             <div>
               <strong>Coordenadas geográficas:</strong>
               <span id="modal-coordenadas">21° 02' 44" N, 100° 49' 00" W</span>
@@ -175,6 +238,6 @@
   <!-- Scripts con datos precompilados y motor de mapa vectorial -->
   <script src="municipios.js?v=20261103"></script>
   <script src="datos-comunidades.js?v=20261103"></script>
-  <script src="app.js?v=20261103"></script>
+  <script src="app.js?v=20261108-v2"></script>
 </body>
 </html>

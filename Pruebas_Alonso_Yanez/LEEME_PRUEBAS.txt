@@ -1,0 +1,31 @@
+CARPETA DE PRUEBAS PARA REVISIÓN CON CARLOS VELÁZQUEZ
+======================================================
+Comunidad: Alonso Yáñez (San Miguel de Allende) - Clave INEGI: 110030008
+Sección modificada: "Material del piso de la vivienda"
+Ajuste de proporción: Franja aumentada a 5.2 mm de alto y título perfectamente centrado verticalmente con márgenes simétricos arriba y abajo.
+
+--------------------------------------------------------------------------------
+OPCIÓN A: GRIS INSTITUCIONAL OSCURO (#54585A)
+--------------------------------------------------------------------------------
+• Archivo PDF: SDH_110030008_Alonso_Yanez_Opcion_A_Gris_Oscuro_A2.pdf
+• Imagen de vista previa: Vista_Previa_Opcion_A_Gris_Oscuro.png
+• Fondo de la franja: #54585A (Pantone Cool Gray 10 C)
+• Altura de franja: 5.2 mm (centrado vertical óptimo con aire simétrico superior e inferior)
+• Texto del título: Blanco (#FFFFFF) en negrita 10.5pt
+• Subdivisión:
+    - Izquierda: Tierra (4.1%)
+    - Derecha: Cemento o firme, madera, mosaico u otro recubrimiento (95.9%)
+• Comentarios de diseño: Máximo contraste visual (7.5:1), gran sobriedad institucional y clara delimitación sin competir con los títulos azules principales.
+
+--------------------------------------------------------------------------------
+OPCIÓN B: GRIS INSTITUCIONAL CLARO (#E6E7E8)
+--------------------------------------------------------------------------------
+• Archivo PDF: SDH_110030008_Alonso_Yanez_Opcion_B_Gris_Claro_A2.pdf
+• Imagen de vista previa: Vista_Previa_Opcion_B_Gris_Claro.png
+• Fondo de la franja: #E6E7E8 (Pantone Cool Gray 1 C)
+• Altura de franja: 5.2 mm (centrado vertical óptimo con aire simétrico superior e inferior)
+• Texto del título: #54585A (Pantone Cool Gray 10 C) en negrita 10.5pt
+• Subdivisión:
+    - Izquierda: Tierra (4.1%)
+    - Derecha: Cemento o firme, madera, mosaico u otro recubrimiento (95.9%)
+• Comentarios de diseño: Minimalista y sutil, se funde con los fondos claros de las tarjetas adyacentes manteniendo una estética limpia y ligera.

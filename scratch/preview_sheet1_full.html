@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Preview Lámina 1 - Estado de Guanajuato (INEGI Style)</title>
+<link rel="stylesheet" href="estilos.css">
+<style>
+  @font-face {
+    font-family: 'Kelson Sans';
+    src: url('assets/fuentes/KelsonSans-Bold.otf') format('opentype');
+    font-weight: bold;
+  }
+  @font-face {
+    font-family: 'Museo Sans';
+    src: url('assets/fuentes/MuseoSans-500.otf') format('opentype');
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: 'Museo Sans';
+    src: url('assets/fuentes/MuseoSans-700.otf') format('opentype');
+    font-weight: 700;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #525659;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Museo Sans', Arial, sans-serif;
+  }
+  /* A2 landscape page ratio: 594mm x 420mm (1.414) */
+  .a2-page {
+    width: 1782px;
+    height: 1260px;
+    background: #FFFFFF;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Header styling matching Carlos variant */
+  .header-container {
+    position: absolute;
+    top: 0;
+    left: 33px; /* 11mm in px (x3) */
+    right: 33px;
+    height: 130px; /* ~43.5mm */
+  }
+  .header-left-pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 610px;
+    height: 129px;
+    background: #1B365D;
+    border-bottom-right-radius: 65px;
+    border-top-right-radius: 65px;
+    padding: 22px 35px;
+    color: #FFFFFF;
+  }
+  .header-left-pill h1 {
+    font-family: 'Kelson Sans', Arial, sans-serif;
+    font-size: 38px;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+  }
+  .header-left-pill p {
+    font-family: 'Museo Sans', Arial, sans-serif;
+    font-size: 17px;
+    color: #C8D8EB;
+    margin-top: 6px;
+  }
+  .header-center-title {
+    position: absolute;
+    left: 680px;
+    top: 10px;
+    width: 610px;
+    text-align: center;
+    font-family: 'Kelson Sans', Arial, sans-serif;
+  }
+  .header-center-title .line1 { font-size: 26px; color: #1B365D; }
+  .header-center-title .line2 { font-size: 26px; color: #008E95; }
+  .header-center-title .line3 { font-size: 26px; color: #1B365D; }
+  .header-right-logo {
+    position: absolute;
+    right: 0;
+    top: 15px;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .header-right-logo img {
+    max-height: 85px;
+    max-width: 290px;
+    object-fit: contain;
+  }
+  .header-bottom-bar {
+    position: absolute;
+    top: 120px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: #1B365D;
+  }
+  /* Content container: y = 47.5mm to 364mm (x3 = 142.5px to 1092px) */
+  .map-container {
+    position: absolute;
+    top: 142.5px;
+    left: 33px;
+    width: 1716px; /* 572mm */
+    height: 949.5px; /* 316.5mm */
+    border: 1px solid #CED9E3;
+    background: #FFFFFF;
+  }
+  .map-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+  }
+  /* Footer */
+  .footer-container {
+    position: absolute;
+    bottom: 0;
+    left: 33px;
+    right: 33px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 20px;
+  }
+  .references-title {
+    font-family: 'Museo Sans', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #1B365D;
+    border-bottom: 1px solid #CED9E3;
+    padding-bottom: 3px;
+    margin-bottom: 5px;
+  }
+  .references-columns {
+    display: flex;
+    gap: 30px;
+    font-size: 11px;
+    line-height: 1.35;
+    color: #54585A;
+  }
+  .references-col {
+    flex: 1;
+  }
+  .references-col p { margin-bottom: 4px; }
+  .references-col a { color: #1B365D; text-decoration: none; }
+  .bottom-legal-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E6E7E8;
+    padding-top: 6px;
+    font-size: 13px;
+    color: #717579;
+  }
+  .page-num {
+    font-weight: 700;
+    font-size: 17px;
+    color: #54585A;
+  }
+</style>
+</head>
+<body>
+<div class="a2-page">
+  <!-- Header -->
+  <div class="header-container">
+    <div class="header-left-pill">
+      <h1>Estado de Guanajuato</h1>
+      <p>Distribución territorial de las 107 comunidades indígenas en 13 municipios</p>
+    </div>
+    <div class="header-center-title">
+      <div class="line1">Panorama Sociodemográfico de los</div>
+      <div class="line2">Pueblos y Comunidades Indígenas y Afromexicanas</div>
+      <div class="line3">del Estado de Guanajuato</div>
+    </div>
+    <div class="header-right-logo">
+      <img src="assets/logo-sdh-descriptivo-horizontal.png" alt="Secretaría de Derechos Humanos">
+    </div>
+    <div class="header-bottom-bar"></div>
+  </div>
+
+  <!-- Map Content (Composed INEGI style) -->
+  <div class="map-container">
+    <img src="mapa_inegi_compuesto_preview.jpg" alt="Mapa Compuesto INEGI">
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-container">
+    <div>
+      <div class="references-title">Fuentes y referencias</div>
+      <div class="references-columns">
+        <div class="references-col">
+          <p>Consejo Nacional de Evaluación de la Política de Desarrollo Social (2024). <em>Índice de Rezago Social 2020: Anexo</em>. CONEVAL. <a href="https://www.coneval.org.mx/Medicion/IRS/Paginas/Indice_de_Rezago_Social_2020.aspx">https://www.coneval.org.mx/Medicion/IRS/Paginas/Indice_de_Rezago_Social_2020.aspx</a></p>
+          <p>Consejo Nacional de Población (2021). <em>Índices de marginación 2020: Conjunto de datos</em>. CONAPO. <a href="https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372">https://www.gob.mx/conapo/documentos/indices-de-marginacion-2020-284372</a></p>
+          <p>Instituto Nacional de Estadística y Geografía (2021a). <em>Censo de Población y Vivienda 2020: Principales resultados por localidad (ITER)</em>. INEGI. <a href="https://www.inegi.org.mx/programas/ccpv/2020/#microdatos">https://www.inegi.org.mx/programas/ccpv/2020/#microdatos</a></p>
+        </div>
+        <div class="references-col">
+          <p>Instituto Nacional de Estadística y Geografía (2021b). <em>Marco geoestadístico: Censo de Población y Vivienda 2020</em>. INEGI. <a href="https://www.inegi.org.mx/temas/mg/#descargas">https://www.inegi.org.mx/temas/mg/#descargas</a></p>
+          <p>Instituto Nacional de los Pueblos Indígenas (2021). <em>Catálogo Nacional de Pueblos y Comunidades Indígenas y Afromexicanas</em>. INPI. <a href="https://catalogo.inpi.gob.mx/comunidades/">https://catalogo.inpi.gob.mx/comunidades/</a></p>
+          <p>Secretaría de Derechos Humanos (s.f.). <em>Micrositio de las comunidades indígenas del estado de Guanajuato</em>. SDH. <a href="https://personas.guanajuato.gob.mx/seccion-indigena">https://personas.guanajuato.gob.mx/seccion-indigena</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-legal-bar">
+      <span>Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato</span>
+      <span class="page-num">1</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -38,13 +38,37 @@
     return [x, y];
   }
 
-  // Precalcular lista de municipios con presencia comunitaria
-  const municipalitiesWithComm = new Set(communities.map(c => c.municipio.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+  // Precalcular lista de municipios con presencia comunitaria y conteo
+  const munCommCounts = {};
+  communities.forEach(c => {
+    const k = c.municipio.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    munCommCounts[k] = (munCommCounts[k] || 0) + 1;
+  });
+
+  const municipalitiesWithComm = new Set(Object.keys(munCommCounts));
+
+  // Letras oficiales de referencia cartográfica (A a M) según el Mapa Oficial de Guanajuato
+  const munLetters = {
+    'apaseo el alto': 'A',
+    'atarjea': 'B',
+    'comonfort': 'C',
+    'dolores hidalgo cuna de la independencia nacional': 'D',
+    'salvatierra': 'E',
+    'san luis de la paz': 'F',
+    'san miguel de allende': 'G',
+    'santa catarina': 'H',
+    'tierra blanca': 'I',
+    'valle de santiago': 'J',
+    'victoria': 'K',
+    'villagran': 'L',
+    'xichu': 'M'
+  };
 
   // =========================================================================
   // 2. Renderizar Municipios y Capas Vectoriales
   // =========================================================================
   const layerMun = $('layer-municipios');
+  const layerMunLabels = $('layer-mun-labels');
   const layerPins = $('layer-pins');
   const tooltip = $('map-tooltip');
   const wrapper = $('svg-map-wrapper');
@@ -53,13 +77,20 @@
     const munName = f.properties.nomgeo || 'Municipio';
     const normName = munName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const hasComm = municipalitiesWithComm.has(normName);
+    const letter = munLetters[normName] || '';
+    const commCount = munCommCounts[normName] || 0;
 
     const polys = getPolygons(f);
     let d = '';
+    let sumX = 0, sumY = 0, ptCount = 0;
+
     polys.forEach(rings => {
       rings.forEach(ring => {
         ring.forEach(([lon, lat], i) => {
           const [px, py] = project(lon, lat);
+          sumX += px;
+          sumY += py;
+          ptCount++;
           d += (i === 0 ? `M ${px.toFixed(2)} ${py.toFixed(2)} ` : `L ${px.toFixed(2)} ${py.toFixed(2)} `);
         });
         d += 'Z ';
@@ -72,11 +103,50 @@
     path.setAttribute('data-municipio', munName);
 
     path.addEventListener('mousemove', e => {
-      showTooltip(e, `<strong>${munName}</strong><span>${hasComm ? 'Presencia comunitaria reconocida' : 'Municipio de Guanajuato'}</span>`);
+      const title = letter ? `${munName} (${letter})` : munName;
+      const subtitle = hasComm
+        ? `Presencia comunitaria · ${commCount} ${commCount === 1 ? 'comunidad' : 'comunidades'}`
+        : 'Municipio de Guanajuato';
+      showTooltip(e, `<strong>${title}</strong><span>${subtitle}</span>`);
     });
     path.addEventListener('mouseleave', hideTooltip);
 
     layerMun.appendChild(path);
+
+    // Si tiene letra oficial (A-M), agregar etiqueta visual en posición despejada
+    if (letter && ptCount > 0 && layerMunLabels) {
+      let cx = sumX / ptCount;
+      let cy = sumY / ptCount;
+
+      // Coordenadas cartográficas optimizadas para no solaparse con ningún pin de comunidad
+      const letterPositions = {
+        'A': { cx: 612, cy: 575 }, // Apaseo el Alto
+        'B': { cx: 885, cy: 255 }, // Atarjea
+        'C': { cx: 518, cy: 425 }, // Comonfort
+        'D': { cx: 455, cy: 295 }, // Dolores Hidalgo
+        'E': { cx: 480, cy: 662 }, // Salvatierra
+        'F': { cx: 640, cy: 175 }, // San Luis de la Paz
+        'G': { cx: 555, cy: 370 }, // San Miguel de Allende
+        'H': { cx: 786, cy: 285 }, // Santa Catarina
+        'I': { cx: 758, cy: 345 }, // Tierra Blanca
+        'J': { cx: 350, cy: 582 }, // Valle de Santiago
+        'K': { cx: 725, cy: 185 }, // Victoria
+        'L': { cx: 436, cy: 532 }, // Villagrán (despejado del pin Suchitlán)
+        'M': { cx: 810, cy: 215 }  // Xichú
+      };
+
+      if (letterPositions[letter]) {
+        cx = letterPositions[letter].cx;
+        cy = letterPositions[letter].cy;
+      }
+
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', cx.toFixed(1));
+      text.setAttribute('y', cy.toFixed(1));
+      text.setAttribute('class', 'mun-letter-text');
+      text.textContent = letter;
+      layerMunLabels.appendChild(text);
+    }
   });
 
   // =========================================================================
@@ -281,8 +351,14 @@
         </div>
         <div class="card-title">${c.nombre}</div>
         <div class="card-bottom">
-          <span>Población: <strong>${c.pobTotal.toLocaleString('es-MX')}</strong></span>
-          <span>Viviendas: <strong>${c.viviendas.toLocaleString('es-MX')}</strong></span>
+          <span class="card-meta" title="Población total">
+            <img src="../assets/iconos/vector/poblacion.svg" class="card-mini-icon" alt="" aria-hidden="true">
+            Pob: <strong>${c.pobTotal.toLocaleString('es-MX')}</strong>
+          </span>
+          <span class="card-meta" title="Viviendas habitadas">
+            <img src="../assets/iconos/vector/vivienda.svg" class="card-mini-icon" alt="" aria-hidden="true">
+            Viv: <strong>${c.viviendas.toLocaleString('es-MX')}</strong>
+          </span>
         </div>
       `;
 
@@ -310,15 +386,18 @@
   function selectCommunity(c, openDialog = true) {
     selectedCommunity = c;
 
-    // Resaltar pin
+    // Resaltar pin en el mapa
     pinElements.forEach(el => el.classList.remove('active'));
     const activePin = pinElements.get(c.clave);
     if (activePin) activePin.classList.add('active');
 
-    // Resaltar tarjeta en la lista
-    document.querySelectorAll('.community-card').forEach(card => {
-      card.classList.toggle('selected', card.getAttribute('data-clave') === c.clave);
-    });
+    // Resaltar tarjeta en la lista y desplazar suavemente si es necesario
+    const targetCard = document.querySelector(`.community-card[data-clave="${c.clave}"]`);
+    document.querySelectorAll('.community-card').forEach(card => card.classList.remove('selected'));
+    if (targetCard) {
+      targetCard.classList.add('selected');
+      targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
     centerOnCommunity(c);
 
