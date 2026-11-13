@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Plataforma Sociodemográfica | Secretaría de Derechos Humanos de Guanajuato</title>
   <link rel="icon" href="../assets/logo-sdh-icon.png">
-  <link rel="stylesheet" href="styles.css?v=20261113-v8">
+  <link rel="stylesheet" href="styles.css?v=20261113-v9">
 </head>
 <body>
 
@@ -90,7 +90,10 @@
 
     <!-- Área del Mapa -->
     <section class="map-container" aria-label="Mapa interactivo del Estado de Guanajuato">
-      <div id="svg-map-wrapper" class="map-wrapper">
+      <div id="svg-map-wrapper" class="map-wrapper" data-map-mode="institucional">
+        <!-- Capa de teselas cartográficas (Calles, Satélite, Relieve) alineada en Web Mercator -->
+        <div id="tile-layer" class="tile-layer" aria-hidden="true"></div>
+
         <svg id="guanajuato-map" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa de Guanajuato con las 107 comunidades indígenas y afromexicanas">
           <defs>
             <filter id="pin-shadow" x="-30%" y="-30%" width="160%" height="160%">
@@ -99,8 +102,13 @@
             <filter id="pin-glow" x="-50%" y="-50%" width="200%" height="200%">
               <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#E66D42" flood-opacity="0.85"/>
             </filter>
+            <filter id="gto-shadow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3.5" flood-color="#002B52" flood-opacity="0.16"/>
+            </filter>
           </defs>
           <g id="map-zoom-group">
+            <g id="layer-estados-vecinos" class="layer-estados-vecinos"></g>
+            <g id="layer-estados-labels" class="layer-estados-labels"></g>
             <g id="layer-municipios" class="layer-municipios"></g>
             <g id="layer-mun-labels" class="layer-mun-labels"></g>
             <g id="layer-pins" class="layer-pins"></g>
@@ -139,12 +147,53 @@
           </div>
         </div>
 
-        <!-- Controles de navegación en el mapa -->
+        <!-- Controles de navegación y selector de capas en el mapa -->
         <div class="map-controls">
-          <button id="btn-zoom-in" title="Acercar mapa" aria-label="Acercar mapa">+</button>
-          <button id="btn-zoom-out" title="Alejar mapa" aria-label="Alejar mapa">−</button>
-          <button id="btn-zoom-reset" title="Restablecer vista de Guanajuato" aria-label="Restablecer vista">⟲</button>
+          <button id="btn-zoom-in" class="ctrl-btn" title="Acercar mapa" aria-label="Acercar mapa">+</button>
+          <button id="btn-zoom-out" class="ctrl-btn" title="Alejar mapa" aria-label="Alejar mapa">−</button>
+          <button id="btn-zoom-reset" class="ctrl-btn" title="Restablecer vista de Guanajuato" aria-label="Restablecer vista">⟲</button>
+
+          <!-- 4.º botón estilo Google Maps: selector de tipo de mapa / Capas -->
+          <div class="layers-control-wrap">
+            <button id="btn-map-layers" class="btn-map-layers" type="button" aria-expanded="false" aria-controls="layers-popover" title="Cambiar tipo de mapa (Institucional, Calles, Satélite, Relieve)">
+              <span class="layers-thumb preview-satelite" id="layers-btn-thumb" aria-hidden="true"></span>
+              <span class="layers-btn-label">
+                <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>
+                <span>Capas</span>
+              </span>
+            </button>
+
+            <div id="layers-popover" class="layers-popover" role="region" aria-label="Tipo de mapa" hidden>
+              <div class="layers-popover-grid">
+                <button type="button" class="layer-option active" data-layer="institucional" title="Mapa vectorial oficial de SDH Guanajuato">
+                  <span class="layer-thumb preview-institucional"></span>
+                  <span class="layer-name">Institucional</span>
+                </button>
+                <button type="button" class="layer-option" data-layer="calles" title="Calles, carreteras y localidades detalladas">
+                  <span class="layer-thumb preview-calles"></span>
+                  <span class="layer-name">Calles</span>
+                </button>
+                <button type="button" class="layer-option" data-layer="satelite" title="Fotografía satelital híbrida con etiquetas">
+                  <span class="layer-thumb preview-satelite"></span>
+                  <span class="layer-name">Satélite</span>
+                </button>
+                <button type="button" class="layer-option" data-layer="relieve" title="Topografía, elevaciones y sierras">
+                  <span class="layer-thumb preview-relieve"></span>
+                  <span class="layer-name">Relieve</span>
+                </button>
+              </div>
+              <div class="layers-popover-options" id="layers-popover-options" hidden>
+                <label class="layer-toggle-chip">
+                  <input type="checkbox" id="toggle-mun-boundaries" checked>
+                  <span>Límites de municipios</span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Crédito cartográfico dinámico (visible en capas de teselas) -->
+        <div id="tile-attribution" class="tile-attribution" hidden></div>
 
         <!-- Bloque inferior derecho: Panorama estadístico por Municipio y Simbología -->
         <div class="map-overlay-bottom-right">
@@ -267,8 +316,9 @@
   </div>
 
   <!-- Scripts con datos precompilados y motor de mapa vectorial -->
-  <script src="municipios.js?v=20261113-v8"></script>
-  <script src="datos-comunidades.js?v=20261113-v8"></script>
-  <script src="app.js?v=20261113-v8"></script>
+  <script src="municipios.js?v=20261113-v9"></script>
+  <script src="estados-vecinos.js?v=20261113-v9"></script>
+  <script src="datos-comunidades.js?v=20261113-v9"></script>
+  <script src="app.js?v=20261113-v9"></script>
 </body>
 </html>
