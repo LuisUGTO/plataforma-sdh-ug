@@ -121,7 +121,7 @@
 
     g.addEventListener('mousemove', e => {
       e.stopPropagation();
-      showTooltip(e, `<strong>${c.nombre}</strong><span>${c.municipio} · ${c.pueblo}</span><small>Clic para ver ficha completa</small>`);
+      showTooltip(e, `<strong>${c.nombre}</strong><span>${c.municipio}</span>`);
     });
     g.addEventListener('mouseleave', hideTooltip);
 
