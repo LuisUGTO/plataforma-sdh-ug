@@ -50,8 +50,8 @@ function languagePie(model){
  return `<div class="pie"><div class="language-placeholder">Datos pendientes</div><div class="pie-legend">${legend}</div></div>`;
 }
 function verticalChart(items,title,opts={}){
- const base=opts.economy?134:105,plot=opts.economy?114:85,slot=320/items.length,colors=opts.colors||['#008E95','#004B87','#84369B','#E66D42'],scale=opts.adaptive?Math.max(.1,Math.ceil(Math.max(0,...items.map(a=>number(a[1])||0))*10)/10):1;
- let svg=`<svg class="vertical-chart" viewBox="0 0 340 160" role="img" aria-label="${esc(title)}"><line x1="10" y1="${base}" x2="330" y2="${base}" stroke="#CED9E3"/>`;
+ const vw=opts.vw||340,base=opts.economy?134:105,plot=opts.economy?114:85,slot=(vw-20)/items.length,colors=opts.colors||['#008E95','#004B87','#84369B','#E66D42'],scale=opts.adaptive?Math.max(.1,Math.ceil(Math.max(0,...items.map(a=>number(a[1])||0))*10)/10):1;
+ let svg=`<svg class="vertical-chart" viewBox="0 0 ${vw} 160" role="img" aria-label="${esc(title)}"><line x1="10" y1="${base}" x2="${vw-10}" y2="${base}" stroke="#CED9E3"/>`;
  items.forEach(([label,v,state],i)=>{const value=number(v),center=10+(i+.5)*slot,bw=slot*.42,h=value===null?0:value/scale*plot,top=base-h;
   svg+=value===null?`<text x="${center}" y="35" text-anchor="middle" font-size="11">${state==='empty'?'No aplica':'N/D'}</text>`:`<rect x="${center-bw/2}" y="${top}" width="${bw}" height="${h}" fill="${colors[i%colors.length]}"/><text class="vertical-value" x="${center}" y="${top-6}" text-anchor="middle" font-size="11" font-weight="bold" fill="#54585A">${(value*100).toFixed(1)}%</text>`;
   label.split('|').forEach((line,k)=>{svg+=`<text x="${center}" y="${base+14+k*11}" text-anchor="middle" font-size="${opts.small?8:9.5}" fill="#54585A">${esc(line)}</text>`;});
@@ -84,7 +84,7 @@ function reunionRender(r){
  $('economia').innerHTML=m.economy.map(([a,b])=>valueCard(a,b)).join('')+(m.notes.activity?`<p class="note economy-note">${noteHTML(m.notes.activity)}</p><p class="note economy-note">${noteHTML(m.notes.occupation)}</p>`:'');$('economia-sexo').innerHTML='<div><h4>PEA según sexo</h4>'+verticalChart(m.sexPEA,'PEA según sexo',{colors:['#84369B','#319356'],economy:true})+'</div><div><h4>Población de 12 años y más ocupada según sexo</h4>'+verticalChart(m.sexOccupied,'Población ocupada según sexo',{colors:['#84369B','#319356'],economy:true})+'</div>';
  $('educacion').innerHTML=m.education.map(([a,b])=>valueCard(a,b)).join('');
  $('escolaridad').innerHTML='<h4>Población según nivel de escolaridad, por grupo de edad de referencia</h4>'+verticalChart(m.schooling,'Escolaridad por grupo de edad',{adaptive:true})+'<p class="note">'+noteHTML('Nota: Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.')+'</p>';
- $('asistencia').innerHTML='<h4>Asistencia escolar</h4>'+verticalChart(m.attendance,'Asistencia escolar',{colors:['#008E95']})+(m.notes.attendance?'<p class="note">'+noteHTML(m.notes.attendance)+'</p>':'');
+ $('asistencia').innerHTML='<div class="attendance-pair"><div><h4>Población que no asiste a la escuela</h4>'+verticalChart(m.attendanceNo,'Población que no asiste a la escuela',{colors:['#E66D42'],vw:210})+'</div><div><h4>Población que asiste a la escuela</h4>'+verticalChart(m.attendanceYes,'Población que asiste a la escuela',{colors:['#008E95'],vw:150})+'</div></div>'+(m.notes.attendance?'<p class="note">'+noteHTML(m.notes.attendance)+'</p>':'');
  $('referencias').innerHTML=(window.SDH_PDF?.refs||[]).map(([author,title,tail,url])=>`<p>${esc(author)} <em>${esc(title)}</em> ${esc(tail)} <a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a></p>`).join('');
 }
 async function importFile(id,consume){

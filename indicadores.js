@@ -42,7 +42,9 @@ function build(record={},raw={},extra=null){
  model.sexOccupied=[['Mujeres',ratio(raw.POCUPADA_F,raw.POCUPADA)],['Hombres',ratio(raw.POCUPADA_M,raw.POCUPADA)]];
  model.education=[['Grado promedio de escolaridad de la población de 15 años y más',format(raw.GRAPROES??get('Grado Promedio Escolaridad (15+)'),2)],['Población de 15 años y más analfabeta',percent(ratio(raw.P15YM_AN,raw.P_15YMAS))]];
  model.schooling=[['Sin escolaridad|(15+)',ratio(raw.P15YM_SE,raw.P_15YMAS)],['Primaria|completa (15+)',ratio(raw.P15PRI_CO,raw.P_15YMAS)],['Secundaria|completa (15+)',ratio(raw.P15SEC_CO,raw.P_15YMAS)],['Posbásica|(18+)',ratio(raw.P18YM_PB,raw.P_18YMAS)]];
- model.attendance=[['3 a 5|años',complement(raw.P_3A5,raw.P3A5_NOA)],['6 a 11|años',complement(raw.P_6A11,raw.P6A11_NOA)],['12 a 14|años',complement(raw.P_12A14,raw.P12A14NOA)],['15 a 17|años',ratio(raw.P15A17A,raw.P_15A17)],['18 a 24|años',ratio(raw.P18A24A,raw.P_18A24)]];
+ model.attendanceNo=[['3 a 5|años',ratio(raw.P3A5_NOA,raw.P_3A5)],['6 a 11|años',ratio(raw.P6A11_NOA,raw.P_6A11)],['12 a 14|años',ratio(raw.P12A14NOA,raw.P_12A14)]];
+ model.attendanceYes=[['15 a 17|años',ratio(raw.P15A17A,raw.P_15A17)],['18 a 24|años',ratio(raw.P18A24A,raw.P_18A24)]];
+ model.attendance=[...model.attendanceNo,...model.attendanceYes];
  const attendanceSources=[[raw.P_3A5,raw.P3A5_NOA],[raw.P_6A11,raw.P6A11_NOA],[raw.P_12A14,raw.P12A14NOA],[raw.P_15A17,raw.P15A17A],[raw.P_18A24,raw.P18A24A]],emptyAttendance=[];
  attendanceSources.forEach(([total,value],i)=>{if(number(total)===0&&number(value)===0){model.attendance[i].push('empty');emptyAttendance.push(model.attendance[i][0].replace('|',' '));}});
  if(number(criteria.edadMediana)!==null)model.ageDigits=0;

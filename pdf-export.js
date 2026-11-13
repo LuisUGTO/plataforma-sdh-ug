@@ -215,10 +215,10 @@ function pyramid(p,extra,total,men,women,x,y,w){
 
 // Approved header: content-aligned margins and the horizontal institutional logo.
 const panoramaLines=['Panorama Sociodemográfico de los','Pueblos y Comunidades Indígenas y Afromexicanas','del Estado de Guanajuato'];
-function headerLayout(name,identification='',variant='Carlos',logoRatio=1496/4452){
+function headerLayout(name,identification='',variant='Carlos',logoRatio=1496/4452,identPt=14){
  if(!FONTS?.headline||!FONTS?.support||!FONTS?.identity)throw Error('Faltan las tipografías oficiales del encabezado. Revisa tipografia.js y assets/fuentes.');
- const identityWidth=197,identLines=identification?wrap(identification,identityWidth,14,'identity').filter(l=>l.trim()):[];
- const identH=identLines.length?identLines.length*14*1.2/MM:0;
+ const identityWidth=197,identLines=identification?wrap(identification,identityWidth,identPt,'identity').filter(l=>l.trim()):[];
+ const identH=identLines.length?identLines.length*identPt*1.2/MM:0;
  let namePt=34;
  while(namePt>18&&wrap(name,identityWidth,namePt,'headline').length>(identH?1:2))namePt-=.5;
  const nameLines=wrap(name,identityWidth,namePt,'headline'),nameH=nameLines.length*namePt*1.2/MM;
@@ -226,7 +226,7 @@ function headerLayout(name,identification='',variant='Carlos',logoRatio=1496/445
  if(identityY<2)throw Error('El nombre excede el espacio del encabezado: '+name);
  const titlePt=Math.min(34,...panoramaLines.map(line=>194/tw(line,1,'headline'))),supportPt=titlePt;
  const logoW=Math.min(100,35.5/logoRatio),logoH=logoW*logoRatio;
- return {variant:'Carlos',panel:{x:11,w:225,h:43},name:{x:22.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:22.5,y:identityY+nameH+2,w:identityWidth,pt:14,lines:identLines},panorama:{x:260,y:3.5,w:202,pt:titlePt,supportPt,supportY:15,supportStep:11.5,lines:panoramaLines,colors:[C.blue,C.sky,C.blue]},logo:{x:583-logoW,y:20.1-logoH/2,w:logoW,h:logoH}};
+ return {variant:'Carlos',panel:{x:11,w:225,h:43},name:{x:22.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:22.5,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama:{x:260,y:3.5,w:202,pt:titlePt,supportPt,supportY:15,supportStep:11.5,lines:panoramaLines,colors:[C.blue,C.sky,C.blue]},logo:{x:583-logoW,y:20.1-logoH/2,w:logoW,h:logoH}};
 }
 
 function render(model,logo=null){
@@ -282,10 +282,13 @@ function compose(model,logo=null,options={}){
  const sh=p.text('PEA según sexo',x,y+1,9.5,true,C.text,cw),oh=p.text('Población de 12 años y más ocupada según sexo',x+cw+4,y+1,9.5,true,C.text,cw),chartY=y+Math.max(sh,oh)+3;
  p.verticalBars(m.sexPEA,x,chartY,cw,29,{colors:[C.purple,C.green],labelsHeight:6});p.verticalBars(m.sexOccupied,x+cw+4,chartY,cw,29,{colors:[C.purple,C.green],labelsHeight:6});y=chartY+32;
  y+=gaps[2];y=p.title('Características educativas',x,y,w,'book');let bottom=y;m.education.forEach(([label,value],i)=>{bottom=Math.max(bottom,p.sideCard(label,value,x+i*(cw+4),y,cw,'',18));});y=bottom;
- const eh=p.text('Población según nivel de escolaridad, por grupo de edad de referencia',x,y,9.5,true,C.text,cw),ah=p.text('Asistencia escolar',x+cw+4,y,9.5,true,C.text,cw),edY=y+Math.max(eh,ah)+2;
+ const wSchool=84,wNo=52,wYes=37,xNo=x+wSchool+4,xYes=xNo+wNo+4;
+ const eh=p.text('Población según nivel de escolaridad, por grupo de edad de referencia',x,y,9,true,C.text,wSchool),nah=p.text('Población que no asiste a la escuela',xNo,y,9,true,C.text,wNo),ah=p.text('Población que asiste a la escuela',xYes,y,9,true,C.text,wYes),edY=y+Math.max(eh,nah,ah)+2;
  const educationHeight=43.5;
- const ed=p.verticalBars(m.schooling,x,edY,cw,educationHeight,{adaptive:true,labelsHeight:17,labelPt:8.5});p.verticalBars(m.attendance,x+cw+4,edY,cw,educationHeight,{colors:[C.teal],labelsHeight:17,labelPt:8.5});
- p.text('Nota:',x,ed+1,8.5,true,C.text,10);const nh=Math.max(p.text('Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.',x+9,ed+1,8.5,false,C.text,cw-9),m.notes.attendance?p.note(m.notes.attendance,x+cw+4,ed+1,8.5,C.text,cw):0);p.bounds.push({column:3,bottom:ed+nh+3});
+ const ed=p.verticalBars(m.schooling,x,edY,wSchool,educationHeight,{adaptive:true,labelsHeight:17,labelPt:8.2});
+ p.verticalBars(m.attendanceNo,xNo,edY,wNo,educationHeight,{colors:[C.orange],labelsHeight:17,labelPt:8.2});
+ p.verticalBars(m.attendanceYes,xYes,edY,wYes,educationHeight,{colors:[C.teal],labelsHeight:17,labelPt:8.2});
+ p.text('Nota:',x,ed+1,8.5,true,C.text,10);const nh=Math.max(p.text('Los porcentajes no suman 100% porque corresponden a grupos de edad distintos y no incluyen todas las categorías.',x+9,ed+1,8.5,false,C.text,wSchool-9),m.notes.attendance?p.note(m.notes.attendance,xNo,ed+1,8.5,C.text,wNo+4+wYes):0);p.bounds.push({column:3,bottom:ed+nh+3});
  const footer=367;if(p.bounds.some(b=>b.bottom>footer-3+.001))throw Error('El contenido supera el área reservada. Revisar distribución: '+JSON.stringify(p.bounds));
  // El pie conserva el fondo blanco de la página, sin modificar su distribución.
  const refTop=p.title('Fuentes y referencias',11,footer,572,'book');let refBottom=refTop;
@@ -300,12 +303,12 @@ function compose(model,logo=null,options={}){
  return {bytes:options.measureOnly?null:p.finish(logo),header,bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight,columnBottoms:p.bounds.map(b=>b.bottom-2),closingTarget:CONTENT_BOTTOM}};
 }
 function renderGlobalMapSheet(options={},logo=null){
- const p=new PDF(),name='Distribución territorial de los pueblos y comunidades indígenas y afromexicanas de Guanajuato',identification='';
- const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452);
+ const p=new PDF(),name='Distribución territorial de los pueblos y comunidades indígenas y afromexicanas de Guanajuato',identification='Comunidades registradas en el Padrón al 2026';
+ const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452,11.5);
  if(logo)logo={...logo,...header.logo};
  p.rect(11,0,203.5,43,C.blue);p.circle(214.5,21.5,21.5,C.blue);p.rect(11,40,W-22,3.5,C.blue);
  p.text(name,header.name.x,header.name.y,header.name.pt,'headline','#FFFFFF',header.name.w);
- if(identification)p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#C8D8EB',header.identification.w);
+ if(identification)p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#FFFFFF',header.identification.w);
  p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',header.panorama.colors[0],header.panorama.w,'center');
  header.panorama.lines.slice(1).forEach((line,i)=>p.text(line,header.panorama.x,header.panorama.supportY+i*header.panorama.supportStep,header.panorama.supportPt,'headline',header.panorama.colors[i+1],header.panorama.w,'center'));
 
@@ -327,12 +330,12 @@ function renderGlobalMapSheet(options={},logo=null){
  return {bytes:p.finish(logo),referenceBottom:refBottom};
 }
 function renderIndexSheet(records=[],logo=null){
- const p=new PDF(),name='Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato',identification='';
- const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452);
+ const p=new PDF(),name='Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato',identification='Comunidades registradas en el Padrón al 2026';
+ const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452,11.5);
  if(logo)logo={...logo,...header.logo};
  p.rect(11,0,203.5,43,C.blue);p.circle(214.5,21.5,21.5,C.blue);p.rect(11,40,W-22,3.5,C.blue);
  p.text(name,header.name.x,header.name.y,header.name.pt,'headline','#FFFFFF',header.name.w);
- if(identification)p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#C8D8EB',header.identification.w);
+ if(identification)p.text(identification,header.identification.x,header.identification.y,header.identification.pt,'identity','#FFFFFF',header.identification.w);
  p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',header.panorama.colors[0],header.panorama.w,'center');
  header.panorama.lines.slice(1).forEach((line,i)=>p.text(line,header.panorama.x,header.panorama.supportY+i*header.panorama.supportStep,header.panorama.supportPt,'headline',header.panorama.colors[i+1],header.panorama.w,'center'));
 

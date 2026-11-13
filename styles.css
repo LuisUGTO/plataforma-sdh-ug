@@ -32,6 +32,9 @@ main{padding:22px;overflow:auto}.controls{max-width:1120px;margin:0 auto 16px;ba
 #discapacidad-grafica .bar strong{right:0;width:14mm;text-align:right;color:var(--gray)}#discapacidad-grafica .track{height:3.3mm}
 .section-pair .pie{gap:7mm}
 #escolaridad .vertical-chart,#asistencia .vertical-chart{height:43.5mm}
+.education-charts{display:grid;grid-template-columns:84mm 1fr;gap:4mm;align-items:start}
+.attendance-pair{display:grid;grid-template-columns:52mm 37mm;gap:4mm;align-items:start}
+.education-charts h4{min-height:11.5mm;font-size:9pt;margin:0 0 1.5mm}
 
 /* Etnicidad: three cards left; language prevalence and composition right. */
 #etnicidad .ethnicity-left{display:grid;gap:1mm}#etnicidad .ethnicity-right h4{font-size:8.5pt;margin:3mm 0 2mm}
