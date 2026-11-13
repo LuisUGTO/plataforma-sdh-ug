@@ -971,6 +971,69 @@
     });
   }
 
+  // =========================================================================
+  // 9. Modo Mapa en Tamaño Completo / Pantalla Completa
+  // =========================================================================
+  const btnFullscreen = $('btn-fullscreen');
+
+  function syncFullscreenButton(isFull) {
+    document.body.classList.toggle('map-fullscreen', isFull);
+    if (!btnFullscreen) return;
+    btnFullscreen.setAttribute('aria-pressed', isFull ? 'true' : 'false');
+    const label = isFull ? 'Salir de tamaño completo' : 'Ver mapa en tamaño completo';
+    btnFullscreen.title = label;
+    btnFullscreen.setAttribute('aria-label', label);
+    const iconEnter = btnFullscreen.querySelector('.icon-fs-enter');
+    const iconExit = btnFullscreen.querySelector('.icon-fs-exit');
+    if (iconEnter) iconEnter.hidden = isFull;
+    if (iconExit) iconExit.hidden = !isFull;
+    setTimeout(applyTransformNow, 60);
+  }
+
+  if (btnFullscreen) {
+    let wasNativeFs = false;
+
+    btnFullscreen.addEventListener('click', e => {
+      e.stopPropagation();
+      const willBeFull = !document.body.classList.contains('map-fullscreen');
+      syncFullscreenButton(willBeFull);
+
+      if (willBeFull) {
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().then(() => {
+            wasNativeFs = true;
+          }).catch(() => {
+            wasNativeFs = false;
+          });
+        }
+      } else if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      const inFs = Boolean(document.fullscreenElement);
+      if (inFs) {
+        wasNativeFs = true;
+        syncFullscreenButton(true);
+      } else if (wasNativeFs) {
+        wasNativeFs = false;
+        syncFullscreenButton(false);
+      }
+    });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && document.body.classList.contains('map-fullscreen') && modal.hidden && (!layersPopover || layersPopover.hidden) && !document.fullscreenElement) {
+        syncFullscreenButton(false);
+      }
+    });
+  }
+
+  if (typeof ResizeObserver === 'function' && wrapper) {
+    const ro = new ResizeObserver(() => applyTransformNow());
+    ro.observe(wrapper);
+  }
+
   // Inicializar vista y cálculo de escala dinámica en el primer render
   setTimeout(applyTransformNow, 150);
 
