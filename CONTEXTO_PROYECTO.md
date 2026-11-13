@@ -1,5 +1,7 @@
 # Contexto vigente del proyecto SDH–UG
 
+**Actualización del 13 de noviembre de 2026.** El repositorio ya incluye el portal público en `portal/`, la revista interactiva y un nuevo lote de fichas. La [auditoría de la actualización de Carlos](Documentacion/AUDITORIA_CHARLIE_2026-11-13.md) registra el estado actual de esos entregables y los pasos para entregar el portal a la SDH. El resto de este archivo conserva el corte del 31 de octubre.
+
 **Fecha de corte: 31 de octubre de 2026.** Fuente de verdad operativa para continuar desde otra computadora. Describe el árbol de trabajo local, incluidos cambios aún sin commit; no certifica el sitio publicado ni la hoja en vivo.
 
 ## 1. Identificación y descripción
