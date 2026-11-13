@@ -254,6 +254,7 @@
   window.addEventListener('mouseup', () => { isDragging = false; });
 
   wrapper.addEventListener('wheel', e => {
+    if (e.target.closest('.mun-reference-box, .map-legend, .map-controls')) return;
     e.preventDefault();
     const zoomFactor = e.deltaY < 0 ? 1.2 : 0.83;
     const newZoom = Math.min(Math.max(1, currentZoom * zoomFactor), 12);
@@ -568,6 +569,7 @@
       e.stopPropagation();
       const isHidden = munRefBox.hidden;
       munRefBox.hidden = !isHidden;
+      if (isHidden && refMunList) refMunList.scrollTop = 0;
       btnToggleRef.classList.toggle('open', isHidden);
       btnToggleRef.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
     });

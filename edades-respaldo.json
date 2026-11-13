@@ -3729,11 +3729,17 @@
           "mujeres": 16
         }
       ],
-      "parcial": true,
+      "parcial": false,
       "criteriosCarlos": {
-        "fecha": "2026-10-29",
-        "fuente": "Luis confirmó conservar la edad mediana como Dato no disponible y señalarlo en la entrega; no se atribuye una edad a Carlos.",
-        "notaComposicion": "Nota: La edad mediana no está disponible. El desglose por edad y sexo suma 3,167 personas, frente a una población total de 3,170."
+        "fecha": "2026-11-13",
+        "fuente": "Confirmación de Charlie compartida por Luis el 13 de noviembre de 2026: excluir las 3 personas con edad no especificada en pirámide y edad mediana.",
+        "edadMediana": 26.5,
+        "notaComposicion": "Nota: La pirámide poblacional y la edad mediana excluyen a 3 personas con edad no especificada (total con edad especificada: 3,167 de 3,170 habitantes)."
+      },
+      "pyramidUniverse": {
+        "total": 3167,
+        "men": 1530,
+        "women": 1637
       }
     },
     "110060005|El Carricillo": {

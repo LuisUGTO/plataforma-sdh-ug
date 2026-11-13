@@ -47,7 +47,7 @@ function build(record={},raw={},extra=null){
  model.attendance=[...model.attendanceNo,...model.attendanceYes];
  const attendanceSources=[[raw.P_3A5,raw.P3A5_NOA],[raw.P_6A11,raw.P6A11_NOA],[raw.P_12A14,raw.P12A14NOA],[raw.P_15A17,raw.P15A17A],[raw.P_18A24,raw.P18A24A]],emptyAttendance=[];
  attendanceSources.forEach(([total,value],i)=>{if(number(total)===0&&number(value)===0){model.attendance[i].push('empty');emptyAttendance.push(model.attendance[i][0].replace('|',' '));}});
- if(number(criteria.edadMediana)!==null)model.ageDigits=0;
+ if(number(criteria.edadMediana)!==null)model.ageDigits=Number.isInteger(number(criteria.edadMediana))?0:1;
  if(number(criteria.religionNoEspecificado)!==null)model.religion=ordered([...model.religion,['No especificado',ratio(criteria.religionNoEspecificado,total)]]);
  model.notes={composition:criteria.notaComposicion||'',activity:criteria.notaActividad||'',occupation:criteria.notaOcupacion||''};
  if(emptyAttendance.length)model.notes.attendance='Nota: No aplica: no hay población de '+emptyAttendance.join(', ')+' en esta comunidad.';
