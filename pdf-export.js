@@ -229,10 +229,10 @@ function headerLayout(name,identification='',variant='Carlos',logoRatio=1496/445
  return {variant:'Carlos',panel:{x:11,w:225,h:43},name:{x:22.5,y:identityY,w:identityWidth,pt:namePt,lines:nameLines},identification:{x:22.5,y:identityY+nameH+2,w:identityWidth,pt:identPt,lines:identLines},panorama:{x:260,y:3.5,w:202,pt:titlePt,supportPt,supportY:15,supportStep:11.5,lines:panoramaLines,colors:[C.blue,C.sky,C.blue]},logo:{x:583-logoW,y:20.1-logoH/2,w:logoW,h:logoH}};
 }
 
-function render(model,logo=null){
+function render(model,logo=null,options={}){
  const measured=compose(model,logo,{measureOnly:true});
  const gaps=measured.bounds.map(({column,bottom})=>{const space=CONTENT_BOTTOM-(bottom-2);if(space<-.001)throw Error('La columna '+column+' supera el espacio de composición.');return Math.max(0,space)/3;});
- return compose(model,logo,{gaps});
+ return compose(model,logo,{gaps,...options});
 }
 function compose(model,logo=null,options={}){
  if(!I||!ICONS)throw Error('Faltan indicadores.js o iconografia.js. Sube el generador completo.');
@@ -300,7 +300,7 @@ function compose(model,logo=null,options={}){
   p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
   p.text(String(model.pageNumber),553,412.5,12,true,'#54585A',30,'right');
  }
- return {bytes:options.measureOnly?null:p.finish(logo),header,bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight,columnBottoms:p.bounds.map(b=>b.bottom-2),closingTarget:CONTENT_BOTTOM}};
+ return {bytes:(options.measureOnly||options.skipFinish)?null:p.finish(logo),pageData:options.includePageData?{cmd:p.cmd.slice(),links:p.links.slice(),images:p.images.slice(),logo:logo?{...logo}:null}:undefined,header,bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight,columnBottoms:p.bounds.map(b=>b.bottom-2),closingTarget:CONTENT_BOTTOM}};
 }
 function renderGlobalMapSheet(options={},logo=null){
  const p=new PDF(),name='Distribución territorial de los pueblos y comunidades indígenas y afromexicanas de Guanajuato',identification='Comunidades registradas en el Padrón al 2026';
@@ -326,10 +326,10 @@ function renderGlobalMapSheet(options={},logo=null){
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
 
  p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
- p.text('1',553,412.5,12,true,'#54585A',30,'right');
- return {bytes:p.finish(logo),referenceBottom:refBottom};
+ p.text(String(options.pageNumber??'1'),553,412.5,12,true,'#54585A',30,'right');
+ return {bytes:options.skipFinish?null:p.finish(logo),pageData:options.includePageData?{cmd:p.cmd.slice(),links:p.links.slice(),images:p.images.slice(),logo:logo?{...logo}:null}:undefined,referenceBottom:refBottom};
 }
-function renderIndexSheet(records=[],logo=null){
+function renderIndexSheet(records=[],logo=null,options={}){
  const p=new PDF(),name='Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato',identification='Comunidades registradas en el Padrón al 2026';
  const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452,11.5);
  if(logo)logo={...logo,...header.logo};
@@ -357,6 +357,7 @@ function renderIndexSheet(records=[],logo=null){
    p.line(colX,rowY+rowH,colX+colW,rowY+rowH,C.line,.15);
 
    const key=rec['Clave INEGI']||rec.key||'',comName=rec['Comunidad / Localidad']||rec.name||'',munName=rec['Municipio']||rec.mun||'';
+   if(options.commPageMap&&options.commPageMap[key]!=null)p.links.push({x:colX,y:rowY,w:colW,h:rowH,pageIndex:options.commPageMap[key]});
    p.text(key,colX+2,rowY+(rowH-9.5*1.2/MM)/2,9.5,false,'#54585A',wClave-2);
 
    const comLines=wrap(comName,wCom-3,10,true),comStep=10*1.15/MM,comY=rowY+(rowH-comLines.length*comStep)/2+.3;
@@ -373,8 +374,8 @@ function renderIndexSheet(records=[],logo=null){
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
 
  p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
- p.text('2',553,412.5,12,true,'#54585A',30,'right');
- return {bytes:p.finish(logo),referenceBottom:refBottom};
+ p.text(String(options.pageNumber??'2'),553,412.5,12,true,'#54585A',30,'right');
+ return {bytes:options.skipFinish?null:p.finish(logo),pageData:options.includePageData?{cmd:p.cmd.slice(),links:p.links.slice(),images:p.images.slice(),logo:logo?{...logo}:null}:undefined,referenceBottom:refBottom};
 }
 async function imageBytes(src){const image=new Image();image.src=src+(src.includes('?')?'&':'?')+'v='+Date.now();try{await image.decode();}catch{throw Error('No se pudo leer '+src+'. Revisa la carpeta assets, el nombre completo y que el archivo sea una imagen válida.');}const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.98));if(!blob)throw Error('No se pudo preparar la imagen '+src+' para el PDF.');return {bytes:new Uint8Array(await blob.arrayBuffer()),pxWidth:canvas.width,pxHeight:canvas.height};}
 async function download(model){
@@ -389,7 +390,7 @@ async function download(model){
   if(idx>=0)model={...model,pageNumber:idx+3};
  }
  const result=render(model,logo),blob=new Blob([result.bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);
- const a=document.createElement('a');a.href=url;a.download=model.extra?.global?'SDH_Resumen_global_107_comunidades_A2.pdf':`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').replace(/[^\p{L}\p{N}]+/gu,'_')}_A2.pdf`;
+ const a=document.createElement('a');a.href=url;a.download=model.extra?.global?'SDH_Resumen_global_107_comunidades_A2.pdf':`SDH_${model.raw?.['Clave INEGI']||model.record[norm('Clave INEGI')]}_${String(model.record[norm('Comunidad / Localidad')]||'Comunidad').trim().replace(/[^\p{L}\p{N}]+/gu,'_').replace(/^_+|_+$/g,'')}_A2.pdf`;
  document.body.append(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),10000);
  return result.bounds;

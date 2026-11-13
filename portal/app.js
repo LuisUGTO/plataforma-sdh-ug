@@ -47,28 +47,10 @@
 
   const municipalitiesWithComm = new Set(Object.keys(munCommCounts));
 
-  // Letras oficiales de referencia cartográfica (A a M) según el Mapa Oficial de Guanajuato
-  const munLetters = {
-    'apaseo el alto': 'A',
-    'atarjea': 'B',
-    'comonfort': 'C',
-    'dolores hidalgo cuna de la independencia nacional': 'D',
-    'salvatierra': 'E',
-    'san luis de la paz': 'F',
-    'san miguel de allende': 'G',
-    'santa catarina': 'H',
-    'tierra blanca': 'I',
-    'valle de santiago': 'J',
-    'victoria': 'K',
-    'villagran': 'L',
-    'xichu': 'M'
-  };
-
   // =========================================================================
   // 2. Renderizar Municipios y Capas Vectoriales
   // =========================================================================
   const layerMun = $('layer-municipios');
-  const layerMunLabels = $('layer-mun-labels');
   const layerPins = $('layer-pins');
   const tooltip = $('map-tooltip');
   const wrapper = $('svg-map-wrapper');
@@ -77,20 +59,15 @@
     const munName = f.properties.nomgeo || 'Municipio';
     const normName = munName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const hasComm = municipalitiesWithComm.has(normName);
-    const letter = munLetters[normName] || '';
     const commCount = munCommCounts[normName] || 0;
 
     const polys = getPolygons(f);
     let d = '';
-    let sumX = 0, sumY = 0, ptCount = 0;
 
     polys.forEach(rings => {
       rings.forEach(ring => {
         ring.forEach(([lon, lat], i) => {
           const [px, py] = project(lon, lat);
-          sumX += px;
-          sumY += py;
-          ptCount++;
           d += (i === 0 ? `M ${px.toFixed(2)} ${py.toFixed(2)} ` : `L ${px.toFixed(2)} ${py.toFixed(2)} `);
         });
         d += 'Z ';
@@ -103,50 +80,14 @@
     path.setAttribute('data-municipio', munName);
 
     path.addEventListener('mousemove', e => {
-      const title = letter ? `${munName} (${letter})` : munName;
       const subtitle = hasComm
         ? `Presencia comunitaria · ${commCount} ${commCount === 1 ? 'comunidad' : 'comunidades'}`
         : 'Municipio de Guanajuato';
-      showTooltip(e, `<strong>${title}</strong><span>${subtitle}</span>`);
+      showTooltip(e, `<strong>${munName}</strong><span>${subtitle}</span>`);
     });
     path.addEventListener('mouseleave', hideTooltip);
 
     layerMun.appendChild(path);
-
-    // Si tiene letra oficial (A-M), agregar etiqueta visual en posición despejada
-    if (letter && ptCount > 0 && layerMunLabels) {
-      let cx = sumX / ptCount;
-      let cy = sumY / ptCount;
-
-      // Coordenadas cartográficas optimizadas matemáticamente para máxima holgura (sin solape de pines ni fronteras)
-      const letterPositions = {
-        'A': { cx: 607, cy: 575 }, // Apaseo el Alto (border: 25.2px, pin: 30.5px)
-        'B': { cx: 881, cy: 267 }, // Atarjea (border: 19.2px, pin: 24.4px)
-        'C': { cx: 507, cy: 451 }, // Comonfort (border: 19.6px, pin: 24.6px)
-        'D': { cx: 532, cy: 267 }, // Dolores Hidalgo (border: 37.5px, pin: 46.5px)
-        'E': { cx: 486, cy: 637 }, // Salvatierra (border: 27.9px, pin: 35.4px)
-        'F': { cx: 649, cy: 184 }, // San Luis de la Paz (border: 43.7px, pin: 55.0px)
-        'G': { cx: 590, cy: 378 }, // San Miguel de Allende (border: 45.6px, pin: 57.1px)
-        'H': { cx: 787, cy: 283 }, // Santa Catarina (border: 16.3px, pin: 20.5px)
-        'I': { cx: 749, cy: 361 }, // Tierra Blanca (border: 11.2px, pin: 26.5px)
-        'J': { cx: 352, cy: 595 }, // Valle de Santiago (border: 34.7px, pin: 44.0px)
-        'K': { cx: 739, cy: 209 }, // Victoria (border: 32.8px, pin: 41.0px)
-        'L': { cx: 465, cy: 531 }, // Villagrán (border: 13.1px, pin: 16.2px)
-        'M': { cx: 817, cy: 188 }  // Xichú (border: 26.6px, pin: 34.1px)
-      };
-
-      if (letterPositions[letter]) {
-        cx = letterPositions[letter].cx;
-        cy = letterPositions[letter].cy;
-      }
-
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      text.setAttribute('x', cx.toFixed(1));
-      text.setAttribute('y', cy.toFixed(1));
-      text.setAttribute('class', 'mun-letter-text');
-      text.textContent = letter;
-      layerMunLabels.appendChild(text);
-    }
   });
 
   // =========================================================================
@@ -297,7 +238,7 @@
   window.addEventListener('resize', updateDynamicScale);
 
   wrapper.addEventListener('mousedown', e => {
-    if (e.target.closest('.map-controls') || e.target.closest('.map-legend')) return;
+    if (e.target.closest('.map-controls') || e.target.closest('.map-legend') || e.target.closest('.mun-reference-box') || e.target.closest('.btn-toggle-ref')) return;
     isDragging = true;
     startX = e.clientX - panX;
     startY = e.clientY - panY;
@@ -541,11 +482,86 @@
   });
 
   // =========================================================================
-  // 7. Referencia Desplegable de Municipios (A–M)
+  // 7. Panel Desplegable: Mini Dashboard por Municipio y Pueblo
   // =========================================================================
   const btnToggleRef = $('btn-toggle-ref');
   const btnCloseRef = $('btn-close-ref');
   const munRefBox = $('mun-reference-box');
+  const refMunList = $('ref-mun-list');
+  const dashSummaryGrid = $('dash-summary-grid');
+  const dashPueblosList = $('dash-pueblos-list');
+
+  function renderMunicipalityDashboard() {
+    if (!refMunList) return;
+    const byMun = new Map();
+    const byPueblo = new Map();
+    let totalPop = 0;
+
+    communities.forEach(c => {
+      const m = c.municipio || 'Sin municipio';
+      const entry = byMun.get(m) || { mun: m, count: 0, pop: 0 };
+      entry.count += 1;
+      entry.pop += Number(c.pobTotal) || 0;
+      byMun.set(m, entry);
+
+      const p = c.pueblo || 'Otro';
+      byPueblo.set(p, (byPueblo.get(p) || 0) + 1);
+      totalPop += Number(c.pobTotal) || 0;
+    });
+
+    const sortedMuns = [...byMun.values()].sort((a, b) => b.count - a.count || a.mun.localeCompare(b.mun, 'es'));
+    const maxCount = sortedMuns.length ? sortedMuns[0].count : 1;
+
+    if (dashSummaryGrid) {
+      dashSummaryGrid.innerHTML = [
+        { val: communities.length.toLocaleString('es-MX'), lbl: 'Comunidades' },
+        { val: String(sortedMuns.length), lbl: 'Municipios' },
+        { val: totalPop.toLocaleString('es-MX'), lbl: 'Habitantes' }
+      ].map(k => `<div class="dash-stat-box"><strong>${k.val}</strong><span>${k.lbl}</span></div>`).join('');
+    }
+
+    const activeMun = munSelect.value;
+    refMunList.innerHTML = sortedMuns.map(item => {
+      const shortName = item.mun.startsWith('Dolores Hidalgo') ? 'Dolores Hidalgo' : item.mun;
+      const pctW = Math.max(4, Math.round((item.count / maxCount) * 100));
+      const isSelected = activeMun === item.mun;
+      return `
+        <button type="button" class="dash-bar-row${isSelected ? ' active' : ''}" data-mun="${escapeAttr(item.mun)}" title="${escapeAttr(item.mun)}: ${item.count} comunidades (${item.pop.toLocaleString('es-MX')} hab.)">
+          <div class="dash-bar-top">
+            <span class="dash-bar-name">${shortName}</span>
+            <span class="dash-bar-val">${item.count} <em>(${((item.count / communities.length) * 100).toFixed(0)}%)</em></span>
+          </div>
+          <div class="dash-bar-track"><span class="dash-bar-fill" style="width:${pctW}%"></span></div>
+        </button>`;
+    }).join('');
+
+    if (dashPueblosList) {
+      const sortedPueblos = [...byPueblo.entries()].sort((a, b) => b[1] - a[1]);
+      dashPueblosList.innerHTML = sortedPueblos.map(([p, cnt]) =>
+        `<span class="dash-pueblo-chip"><strong>${p}</strong> ${cnt}</span>`
+      ).join('');
+    }
+
+    refMunList.querySelectorAll('.dash-bar-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const mun = row.getAttribute('data-mun');
+        if (!mun) return;
+        const toggleSame = munSelect.value === mun;
+        munSelect.value = toggleSame ? '' : mun;
+        filterCommunities();
+        if (!toggleSame) centerOnMunicipality(mun);
+        else resetMap();
+        renderMunicipalityDashboard();
+      });
+    });
+  }
+
+  function escapeAttr(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  renderMunicipalityDashboard();
+  munSelect.addEventListener('change', renderMunicipalityDashboard);
 
   if (btnToggleRef && munRefBox) {
     btnToggleRef.addEventListener('click', e => {
@@ -564,17 +580,6 @@
         btnToggleRef.setAttribute('aria-expanded', 'false');
       });
     }
-
-    // Al hacer clic en un municipio de la lista A–M:
-    document.querySelectorAll('.ref-item').forEach(item => {
-      item.addEventListener('click', () => {
-        const mun = item.getAttribute('data-mun');
-        if (!mun) return;
-        munSelect.value = mun;
-        filterCommunities();
-        centerOnMunicipality(mun);
-      });
-    });
   }
 
   // Inicializar cálculo de escala dinámica en el primer render

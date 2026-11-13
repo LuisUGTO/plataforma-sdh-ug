@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portal Geográfico de Comunidades | Secretaría de Derechos Humanos de Guanajuato</title>
+  <title>Plataforma Sociodemográfica | Secretaría de Derechos Humanos de Guanajuato</title>
   <link rel="icon" href="../assets/logo-sdh-icon.png">
-  <link rel="stylesheet" href="styles.css?v=20261108-v4">
+  <link rel="stylesheet" href="styles.css?v=20261113-v5">
 </head>
 <body>
 
@@ -16,19 +16,18 @@
         <img src="../assets/logo-sdh-descriptivo-horizontal.png" alt="Guanajuato · Gobierno de la Gente · Secretaría de Derechos Humanos" class="brand-logo">
       </div>
       <div class="header-titles">
-        <span class="header-badge">Catálogo Estatal de Comunidades</span>
-        <h1>Plataforma Sociodemográfica de Pueblos y Comunidades Indígenas y Afromexicanas</h1>
+        <h1>Plataforma Sociodemográfica de los Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato</h1>
         <p>Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato</p>
       </div>
       <div class="header-right">
         <div class="header-actions">
-          <a href="../Infografias_nuevas_2026-11-03/SDH_000_Mapa_Global_A2.pdf" target="_blank" class="header-btn" title="Ver Mapa Global A2 en PDF">
+          <a href="../Infografias_nuevas_2026-11-13/SDH_000_Mapa_Global_A2.pdf" target="_blank" class="header-btn" title="Ver Mapa de Guanajuato en PDF">
             <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
-            <span>Mapa Global A2</span>
+            <span>Mapa de Guanajuato</span>
           </a>
-          <a href="../Infografias_nuevas_2026-11-03/SDH_000_Indice_107_Comunidades_A2.pdf" target="_blank" class="header-btn" title="Ver Padrón de 107 Comunidades A2 en PDF">
+          <a href="../Infografias_nuevas_2026-11-13/SDH_Revista_Digital_A2.pdf" target="_blank" class="header-btn" title="Abrir Revista Digital Interactiva en PDF">
             <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            <span>Padrón Estatal A2</span>
+            <span>Revista Digital</span>
           </a>
         </div>
         <div class="header-stats">
@@ -144,42 +143,30 @@
           <button id="btn-zoom-reset" title="Restablecer vista de Guanajuato" aria-label="Restablecer vista">⟲</button>
         </div>
 
-        <!-- Bloque inferior derecho: Referencia de Municipios (A-M) y Simbología -->
+        <!-- Bloque inferior derecho: Panorama estadístico por Municipio y Simbología -->
         <div class="map-overlay-bottom-right">
 
-          <!-- Cajita desplegable de Municipios A-M -->
+          <!-- Panel desplegable: Mini dashboard por municipio y pueblo -->
           <div id="mun-reference-box" class="mun-reference-box" hidden>
             <div class="ref-header">
               <div class="ref-header-title">
-                <span class="ref-header-badge">A–M</span>
-                <strong>Municipios con presencia</strong>
+                <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M4 19h4v-7H4v7zm6 0h4V5h-4v14zm6 0h4v-11h-4v11z"/></svg>
+                <strong>Panorama por Municipio</strong>
               </div>
-              <button id="btn-close-ref" class="btn-close-ref" title="Cerrar referencia">✕</button>
+              <button id="btn-close-ref" class="btn-close-ref" title="Cerrar panorama">✕</button>
             </div>
-            <div class="ref-list" id="ref-mun-list">
-              <div class="ref-item" data-mun="Apaseo el Alto"><span class="ref-badge">A</span><span class="ref-name">Apaseo el Alto</span><span class="ref-count">3 com.</span></div>
-              <div class="ref-item" data-mun="Atarjea"><span class="ref-badge">B</span><span class="ref-name">Atarjea</span><span class="ref-count">4 com.</span></div>
-              <div class="ref-item" data-mun="Comonfort"><span class="ref-badge">C</span><span class="ref-name">Comonfort</span><span class="ref-count">14 com.</span></div>
-              <div class="ref-item" data-mun="Dolores Hidalgo Cuna de la Independencia Nacional"><span class="ref-badge">D</span><span class="ref-name">Dolores Hidalgo</span><span class="ref-count">4 com.</span></div>
-              <div class="ref-item" data-mun="Salvatierra"><span class="ref-badge">E</span><span class="ref-name">Salvatierra</span><span class="ref-count">2 com.</span></div>
-              <div class="ref-item" data-mun="San Luis de la Paz"><span class="ref-badge">F</span><span class="ref-name">San Luis de la Paz</span><span class="ref-count">4 com.</span></div>
-              <div class="ref-item" data-mun="San Miguel de Allende"><span class="ref-badge">G</span><span class="ref-name">San Miguel de Allende</span><span class="ref-count">30 com.</span></div>
-              <div class="ref-item" data-mun="Santa Catarina"><span class="ref-badge">H</span><span class="ref-name">Santa Catarina</span><span class="ref-count">1 com.</span></div>
-              <div class="ref-item" data-mun="Tierra Blanca"><span class="ref-badge">I</span><span class="ref-name">Tierra Blanca</span><span class="ref-count">22 com.</span></div>
-              <div class="ref-item" data-mun="Valle de Santiago"><span class="ref-badge">J</span><span class="ref-name">Valle de Santiago</span><span class="ref-count">2 com.</span></div>
-              <div class="ref-item" data-mun="Victoria"><span class="ref-badge">K</span><span class="ref-name">Victoria</span><span class="ref-count">15 com.</span></div>
-              <div class="ref-item" data-mun="Villagrán"><span class="ref-badge">L</span><span class="ref-name">Villagrán</span><span class="ref-count">1 com.</span></div>
-              <div class="ref-item" data-mun="Xichú"><span class="ref-badge">M</span><span class="ref-name">Xichú</span><span class="ref-count">5 com.</span></div>
-            </div>
+            <div id="dash-summary-grid" class="dash-summary-grid"></div>
+            <div class="ref-list dash-bars-list" id="ref-mun-list"></div>
+            <div id="dash-pueblos-list" class="dash-pueblos-row"></div>
             <div class="ref-footer">
-              <small>Haz clic en cualquier municipio para ubicarlo</small>
+              <small>Haz clic en cualquier municipio para filtrar y ubicar en el mapa</small>
             </div>
           </div>
 
-          <!-- Botón discreto para alternar la referencia de letras -->
-          <button id="btn-toggle-ref" class="btn-toggle-ref" aria-expanded="false" title="Ver catálogo de letras A a M">
-            <span class="ref-toggle-badge">A–M</span>
-            <span>Referencia de Municipios</span>
+          <!-- Botón discreto para alternar el panorama gráfico por municipio -->
+          <button id="btn-toggle-ref" class="btn-toggle-ref" aria-expanded="false" title="Ver distribución gráfica de comunidades por municipio">
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M4 19h4v-7H4v7zm6 0h4V5h-4v14zm6 0h4v-11h-4v11z"/></svg>
+            <span>Panorama Municipal</span>
             <span class="ref-toggle-chevron">▾</span>
           </button>
 
@@ -187,7 +174,7 @@
           <div class="map-legend">
             <span class="legend-title">Simbología Oficial</span>
             <div class="legend-item"><span class="legend-dot active-dot"></span><span>107 Comunidades reconocidas</span></div>
-            <div class="legend-item"><span class="legend-poly active-poly"></span><span>13 Municipios con presencia (A–M)</span></div>
+            <div class="legend-item"><span class="legend-poly active-poly"></span><span>13 Municipios con presencia</span></div>
             <div class="legend-item"><span class="legend-poly base-poly"></span><span>Resto del estado (33 municipios)</span></div>
           </div>
 
@@ -277,8 +264,8 @@
   </div>
 
   <!-- Scripts con datos precompilados y motor de mapa vectorial -->
-  <script src="municipios.js?v=20261103"></script>
-  <script src="datos-comunidades.js?v=20261103"></script>
-  <script src="app.js?v=20261108-v4"></script>
+  <script src="municipios.js?v=20261113-v5"></script>
+  <script src="datos-comunidades.js?v=20261113-v5"></script>
+  <script src="app.js?v=20261113-v5"></script>
 </body>
 </html>

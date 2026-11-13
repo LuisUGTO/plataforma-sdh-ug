@@ -88,31 +88,13 @@ body {
   min-width: 0;
 }
 
-.header-badge {
-  display: inline-block;
-  background: var(--pale-light);
-  color: var(--blue);
-  border: 1px solid var(--pale);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
 .header-titles h1 {
   font-family: var(--font-serif);
-  font-size: 19px;
+  font-size: 16.5px;
   font-weight: 800;
   color: var(--blue);
-  line-height: 1.25;
+  line-height: 1.24;
   white-space: normal;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .header-titles p {
@@ -701,14 +683,14 @@ body {
   transform: rotate(180deg);
 }
 
-/* Cajita de Referencia de Municipios (A-M) */
+/* Panel desplegable: Panorama Municipal */
 .mun-reference-box {
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 12px;
-  width: 300px;
+  width: 340px;
   box-shadow: 0 8px 28px rgba(0, 31, 63, 0.16);
   display: flex;
   flex-direction: column;
@@ -775,60 +757,146 @@ body {
 }
 
 .ref-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2px;
-  max-height: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 245px;
   overflow-y: auto;
-  padding-right: 2px;
+  padding-right: 3px;
 }
 
-.ref-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
+.dash-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.dash-stat-box {
+  background: #f8fafc;
+  border: 1px solid #e1e8f0;
   border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.12s ease;
-  font-size: 11.5px;
-}
-
-.ref-item:hover {
-  background: var(--pale-light);
-  transform: translateX(2px);
-}
-
-.ref-badge {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--blue);
-  color: #ffffff;
-  font-size: 10.5px;
-  font-weight: 800;
+  padding: 5px 6px;
+  text-align: center;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-family: var(--font-serif);
-  box-shadow: 0 1px 3px rgba(0, 75, 135, 0.3);
+  flex-direction: column;
+  gap: 1px;
 }
 
-.ref-name {
-  flex: 1;
-  color: var(--gray);
+.dash-stat-box strong {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--blue);
+  line-height: 1.15;
+}
+
+.dash-stat-box span {
+  font-size: 9.5px;
   font-weight: 600;
+  color: var(--gray-light);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.dash-bar-row {
+  appearance: none;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 7px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+  transition: background 0.14s ease, border-color 0.14s ease;
+}
+
+.dash-bar-row:hover {
+  background: var(--pale-light);
+  border-color: var(--pale);
+}
+
+.dash-bar-row.active {
+  background: #eaf3fb;
+  border-color: var(--blue);
+}
+
+.dash-bar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.dash-bar-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.ref-count {
-  font-size: 10.5px;
-  color: var(--gray-light);
+.dash-bar-row.active .dash-bar-name {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.dash-bar-val {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--blue);
   flex-shrink: 0;
+}
+
+.dash-bar-val em {
+  font-style: normal;
   font-weight: 500;
+  color: var(--gray-light);
+  font-size: 10px;
+}
+
+.dash-bar-track {
+  width: 100%;
+  height: 5px;
+  background: #edf2f7;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.dash-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+  border-radius: 99px;
+  transition: width 0.25s ease;
+}
+
+.dash-bar-row.active .dash-bar-fill {
+  background: #008E95;
+}
+
+.dash-pueblos-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #eef3f8;
+}
+
+.dash-pueblo-chip {
+  font-size: 10px;
+  color: var(--gray);
+  background: #f8fafc;
+  border: 1px solid #e1e8f0;
+  border-radius: 99px;
+  padding: 2px 7px;
+}
+
+.dash-pueblo-chip strong {
+  color: var(--blue);
+  font-weight: 700;
 }
 
 .ref-footer {

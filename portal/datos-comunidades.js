@@ -12,7 +12,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 72,
     "hablantesLengua": 0,
     "historia": "Agua Blanca es una comunidad indígena del municipio de Comonfort, Guanajuato. Se desconoce con exactitud el año de su fundación, aunque se tiene registro de que ya existía en 1941. Su nombre deriva del agua cristalina que desciende hacia la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090052_Agua_Blanca_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090052_Agua_Blanca_A2.pdf",
     "pdfName": "SDH_110090052_Agua_Blanca_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.779623,-100.673915"
   },
@@ -29,7 +29,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 195,
     "hablantesLengua": 1,
     "historia": "Alonso Yáñez es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada aproximadamente entre 1905 y 1921. Su nombre se atribuye a un hacendado que vivió en la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030008_Alonso_Yáñez_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030008_Alonso_Yáñez_A2.pdf",
     "pdfName": "SDH_110030008_Alonso_Yáñez_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.829760,-100.855361"
   },
@@ -46,7 +46,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 129,
     "hablantesLengua": 9,
     "historia": "Arroyo Seco es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1940 se registró un brote de paludismo. Su nombre se debe al arroyo que la atraviesa, el cual está seco casi todo el año. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400004_Arroyo_Seco_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400004_Arroyo_Seco_A2.pdf",
     "pdfName": "SDH_110400004_Arroyo_Seco_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.088796,-100.173461"
   },
@@ -63,7 +63,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 118,
     "hablantesLengua": 1,
     "historia": "Banda es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1670. Se desconoce con exactitud el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030018_Banda_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030018_Banda_A2.pdf",
     "pdfName": "SDH_110030018_Banda_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.963078,-100.818687"
   },
@@ -80,7 +80,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 58,
     "hablantesLengua": 0,
     "historia": "Bordo Colorado es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1958. Su nombre deriva del color de la tierra y de la ubicación de un bordo dentro de la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030030_Bordo_Colorado_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030030_Bordo_Colorado_A2.pdf",
     "pdfName": "SDH_110030030_Bordo_Colorado_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.038919,-100.810486"
   },
@@ -97,7 +97,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 251,
     "hablantesLengua": 125,
     "historia": "Cano de San Isidro es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1978. Debe su nombre a la devoción de sus habitantes por San Isidro Labrador. En 1979, una parte de su territorio se separó y formó la comunidad de Fracción del Cano. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400057_Cano_de_San_Isidro_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400057_Cano_de_San_Isidro_A2.pdf",
     "pdfName": "SDH_110400057_Cano_de_San_Isidro_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.070513,-100.224182"
   },
@@ -114,7 +114,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 129,
     "hablantesLengua": 4,
     "historia": "Cañada de Juanica es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Lleva este nombre desde su fundación en 1536. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400056_Cañada_de_Juanica_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400056_Cañada_de_Juanica_A2.pdf",
     "pdfName": "SDH_110400056_Cañada_de_Juanica_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.077482,-100.173078"
   },
@@ -131,7 +131,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 42,
     "hablantesLengua": 0,
     "historia": "Capilla Blanca es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1850. Su nombre deriva del color de su capilla principal. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030053_Capilla_Blanca_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030053_Capilla_Blanca_A2.pdf",
     "pdfName": "SDH_110030053_Capilla_Blanca_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.042234,-100.816637"
   },
@@ -148,7 +148,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 200,
     "hablantesLengua": 4,
     "historia": "Cerro Colorado es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, el pueblo recuerda la construcción de la capilla del barrio del Sauz, dedicada a la Purísima Concepción, en 1917, como el acontecimiento más antiguo. Su nombre deriva del color rojizo de la tierra del cerro de la Santa Cruz. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400009_Cerro_Colorado_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400009_Cerro_Colorado_A2.pdf",
     "pdfName": "SDH_110400009_Cerro_Colorado_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.104428,-100.232039"
   },
@@ -165,7 +165,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 125,
     "hablantesLengua": 1,
     "historia": "Ciénega de Juana Ruiz es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; no obstante, los pobladores sitúan sus primeros asentamientos alrededor del año 1600. Su nombre proviene de la antigua hacienda “Ciénega”, llamada así por los nacimientos de agua caliente que había en distintos puntos de la localidad, y de Juana Ruiz, dueña de dicha hacienda. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030064_Ciénega_de_Juana_Ruiz_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030064_Ciénega_de_Juana_Ruiz_A2.pdf",
     "pdfName": "SDH_110030064_Ciénega_de_Juana_Ruiz_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.903554,-100.866544"
   },
@@ -182,7 +182,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 204,
     "hablantesLengua": 456,
     "historia": "Cieneguilla es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1539 con el nombre de Barrio de Ojo Caliente. Su nombre actual se debe a las ciénegas que existen en el lugar. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400010_Cieneguilla_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400010_Cieneguilla_A2.pdf",
     "pdfName": "SDH_110400010_Cieneguilla_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.081852,-100.183568"
   },
@@ -199,7 +199,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 360,
     "hablantesLengua": 5,
     "historia": "Cieneguilla es una comunidad indígena del municipio de Victoria, Guanajuato, fundada en 1536. Su nombre proviene de MA-CUA-TA, que significa “lugar de agua y tierra salada”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430108_Cieneguilla_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430108_Cieneguilla_A2.pdf",
     "pdfName": "SDH_110430108_Cieneguilla_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.247408,-100.280632"
   },
@@ -216,7 +216,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 39,
     "hablantesLengua": 1,
     "historia": "Corral de Piedra es una comunidad indígena del municipio de Victoria, Guanajuato, fundada en 1810. Antes se llamaba San Gabriel. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430021_Corral_de_Piedra_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430021_Corral_de_Piedra_A2.pdf",
     "pdfName": "SDH_110430021_Corral_de_Piedra_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.207047,-100.242333"
   },
@@ -233,7 +233,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 110,
     "hablantesLengua": 0,
     "historia": "Corralillos es una comunidad indígena del municipio de Victoria, Guanajuato, fundada aproximadamente en 1800. Su nombre deriva de unos corrales que estaban cerca de un potrero. El pueblo antes era conocido como San Antonio, pero, tras el robo de la imagen del santo, los habitantes decidieron cambiarle el nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430022_Corralillos_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430022_Corralillos_A2.pdf",
     "pdfName": "SDH_110430022_Corralillos_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.167420,-100.199510"
   },
@@ -250,7 +250,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 231,
     "hablantesLengua": 3,
     "historia": "Don Francisco es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación. Su nombre deriva de la imagen de San Francisco de Asís, venerado en la comunidad. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030092_Don_Francisco_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030092_Don_Francisco_A2.pdf",
     "pdfName": "SDH_110030092_Don_Francisco_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.905340,-100.918429"
   },
@@ -267,7 +267,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 220,
     "hablantesLengua": 1,
     "historia": "El Carmen es una comunidad indígena del municipio de Victoria, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, en 1816 comenzó la construcción de su iglesia. Su nombre honra a la Virgen del Carmen. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430016_El_Carmen_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430016_El_Carmen_A2.pdf",
     "pdfName": "SDH_110430016_El_Carmen_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.240671,-100.318834"
   },
@@ -284,7 +284,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 211,
     "hablantesLengua": 0,
     "historia": "El Carricillo es una comunidad indígena del municipio de Atarjea, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, en 1918 se registró una epidemia de gripe en la localidad. Tampoco se conoce el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110060005_El_Carricillo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110060005_El_Carricillo_A2.pdf",
     "pdfName": "SDH_110060005_El_Carricillo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.315183,-99.833228"
   },
@@ -301,7 +301,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 36,
     "hablantesLengua": 0,
     "historia": "El Lindero es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación. De acuerdo con los habitantes, El Lindero y Alonso Yáñez formaban una sola comunidad hasta que se dividieron. Su nombre se debe a que colinda con esta última. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030137_El_Lindero_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030137_El_Lindero_A2.pdf",
     "pdfName": "SDH_110030137_El_Lindero_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.833545,-100.859996"
   },
@@ -318,7 +318,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 53,
     "hablantesLengua": 0,
     "historia": "El Lindero de la Petaca es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1932. Su nombre deriva de su ubicación en la división territorial entre Dolores Hidalgo y San Miguel de Allende. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030136_El_Lindero_de_la_Petaca_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030136_El_Lindero_de_la_Petaca_A2.pdf",
     "pdfName": "SDH_110030136_El_Lindero_de_la_Petaca_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.059697,-100.820527"
   },
@@ -335,7 +335,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 212,
     "hablantesLengua": 0,
     "historia": "El Llanito es una comunidad indígena del municipio de Dolores Hidalgo, Guanajuato, fundada en 1204 por un grupo de indígenas otomíes. Su nombre proviene de su ubicación en un terreno llano. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110140159_El_Llanito_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110140159_El_Llanito_A2.pdf",
     "pdfName": "SDH_110140159_El_Llanito_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.123386,-100.951115"
   },
@@ -352,7 +352,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 31,
     "hablantesLengua": 0,
     "historia": "El Ojo de Agua es una comunidad indígena del municipio de Victoria, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que los primeros pobladores llegaron en 1900. Su nombre proviene de un pozo de la comunidad que siempre tiene agua. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430055_El_Ojo_de_Agua_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430055_El_Ojo_de_Agua_A2.pdf",
     "pdfName": "SDH_110430055_El_Ojo_de_Agua_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.180761,-100.237661"
   },
@@ -369,7 +369,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 187,
     "hablantesLengua": 40,
     "historia": "El Picacho es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1993. Su nombre significa “cerro picudo”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400035_El_Picacho_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400035_El_Picacho_A2.pdf",
     "pdfName": "SDH_110400035_El_Picacho_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.073428,-100.190029"
   },
@@ -386,7 +386,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 15,
     "hablantesLengua": 0,
     "historia": "El Piñonal es una comunidad indígena del municipio de Atarjea, Guanajuato, fundada en 1909. Su nombre proviene de la abundancia de árboles de piñón en la región. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110060018_El_Piñonal_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110060018_El_Piñonal_A2.pdf",
     "pdfName": "SDH_110060018_El_Piñonal_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.315208,-99.860992"
   },
@@ -403,7 +403,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 63,
     "hablantesLengua": 1,
     "historia": "El Progreso es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1993. Su nombre se debe a que la población confía en el progreso; anteriormente se llamaba El Cadillo. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400087_El_Progreso_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400087_El_Progreso_A2.pdf",
     "pdfName": "SDH_110400087_El_Progreso_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.077703,-100.185105"
   },
@@ -420,7 +420,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 71,
     "hablantesLengua": 0,
     "historia": "El Rucio es una comunidad indígena del municipio de Xichú, Guanajuato. Fue fundada alrededor de 1800, aunque se cree que la región ya estaba habitada por indígenas chichimecas desde 1700. Su nombre proviene de una persona de origen ruso que dirigió la comunidad en la época colonial. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110450047_El_Rucio_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110450047_El_Rucio_A2.pdf",
     "pdfName": "SDH_110450047_El_Rucio_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.290924,-99.879181"
   },
@@ -437,7 +437,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 54,
     "hablantesLengua": 0,
     "historia": "El Salto es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; no obstante, los pobladores sitúan sus primeros asentamientos alrededor del año 1878. Tampoco se conoce el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030252_El_Salto_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030252_El_Salto_A2.pdf",
     "pdfName": "SDH_110030252_El_Salto_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.045686,-100.816840"
   },
@@ -454,7 +454,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 74,
     "hablantesLengua": 0,
     "historia": "El Salto es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero el acontecimiento histórico más antiguo del que se tiene registro es la construcción de la primera capilla, en 1556. Su nombre proviene de la existencia de una cascada dentro de la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400040_El_Salto_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400040_El_Salto_A2.pdf",
     "pdfName": "SDH_110400040_El_Salto_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.055658,-100.152747"
   },
@@ -471,7 +471,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 101,
     "hablantesLengua": 9,
     "historia": "El Sauz es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1950. Su nombre se debe a que en el arroyo del Pinalito, que pasa por la comunidad, había un sauz muy grande. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400042_El_Sauz_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400042_El_Sauz_A2.pdf",
     "pdfName": "SDH_110400042_El_Sauz_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.033300,-100.146143"
   },
@@ -488,7 +488,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 253,
     "hablantesLengua": 3,
     "historia": "Fracción de Guadalupe es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1968 fue reconocida como parte de la Congregación de San Ildefonso de Cieneguilla. Tampoco se conoce el origen de su nombre. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400016_Fracción_de_Guadalupe_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400016_Fracción_de_Guadalupe_A2.pdf",
     "pdfName": "SDH_110400016_Fracción_de_Guadalupe_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.126202,-100.153509"
   },
@@ -505,7 +505,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 132,
     "hablantesLengua": 323,
     "historia": "Fracción del Cano es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1979. Su nombre se debe a que surgió como una fracción de la comunidad de Cano de San Isidro, de la cual se separó. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400006_Fracción_del_Cano_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400006_Fracción_del_Cano_A2.pdf",
     "pdfName": "SDH_110400006_Fracción_del_Cano_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.063739,-100.227465"
   },
@@ -522,7 +522,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 131,
     "hablantesLengua": 52,
     "historia": "Guadalupe es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero el acontecimiento histórico más antiguo del que se tiene registro es la conclusión de la capilla de la Virgen de Guadalupe, en 1872. Su nombre se debe a que, según cuentan los habitantes, la imagen de la Virgen se apareció en una peña. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400018_Guadalupe_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400018_Guadalupe_A2.pdf",
     "pdfName": "SDH_110400018_Guadalupe_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.071675,-100.176416"
   },
@@ -539,7 +539,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 54,
     "hablantesLengua": 1,
     "historia": "Guerrero es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1502 por el señor Macedonio Ramírez. Su nombre proviene de la danza tradicional de los guerreros que llegaron a la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030117_Guerrero_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030117_Guerrero_A2.pdf",
     "pdfName": "SDH_110030117_Guerrero_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.923961,-100.811985"
   },
@@ -556,7 +556,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 80,
     "hablantesLengua": 0,
     "historia": "Juan González es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; no obstante, los pobladores sitúan sus primeros asentamientos alrededor del año 1600. Su nombre proviene del antiguo dueño de las tierras de la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030131_Juan_González_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030131_Juan_González_A2.pdf",
     "pdfName": "SDH_110030131_Juan_González_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.957719,-100.892677"
   },
@@ -573,7 +573,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 35,
     "hablantesLengua": 0,
     "historia": "La Barbosa es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1986. Su nombre hace referencia al apellido “Barbosa”, pero también a las barbas del encino. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400069_La_Barbosa_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400069_La_Barbosa_A2.pdf",
     "pdfName": "SDH_110400069_La_Barbosa_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.115403,-100.241406"
   },
@@ -590,7 +590,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 187,
     "hablantesLengua": 0,
     "historia": "La Borunda es una comunidad indígena del municipio de Comonfort, Guanajuato. Aunque se desconoce con exactitud el año de su fundación, se tiene registro de que ya existía en 1919. Su nombre significa “cerro gordo”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090003_La_Borunda_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090003_La_Borunda_A2.pdf",
     "pdfName": "SDH_110090003_La_Borunda_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.727463,-100.672160"
   },
@@ -607,7 +607,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 40,
     "hablantesLengua": 0,
     "historia": "La Calera es una comunidad indígena del municipio de Victoria, Guanajuato, fundada en 1932. Su nombre proviene de los hornos donde se fabricaba cal. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430012_La_Calera_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430012_La_Calera_A2.pdf",
     "pdfName": "SDH_110430012_La_Calera_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.209480,-100.289532"
   },
@@ -624,7 +624,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 348,
     "hablantesLengua": 1,
     "historia": "La Cieneguita es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, se sabe que su templo se construyó en 1901. Su nombre deriva de un manantial cercano a la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030067_La_Cieneguita_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030067_La_Cieneguita_A2.pdf",
     "pdfName": "SDH_110030067_La_Cieneguita_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.951117,-100.792522"
   },
@@ -641,7 +641,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 263,
     "hablantesLengua": 2,
     "historia": "La Cruz del Palmar es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1516. Sus habitantes atribuyen el nombre a tres posibles orígenes: Cruz de Palma, uno de los primeros pobladores; el cacique Agustín del Palmar, o la Santa Cruz del Palmar. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030083_La_Cruz_del_Palmar_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030083_La_Cruz_del_Palmar_A2.pdf",
     "pdfName": "SDH_110030083_La_Cruz_del_Palmar_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.972071,-100.842870"
   },
@@ -658,7 +658,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 142,
     "hablantesLengua": 3,
     "historia": "La Cuadrilla es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada aproximadamente en 1700. Su nombre proviene de las cuadrillas de trabajadores que laboraban en la hacienda. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030084_La_Cuadrilla_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030084_La_Cuadrilla_A2.pdf",
     "pdfName": "SDH_110030084_La_Cuadrilla_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.049612,-100.818174"
   },
@@ -675,7 +675,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 293,
     "hablantesLengua": 41,
     "historia": "La Cuesta de Peñones es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero su registro histórico más antiguo corresponde a la construcción, en 1700, de las capillas de Peña Colorada, La Loma y El Zapote. Su nombre proviene de los peñones de un cerro cuesta arriba. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400011_La_Cuesta_de_Peñones_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400011_La_Cuesta_de_Peñones_A2.pdf",
     "pdfName": "SDH_110400011_La_Cuesta_de_Peñones_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.082913,-100.234867"
   },
@@ -692,7 +692,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 60,
     "hablantesLengua": 3,
     "historia": "La Estancia es una comunidad indígena del municipio de Victoria, Guanajuato. Se desconoce con exactitud el año de su fundación, pero en 1810 ya se le conocía así, pues los antepasados se detenían a descansar en este lugar durante su recorrido hacia la sierra. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430028_La_Estancia_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430028_La_Estancia_A2.pdf",
     "pdfName": "SDH_110430028_La_Estancia_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.260966,-100.213199"
   },
@@ -709,7 +709,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 234,
     "hablantesLengua": 0,
     "historia": "La Huerta es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, en 1923 se formalizó como ejido. Su nombre deriva de las abundantes huertas frutales que había en la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030124_La_Huerta_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030124_La_Huerta_A2.pdf",
     "pdfName": "SDH_110030124_La_Huerta_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.821120,-100.829680"
   },
@@ -726,7 +726,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 44,
     "hablantesLengua": 1,
     "historia": "La Joya es una comunidad indígena del municipio de Atarjea, Guanajuato, fundada en 1910 por las familias Sainz y García. Se desconoce con exactitud el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110060011_La_Joya_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110060011_La_Joya_A2.pdf",
     "pdfName": "SDH_110060011_La_Joya_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.277420,-99.864243"
   },
@@ -743,7 +743,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 29,
     "hablantesLengua": 0,
     "historia": "La Palmita Dos es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; no obstante, los pobladores sitúan sus primeros asentamientos alrededor del año 1800. Su nombre deriva de que existían otras localidades con la misma denominación, y esta fue la segunda en adoptarla. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030190_La_Palmita_Dos_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030190_La_Palmita_Dos_A2.pdf",
     "pdfName": "SDH_110030190_La_Palmita_Dos_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.908082,-100.912016"
   },
@@ -760,7 +760,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 30,
     "hablantesLengua": 0,
     "historia": "La Vivienda de Arriba es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; no obstante, se tiene registro de sus primeros asentamientos alrededor del siglo XVII. Su nombre proviene de la primera casa construida en la parte más alta del lugar, en torno a la cual se expandió la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030345_La_Vivienda_de_Arriba_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030345_La_Vivienda_de_Arriba_A2.pdf",
     "pdfName": "SDH_110030345_La_Vivienda_de_Arriba_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.952272,-100.867446"
   },
@@ -777,7 +777,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 86,
     "hablantesLengua": 4,
     "historia": "Las Adjuntas es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1956 ocurrió un brote de sarampión. Su nombre se debe a los ríos que se juntan en el lugar. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400002_Las_Adjuntas_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400002_Las_Adjuntas_A2.pdf",
     "pdfName": "SDH_110400002_Las_Adjuntas_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.041558,-100.182277"
   },
@@ -794,7 +794,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 178,
     "hablantesLengua": 44,
     "historia": "Las Moras es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1945. De acuerdo con los habitantes, el nombre proviene de una planta de moras que crecía junto a la capilla. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400029_Las_Moras_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400029_Las_Moras_A2.pdf",
     "pdfName": "SDH_110400029_Las_Moras_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.072982,-100.163056"
   },
@@ -811,7 +811,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 45,
     "hablantesLengua": 0,
     "historia": "Llanetes es una comunidad indígena del municipio de Xichú, Guanajuato, fundada en 1911. Su nombre significa “por los llanitos”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110450021_Llanetes_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110450021_Llanetes_A2.pdf",
     "pdfName": "SDH_110450021_Llanetes_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.348529,-99.959580"
   },
@@ -828,7 +828,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 70,
     "hablantesLengua": 0,
     "historia": "Loma de los Chilitos es una comunidad indígena del municipio de Victoria, Guanajuato. Se desconoce con exactitud el año de su fundación, pero en 1934 se formalizó el reparto del ejido. Su nombre se debe a la abundancia de biznagas en el lugar, cuyo fruto es conocido como “chilito”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430035_Loma_de_los_Chilitos_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430035_Loma_de_los_Chilitos_A2.pdf",
     "pdfName": "SDH_110430035_Loma_de_los_Chilitos_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.296490,-100.311121"
   },
@@ -845,7 +845,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 88,
     "hablantesLengua": 0,
     "historia": "Los Barrones es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1880. Su nombre proviene del apellido Barrón. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030022_Los_Barrones_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030022_Los_Barrones_A2.pdf",
     "pdfName": "SDH_110030022_Los_Barrones_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.039445,-100.815754"
   },
@@ -862,7 +862,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 431,
     "hablantesLengua": 0,
     "historia": "Los Galvanes es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1937. Debe su nombre a la familia Galván, la primera en establecerse en el lugar. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030107_Los_Galvanes_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030107_Los_Galvanes_A2.pdf",
     "pdfName": "SDH_110030107_Los_Galvanes_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.068834,-100.802218"
   },
@@ -879,7 +879,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 13,
     "hablantesLengua": 0,
     "historia": "Los Guerrero es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1935. Se desconoce con exactitud el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030118_Los_Guerrero_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030118_Los_Guerrero_A2.pdf",
     "pdfName": "SDH_110030118_Los_Guerrero_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.050443,-100.814114"
   },
@@ -896,7 +896,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 62,
     "hablantesLengua": 1,
     "historia": "Los Juan Diegos es una comunidad indígena del municipio de Santa Catarina, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, en 1917 únicamente contaba con diez familias. Su nombre proviene de tres imágenes de San Juan Diego que se encontraban en la capilla de la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110340016_Los_Juan_Diegos_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110340016_Los_Juan_Diegos_A2.pdf",
     "pdfName": "SDH_110340016_Los_Juan_Diegos_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.138130,-100.056737"
   },
@@ -913,8 +913,8 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 246,
     "hablantesLengua": 2,
     "historia": "Los Remedios (Cerro Grande) es una comunidad indígena del municipio de Victoria, Guanajuato, fundada en 1837. Su nombre proviene de la aparición de la Virgen de los Remedios en el Cerro Grande, al este de la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430072_Los_Remedios_Cerro_Grande__A2.pdf",
-    "pdfName": "SDH_110430072_Los_Remedios_Cerro_Grande__A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430072_Los_Remedios_Cerro_Grande_A2.pdf",
+    "pdfName": "SDH_110430072_Los_Remedios_Cerro_Grande_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.185445,-100.199312"
   },
   {
@@ -930,7 +930,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 126,
     "hablantesLengua": 0,
     "historia": "Malinto es una comunidad indígena del municipio de Victoria, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1937 recibió la dotación de tierras ejidales. Tampoco se conoce el significado de su nombre. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430037_Malinto_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430037_Malinto_A2.pdf",
     "pdfName": "SDH_110430037_Malinto_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.276753,-100.318912"
   },
@@ -947,7 +947,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 19,
     "hablantesLengua": 0,
     "historia": "Mesa de Ortiz es una comunidad indígena del municipio de Victoria, Guanajuato, fundada aproximadamente en 1900. De acuerdo con sus habitantes, la palabra “Mesa” se debe a que el pueblo está asentado en una loma, y “Ortiz”, al apellido de una de las primeras familias del lugar. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430043_Mesa_de_Ortiz_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430043_Mesa_de_Ortiz_A2.pdf",
     "pdfName": "SDH_110430043_Mesa_de_Ortiz_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.190513,-100.231844"
   },
@@ -964,7 +964,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 10,
     "hablantesLengua": 0,
     "historia": "Mineral la Aurora es una comunidad indígena del municipio de Xichú, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1937 recibió la dotación de tierras ejidales. Su nombre proviene de la mina ubicada en la comunidad, que a su vez fue nombrada así en honor a Aurora, una mujer que trabajó en ella. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110450006_Mineral_la_Aurora_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110450006_Mineral_la_Aurora_A2.pdf",
     "pdfName": "SDH_110450006_Mineral_la_Aurora_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.325686,-100.034928"
   },
@@ -981,7 +981,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 272,
     "hablantesLengua": 5,
     "historia": "Misión de Arnedo es una comunidad indígena del municipio de Victoria, Guanajuato, fundada aproximadamente en 1808. Su nombre proviene de los frailes originarios de Arnedo, España, quienes llegaron a evangelizar la zona. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430048_Misión_de_Arnedo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430048_Misión_de_Arnedo_A2.pdf",
     "pdfName": "SDH_110430048_Misión_de_Arnedo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.230566,-100.252038"
   },
@@ -998,7 +998,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 2075,
     "hablantesLengua": 2024,
     "historia": "Misión de Chichimecas es una comunidad indígena del municipio de San Luis de la Paz, Guanajuato, fundada en 1552. Su nombre combina la denominación “Misión”, otorgada por los frailes misioneros, y “Chichimeca”, que significa “perro sin mecate” en náhuatl. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110330110_Misión_de_Chichimecas_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110330110_Misión_de_Chichimecas_A2.pdf",
     "pdfName": "SDH_110330110_Misión_de_Chichimecas_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.290796,-100.493042"
   },
@@ -1015,7 +1015,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 85,
     "hablantesLengua": 0,
     "historia": "Misión de Santa Rosa es una comunidad indígena del municipio de Xichú, Guanajuato, fundada en 1541. Su nombre deriva de la imagen de Santa Rosa de Lima que llevaron los misioneros a la región. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110450030_Misión_de_Santa_Rosa_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110450030_Misión_de_Santa_Rosa_A2.pdf",
     "pdfName": "SDH_110450030_Misión_de_Santa_Rosa_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.287373,-100.087935"
   },
@@ -1032,7 +1032,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 128,
     "hablantesLengua": 0,
     "historia": "Montecillo de la Milpa es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1811. Se desconoce con exactitud el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030172_Montecillo_de_la_Milpa_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030172_Montecillo_de_la_Milpa_A2.pdf",
     "pdfName": "SDH_110030172_Montecillo_de_la_Milpa_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.030546,-100.806286"
   },
@@ -1049,7 +1049,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 384,
     "hablantesLengua": 12,
     "historia": "Morales es una comunidad indígena del municipio de Comonfort, Guanajuato. Se desconoce con exactitud el año de su fundación; no obstante, los pobladores sitúan sus primeros asentamientos alrededor de 1918. Su nombre deriva del apellido Morales, predominante entre sus antiguos habitantes, quienes se establecieron en el rancho La Yerbabuena, cercano a la comunidad actual. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090024_Morales_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090024_Morales_A2.pdf",
     "pdfName": "SDH_110090024_Morales_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.778501,-100.807470"
   },
@@ -1066,7 +1066,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 20,
     "hablantesLengua": 0,
     "historia": "Negritas es una comunidad indígena del municipio de Victoria, Guanajuato, fundada en 1777. También se le conoce como “Negritas del Carmen”, en honor a la Virgen del Carmen y a las mujeres de piel morena que antiguamente habitaban el lugar y hacían tortillas de maíz para las fiestas de la región. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430053_Negritas_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430053_Negritas_A2.pdf",
     "pdfName": "SDH_110430053_Negritas_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.224420,-100.298722"
   },
@@ -1083,7 +1083,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 16,
     "hablantesLengua": 0,
     "historia": "Oaxaca es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1867. Su nombre es de origen náhuatl y significa literalmente “en la nariz o punta de los huajes”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030181_Oaxaca_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030181_Oaxaca_A2.pdf",
     "pdfName": "SDH_110030181_Oaxaca_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.964600,-100.834799"
   },
@@ -1100,7 +1100,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 481,
     "hablantesLengua": 0,
     "historia": "Ojo de Agua de Ballesteros es una comunidad indígena del municipio de Salvatierra, Guanajuato, fundada en 1936. Su nombre alude a los nacimientos de agua de la localidad y al apellido de los antiguos hacendados, Ballesteros. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110280033_Ojo_de_Agua_de_Ballesteros_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110280033_Ojo_de_Agua_de_Ballesteros_A2.pdf",
     "pdfName": "SDH_110280033_Ojo_de_Agua_de_Ballesteros_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.228770,-100.827242"
   },
@@ -1117,7 +1117,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 206,
     "hablantesLengua": 0,
     "historia": "Ojo de Agua del Potrero es una comunidad indígena del municipio de Comonfort, Guanajuato. Se desconoce con exactitud el año de su fundación. Su nombre hace referencia a los numerosos nacimientos de agua que se encuentran en la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090028_Ojo_de_Agua_del_Potrero_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090028_Ojo_de_Agua_del_Potrero_A2.pdf",
     "pdfName": "SDH_110090028_Ojo_de_Agua_del_Potrero_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.775081,-100.664207"
   },
@@ -1134,7 +1134,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 380,
     "hablantesLengua": 8,
     "historia": "Orduña de Abajo es una comunidad indígena del municipio de Comonfort, Guanajuato, fundada en 1640. Su nombre deriva del apellido del hacendado Diego Orduña. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090029_Orduña_de_Abajo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090029_Orduña_de_Abajo_A2.pdf",
     "pdfName": "SDH_110090029_Orduña_de_Abajo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.752513,-100.777762"
   },
@@ -1151,7 +1151,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 271,
     "hablantesLengua": 7,
     "historia": "Orduña de Arriba es una comunidad indígena del municipio de Comonfort, Guanajuato. Se desconoce con exactitud el año de su fundación, aunque sus habitantes señalan que tiene más de cien años de existencia. Su nombre proviene del apellido Orduña, perteneciente al propietario español de los terrenos donde actualmente se encuentra la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090030_Orduña_de_Arriba_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090030_Orduña_de_Arriba_A2.pdf",
     "pdfName": "SDH_110090030_Orduña_de_Arriba_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.766073,-100.794724"
   },
@@ -1168,7 +1168,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 189,
     "hablantesLengua": 0,
     "historia": "Palmillas es una comunidad indígena del municipio de Victoria, Guanajuato. Hay registros de que ya existía en 1905. Su nombre proviene de la vegetación del lugar. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430056_Palmillas_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430056_Palmillas_A2.pdf",
     "pdfName": "SDH_110430056_Palmillas_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.236903,-100.228769"
   },
@@ -1185,7 +1185,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 72,
     "hablantesLengua": 0,
     "historia": "Palomas es una comunidad indígena del municipio de Xichú, Guanajuato, fundada en 1900. Su nombre proviene de una mujer indígena que tuvo dos gemelas, a quienes llamó “Palomas” por la abundancia de estas aves en la zona. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110450036_Palomas_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110450036_Palomas_A2.pdf",
     "pdfName": "SDH_110450036_Palomas_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.377471,-99.850447"
   },
@@ -1202,7 +1202,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 74,
     "hablantesLengua": 4,
     "historia": "Paso Colorado es una comunidad indígena del municipio de San Luis de la Paz, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, sus habitantes sitúan los primeros asentamientos alrededor de 1900. Su nombre proviene de la abundancia de tezontle en la región. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110330127_Paso_Colorado_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110330127_Paso_Colorado_A2.pdf",
     "pdfName": "SDH_110330127_Paso_Colorado_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.269077,-100.482457"
   },
@@ -1219,7 +1219,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 51,
     "hablantesLengua": 1,
     "historia": "Peña Blanca es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación. Su nombre deriva de una antigua hacienda llamada Peña Blanca y del río que pasaba por ahí. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030200_Peña_Blanca_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030200_Peña_Blanca_A2.pdf",
     "pdfName": "SDH_110030200_Peña_Blanca_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.906111,-100.946964"
   },
@@ -1236,7 +1236,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 43,
     "hablantesLengua": 78,
     "historia": "Peña Blanca de Cieneguilla es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación. Su nombre proviene del peñasco de tepetate que aún existe en la ribera del río Carbajal de Tierra Blanca. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400104_Peña_Blanca_de_Cieneguilla_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400104_Peña_Blanca_de_Cieneguilla_A2.pdf",
     "pdfName": "SDH_110400104_Peña_Blanca_de_Cieneguilla_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.083046,-100.188438"
   },
@@ -1253,7 +1253,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 83,
     "hablantesLengua": 243,
     "historia": "Peña Blanca Dos es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1968 fue reconocida como parte de la Congregación de San Ildefonso de Cieneguilla. Se le agregó “Dos” a su nombre para distinguirla de Peña Blanca de Cieneguilla. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400034_Peña_Blanca_Dos_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400034_Peña_Blanca_Dos_A2.pdf",
     "pdfName": "SDH_110400034_Peña_Blanca_Dos_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.087227,-100.182760"
   },
@@ -1270,7 +1270,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 316,
     "hablantesLengua": 15,
     "historia": "Potrero es una comunidad indígena del municipio de Comonfort, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, sus habitantes sitúan la llegada de los primeros pobladores alrededor de 1910. Su nombre se debe a que antiguamente el lugar se utilizaba como potrero. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090035_Potrero_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090035_Potrero_A2.pdf",
     "pdfName": "SDH_110090035_Potrero_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.758517,-100.647899"
   },
@@ -1287,7 +1287,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 47,
     "hablantesLengua": 0,
     "historia": "Presita de Santa Rosa es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1934 por Delfino Arellano. Su nombre deriva de la presa localizada en su interior. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030210_Presita_de_Santa_Rosa_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030210_Presita_de_Santa_Rosa_A2.pdf",
     "pdfName": "SDH_110030210_Presita_de_Santa_Rosa_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.954642,-100.819109"
   },
@@ -1304,7 +1304,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 222,
     "hablantesLengua": 1,
     "historia": "Purísima de Cerro Grande es una comunidad indígena del municipio de San Luis de la Paz, Guanajuato. Se desconoce con exactitud el año de su fundación y el origen de su nombre. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110330567_Purísima_de_Cerro_Grande_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110330567_Purísima_de_Cerro_Grande_A2.pdf",
     "pdfName": "SDH_110330567_Purísima_de_Cerro_Grande_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.266979,-100.532565"
   },
@@ -1321,7 +1321,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 73,
     "hablantesLengua": 1,
     "historia": "Refugio de Arriba es una comunidad indígena del municipio de Comonfort, Guanajuato. Se desconoce con exactitud el año de su fundación; no obstante, sus habitantes sitúan los primeros asentamientos alrededor de 1810. Su nombre hace referencia a su ubicación geográfica y permite distinguirla de otra localidad denominada Refugio de Abajo. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090038_Refugio_de_Arriba_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090038_Refugio_de_Arriba_A2.pdf",
     "pdfName": "SDH_110090038_Refugio_de_Arriba_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.768739,-100.776687"
   },
@@ -1338,7 +1338,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 409,
     "hablantesLengua": 16,
     "historia": "Rincón del Cano es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1968 fue reconocida como parte de la Congregación de San Ildefonso de Cieneguilla. De acuerdo con sus habitantes, originalmente se llamaba Rincón de Agua Salada y tomó su nombre actual al pertenecer al grupo del Cano. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400038_Rincón_del_Cano_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400038_Rincón_del_Cano_A2.pdf",
     "pdfName": "SDH_110400038_Rincón_del_Cano_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.059087,-100.240691"
   },
@@ -1355,7 +1355,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 126,
     "hablantesLengua": 38,
     "historia": "Rincón del Purgatorio es una comunidad indígena del municipio de Comonfort, Guanajuato, fundada en 1810. Su nombre hace referencia a su ubicación en un lugar apartado, mientras que el término “Purgatorio” se relaciona con el Santo Señor de la Salud. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090040_Rincón_del_Purgatorio_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090040_Rincón_del_Purgatorio_A2.pdf",
     "pdfName": "SDH_110090040_Rincón_del_Purgatorio_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.785477,-100.648986"
   },
@@ -1372,8 +1372,8 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 167,
     "hablantesLengua": 12,
     "historia": "Rinconcillo, también conocido como Rinconcillo de los Remedios, es una comunidad indígena del municipio de Comonfort, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, se tiene registro de que ya existía en 1911. Su nombre proviene de la imagen de la Virgen de los Remedios que colocaron los dueños de la hacienda en la entrada. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090039_Rinconcillo_Rinconcillo_de_los_Remedios__A2.pdf",
-    "pdfName": "SDH_110090039_Rinconcillo_Rinconcillo_de_los_Remedios__A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090039_Rinconcillo_Rinconcillo_de_los_Remedios_A2.pdf",
+    "pdfName": "SDH_110090039_Rinconcillo_Rinconcillo_de_los_Remedios_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.790042,-100.804179"
   },
   {
@@ -1389,7 +1389,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 650,
     "hablantesLengua": 8,
     "historia": "Río Laja es una comunidad indígena del municipio de Dolores Hidalgo, Guanajuato, fundada en 1917. Su nombre proviene del río Laja, que atraviesa la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110140255_Río_Laja_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110140255_Río_Laja_A2.pdf",
     "pdfName": "SDH_110140255_Río_Laja_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.203226,-100.923033"
   },
@@ -1406,7 +1406,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 112,
     "hablantesLengua": 32,
     "historia": "Rosales es una comunidad indígena del municipio de Comonfort, Guanajuato, constituida como ejido en 1941. Originalmente llamada Tierra Blanca, la comunidad tomó su nombre actual por las abundantes flores que rodeaban la imagen de la Virgen Perpetua colocada por don Jerónimo Sánchez, uno de sus fundadores. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090060_Rosales_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090060_Rosales_A2.pdf",
     "pdfName": "SDH_110090060_Rosales_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.748577,-100.661019"
   },
@@ -1423,7 +1423,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 465,
     "hablantesLengua": 0,
     "historia": "San Agustín es una comunidad indígena del municipio de Comonfort, Guanajuato. Fundada en 1591, es considerada el primer asentamiento ordenado del municipio. También se le conoce como Pueblo Viejo. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090001_San_Agustín_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090001_San_Agustín_A2.pdf",
     "pdfName": "SDH_110090001_San_Agustín_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.702674,-100.761732"
   },
@@ -1440,7 +1440,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 50,
     "hablantesLengua": 0,
     "historia": "San Antón es una comunidad indígena del municipio de Atarjea, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, se sabe que alrededor de 1837 la localidad adquirió su independencia tras la caída de la Hacienda de Charcas. Tampoco se conoce el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110060019_San_Antón_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110060019_San_Antón_A2.pdf",
     "pdfName": "SDH_110060019_San_Antón_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.261764,-99.788863"
   },
@@ -1457,7 +1457,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 925,
     "hablantesLengua": 22,
     "historia": "San Bartolomé Aguas Calientes es una comunidad indígena del municipio de Apaseo el Alto, Guanajuato, fundada en 1543. Su nombre deriva de la celebración de San Bartolomé, cuya festividad corresponde al día de su fundación, y de la existencia de aguas termales en la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110040065_San_Bartolomé_Aguas_Calientes_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110040065_San_Bartolomé_Aguas_Calientes_A2.pdf",
     "pdfName": "SDH_110040065_San_Bartolomé_Aguas_Calientes_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.495455,-100.547159"
   },
@@ -1474,7 +1474,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 336,
     "hablantesLengua": 2,
     "historia": "San Ignacio es una comunidad indígena del municipio de San Luis de la Paz, Guanajuato, fundada en 1540. Su nombre se atribuye al padre Ignacio, sacerdote jesuita que llegó a la comunidad con el propósito de evangelizarla. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110330778_San_Ignacio_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110330778_San_Ignacio_A2.pdf",
     "pdfName": "SDH_110330778_San_Ignacio_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.279565,-100.538209"
   },
@@ -1491,7 +1491,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 40,
     "hablantesLengua": 0,
     "historia": "San Isidro de Bandita es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada aproximadamente entre 1910 y 1920. Su nombre deriva de San Isidro Labrador, santo patrono de la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030273_San_Isidro_de_Bandita_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030273_San_Isidro_de_Bandita_A2.pdf",
     "pdfName": "SDH_110030273_San_Isidro_de_Bandita_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.963629,-100.831611"
   },
@@ -1508,7 +1508,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 431,
     "hablantesLengua": 0,
     "historia": "San Jerónimo de Araceo es una comunidad indígena del municipio de Valle de Santiago, Guanajuato, fundada en 1400. Su nombre honra a San Jerónimo, su santo patrono, mientras que Araceo significa “lugar donde hay bocas abiertas en la tierra”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110420106_San_Jerónimo_de_Araceo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110420106_San_Jerónimo_de_Araceo_A2.pdf",
     "pdfName": "SDH_110420106_San_Jerónimo_de_Araceo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.323401,-101.183663"
   },
@@ -1525,7 +1525,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 157,
     "hablantesLengua": 0,
     "historia": "San José de Araceo es una comunidad indígena del municipio de Valle de Santiago, Guanajuato, fundada en 1936. De acuerdo con sus habitantes, su nombre se debe a José, uno de los primeros pobladores durante el reparto agrario, y al ejido de San Jerónimo de Araceo, al que pertenece. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110420108_San_José_de_Araceo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110420108_San_José_de_Araceo_A2.pdf",
     "pdfName": "SDH_110420108_San_José_de_Araceo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.378255,-101.163133"
   },
@@ -1542,7 +1542,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 660,
     "hablantesLengua": 3,
     "historia": "San Juan del Llanito es una comunidad indígena del municipio de Apaseo el Alto, Guanajuato, fundada en 1913. Su nombre deriva de la celebración de San Juan Bautista y de su ubicación en un pequeño valle rodeado de cerros. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110040071_San_Juan_del_Llanito_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110040071_San_Juan_del_Llanito_A2.pdf",
     "pdfName": "SDH_110040071_San_Juan_del_Llanito_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.513255,-100.540841"
   },
@@ -1559,7 +1559,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 112,
     "hablantesLengua": 0,
     "historia": "San Martín de la Petaca es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación. Su nombre deriva de la antigua denominación de la comunidad, “La Petaca”, a la que posteriormente los ejidatarios añadieron “San Martín”. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030426_San_Martín_de_la_Petaca_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030426_San_Martín_de_la_Petaca_A2.pdf",
     "pdfName": "SDH_110030426_San_Martín_de_la_Petaca_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.046340,-100.794344"
   },
@@ -1576,7 +1576,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 173,
     "hablantesLengua": 8,
     "historia": "San Pablo es una comunidad indígena del municipio de Comonfort, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, el reparto ejidal se realizó en 1937. Su nombre proviene del santo patrono de la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090043_San_Pablo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090043_San_Pablo_A2.pdf",
     "pdfName": "SDH_110090043_San_Pablo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.786309,-100.812732"
   },
@@ -1593,7 +1593,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 146,
     "hablantesLengua": 3,
     "historia": "San Pedro Norte es una comunidad indígena del municipio de Comonfort, Guanajuato, fundada en 1941. Su nombre hace referencia al santo patrono de la comunidad. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110090088_San_Pedro_Norte_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110090088_San_Pedro_Norte_A2.pdf",
     "pdfName": "SDH_110090088_San_Pedro_Norte_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.774863,-100.788901"
   },
@@ -1610,7 +1610,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 61,
     "hablantesLengua": 0,
     "historia": "San Simeón es una comunidad indígena del municipio de Dolores Hidalgo, Guanajuato. Se desconoce con exactitud el año de su fundación, aunque se sabe que su antigua capilla, dedicada a San Simeón, data de 1770 y es el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110140323_San_Simeón_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110140323_San_Simeón_A2.pdf",
     "pdfName": "SDH_110140323_San_Simeón_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.964597,-100.940143"
   },
@@ -1627,7 +1627,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 285,
     "hablantesLengua": 3,
     "historia": "Santa Cruz de Gamboa es una comunidad indígena del municipio de Apaseo el Alto, Guanajuato. Se desconoce con exactitud el año de su fundación; sin embargo, se sabe que el ejido se fundó en 1928. Su nombre deriva de la festividad de la Santa Cruz, celebrada antiguamente en la Hacienda de Gamboa. También se atribuye a un cura de apellido Gamboa, quien evangelizó con la cruz el sitio antes llamado “El Espinazo del Diablo”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110040017_Santa_Cruz_de_Gamboa_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110040017_Santa_Cruz_de_Gamboa_A2.pdf",
     "pdfName": "SDH_110040017_Santa_Cruz_de_Gamboa_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.389193,-100.516164"
   },
@@ -1644,7 +1644,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 390,
     "hablantesLengua": 3,
     "historia": "Suchitlán es una comunidad indígena del municipio de Villagrán, Guanajuato, fundada en 1800. Su nombre proviene del náhuatl y significa “lugar florido” o “lugar en donde abundan las flores”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110440044_Suchitlán_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110440044_Suchitlán_A2.pdf",
     "pdfName": "SDH_110440044_Suchitlán_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.533064,-101.024505"
   },
@@ -1661,7 +1661,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 354,
     "hablantesLengua": 0,
     "historia": "Tequisquiapan es una comunidad indígena del municipio de Dolores Hidalgo, Guanajuato, fundada en 1700. Su nombre se relaciona con la producción de tequesquite y con una hacienda del mismo nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110140340_Tequisquiapan_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110140340_Tequisquiapan_A2.pdf",
     "pdfName": "SDH_110140340_Tequisquiapan_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.081394,-100.822486"
   },
@@ -1678,7 +1678,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 137,
     "hablantesLengua": 0,
     "historia": "Tierra Blanca de Abajo es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación y el origen de su nombre. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030324_Tierra_Blanca_de_Abajo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030324_Tierra_Blanca_de_Abajo_A2.pdf",
     "pdfName": "SDH_110030324_Tierra_Blanca_de_Abajo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.966899,-100.874197"
   },
@@ -1695,7 +1695,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 118,
     "hablantesLengua": 1,
     "historia": "Tierra Blanca de Arriba es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; no obstante, los pobladores sitúan sus primeros asentamientos alrededor del año 1700. Su nombre deriva del color claro de su tierra. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030326_Tierra_Blanca_de_Arriba_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030326_Tierra_Blanca_de_Arriba_A2.pdf",
     "pdfName": "SDH_110030326_Tierra_Blanca_de_Arriba_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.045145,-100.753671"
   },
@@ -1712,7 +1712,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 35,
     "hablantesLengua": 0,
     "historia": "Tlaxcalilla es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato. Se desconoce con exactitud el año de su fundación; de acuerdo con los habitantes, su origen se atribuye al hacendado José Redondo y surgió como ampliación del ejido vecino de Rancho Nuevo. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030855_Tlaxcalilla_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030855_Tlaxcalilla_A2.pdf",
     "pdfName": "SDH_110030855_Tlaxcalilla_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.889446,-100.845850"
   },
@@ -1729,7 +1729,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 177,
     "hablantesLengua": 8,
     "historia": "Torrecitas es una comunidad indígena del municipio de Tierra Blanca, Guanajuato, fundada en 1832 con el nombre de Corral Viejo. En 1940 adoptó su nombre actual, derivado de las torrecitas de la capilla. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400047_Torrecitas_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400047_Torrecitas_A2.pdf",
     "pdfName": "SDH_110400047_Torrecitas_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.084454,-100.201877"
   },
@@ -1746,7 +1746,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 2254,
     "hablantesLengua": 2,
     "historia": "Urireo es una comunidad indígena del municipio de Salvatierra, Guanajuato, fundada en 1580. Su nombre significa “nariz hacia adelante”. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110280064_Urireo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110280064_Urireo_A2.pdf",
     "pdfName": "SDH_110280064_Urireo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.216462,-100.842087"
   },
@@ -1763,7 +1763,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 56,
     "hablantesLengua": 1,
     "historia": "Villa Unión es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1980 se separó de la comunidad Las Moras. Su nombre significa “pueblo o comunidad unida”. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400063_Villa_Unión_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400063_Villa_Unión_A2.pdf",
     "pdfName": "SDH_110400063_Villa_Unión_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.077202,-100.160029"
   },
@@ -1780,7 +1780,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 114,
     "hablantesLengua": 0,
     "historia": "Vivienda de Abajo es una comunidad indígena del municipio de San Miguel de Allende, Guanajuato, fundada en 1938 con la llegada de algunos pobladores de la comunidad de Guerrero. Se desconoce con exactitud el origen de su nombre. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110030382_Vivienda_de_Abajo_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110030382_Vivienda_de_Abajo_A2.pdf",
     "pdfName": "SDH_110030382_Vivienda_de_Abajo_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.942876,-100.798629"
   },
@@ -1797,7 +1797,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 41,
     "hablantesLengua": 0,
     "historia": "Xacalázuchitl es una comunidad indígena del municipio de Victoria, Guanajuato, fundada aproximadamente en 1800. Su nombre significa “casa de las flores” y alude a una planta del mismo nombre que abunda en la zona. Desde 2012 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110430095_Xacalázuchitl_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110430095_Xacalázuchitl_A2.pdf",
     "pdfName": "SDH_110430095_Xacalázuchitl_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=21.191775,-100.210543"
   },
@@ -1814,7 +1814,7 @@ window.SDH_PORTAL_DATA = [
     "viviendas": 34,
     "hablantesLengua": 2,
     "historia": "Xoconostle es una comunidad indígena del municipio de Tierra Blanca, Guanajuato. Se desconoce con exactitud el año de su fundación, pero se sabe que en 1971 se conformó como ejido. Su nombre significa “tuna de piedra”. Desde 2026 forma parte del Padrón de Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato, mediante el cual se reconoce su identidad y se promueve su desarrollo conforme a sus tradiciones y cultura.",
-    "pdf": "../Infografias_nuevas_2026-11-03/SDH_110400051_Xoconostle_A2.pdf",
+    "pdf": "../Infografias_nuevas_2026-11-13/SDH_110400051_Xoconostle_A2.pdf",
     "pdfName": "SDH_110400051_Xoconostle_A2.pdf",
     "googleMapsUrl": "https://www.google.com/maps?q=20.991325,-100.123445"
   }

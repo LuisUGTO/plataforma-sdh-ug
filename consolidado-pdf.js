@@ -58,6 +58,34 @@ class MultiPDF{
     p.imageUses.push(name);
     p.cmd.push(`q ${w*MM} 0 0 ${h*MM} ${x*MM} ${(H-y-h)*MM} cm /${name} Do Q`);
   }
+  linkPage(x,y,w,h,pageIndex){
+    if(pageIndex==null)return;
+    this.ensurePage().links.push({x,y,w,h,pageIndex});
+  }
+  importRenderedPage(pageData,tocPageIndex=null){
+    const p=this.addPage();
+    const imgMap={};
+    (pageData.images||[]).forEach(im=>{imgMap[im.name]=this.registerImage(im);});
+    const logoName=pageData.logo?this.registerImage(pageData.logo):null;
+    const used=[];
+    const mapped=(pageData.cmd||[]).map(line=>line.replace(/\/(Picture\d+)\b/g,(m,name)=>{
+      const slot=imgMap[name];
+      if(slot){used.push(slot);return '/'+slot;}
+      return m;
+    }));
+    p.cmd.push(...mapped);
+    if(pageData.logo&&logoName){
+      used.push(logoName);
+      p.cmd.push(`q ${pageData.logo.w*MM} 0 0 ${pageData.logo.h*MM} ${pageData.logo.x*MM} ${(H-pageData.logo.y-pageData.logo.h)*MM} cm /${logoName} Do Q`);
+    }
+    p.imageUses.push(...new Set(used));
+    (pageData.links||[]).forEach(l=>p.links.push({...l}));
+    if(tocPageIndex!=null){
+      this.text('Volver al índice',488,412.5,9,true,C.blue,54,'right');
+      this.linkPage(505,411,38,8,tocPageIndex);
+    }
+    return p;
+  }
   text(s,x,y,pt=11,style=false,color=C.text,width=1000,align='left',leading=1.2){
     const p=this.ensurePage(),lines=wrap(s,width,pt,style),step=pt*leading/MM;
     const fId=style==='headline'?'F4':style==='support'?'F5':style==='identity'?'F6':style==='italic'?'F3':style?'F2':'F1';
@@ -178,7 +206,15 @@ class MultiPDF{
       objects.push(encoder.encode(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W*MM} ${H*MM}] /Resources << /Font << ${fontMap} >> ${xobjMap} >> /Contents ${contentNum} 0 R ${annots} >>`));
       const cBytes=encoder.encode(allStreams[idx]);
       objects.push(joinBytes([encoder.encode(`<< /Length ${cBytes.length} >>\nstream\n`),cBytes,encoder.encode('\nendstream')]));
-      p.links.forEach(l=>objects.push(encoder.encode(`<< /Type /Annot /Subtype /Link /Rect [${l.x*MM} ${(H-l.y-l.h)*MM} ${(l.x+l.w)*MM} ${(H-l.y)*MM}] /Border [0 0 0] /A << /S /URI /URI (${l.url.replace(/[()\\]/g,'\\$&')}) >> >>`)));
+      p.links.forEach(l=>{
+        const rect=`[${l.x*MM} ${(H-l.y-l.h)*MM} ${(l.x+l.w)*MM} ${(H-l.y)*MM}]`;
+        if(l.pageIndex!=null){
+          const targetObj=pageObjNums[l.pageIndex];
+          objects.push(encoder.encode(`<< /Type /Annot /Subtype /Link /Rect ${rect} /Border [0 0 0] /A << /S /GoTo /D [${targetObj} 0 R /Fit] >> >>`));
+        }else{
+          objects.push(encoder.encode(`<< /Type /Annot /Subtype /Link /Rect ${rect} /Border [0 0 0] /A << /S /URI /URI (${String(l.url||'').replace(/[()\\]/g,'\\$&')}) >> >>`));
+        }
+      });
     });
     objects[0]=encoder.encode('<< /Type /Catalog /Pages 2 0 R >>');
     objects[1]=encoder.encode(`<< /Type /Pages /Kids [${pageObjNums.map(n=>n+' 0 R').join(' ')}] /Count ${pageObjNums.length} >>`);
@@ -199,8 +235,12 @@ function drawHeader(p,title,subtitle,logo){
   h.panorama.lines.slice(1).forEach((line,i)=>p.text(line,h.panorama.x,h.panorama.supportY+i*h.panorama.supportStep,h.panorama.supportPt,'headline',h.panorama.colors[i+1],h.panorama.w,'center'));
   if(logo)p.image(logo,h.logo.x,h.logo.y,h.logo.w,h.logo.h);
 }
-function drawFooter(p,pageLabel=''){
+function drawFooter(p,pageLabel='',tocPageIndex=null){
   p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
+  if(tocPageIndex!=null){
+    p.text('Volver al índice',488,412.5,9,true,C.blue,54,'right');
+    p.linkPage(505,411,38,8,tocPageIndex);
+  }
   if(pageLabel)p.text(String(pageLabel),553,412.5,12,true,'#54585A',30,'right');
 }
 
@@ -223,21 +263,16 @@ function groupByMunicipality(records=[]){
   });
 }
 
-/**
- * Render Sheet: Internal title page ("Página con nombre del proyecto en grande").
- */
-function renderProjectTitleSheet(logo=null){
-  const p=new MultiPDF();p.addPage();
-  p.rect(0,0,7,H,C.blue);p.rect(7,0,2.5,H,C.sky);
+function drawProjectTitlePage(p,logo=null,opts={}){
+  p.addPage();
   if(logo){const r=logo.pxHeight/logo.pxWidth,lh=36,lw=lh/r;p.image(logo,(W-lw)/2,34,lw,lh);}
-  p.rect(42,96,510,206,'#FFFFFF',C.softBorder,.45);
-  p.rect(42,96,510,5,C.blue);
-  p.text('SECRETARÍA DE DERECHOS HUMANOS · GOBIERNO DEL ESTADO DE GUANAJUATO',62,118,12.5,true,C.teal,470,'center');
-  p.text('Panorama Sociodemográfico de los',62,146,35,'headline',C.blue,470,'center',1.15);
-  p.text('Pueblos y Comunidades Indígenas y Afromexicanas',62,174,40,'headline',C.blue,470,'center',1.15);
-  p.text('del Estado de Guanajuato',62,216,35,'headline',C.sky,470,'center',1.15);
-  p.rect(227,246,140,1.6,C.sky);
-  p.text('Comunidades registradas en el Padrón Estatal al 2026',62,262,15,true,C.text,470,'center');
+  p.rect(42,96,510,206,'#FFFFFF',C.line,.45);
+  p.text('SECRETARÍA DE DERECHOS HUMANOS · GOBIERNO DEL ESTADO DE GUANAJUATO',62,116,12.5,true,C.teal,470,'center');
+  p.text('Panorama Sociodemográfico de los',62,145,35,'headline',C.blue,470,'center',1.15);
+  p.text('Pueblos y Comunidades Indígenas y Afromexicanas',62,173,40,'headline',C.blue,470,'center',1.15);
+  p.text('del Estado de Guanajuato',62,215,35,'headline',C.sky,470,'center',1.15);
+  p.line(227,245,367,245,C.sky,1.2);
+  p.text('Comunidades registradas en el Padrón Estatal al 2026',62,261,15,true,C.text,470,'center');
   const cards=[
     ['107','Comunidades indígenas y afromexicanas reconocidas en el Padrón Estatal',C.blue],
     ['13','Municipios con presencia histórica y cultural en el estado de Guanajuato',C.teal],
@@ -245,24 +280,28 @@ function renderProjectTitleSheet(logo=null){
   ];
   cards.forEach(([big,desc,color],i)=>{
     const cx=42+i*174;
-    p.rect(cx,322,162,48,C.soft,C.softBorder,.35);
-    p.rect(cx,322,4,48,color);
-    p.text(big,cx+12,331,26,'headline',color,140,'left');
-    p.text(desc,cx+12,346,10,false,C.text,142,'left',1.25);
+    p.rect(cx,322,162,48,'#FFFFFF',C.line,.35);
+    p.text(big,cx+12,328.5,26,'headline',color,138,'left');
+    p.line(cx+12,344,cx+150,344,C.line,.3);
+    p.text(desc,cx+12,347.5,10,false,C.text,138,'left',1.25);
   });
-  drawFooter(p);
-  return {bytes:p.finish()};
+  drawFooter(p,opts.pageLabel||'',opts.tocPageIndex??null);
 }
 
 /**
- * Render Sheet: Mensaje introductorio (verbatim from Mensaje introductorio.docx).
+ * Render Sheet: Internal title page ("Página con nombre del proyecto en grande").
  */
-function renderIntroMessageSheet(logo=null){
-  const p=new MultiPDF();p.addPage();
+function renderProjectTitleSheet(logo=null){
+  const p=new MultiPDF();
+  drawProjectTitlePage(p,logo);
+  return {bytes:p.finish()};
+}
+
+function drawIntroMessagePage(p,logo=null,opts={}){
+  p.addPage();
   drawHeader(p,'Mensaje introductorio','Secretaría de Derechos Humanos',logo);
   let y=p.sectionTitle('Presentación institucional',11,53,572,'historia');
   p.rect(11,y+2,572,332,'#FAFBFD',C.softBorder,.35);
-  p.rect(11,y+2,4,332,C.blue);
   p.text(EDITORIAL.mensaje.title,24,y+12,19,'headline',C.blue,546,'center',1.25);
   p.line(187,y+31,407,y+31,C.sky,1.1);
   const bodyY=y+42,paras=EDITORIAL.mensaje.paragraphs,half=Math.ceil(paras.length/2);
@@ -273,46 +312,68 @@ function renderIntroMessageSheet(logo=null){
   p.line(310,sigY,566,sigY,C.line,.4);
   p.text('Secretaría de Derechos Humanos',310,sigY+5,13,true,C.blue,256,'right');
   p.text('Gobierno del Estado de Guanajuato',310,sigY+12,11,false,C.text,256,'right');
-  drawFooter(p);
-  return {bytes:p.finish()};
+  drawFooter(p,opts.pageLabel||'',opts.tocPageIndex??null);
 }
 
 /**
- * Render Sheet: Índice general del documento consolidado.
+ * Render Sheet: Mensaje introductorio (verbatim from Mensaje introductorio.docx).
  */
-function renderTableOfContentsSheet(records=[],logo=null){
-  const p=new MultiPDF();p.addPage();
-  drawHeader(p,'Índice de contenido','Comunidades registradas en el Padrón al 2026',logo);
+function renderIntroMessageSheet(logo=null){
+  const p=new MultiPDF();
+  drawIntroMessagePage(p,logo);
+  return {bytes:p.finish()};
+}
+
+function drawTableOfContentsPage(p,records=[],logo=null,opts={}){
+  p.addPage();
+  const pm=opts.pageMap||null;
+  drawHeader(p,'Índice de contenido',pm?'Índice interactivo · Comunidades registradas en el Padrón al 2026':'Comunidades registradas en el Padrón al 2026',logo);
   let ly=p.sectionTitle('Estructura del documento',11,53,276,'historia');
-  const entries=[
-    ['I','Portada institucional','Diseño de cubierta principal (por integrar).'],
-    ['II','Página titular','Panorama Sociodemográfico de los Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato.'],
-    ['III','Mensaje introductorio','Presentación institucional de la Secretaría de Derechos Humanos.'],
-    ['IV','Índice de contenido','Organización temática y directorio municipal alfabético (A–M).'],
-    ['V','Padrón de comunidades','Listado oficial de las 107 localidades con Clave INEGI y municipio.'],
-    ['VI','Lista de indicadores','Catálogo de los 90 indicadores organizados en 13 dimensiones.'],
-    ['VII','Mapa de distribución territorial','Cartografía estatal con las 107 comunidades y ampliaciones regionales.'],
-    ['VIII','Infografías por municipio (A–M)','Separadores municipales alfabéticos y 107 fichas sociodemográficas A2.'],
-    ['IX','Guía metodológica y fuentes','Definiciones, fórmulas de cálculo, notas técnicas y referencias APA.']
+  const entries=pm?[
+    ['I','Página titular','Panorama Sociodemográfico de los Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato.',pm.titular],
+    ['II','Mensaje introductorio','Presentación institucional de la Secretaría de Derechos Humanos.',pm.mensaje],
+    ['III','Índice de contenido','Organización temática y directorio municipal alfabético interactivo (A–M).',pm.indice],
+    ['IV','Padrón de comunidades','Listado oficial interactivo de las 107 localidades con Clave INEGI y municipio.',pm.padron],
+    ['V','Lista de indicadores','Catálogo de los 90 indicadores organizados en 13 dimensiones.',pm.lista],
+    ['VI','Mapa de distribución territorial','Cartografía estatal con las 107 comunidades y ampliaciones regionales.',pm.mapaGlobal],
+    ['VII','Portadilla de infografías','Separadores municipales alfabéticos A–M y 107 fichas sociodemográficas A2.',pm.portadilla],
+    ['VIII','Guía metodológica y fuentes','Definiciones, fórmulas de cálculo, notas técnicas y referencias APA.',pm.guia]
+  ]:[
+    ['I','Portada institucional','Diseño de cubierta principal (por integrar).',null],
+    ['II','Página titular','Panorama Sociodemográfico de los Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato.',null],
+    ['III','Mensaje introductorio','Presentación institucional de la Secretaría de Derechos Humanos.',null],
+    ['IV','Índice de contenido','Organización temática y directorio municipal alfabético (A–M).',null],
+    ['V','Padrón de comunidades','Listado oficial de las 107 localidades con Clave INEGI y municipio.',null],
+    ['VI','Lista de indicadores','Catálogo de los 90 indicadores organizados en 13 dimensiones.',null],
+    ['VII','Mapa de distribución territorial','Cartografía estatal con las 107 comunidades y ampliaciones regionales.',null],
+    ['VIII','Infografías por municipio (A–M)','Separadores municipales alfabéticos y 107 fichas sociodemográficas A2.',null],
+    ['IX','Guía metodológica y fuentes','Definiciones, fórmulas de cálculo, notas técnicas y referencias APA.',null]
   ];
-  entries.forEach(([badge,title,desc],i)=>{
-    p.rect(11,ly,276,28,i%2?C.soft:'#FFFFFF',C.line,.25);
-    p.rect(15,ly+5,18,18,C.blue);
-    p.text(badge,15,ly+9,11,'headline','#FFFFFF',18,'center');
-    p.text(title,39,ly+4.5,12,true,C.blue,242);
-    p.text(desc,39,ly+11.5,9.5,false,C.text,242,'left',1.25);
-    ly+=31;
+  const rowStep=pm?34:31,rowH=pm?30.5:28;
+  entries.forEach(([badge,title,desc,targetIdx],i)=>{
+    p.rect(11,ly,276,rowH,i%2?C.soft:'#FFFFFF',C.line,.25);
+    p.rect(15,ly+(rowH-18)/2,18,18,C.blue);
+    p.text(badge,15,ly+(rowH-18)/2+4,11,'headline','#FFFFFF',18,'center');
+    const titleW=targetIdx!=null?214:242;
+    p.text(title,39,ly+4.8,12,true,C.blue,titleW);
+    if(targetIdx!=null){
+      p.text(`Pág. ${targetIdx+1}`,245,ly+5,9.5,true,C.teal,36,'right');
+      p.linkPage(11,ly,276,rowH,targetIdx);
+    }
+    p.text(desc,39,ly+12,9.5,false,C.text,240,'left',1.25);
+    ly+=rowStep;
   });
 
   const groups=groupByMunicipality(records);
   let ry=p.sectionTitle('Infografías por municipio (orden alfabético A–M)',307,53,276,'territorio');
-  const wL=16,wM=146,wC=34,wP=40,wV=40,hh=9,rh=21;
+  const wL=16,wM=pm?124:146,wC=34,wP=pm?38:40,wV=pm?38:40,wPg=pm?26:0,hh=9,rh=21;
   p.rect(307,ry,276,hh,C.blue);
   p.text('Letra',309,ry+2.5,9,true,'#FFFFFF',wL);
   p.text('Municipio',307+wL+2,ry+2.5,9,true,'#FFFFFF',wM);
   p.text('Comunidades',307+wL+wM,ry+2.5,8.5,true,'#FFFFFF',wC-2,'right');
   p.text('Población',307+wL+wM+wC,ry+2.5,8.5,true,'#FFFFFF',wP-2,'right');
   p.text('Viviendas',307+wL+wM+wC+wP,ry+2.5,8.5,true,'#FFFFFF',wV-2,'right');
+  if(pm)p.text('Pág.',307+wL+wM+wC+wP+wV,ry+2.5,8.5,true,'#FFFFFF',wPg-2,'right');
   ry+=hh;
   let offset=1;
   groups.forEach((g,idx)=>{
@@ -324,6 +385,11 @@ function renderTableOfContentsSheet(records=[],logo=null){
     p.text(`${offset}–${offset+g.items.length-1} (${g.items.length})`,307+wL+wM,ry+7,9.5,true,C.text,wC-2,'right');
     p.text(fmt(g.totalPop),307+wL+wM+wC,ry+7,9.5,false,C.text,wP-2,'right');
     p.text(fmt(g.totalViv),307+wL+wM+wC+wP,ry+7,9.5,false,C.text,wV-2,'right');
+    if(pm&&pm.munPages?.[g.letter]!=null){
+      const targetIdx=pm.munPages[g.letter];
+      p.text(String(targetIdx+1),307+wL+wM+wC+wP+wV,ry+7,9.5,true,C.teal,wPg-2,'right');
+      p.linkPage(307,ry,276,rh,targetIdx);
+    }
     offset+=g.items.length;
     ry+=rh;
   });
@@ -333,15 +399,21 @@ function renderTableOfContentsSheet(records=[],logo=null){
   p.text('107',307+wL+wM,ry+3,10,true,C.blue,wC-2,'right');
   p.text(fmt(totalPop),307+wL+wM+wC,ry+3,10,true,C.blue,wP-2,'right');
   p.text(fmt(totalViv),307+wL+wM+wC+wP,ry+3,10,true,C.blue,wV-2,'right');
-  drawFooter(p);
-  return {bytes:p.finish()};
+  if(pm)p.text(`${groups.length} sep.`,307+wL+wM+wC+wP+wV,ry+3.2,8.5,true,C.teal,wPg-2,'right');
+  drawFooter(p,opts.pageLabel||'');
 }
 
 /**
- * Render Sheet: Lista de indicadores (13 thematic sections balanced across 3 A2 columns).
+ * Render Sheet: Índice general del documento consolidado.
  */
-function renderIndicatorListSheet(logo=null){
-  const p=new MultiPDF();p.addPage();
+function renderTableOfContentsSheet(records=[],logo=null){
+  const p=new MultiPDF();
+  drawTableOfContentsPage(p,records,logo);
+  return {bytes:p.finish()};
+}
+
+function drawIndicatorListPage(p,logo=null,opts={}){
+  p.addPage();
   drawHeader(p,'Lista de indicadores','Comunidades registradas en el Padrón al 2026',logo);
   const cols=[{x:11,y:54},{x:205,y:54},{x:399,y:54}],colW=184,pt=9.6,itemGap=1.7;
   EDITORIAL.lista.forEach((sec,idx)=>{
@@ -354,15 +426,21 @@ function renderIndicatorListSheet(logo=null){
     });
     col.y=y+4.2;
   });
-  drawFooter(p);
-  return {bytes:p.finish(),columnBottoms:cols.map(c=>c.y)};
+  drawFooter(p,opts.pageLabel||'',opts.tocPageIndex??null);
+  return cols.map(c=>c.y);
 }
 
 /**
- * Render Sheet: Portadilla de la sección de infografías por municipio.
+ * Render Sheet: Lista de indicadores (13 thematic sections balanced across 3 A2 columns).
  */
-function renderInfographicsCoverSheet(records=[],logo=null){
-  const p=new MultiPDF();p.addPage();
+function renderIndicatorListSheet(logo=null){
+  const p=new MultiPDF();
+  const columnBottoms=drawIndicatorListPage(p,logo);
+  return {bytes:p.finish(),columnBottoms};
+}
+
+function drawInfographicsCoverPage(p,records=[],logo=null,opts={}){
+  p.addPage();
   drawHeader(p,'Infografías por Municipio y Comunidad','107 comunidades · 13 municipios · Orden alfabético A–M',logo);
   const groups=groupByMunicipality(records);
   const introY=p.sectionTitle('Sección de infografías sociodemográficas por municipio',11,53,572,'territorio');
@@ -370,23 +448,35 @@ function renderInfographicsCoverSheet(records=[],logo=null){
   groups.forEach((g,idx)=>{
     const c=idx%3,r=Math.floor(idx/3),cx=11+c*(colW+gapX),cy=introY+2+r*(cardH+gapY);
     p.rect(cx,cy,colW,cardH,'#FFFFFF',C.line,.35);
-    p.rect(cx,cy,colW,2,C.blue);
-    p.rect(cx+5,cy+7,18,18,C.blue);
-    p.text(g.letter,cx+5,cy+11,13,'headline','#FFFFFF',18,'center');
-    p.text(g.municipio,cx+27,cy+7,11.5,true,C.blue,colW-32,'left',1.15);
+    p.rect(cx+5,cy+6,18,18,C.blue);
+    p.text(g.letter,cx+5,cy+10,13,'headline','#FFFFFF',18,'center');
+    const munPage=opts.munPages?.[g.letter];
+    if(munPage!=null){
+      p.text(`Pág. ${munPage+1}`,cx+colW-38,cy+6.5,8.5,true,C.teal,33,'right');
+      p.linkPage(cx,cy,colW,cardH,munPage);
+    }
+    p.text(g.municipio,cx+27,cy+6.5,11.5,true,C.blue,colW-(munPage!=null?66:32),'left',1.15);
     p.text(`${g.items.length} ${g.items.length===1?'comunidad':'comunidades'} · ${g.pueblos.join(', ')}`,cx+27,cy+17.5,8.5,false,C.teal,colW-32);
-    p.line(cx+5,cy+29,cx+colW-5,cy+29,C.line,.25);
+    p.line(cx+5,cy+28,cx+colW-5,cy+28,C.line,.25);
     const names=g.items.map(it=>it['Comunidad / Localidad']).join(' · ');
-    p.text(names,cx+5,cy+32,8.1,false,C.text,colW-10,'left',1.18);
+    p.text(names,cx+5,cy+31.5,8.1,false,C.text,colW-10,'left',1.18);
   });
-  drawFooter(p);
+  drawFooter(p,opts.pageLabel||'',opts.tocPageIndex??null);
+}
+
+/**
+ * Render Sheet: Portadilla de la sección de infografías por municipio.
+ */
+function renderInfographicsCoverSheet(records=[],logo=null){
+  const p=new MultiPDF();
+  drawInfographicsCoverPage(p,records,logo);
   return {bytes:p.finish()};
 }
 
 /**
  * Render all 13 municipality separator sheets (A–M) as a multi-page A2 PDF (or per-group).
  */
-function drawMunicipalitySeparatorPage(p,g,logo){
+function drawMunicipalitySeparatorPage(p,g,logo,opts={}){
   p.addPage();
   drawHeader(p,`Municipio ${g.letter}: ${g.municipio}`,'Comunidades registradas en el Padrón al 2026',logo);
   p.rect(11,52,572,38,C.soft,C.softBorder,.35);
@@ -401,14 +491,16 @@ function drawMunicipalitySeparatorPage(p,g,logo){
   ];
   kpis.forEach(([lbl,val,col],i)=>{
     const kx=346+i*78;
-    p.rect(kx,57,74,28,'#FFFFFF',C.line,.25);
-    p.rect(kx,57,74,2,col);
+    p.rect(kx,57,74,28,'#FFFFFF',C.line,.3);
     p.text(lbl,kx+4,60.5,8.5,false,C.text,66,'center');
     p.text(val,kx+4,68.5,15,'headline',col,66,'center');
   });
 
   let y=98;
-  const cols=[['#',16,'center'],['Clave INEGI',36,'left'],['Comunidad / Localidad',165,'left'],['Pueblo originario',75,'left'],['Año rec.',34,'center'],['Población total',56,'right'],['Hombres',56,'right'],['Mujeres',56,'right'],['Viviendas hab.',78,'right']];
+  const hasPg=Boolean(opts.commPages);
+  const cols=hasPg
+    ?[['#',16,'center'],['Clave INEGI',36,'left'],['Comunidad / Localidad',150,'left'],['Pueblo originario',72,'left'],['Año rec.',30,'center'],['Población total',52,'right'],['Hombres',52,'right'],['Mujeres',52,'right'],['Viviendas hab.',76,'right'],['Pág.',36,'right']]
+    :[['#',16,'center'],['Clave INEGI',36,'left'],['Comunidad / Localidad',165,'left'],['Pueblo originario',75,'left'],['Año rec.',34,'center'],['Población total',56,'right'],['Hombres',56,'right'],['Mujeres',56,'right'],['Viviendas hab.',78,'right']];
   const hh=9,rh=g.items.length>22?8.5:10;
   p.rect(11,y,572,hh,C.blue);
   let cx=11;
@@ -419,10 +511,13 @@ function drawMunicipalitySeparatorPage(p,g,logo){
   y+=hh;
   g.items.forEach((r,idx)=>{
     p.rect(11,y,572,rh,idx%2?C.soft:'#FFFFFF',C.line,.18);
+    const key=String(r['Clave INEGI']||'');
     const viv=r['Viviendas con caracteristicas']??r['Viviendas Particulares Habitadas'];
+    const targetIdx=hasPg?opts.commPages[key]:null;
+    if(targetIdx!=null)p.linkPage(11,y,572,rh,targetIdx);
     const row=[
       String(idx+1),
-      String(r['Clave INEGI']||''),
+      key,
       String(r['Comunidad / Localidad']||''),
       String(r['Pueblo Originario']||''),
       String(r['Año Reconocimiento']||''),
@@ -431,17 +526,18 @@ function drawMunicipalitySeparatorPage(p,g,logo){
       fmt(r['Población Mujeres']),
       fmt(viv)
     ];
+    if(hasPg)row.push(targetIdx!=null?String(targetIdx+1):'');
     let rx=11;
     row.forEach((cell,ci)=>{
       const [,cw,align]=cols[ci];
-      const bold=ci===2;
-      const color=ci===2?C.blue:C.text;
+      const bold=ci===2||(hasPg&&ci===cols.length-1);
+      const color=ci===2?C.blue:(hasPg&&ci===cols.length-1)?C.teal:C.text;
       p.text(cell,rx+3,y+(rh-3.6)/2,9,bold,color,cw-6,align);
       rx+=cw;
     });
     y+=rh;
   });
-  drawFooter(p);
+  drawFooter(p,opts.pageLabel||'',opts.tocPageIndex??null);
 }
 
 function renderMunicipalitySeparatorsPdf(records=[],logo=null){
@@ -465,8 +561,7 @@ function formulaBlock(p,rows,x,y,w,measureOnly=false){
   const fracH=(numLines.length+denLines.length)*step+4.2;
   const boxH=Math.max(fracH+4,lhsLines.length*step+5);
   if(!measureOnly){
-    p.rect(x,y,w,boxH,C.soft,C.softBorder,.22);
-    p.rect(x,y,1.4,boxH,C.sky);
+    p.rect(x,y,w,boxH,C.soft,C.softBorder,.25);
     const lhsY=y+(boxH-lhsLines.length*step)/2+.3;
     lhsLines.forEach((l,i)=>p.text(l,x+4,lhsY+i*step,pt,true,C.blue,maxLhsW,'left',1.18));
     const eqX=x+4+maxLhsW+2,midY=y+boxH/2;
@@ -483,16 +578,15 @@ function formulaBlock(p,rows,x,y,w,measureOnly=false){
 }
 
 /**
- * Render multi-page A2 Guía metodológica (intro, 13 sections, 90 indicators, 79 formulas, 6 APA references).
+ * Append Guía metodológica pages (intro, 13 sections, 90 indicators, 79 formulas, 6 APA references) to an existing MultiPDF.
  */
-function renderMethodologicalGuidePdf(logo=null){
-  const p=new MultiPDF();
+function appendMethodologicalGuidePages(p,logo=null,opts={}){
   const colXs=[11,305],colW=278,topY=53,maxY=399;
-  let colIdx=0,y=topY,pageNo=1;
+  let colIdx=0,y=topY,pageNo=opts.startPageNumber??1;
   const openPage=()=>{
     p.addPage();
     drawHeader(p,'Guía metodológica','Definiciones, criterios de cálculo y fuentes de los indicadores',logo);
-    drawFooter(p,String(pageNo));
+    drawFooter(p,String(pageNo),opts.tocPageIndex??null);
     colIdx=0;y=topY;
   };
   const advance=(needed)=>{
@@ -502,11 +596,10 @@ function renderMethodologicalGuidePdf(logo=null){
   };
   openPage();
 
-  // Intro box
+  // Intro box (clean institutional container without side accent strip)
   const introPads=4;
   const introH=EDITORIAL.guia.intro.reduce((s,t)=>s+wrap(t,colW-8,9.5,false).length*9.5*1.25/MM+2,0)+introPads*2;
-  p.rect(colXs[0],y,colW,introH,C.soft,C.softBorder,.25);
-  p.rect(colXs[0],y,2,introH,C.blue);
+  p.rect(colXs[0],y,colW,introH,C.soft,C.softBorder,.3);
   let iy=y+introPads;
   EDITORIAL.guia.intro.forEach(t=>{iy+=p.text(t,colXs[0]+5,iy,9.5,false,C.text,colW-9,'left',1.25)+2;});
   y+=introH+5;
@@ -552,10 +645,60 @@ function renderMethodologicalGuidePdf(logo=null){
     advance(16);
     y=p.reference(r,colXs[colIdx],y,colW);
   });
+}
 
+/**
+ * Render multi-page A2 Guía metodológica (standalone).
+ */
+function renderMethodologicalGuidePdf(logo=null){
+  const p=new MultiPDF();
+  appendMethodologicalGuidePages(p,logo,{startPageNumber:1});
   return {bytes:p.finish(),pageCount:p.pages.length};
 }
 
-const api={EDITORIAL,MultiPDF,groupByMunicipality,renderProjectTitleSheet,renderIntroMessageSheet,renderTableOfContentsSheet,renderIndicatorListSheet,renderInfographicsCoverSheet,renderMunicipalitySeparatorsPdf,renderMethodologicalGuidePdf};
+/**
+ * Render full interactive consolidated Revista Digital A2 PDF with internal /GoTo links.
+ */
+function renderConsolidatedDigitalPdf({records=[],mapGlobalImage=null,logo=null,buildCommunityModel}){
+  const groups=groupByMunicipality(records);
+  const munPages={},commPages={};
+  let cur=7;
+  groups.forEach(g=>{
+    munPages[g.letter]=cur++;
+    g.items.forEach(r=>{commPages[String(r['Clave INEGI']||'')]=cur++;});
+  });
+  const pageMap={titular:0,mensaje:1,indice:2,padron:3,lista:4,mapaGlobal:5,portadilla:6,guia:cur,munPages,commPages};
+  const TOC_IDX=2;
+
+  const p=new MultiPDF();
+  drawProjectTitlePage(p,logo,{pageLabel:'1'});
+  drawIntroMessagePage(p,logo,{pageLabel:'2',tocPageIndex:TOC_IDX});
+  drawTableOfContentsPage(p,records,logo,{pageLabel:'3',pageMap});
+
+  const padronSheet=PDFMOD.renderIndexSheet(records,logo,{includePageData:true,skipFinish:true,pageNumber:4,commPageMap:commPages});
+  p.importRenderedPage(padronSheet.pageData,TOC_IDX);
+
+  drawIndicatorListPage(p,logo,{pageLabel:'5',tocPageIndex:TOC_IDX});
+
+  const mapaSheet=PDFMOD.renderGlobalMapSheet({mapImage:mapGlobalImage,includePageData:true,skipFinish:true,pageNumber:6},logo);
+  p.importRenderedPage(mapaSheet.pageData,TOC_IDX);
+
+  drawInfographicsCoverPage(p,records,logo,{pageLabel:'7',tocPageIndex:TOC_IDX,munPages});
+
+  groups.forEach(g=>{
+    drawMunicipalitySeparatorPage(p,g,logo,{pageLabel:String(p.pages.length+1),tocPageIndex:TOC_IDX,commPages});
+    g.items.forEach(r=>{
+      const pageNo=p.pages.length+1;
+      const model=buildCommunityModel(r,pageNo);
+      const rendered=PDFMOD.render(model,logo,{includePageData:true,skipFinish:true});
+      p.importRenderedPage(rendered.pageData,TOC_IDX);
+    });
+  });
+
+  appendMethodologicalGuidePages(p,logo,{startPageNumber:p.pages.length+1,tocPageIndex:TOC_IDX});
+  return {bytes:p.finish(),pageCount:p.pages.length,pageMap};
+}
+
+const api={EDITORIAL,MultiPDF,groupByMunicipality,renderProjectTitleSheet,renderIntroMessageSheet,renderTableOfContentsSheet,renderIndicatorListSheet,renderInfographicsCoverSheet,renderMunicipalitySeparatorsPdf,renderMethodologicalGuidePdf,renderConsolidatedDigitalPdf};
 root.SDH_CONSOLIDADO=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
