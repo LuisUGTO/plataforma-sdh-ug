@@ -21,7 +21,9 @@ El portal público devolvió HTTP 200. Se probaron en Chrome 107 tarjetas, el fi
 
 Se corrigió el título de la pestaña en `portal/index.html` con el nombre oficial completo y se verificó en Chrome con los archivos locales. El título público anterior seguirá visible hasta desplegar el cambio. La URL raíz del repositorio público continúa sirviendo el generador. [Raíz pública](https://luisugto.github.io/plataforma-sdh-ug/)
 
-**Pendiente móvil.** En Chrome con un viewport emulado de 390 × 844, el documento ocupó 486 px de ancho. La búsqueda de Alonso filtró el catálogo correctamente, pero el toque automatizado sobre el resultado no abrió la ficha, incluso tras desenfocar el campo. Revisar el ancho del encabezado y la interacción entre el desplazamiento de la página y de la lista, y repetir en un teléfono físico antes de entregar. El panel municipal se comprobó en escritorio. La disponibilidad de las tres capas externas no quedó certificada.
+**Corrección móvil implementada.** Se reorganizó el encabezado y se eliminó la altura porcentual que interfería con la lista en pantallas estrechas. En Edge, con viewport móvil y táctil de 390 × 844, el documento ocupó exactamente 390 px, sin desplazamiento horizontal; la búsqueda de Alonso abrió la ficha de Alonso Yáñez. La prueba confirmó que continúan disponibles las capas Institucional, Calles, Satélite y Relieve. Conviene repetir el recorrido en un teléfono físico y comprobar la carga efectiva de las teselas con la red institucional antes de entregar.
+
+La conversación del 13 de noviembre confirma expresamente la autorización de Charlie para incorporar la edad mediana de **26.5 años** de San Juan del Llanito en lugar de “Dato no disponible”. El audio adjunto no pudo transcribirse localmente porque la política de Control de aplicaciones de Windows bloqueó la biblioteca de reconocimiento; no se envió el archivo a servicios externos y su contenido no se atribuye como verificado en esta auditoría.
 
 Para entregar el portal a la SDH, preparar un ZIP o repositorio de distribución independiente con:
 

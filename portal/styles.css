@@ -1656,34 +1656,111 @@ body.map-fullscreen #btn-fullscreen {
    Responsive (Celulares y Tablets)
    ========================================================================== */
 @media (max-width: 900px) {
+  html,
   body {
-    overflow: auto;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
     height: auto;
+    overflow-y: auto;
   }
   .portal-header {
-    padding: 10px 14px;
+    padding: 8px 10px;
+  }
+  .header-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 7px 10px;
+    width: 100%;
+  }
+  .header-brand {
+    min-width: 0;
   }
   .brand-logo {
     height: 40px;
+    max-width: 100%;
+  }
+  .header-titles {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
   }
   .header-titles h1 {
-    font-size: 16px;
+    font-size: clamp(11px, 3.5vw, 15px);
+    line-height: 1.15;
+  }
+  .header-right {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 0;
+    min-width: 0;
+  }
+  .header-actions {
+    gap: 5px;
+  }
+  .header-btn {
+    min-width: 38px;
+    min-height: 38px;
+    justify-content: center;
+    padding: 7px;
+  }
+  .header-btn span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
   .header-stats {
     display: none;
   }
   .portal-main {
-    flex-direction: column-reverse;
-    height: calc(100vh - 75px);
+    flex: none;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    overflow: visible;
   }
   .portal-sidebar {
     width: 100%;
-    height: 45%;
+    height: auto;
+    min-height: 0;
     border-right: 0;
-    border-top: 2px solid var(--blue);
+    border-bottom: 2px solid var(--blue);
+    box-shadow: none;
+  }
+  .sidebar-header {
+    padding: 12px 14px 8px;
+  }
+  .sidebar-controls {
+    padding: 10px 14px;
+  }
+  .communities-list {
+    flex: none;
+    max-height: min(42vh, 390px);
+    max-height: min(42dvh, 390px);
+    padding: 9px 12px 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .community-card {
+    touch-action: manipulation;
   }
   .map-container {
-    height: 55%;
+    flex: none;
+    width: 100%;
+    height: max(52vh, 390px);
+    height: max(52dvh, 390px);
   }
   .modal-actions {
     grid-template-columns: 1fr;
@@ -1700,5 +1777,30 @@ body.map-fullscreen #btn-fullscreen {
     left: 16px;
     bottom: 66px;
     font-size: 8.5px;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand-logo {
+    height: 34px;
+  }
+  .filters-row {
+    grid-template-columns: 1fr;
+  }
+  .map-controls {
+    top: 12px;
+    right: 10px;
+  }
+  .map-compass {
+    top: 12px;
+    left: 10px;
+  }
+  .map-scale {
+    left: 10px;
+    bottom: 12px;
+  }
+  .layers-popover {
+    right: 48px;
+    max-width: calc(100vw - 68px);
   }
 }
