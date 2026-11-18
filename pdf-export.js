@@ -257,7 +257,8 @@ function compose(model,logo=null,options={}){
  explanatory('Relación hombres-mujeres',fmt(m.relation,1),num(m.relation)===null?'Dato pendiente.':`Existen ${Math.round(+m.relation)} hombres por cada 100 mujeres`,y+23);
  if(m.global)explanatory(m.demographicSecondary.label,m.demographicSecondary.value,m.demographicSecondary.note,y+49);else explanatory('Edad mediana',fmt(m.age,m.ageDigits??1),m.age===null?'Dato pendiente.':`La mitad de la población tiene ${fmt(m.age,m.ageDigits??1)} años o menos`,y+49);
  y=Math.max(top+73,pyramid(p,model.extra,m.total,m.men,m.women,x+102,top+2,w-102))+3;
- if(m.notes.composition)y+=p.note(m.notes.composition,x,y,8.5,C.text,w)+2;
+ // Las observaciones sobre el criterio de edad viven en la guía metodológica.
+ // No repetirlas debajo de la pirámide (incluido el caso particular de San Agustín).
  y+=gaps[0];
  const half=(w-5)/2,fy=p.title('Fecundidad',x,y,half,'family'),cy=p.title('Situación conyugal',x+half+5,y,half,'rings');
  // Preserve the original layout footprint so only the fertility card changes.
