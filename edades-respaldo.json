@@ -3733,8 +3733,7 @@
       "criteriosCarlos": {
         "fecha": "2026-11-13",
         "fuente": "Confirmación de Charlie compartida por Luis el 13 de noviembre de 2026: excluir las 3 personas con edad no especificada en pirámide y edad mediana.",
-        "edadMediana": 26.5,
-        "notaComposicion": "Nota: La pirámide poblacional y la edad mediana excluyen a 3 personas con edad no especificada (total con edad especificada: 3,167 de 3,170 habitantes)."
+        "edadMediana": 26.5
       },
       "pyramidUniverse": {
         "total": 3167,

@@ -297,7 +297,7 @@ function compose(model,logo=null,options={}){
  if(model.extra?.notaRevision)refBottom+=1+p.note(model.extra.notaRevision,11,refBottom+1,9,C.blue,572);
  if(refBottom>417)throw Error('Las referencias exceden el margen inferior.');
  if(model.pageNumber!=null){
-  p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
+  p.text('Secretaría de Derechos Humanos del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
   p.text(String(model.pageNumber),553,412.5,12,true,'#54585A',30,'right');
  }
  return {bytes:(options.measureOnly||options.skipFinish)?null:p.finish(logo),pageData:options.includePageData?{cmd:p.cmd.slice(),links:p.links.slice(),images:p.images.slice(),logo:logo?{...logo}:null}:undefined,header,bounds:p.bounds,referenceBottom:refBottom,alignment:{migrationBottom,noteBottom:ed+nh+1,educationHeight,columnBottoms:p.bounds.map(b=>b.bottom-2),closingTarget:CONTENT_BOTTOM}};
@@ -325,7 +325,7 @@ function renderGlobalMapSheet(options={},logo=null){
  let refBottom=refTop;
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
 
- p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
+ p.text('Secretaría de Derechos Humanos del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
  p.text(String(options.pageNumber??'1'),553,412.5,12,true,'#54585A',30,'right');
  return {bytes:options.skipFinish?null:p.finish(logo),pageData:options.includePageData?{cmd:p.cmd.slice(),links:p.links.slice(),images:p.images.slice(),logo:logo?{...logo}:null}:undefined,referenceBottom:refBottom};
 }
@@ -351,29 +351,27 @@ function renderIndexSheet(records=[],logo=null,options={}){
   for(let r=0;r<rowsPerCol;r++){
    const idx=c*rowsPerCol+r;
    if(idx>=records.length)break;
-   const rec=records[idx],rowY=tableTop+headerH+r*rowH,isEven=r%2===1;
-   if(isEven)p.rect(colX,rowY,colW,rowH,'#F4F7FA',null);
-   else p.rect(colX,rowY,colW,rowH,'#FFFFFF',null);
-   p.line(colX,rowY+rowH,colX+colW,rowY+rowH,C.line,.15);
+   const rec=records[idx],rowY=tableTop+headerH+r*rowH;
+   p.line(colX,rowY+rowH,colX+colW,rowY+rowH,C.line,.22);
 
    const key=rec['Clave INEGI']||rec.key||'',comName=rec['Comunidad / Localidad']||rec.name||'',munName=rec['Municipio']||rec.mun||'';
    if(options.commPageMap&&options.commPageMap[key]!=null)p.links.push({x:colX,y:rowY,w:colW,h:rowH,pageIndex:options.commPageMap[key]});
-   p.text(key,colX+2,rowY+(rowH-9.5*1.2/MM)/2,9.5,false,'#54585A',wClave-2);
+   p.text(key,colX+2,rowY+(rowH-9.2*1.2/MM)/2,9.2,false,C.text,wClave-2);
 
-   const comLines=wrap(comName,wCom-3,10,true),comStep=10*1.15/MM,comY=rowY+(rowH-comLines.length*comStep)/2+.3;
-   comLines.forEach((line,li)=>p.text(line,colX+wClave+2,comY+li*comStep,10,true,C.blue,wCom-3));
+   const comLines=wrap(comName,wCom-3,9.3,false),comStep=9.3*1.15/MM,comY=rowY+(rowH-comLines.length*comStep)/2+.3;
+   comLines.forEach((line,li)=>p.text(line,colX+wClave+2,comY+li*comStep,9.3,false,C.text,wCom-3));
 
    const munLines=wrap(munName,wMun-3,9,false),munStep=9*1.15/MM,munY=rowY+(rowH-munLines.length*munStep)/2+.3;
-   munLines.forEach((line,li)=>p.text(line,colX+wClave+wCom+2,munY+li*munStep,9,false,'#54585A',wMun-3));
+   munLines.forEach((line,li)=>p.text(line,colX+wClave+wCom+2,munY+li*munStep,9,false,C.text,wMun-3));
   }
-  p.rect(colX,tableTop,colW,headerH+rowsPerCol*rowH,null,C.line,.25);
+  p.line(colX,tableTop+headerH+rowsPerCol*rowH,colX+colW,tableTop+headerH+rowsPerCol*rowH,C.blue,.3);
  }
 
  const footer=367,refTop=p.title('Fuentes y referencias',11,footer,572,'book');
  let refBottom=refTop;
  for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
 
- p.text('Secretaría de Derechos Humanos · Gobierno del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
+ p.text('Secretaría de Derechos Humanos del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
  p.text(String(options.pageNumber??'2'),553,412.5,12,true,'#54585A',30,'right');
  return {bytes:options.skipFinish?null:p.finish(logo),pageData:options.includePageData?{cmd:p.cmd.slice(),links:p.links.slice(),images:p.images.slice(),logo:logo?{...logo}:null}:undefined,referenceBottom:refBottom};
 }
