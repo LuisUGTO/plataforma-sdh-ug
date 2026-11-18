@@ -46,6 +46,7 @@ class MultiPDF{
   ensurePage(){return this.current||this.addPage();}
   registerImage(data){
     if(!data)return null;
+    if(data.bytes?.[0]!==0xff||data.bytes?.[1]!==0xd8)throw Error('El exportador requiere imágenes JPEG; convierte el PNG antes de generar la revista.');
     const found=this.images.find(im=>im.bytes===data.bytes);
     if(found)return found.name;
     const name='Img'+this.images.length;
