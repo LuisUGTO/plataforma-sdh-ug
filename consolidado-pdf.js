@@ -307,14 +307,10 @@ function drawIntroMessagePage(p,logo=null,opts={}){
 // Encabezado de guía sobre fondo blanco: conserva la jerarquía institucional
 // sin el recuadro azul que Charlie pidió retirar de toda la metodología.
 function drawGuideHeader(p,logo=null){
-  const subtitle='Definiciones, criterios de cálculo y fuentes de los indicadores';
-  const h=PDFMOD.headerLayout('Guía metodológica',subtitle,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452,11.5);
-  p.text('Guía metodológica',11,12.5,16.5,'headline',C.blue,215);
-  p.text(subtitle,11,25,8.8,false,C.text,240);
-  p.line(11,34,583,34,C.blue,.7);
-  p.text(h.panorama.lines[0],h.panorama.x,h.panorama.y,h.panorama.pt,'headline',h.panorama.colors[0],h.panorama.w,'center');
-  h.panorama.lines.slice(1).forEach((line,i)=>p.text(line,h.panorama.x,h.panorama.supportY+i*h.panorama.supportStep,h.panorama.supportPt,'headline',h.panorama.colors[i+1],h.panorama.w,'center'));
-  if(logo)p.image(logo,h.logo.x,h.logo.y,h.logo.w,h.logo.h);
+  // La guía conserva el encabezado institucional azul, con título blanco,
+  // igual que el resto de las secciones; solo se eliminan los fondos del
+  // contenido metodológico.
+  drawHeader(p,'Guía metodológica','Definiciones, criterios de cálculo y fuentes de los indicadores',logo);
 }
 
 /**

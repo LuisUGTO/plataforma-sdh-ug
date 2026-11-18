@@ -236,7 +236,7 @@ function render(model,logo=null,options={}){
 }
 function compose(model,logo=null,options={}){
  if(!I||!ICONS)throw Error('Faltan indicadores.js o iconografia.js. Sube el generador completo.');
- const p=new PDF(),r=model.record||{},raw=model.raw||{},m=I.build(r,raw,model.extra),get=k=>r[norm(k)]??r[k],name=get('Comunidad / Localidad')||raw.NOM_LOC||'Comunidad',key=get('Clave INEGI')||raw['Clave INEGI'];
+ const p=new PDF(),r=model.record||{},raw=model.raw||{},m=I.build(r,raw,model.extra),get=k=>r[norm(k)]??r[k],name=get('Comunidad / Localidad')||raw['Comunidad / Localidad']||raw.Comunidad||raw.NOM_LOC||raw.NOMBRE||'Comunidad',key=get('Clave INEGI')||raw['Clave INEGI'];
  const identification=m.global?`Guanajuato · Propuesta de conjunto · ${model.extra.communityCount} comunidades · ${model.extra.municipalityCount} municipios`:`${get('Municipio')||raw.NOM_MUN}, Guanajuato · Clave INEGI: ${key}`;
  const header=headerLayout(name,identification,'Carlos',logo?logo.pxHeight/logo.pxWidth:1496/4452);
  p.rect(11,0,203.5,43,C.blue);p.circle(214.5,21.5,21.5,C.blue);p.rect(11,40,W-22,3.5,C.blue);
