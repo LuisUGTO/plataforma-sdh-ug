@@ -357,13 +357,13 @@ function renderIndexSheet(records=[],logo=null,options={}){
 
    const key=rec['Clave INEGI']||rec.key||'',comName=rec['Comunidad / Localidad']||rec.name||'',munName=rec['Municipio']||rec.mun||'';
    if(options.commPageMap&&options.commPageMap[key]!=null)p.links.push({x:colX,y:rowY,w:colW,h:rowH,pageIndex:options.commPageMap[key]});
-   p.text(key,colX+2,rowY+(rowH-9.2*1.2/MM)/2,9.2,false,C.text,wClave-2);
+   p.text(key,colX+2,rowY+(rowH-10.2*1.2/MM)/2,10.2,false,C.text,wClave-2);
 
-   const comLines=wrap(comName,wCom-3,9.3,false),comStep=9.3*1.15/MM,comY=rowY+(rowH-comLines.length*comStep)/2+.3;
-   comLines.forEach((line,li)=>p.text(line,colX+wClave+2,comY+li*comStep,9.3,false,C.text,wCom-3));
+   const comLines=wrap(comName,wCom-3,10.3,true),comStep=10.3*1.15/MM,comY=rowY+(rowH-comLines.length*comStep)/2+.3;
+   comLines.forEach((line,li)=>p.text(line,colX+wClave+2,comY+li*comStep,10.3,true,C.text,wCom-3));
 
-   const munLines=wrap(munName,wMun-3,9,false),munStep=9*1.15/MM,munY=rowY+(rowH-munLines.length*munStep)/2+.3;
-   munLines.forEach((line,li)=>p.text(line,colX+wClave+wCom+2,munY+li*munStep,9,false,C.text,wMun-3));
+   const munLines=wrap(munName,wMun-3,10,false),munStep=10*1.15/MM,munY=rowY+(rowH-munLines.length*munStep)/2+.3;
+   munLines.forEach((line,li)=>p.text(line,colX+wClave+wCom+2,munY+li*munStep,10,false,C.text,wMun-3));
   }
   p.line(colX,tableTop+headerH+rowsPerCol*rowH,colX+colW,tableTop+headerH+rowsPerCol*rowH,C.blue,.3);
  }

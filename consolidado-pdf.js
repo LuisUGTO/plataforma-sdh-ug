@@ -296,9 +296,9 @@ function drawIntroMessagePage(p,logo=null,opts={}){
   drawHeader(p,'Mensaje introductorio','',logo);
   const bodyY=72,paras=EDITORIAL.mensaje.paragraphs,half=Math.ceil(paras.length/2);
   let y1=bodyY,y2=bodyY;
-  paras.slice(0,half).forEach(txt=>{y1+=p.justified(txt,24,y1,13.5,256,1.45,C.text)+9;});
-  paras.slice(half).forEach(txt=>{y2+=p.justified(txt,314,y2,13.5,256,1.45,C.text)+9;});
-  const sigY=Math.max(y2+14,258);
+  paras.slice(0,half).forEach(txt=>{y1+=p.justified(txt,24,y1,17,256,1.45,C.text)+9;});
+  paras.slice(half).forEach(txt=>{y2+=p.justified(txt,314,y2,17,256,1.45,C.text)+9;});
+  const sigY=Math.max(y1,y2,244)+14;
   p.line(314,sigY,570,sigY,C.line,.45);
   p.text('Secretaría de Derechos Humanos',314,sigY+7,15,true,C.blue,256,'right');
   p.text('Gobierno del Estado de Guanajuato',314,sigY+15.5,12.5,false,C.text,256,'right');
@@ -354,7 +354,7 @@ function drawTableOfContentsPages(p,records=[],logo=null,opts={}){
     ]}
   ];
 
-  const colXs=[24,312],colW=258,numW=20,rowH=6.6,ptItem=10.5,ptSub=9.6;
+  const colXs=[24,312],colW=258,numW=20,rowH=7.6,ptItem=13,ptSub=12;
   colPlan.forEach(pgSpec=>{
     p.addPage();
     drawHeader(p,'Índice','',logo);
@@ -364,10 +364,10 @@ function drawTableOfContentsPages(p,records=[],logo=null,opts={}){
       blocks.forEach(blk=>{
         if(blk.type==='intro'){
           blk.items.forEach(it=>{
-            const lines=wrap(it.title,colW-numW-6,ptItem,false),step=ptItem*1.22/MM,h=Math.max(8,lines.length*step+2.5);
-            lines.forEach((l,li)=>p.text(l,x,y+li*step,ptItem,false,'#2C3034',colW-numW-6));
+            const lines=wrap(it.title,colW-numW-6,ptItem,true),step=ptItem*1.22/MM,h=Math.max(8,lines.length*step+2.5);
+            lines.forEach((l,li)=>p.text(l,x,y+li*step,ptItem,true,C.text,colW-numW-6));
             if(it.page!=null){
-              p.text(String(it.page+1),x+colW-numW,y+(lines.length>1?step*.5:0),ptItem,false,C.text,numW,'right');
+              p.text(String(it.page+1),x+colW-numW,y+(lines.length>1?step*.5:0),ptItem,true,C.text,numW,'right');
               p.linkPage(x,y-1,colW,h,it.page);
             }
             y+=h+2;
@@ -375,9 +375,9 @@ function drawTableOfContentsPages(p,records=[],logo=null,opts={}){
           y+=4;
         }else if(blk.type==='mun'){
           const mLines=wrap(blk.title,colW-numW-6,ptItem,true),step=ptItem*1.2/MM,mh=mLines.length*step+1.8;
-          mLines.forEach((l,li)=>p.text(l,x,y+li*step,ptItem,true,C.blue,colW-numW-6));
+          mLines.forEach((l,li)=>p.text(l,x,y+li*step,ptItem,true,C.text,colW-numW-6));
           if(blk.page!=null){
-            p.text(String(blk.page+1),x+colW-numW,y,ptItem,true,C.blue,numW,'right');
+            p.text(String(blk.page+1),x+colW-numW,y,ptItem,true,C.text,numW,'right');
             p.linkPage(x,y-0.8,colW,mh,blk.page);
           }
           y+=mh+0.5;
@@ -393,9 +393,9 @@ function drawTableOfContentsPages(p,records=[],logo=null,opts={}){
         }else if(blk.type==='guia'){
           y+=2;
           p.line(x,y-1.5,x+colW,y-1.5,C.line,.3);
-          p.text(blk.title,x,y+1.5,ptItem,true,C.blue,colW-numW-6);
+          p.text(blk.title,x,y+1.5,ptItem,true,C.text,colW-numW-6);
           if(blk.page!=null){
-            p.text(String(blk.page+1),x+colW-numW,y+1.5,ptItem,true,C.blue,numW,'right');
+            p.text(String(blk.page+1),x+colW-numW,y+1.5,ptItem,true,C.text,numW,'right');
             p.linkPage(x,y,colW,9,blk.page);
           }
           y+=10;
