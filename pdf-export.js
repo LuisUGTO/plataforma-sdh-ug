@@ -340,7 +340,7 @@ function renderIndexSheet(records=[],logo=null,options={}){
  p.text(header.panorama.lines[0],header.panorama.x,header.panorama.y,header.panorama.pt,'headline',header.panorama.colors[0],header.panorama.w,'center');
  header.panorama.lines.slice(1).forEach((line,i)=>p.text(line,header.panorama.x,header.panorama.supportY+i*header.panorama.supportStep,header.panorama.supportPt,'headline',header.panorama.colors[i+1],header.panorama.w,'center'));
 
- const colGap=6,colW=(572-3*colGap)/4,tableTop=47.5,headerH=8,rowH=11.2,rowsPerCol=27;
+ const colGap=6,colW=(572-3*colGap)/4,tableTop=47.5,headerH=8,rowH=12.9,rowsPerCol=27;
  const wClave=26,wCom=61,wMun=51.5;
  for(let c=0;c<4;c++){
   const colX=11+c*(colW+colGap);
@@ -357,24 +357,25 @@ function renderIndexSheet(records=[],logo=null,options={}){
 
    const key=rec['Clave INEGI']||rec.key||'',comName=rec['Comunidad / Localidad']||rec.name||'',munName=rec['Municipio']||rec.mun||'';
    if(options.commPageMap&&options.commPageMap[key]!=null)p.links.push({x:colX,y:rowY,w:colW,h:rowH,pageIndex:options.commPageMap[key]});
-   p.text(key,colX+2,rowY+(rowH-10.2*1.2/MM)/2,10.2,false,C.text,wClave-2);
+   p.text(key,colX+2,rowY+(rowH-12.2*1.2/MM)/2,12.2,false,C.text,wClave-2);
 
-   const comLines=wrap(comName,wCom-3,10.3,true),comStep=10.3*1.15/MM,comY=rowY+(rowH-comLines.length*comStep)/2+.3;
-   comLines.forEach((line,li)=>p.text(line,colX+wClave+2,comY+li*comStep,10.3,true,C.text,wCom-3));
-
-   const munLines=wrap(munName,wMun-3,10,false),munStep=10*1.15/MM,munY=rowY+(rowH-munLines.length*munStep)/2+.3;
-   munLines.forEach((line,li)=>p.text(line,colX+wClave+wCom+2,munY+li*munStep,10,false,C.text,wMun-3));
+   const cells=[[comName,colX+wClave+2,wCom-3,12.3,true],[munName,colX+wClave+wCom+2,wMun-3,12,false]];
+   for(const [value,x,width,size,bold] of cells){
+    let pt=size,lines=wrap(value,width,pt,bold);
+    while(lines.length*pt*1.15/MM>rowH-1){
+     pt-=.25;
+     lines=wrap(value,width,pt,bold);
+    }
+    const step=pt*1.15/MM,y=rowY+(rowH-lines.length*step)/2;
+    lines.forEach((line,li)=>p.text(line,x,y+li*step,pt,bold,C.text,width));
+   }
   }
   p.line(colX,tableTop+headerH+rowsPerCol*rowH,colX+colW,tableTop+headerH+rowsPerCol*rowH,C.blue,.3);
  }
 
- const footer=367,refTop=p.title('Fuentes y referencias',11,footer,572,'book');
- let refBottom=refTop;
- for(let col=0;col<2;col++){let yy=refTop+1;for(let row=0;row<3;row++)yy=p.reference(refs[col*3+row],11+col*289,yy,283);refBottom=Math.max(refBottom,yy);}
-
  p.text('Secretaría de Derechos Humanos del Estado de Guanajuato',11,412.5,9.5,false,'#717579',400);
  p.text(String(options.pageNumber??'2'),553,412.5,12,true,'#54585A',30,'right');
- return {bytes:options.skipFinish?null:p.finish(logo),pageData:options.includePageData?{cmd:p.cmd.slice(),links:p.links.slice(),images:p.images.slice(),logo:logo?{...logo}:null}:undefined,referenceBottom:refBottom};
+ return {bytes:options.skipFinish?null:p.finish(logo),pageData:options.includePageData?{cmd:p.cmd.slice(),links:p.links.slice(),images:p.images.slice(),logo:logo?{...logo}:null}:undefined};
 }
 async function imageBytes(src){const image=new Image();image.src=src+(src.includes('?')?'&':'?')+'v='+Date.now();try{await image.decode();}catch{throw Error('No se pudo leer '+src+'. Revisa la carpeta assets, el nombre completo y que el archivo sea una imagen válida.');}const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d');ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.98));if(!blob)throw Error('No se pudo preparar la imagen '+src+' para el PDF.');return {bytes:new Uint8Array(await blob.arrayBuffer()),pxWidth:canvas.width,pxHeight:canvas.height};}
 async function download(model){

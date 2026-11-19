@@ -296,8 +296,8 @@ function drawIntroMessagePage(p,logo=null,opts={}){
   drawHeader(p,'Mensaje introductorio','',logo);
   const bodyY=72,paras=EDITORIAL.mensaje.paragraphs,half=Math.ceil(paras.length/2);
   let y1=bodyY,y2=bodyY;
-  paras.slice(0,half).forEach(txt=>{y1+=p.justified(txt,24,y1,17,256,1.45,C.text)+9;});
-  paras.slice(half).forEach(txt=>{y2+=p.justified(txt,314,y2,17,256,1.45,C.text)+9;});
+  paras.slice(0,half).forEach(txt=>{y1+=p.justified(txt,24,y1,19,256,1.45,C.text)+9;});
+  paras.slice(half).forEach(txt=>{y2+=p.justified(txt,314,y2,19,256,1.45,C.text)+9;});
   const sigY=Math.max(y1,y2,244)+14;
   p.line(314,sigY,570,sigY,C.line,.45);
   p.text('Secretaría de Derechos Humanos',314,sigY+7,15,true,C.blue,256,'right');
@@ -354,8 +354,9 @@ function drawTableOfContentsPages(p,records=[],logo=null,opts={}){
     ]}
   ];
 
-  const colXs=[24,312],colW=258,numW=20,rowH=7.6,ptItem=13,ptSub=12;
+  const colXs=[24,312],colW=258,numW=20,ptItem=15,ptSub=14;
   colPlan.forEach(pgSpec=>{
+    const rowH=pgSpec.pageLabel===colPlan[0].pageLabel?8.4:10.5;
     p.addPage();
     drawHeader(p,'Índice','',logo);
     pgSpec.cols.forEach((blocks,ci)=>{
