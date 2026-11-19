@@ -393,7 +393,6 @@ function drawTableOfContentsPages(p,records=[],logo=null,opts={}){
           y+=4.2;
         }else if(blk.type==='guia'){
           y+=2;
-          p.line(x,y-1.5,x+colW,y-1.5,C.line,.3);
           p.text(blk.title,x,y+1.5,ptItem,true,C.text,colW-numW-6);
           if(blk.page!=null){
             p.text(String(blk.page+1),x+colW-numW,y+1.5,ptItem,true,C.text,numW,'right');
@@ -561,7 +560,7 @@ function renderMunicipalitySeparatorsPdf(records=[],logo=null){
  */
 function formulaBlock(p,rows,x,y,w,measureOnly=false){
   const lhs=rows[0][0],eq=rows[0][1]||'=',numTxt=rows[0][2],mult=rows[0][3]||'',denTxt=rows[1][2];
-  const pt=8.5,step=pt*1.18/MM;
+  const pt=8.9,step=pt*1.18/MM;
   const maxLhsW=Math.min(w*0.36,tw(lhs,pt,false)+2),multW=mult?tw(mult,pt,false)+3:0;
   const rhsAvail=w-maxLhsW-14-multW-8;
   const lhsLines=wrap(lhs,maxLhsW,pt,false);
@@ -606,36 +605,36 @@ function appendMethodologicalGuidePages(p,logo=null,opts={}){
   openPage();
 
   // Introducción limpia en fondo blanco (sin recuadro ni fondo azul)
-  EDITORIAL.guia.intro.forEach(t=>{y+=p.text(t,colXs[0],y,9.5,false,C.text,colW,'left',1.28)+2.5;});
+  EDITORIAL.guia.intro.forEach(t=>{y+=p.text(t,colXs[0],y,10.1,false,C.text,colW,'left',1.28)+2.5;});
   p.line(colXs[0],y+1,colXs[0]+colW,y+1,C.line,.35);
   y+=6;
 
   const measureInd=(ind)=>{
-    let h=wrap(ind.title,colW,10,true).length*10*1.2/MM+1.2;
+    let h=wrap(ind.title,colW,10.6,true).length*10.6*1.2/MM+1.2;
     ind.blocks.forEach(b=>{
       if(b.type==='text'){
-        h+=b.text.startsWith('Nota:')?p.note(b.text,0,0,8.7,C.text,colW,true)+1.5:wrap(b.text,colW,9.2,false).length*9.2*1.25/MM+1.5;
+        h+=b.text.startsWith('Nota:')?p.note(b.text,0,0,9.3,C.text,colW,true)+1.5:wrap(b.text,colW,9.8,false).length*9.8*1.25/MM+1.5;
       }else h+=formulaBlock(p,b.rows,0,0,colW,true);
     });
     return h+2.8;
   };
 
   EDITORIAL.guia.sections.forEach(sec=>{
-    const secNotesH=sec.notes.reduce((s,n)=>s+(n.startsWith('Nota:')?p.note(n,0,0,8.7,C.text,colW,true):wrap(n,colW,9,false).length*9*1.25/MM)+2,0);
+    const secNotesH=sec.notes.reduce((s,n)=>s+(n.startsWith('Nota:')?p.note(n,0,0,9.3,C.text,colW,true):wrap(n,colW,9.6,false).length*9.6*1.25/MM)+2,0);
     const firstIndH=sec.indicators.length?measureInd(sec.indicators[0]):0;
-    advance(12+secNotesH+Math.min(firstIndH,40));
-    y=p.plainSectionTitle(sec.title,colXs[colIdx],y,colW,13);
+    advance(12+secNotesH+firstIndH);
+    y=p.sectionTitle(sec.title,colXs[colIdx],y,colW,sec.icon,13);
     sec.notes.forEach(n=>{
-      y+=(n.startsWith('Nota:')?p.note(n,colXs[colIdx],y,8.7,C.text,colW):p.text(n,colXs[colIdx],y,9,false,C.text,colW,'left',1.25))+2;
+      y+=(n.startsWith('Nota:')?p.note(n,colXs[colIdx],y,9.3,C.text,colW):p.text(n,colXs[colIdx],y,9.6,false,C.text,colW,'left',1.25))+2;
     });
     sec.indicators.forEach(ind=>{
       const ih=measureInd(ind);
       advance(ih);
       const cx=colXs[colIdx];
-      y+=p.text(ind.title,cx,y,10,true,C.blue,colW,'left',1.2)+1;
+      y+=p.text(ind.title,cx,y,10.6,true,C.blue,colW,'left',1.2)+1;
       ind.blocks.forEach(b=>{
         if(b.type==='text'){
-          y+=(b.text.startsWith('Nota:')?p.note(b.text,cx,y,8.7,C.text,colW):p.text(b.text,cx,y,9.2,false,C.text,colW,'left',1.25))+1.5;
+          y+=(b.text.startsWith('Nota:')?p.note(b.text,cx,y,9.3,C.text,colW):p.text(b.text,cx,y,9.8,false,C.text,colW,'left',1.25))+1.5;
         }else y+=formulaBlock(p,b.rows,cx,y,colW,false);
       });
       y+=2.5;
@@ -646,7 +645,7 @@ function appendMethodologicalGuidePages(p,logo=null,opts={}){
   // Fuentes y referencias
   const refBlockH=13+PDFMOD.refs.length*15;
   advance(Math.min(refBlockH,70));
-  y=p.plainSectionTitle('Fuentes y referencias',colXs[colIdx],y,colW,13);
+  y=p.sectionTitle('Fuentes y referencias',colXs[colIdx],y,colW,'fuentes',13);
   PDFMOD.refs.forEach(r=>{
     advance(16);
     y=p.reference(r,colXs[colIdx],y,colW);
