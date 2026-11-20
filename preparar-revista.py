@@ -12,11 +12,13 @@ for i,p in enumerate(paths):
 (out/'images.json').write_text(json.dumps(manifest),encoding='utf-8')
 subprocess.run(['node','reconstruir-revista.cjs'],check=True)
 cover=PdfReader('Documentacion/Charlie/PORTADA y CONTRAPORTADA REVISIONcolorGTO (1).pdf')
-w=PdfWriter(); w.add_page(cover.pages[0]); w.append(str(out/'interior.pdf')); w.add_page(cover.pages[-1])
+interior=PdfReader(out/'interior.pdf')
+w=PdfWriter(); w.add_page(cover.pages[0]); w.append(interior); w.add_page(cover.pages[-1])
 dest=out/'revista-corregida.pdf'
 with dest.open('wb') as f:w.write(f)
 r=PdfReader(dest); texts=[p.extract_text() or '' for p in r.pages]
-assert len(texts)==134
+assert len(texts)==len(interior.pages)+2
+assert sum('Clave INEGI:' in t for t in texts)==107
 assert not any('undefined' in t for t in texts)
 print('VALIDADO:',len(texts),'páginas; sin undefined;',dest.stat().st_size,'bytes')
 print('Fichas:',sum('Clave INEGI:' in t for t in texts))

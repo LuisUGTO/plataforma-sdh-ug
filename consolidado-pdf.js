@@ -165,17 +165,19 @@ class MultiPDF{
     this.line(x,bottom,x+w,bottom,C.line,.45);
     return bottom+2.8;
   }
-  reference(ref,x,y,w){
-    const p=this.ensurePage(),pt=9.7,step=pt*1.2/MM,indent=12.7;
+  reference(ref,x,y,w,measureOnly=false){
+    const pt=17,urlPt=13,step=pt*1.2/MM,indent=12.7;
     const [author,title,tail,url]=ref;
     const tokens=[...author.split(/\s+/).map(t=>[t,false]),...title.split(/\s+/).map(t=>[t,'italic']),...tail.split(/\s+/).filter(Boolean).map(t=>[t,false])];
     let line=[],lineWidth=0,yy=y,first=true;
-    const flush=()=>{let xx=x+(first?0:indent);for(const [word,st] of line){this.text(word,xx,yy,pt,st,C.text);xx+=tw(word+' ',pt,st);}yy+=step;first=false;line=[];lineWidth=0;};
+    const flush=()=>{let xx=x+(first?0:indent);if(!measureOnly)for(const [word,st] of line){this.text(word,xx,yy,pt,st,C.text);xx+=tw(word+' ',pt,st);}yy+=step;first=false;line=[];lineWidth=0;};
     for(const token of tokens){const width=tw(token[0]+' ',pt,token[1]);if(line.length&&lineWidth+width>w-(first?0:indent))flush();line.push(token);lineWidth+=width;}
     if(line.length)flush();
-    this.text(url,x+indent,yy,8.7,false,C.text,w-indent);
-    const uh=wrap(url,w-indent,8.7).length*8.7*1.2/MM;
-    p.links.push({x:x+indent,y:yy,w:w-indent,h:uh,url});
+    const uh=wrap(url,w-indent,urlPt).length*urlPt*1.2/MM;
+    if(!measureOnly){
+      this.text(url,x+indent,yy,urlPt,false,C.text,w-indent);
+      this.ensurePage().links.push({x:x+indent,y:yy,w:w-indent,h:uh,url});
+    }
     return yy+uh+2.2;
   }
   finish(){
@@ -311,7 +313,7 @@ function drawGuideHeader(p,logo=null){
   // La guía conserva el encabezado institucional azul, con título blanco,
   // igual que el resto de las secciones; solo se eliminan los fondos del
   // contenido metodológico.
-  drawHeader(p,'Guía metodológica','Definiciones, criterios de cálculo y fuentes de los indicadores',logo);
+  drawHeader(p,'Guía metodológica','',logo);
 }
 
 /**
@@ -568,7 +570,7 @@ function renderMunicipalitySeparatorsPdf(records=[],logo=null){
  */
 function formulaBlock(p,rows,x,y,w,measureOnly=false){
   const lhs=rows[0][0],eq=rows[0][1]||'=',numTxt=rows[0][2],mult=rows[0][3]||'',denTxt=rows[1][2];
-  const pt=8.9,step=pt*1.18/MM;
+  const pt=14,step=pt*1.18/MM;
   const maxLhsW=Math.min(w*0.36,tw(lhs,pt,false)+2),multW=mult?tw(mult,pt,false)+3:0;
   const rhsAvail=w-maxLhsW-14-multW-8;
   const lhsLines=wrap(lhs,maxLhsW,pt,false);
@@ -581,7 +583,7 @@ function formulaBlock(p,rows,x,y,w,measureOnly=false){
     const lhsY=y+(boxH-lhsLines.length*step)/2+.3;
     lhsLines.forEach((l,i)=>p.text(l,x+2,lhsY+i*step,pt,false,C.text,maxLhsW,'left',1.18));
     const eqX=x+2+maxLhsW+2,midY=y+boxH/2;
-    p.text(eq,eqX,midY-1.8,9,false,C.text,6,'center');
+    p.text(eq,eqX,midY-1.8,pt,false,C.text,6,'center');
     const fx=eqX+7;
     const numY=y+(boxH-fracH)/2+1;
     numLines.forEach((l,i)=>p.text(l,fx,numY+i*step,pt,false,C.text,fracW,'center',1.18));
@@ -598,6 +600,7 @@ function formulaBlock(p,rows,x,y,w,measureOnly=false){
  */
 function appendMethodologicalGuidePages(p,logo=null,opts={}){
   const colXs=[11,305],colW=278,topY=53,maxY=399;
+  const pt=17,sectionPt=18;
   let colIdx=0,y=topY,pageNo=opts.startPageNumber??1;
   const openPage=()=>{
     p.addPage();
@@ -612,37 +615,43 @@ function appendMethodologicalGuidePages(p,logo=null,opts={}){
   };
   openPage();
 
-  // Introducción limpia en fondo blanco (sin recuadro ni fondo azul)
-  EDITORIAL.guia.intro.forEach(t=>{y+=p.text(t,colXs[0],y,10.5,false,C.text,colW,'left',1.28)+2.5;});
-  p.line(colXs[0],y+1,colXs[0]+colW,y+1,C.line,.35);
-  y+=6;
+  EDITORIAL.guia.intro.forEach(t=>{y+=p.text(t,colXs[0],y,pt,false,C.text,colW,'left',1.25)+3;});
+  y+=3;
+
+  function guideText(t,x,y,measureOnly=false){
+    const casoSanAgustin=t.startsWith('Nota: Caso particular de San Agustín');
+    const espacio=casoSanAgustin?4:0;
+    if(t.startsWith('Nota:'))return espacio+p.note(t,x,y+espacio,pt,C.text,colW,measureOnly);
+    if(measureOnly)return wrap(t,colW,pt,false).length*pt*1.25/MM;
+    return p.text(t,x,y,pt,false,C.text,colW,'left',1.25);
+  }
 
   const measureInd=(ind)=>{
-    let h=wrap(ind.title,colW,10.6,true).length*10.6*1.2/MM+1.2;
+    let h=wrap(ind.title,colW,pt,true).length*pt*1.2/MM+1.2;
     ind.blocks.forEach(b=>{
       if(b.type==='text'){
-        h+=b.text.startsWith('Nota:')?p.note(b.text,0,0,9.3,C.text,colW,true)+1.5:wrap(b.text,colW,10.2,false).length*10.2*1.25/MM+1.5;
+        h+=guideText(b.text,0,0,true)+1.5;
       }else h+=formulaBlock(p,b.rows,0,0,colW,true);
     });
     return h+2.8;
   };
 
   EDITORIAL.guia.sections.forEach(sec=>{
-    const secNotesH=sec.notes.reduce((s,n)=>s+(n.startsWith('Nota:')?p.note(n,0,0,9.3,C.text,colW,true):wrap(n,colW,9.6,false).length*9.6*1.25/MM)+2,0);
+    const secNotesH=sec.notes.reduce((s,n)=>s+guideText(n,0,0,true)+2,0);
     const firstIndH=sec.indicators.length?measureInd(sec.indicators[0]):0;
-    advance(12+secNotesH+firstIndH);
-    y=p.sectionTitle(sec.title,colXs[colIdx],y,colW,sec.icon,13);
+    advance(13+secNotesH+firstIndH);
+    y=p.sectionTitle(sec.title,colXs[colIdx],y,colW,sec.icon,sectionPt);
     sec.notes.forEach(n=>{
-      y+=(n.startsWith('Nota:')?p.note(n,colXs[colIdx],y,9.3,C.text,colW):p.text(n,colXs[colIdx],y,9.6,false,C.text,colW,'left',1.25))+2;
+      y+=guideText(n,colXs[colIdx],y)+2;
     });
     sec.indicators.forEach(ind=>{
       const ih=measureInd(ind);
       advance(ih);
       const cx=colXs[colIdx];
-      y+=p.text(ind.title,cx,y,10.6,true,C.blue,colW,'left',1.2)+1;
+      y+=p.text(ind.title,cx,y,pt,true,C.blue,colW,'left',1.2)+1;
       ind.blocks.forEach(b=>{
         if(b.type==='text'){
-          y+=(b.text.startsWith('Nota:')?p.note(b.text,cx,y,9.3,C.text,colW):p.text(b.text,cx,y,10.2,false,C.text,colW,'left',1.25))+1.5;
+          y+=guideText(b.text,cx,y)+1.5;
         }else y+=formulaBlock(p,b.rows,cx,y,colW,false);
       });
       y+=2.5;
@@ -651,11 +660,11 @@ function appendMethodologicalGuidePages(p,logo=null,opts={}){
   });
 
   // Fuentes y referencias
-  const refBlockH=13+PDFMOD.refs.length*15;
-  advance(Math.min(refBlockH,70));
-  y=p.sectionTitle('Fuentes y referencias',colXs[colIdx],y,colW,'fuentes',13);
+  const refBlockH=13+PDFMOD.refs.reduce((h,r)=>h+p.reference(r,0,0,colW,true),0);
+  advance(refBlockH);
+  y=p.sectionTitle('Fuentes y referencias',colXs[colIdx],y,colW,'fuentes',sectionPt);
   PDFMOD.refs.forEach(r=>{
-    advance(16);
+    advance(p.reference(r,0,0,colW,true));
     y=p.reference(r,colXs[colIdx],y,colW);
   });
 }

@@ -9,25 +9,35 @@ from PIL import Image
 from pypdf import PdfReader
 
 
-def exportar(pdf, destino):
+def exportar(pdf, destino, desde=1):
     reader = PdfReader(pdf)
     indices = {page.indirect_reference.idnum: i for i, page in enumerate(reader.pages, 1)}
     paginas = []
     destino.mkdir(parents=True, exist_ok=True)
+    manifiesto = destino / "paginas.json"
+    if not 1 <= desde <= len(reader.pages):
+        raise ValueError("La primera página a regenerar está fuera del PDF")
+    if desde > 1:
+        previas = json.loads(manifiesto.read_text(encoding="utf-8"))[:desde - 1]
+        if len(previas) != desde - 1 or any(not (destino / p["imagen"]).is_file() for p in previas):
+            raise ValueError("Faltan páginas previas. Regenera la revista completa")
     with TemporaryDirectory() as temporal:
         prefijo = Path(temporal) / "pagina"
         subprocess.run(
-            ["pdftoppm", "-scale-to", "2100", "-png", str(pdf), str(prefijo)],
+            ["pdftoppm", "-f", str(desde), "-scale-to", "2100", "-png", str(pdf), str(prefijo)],
             check=True,
         )
         renders = sorted(Path(temporal).glob("pagina-*.png"))
-        if len(renders) != len(reader.pages):
+        if len(renders) != len(reader.pages) - desde + 1:
             raise ValueError("El número de páginas renderizadas no coincide con el PDF")
-        for numero, (page, render) in enumerate(zip(reader.pages, renders), 1):
+        for numero, page in enumerate(reader.pages, 1):
             nombre = f"pagina-{numero:03}.webp"
-            with Image.open(render) as imagen:
-                imagen.save(destino / nombre, quality=84)
-                ancho, alto = imagen.size
+            if numero < desde:
+                ancho, alto = previas[numero - 1]["ancho"], previas[numero - 1]["alto"]
+            else:
+                with Image.open(renders[numero - desde]) as imagen:
+                    imagen.save(destino / nombre, quality=84)
+                    ancho, alto = imagen.size
             box = page.mediabox
             enlaces = []
             for ref in page.get("/Annots", []):
@@ -49,7 +59,7 @@ def exportar(pdf, destino):
                     objetivo,
                 ])
             paginas.append({"imagen": nombre, "ancho": ancho, "alto": alto, "enlaces": enlaces})
-    (destino / "paginas.json").write_text(json.dumps(paginas, separators=(",", ":")), encoding="utf-8")
+    manifiesto.write_text(json.dumps(paginas, separators=(",", ":")), encoding="utf-8")
     print(f"{len(paginas)} páginas y {sum(len(p['enlaces']) for p in paginas)} enlaces internos")
 
 
@@ -57,5 +67,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("pdf", type=Path)
     parser.add_argument("--destino", type=Path, default=Path("portal/revista/paginas"))
+    parser.add_argument("--desde", type=int, default=1, help="Primera hoja a renderizar si las anteriores siguen iguales")
     args = parser.parse_args()
-    exportar(args.pdf, args.destino)
+    exportar(args.pdf, args.destino, args.desde)
