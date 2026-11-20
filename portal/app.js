@@ -677,7 +677,7 @@
             <img src="../assets/iconos/vector/poblacion.svg" class="card-mini-icon" alt="" aria-hidden="true">
             Pob: <strong>${c.pobTotal.toLocaleString('es-MX')}</strong>
           </span>
-          <span class="card-meta" title="Viviendas habitadas">
+          <span class="card-meta" title="Total de viviendas particulares habitadas">
             <img src="../assets/iconos/vector/vivienda.svg" class="card-mini-icon" alt="" aria-hidden="true">
             Viv: <strong>${c.viviendas.toLocaleString('es-MX')}</strong>
           </span>
@@ -742,7 +742,7 @@
 
     const latCoord = c.latStr || (c.lat ? `${c.lat.toFixed(5)}° N` : 'No disponible');
     const lonCoord = c.lonStr || (c.lon ? `${c.lon.toFixed(5)}° W` : 'No disponible');
-    $('modal-coordenadas').textContent = `${latCoord}, ${lonCoord} - (Lat: ${c.lat}, Lon: ${c.lon})`;
+    $('modal-coordenadas').textContent = `Latitud: ${latCoord} (${c.lat}) - Longitud: ${lonCoord} (${c.lon})`;
 
     // Enlace de Google Maps
     const gmapsBtn = $('btn-google-maps');

@@ -605,7 +605,7 @@ function appendMethodologicalGuidePages(p,logo=null,opts={}){
   openPage();
 
   // Introducción limpia en fondo blanco (sin recuadro ni fondo azul)
-  EDITORIAL.guia.intro.forEach(t=>{y+=p.text(t,colXs[0],y,10.1,false,C.text,colW,'left',1.28)+2.5;});
+  EDITORIAL.guia.intro.forEach(t=>{y+=p.text(t,colXs[0],y,10.5,false,C.text,colW,'left',1.28)+2.5;});
   p.line(colXs[0],y+1,colXs[0]+colW,y+1,C.line,.35);
   y+=6;
 
@@ -613,7 +613,7 @@ function appendMethodologicalGuidePages(p,logo=null,opts={}){
     let h=wrap(ind.title,colW,10.6,true).length*10.6*1.2/MM+1.2;
     ind.blocks.forEach(b=>{
       if(b.type==='text'){
-        h+=b.text.startsWith('Nota:')?p.note(b.text,0,0,9.3,C.text,colW,true)+1.5:wrap(b.text,colW,9.8,false).length*9.8*1.25/MM+1.5;
+        h+=b.text.startsWith('Nota:')?p.note(b.text,0,0,9.3,C.text,colW,true)+1.5:wrap(b.text,colW,10.2,false).length*10.2*1.25/MM+1.5;
       }else h+=formulaBlock(p,b.rows,0,0,colW,true);
     });
     return h+2.8;
@@ -634,7 +634,7 @@ function appendMethodologicalGuidePages(p,logo=null,opts={}){
       y+=p.text(ind.title,cx,y,10.6,true,C.blue,colW,'left',1.2)+1;
       ind.blocks.forEach(b=>{
         if(b.type==='text'){
-          y+=(b.text.startsWith('Nota:')?p.note(b.text,cx,y,9.3,C.text,colW):p.text(b.text,cx,y,9.8,false,C.text,colW,'left',1.25))+1.5;
+          y+=(b.text.startsWith('Nota:')?p.note(b.text,cx,y,9.3,C.text,colW):p.text(b.text,cx,y,10.2,false,C.text,colW,'left',1.25))+1.5;
         }else y+=formulaBlock(p,b.rows,cx,y,colW,false);
       });
       y+=2.5;
