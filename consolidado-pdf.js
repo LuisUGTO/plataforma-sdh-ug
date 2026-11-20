@@ -423,20 +423,28 @@ function drawIndicatorListPage(p,logo=null,opts={}){
   p.addPage();
   drawHeader(p,'Lista de indicadores','Comunidades registradas en el Padrón al 2026',logo);
   const gap=7,colW=(572-3*gap)/4;
-  const cols=Array.from({length:4},(_,i)=>({x:11+i*(colW+gap),y:53}));
-  const pt=14,itemGap=1.9;
-  const secCols=[0,0,0,0, 1, 2,2,2,2,2, 3,3,3];
-  EDITORIAL.lista.forEach((sec,idx)=>{
-    const col=cols[secCols[idx]];
-    let y=p.sectionTitle(sec.title,col.x,col.y,colW,sec.icon,16);
-    sec.items.forEach(it=>{
-      p.circle(col.x+1.9,y+2.6,.8,C.sky);
-      y+=p.text(it,col.x+5,y,pt,false,C.text,colW-5.5,'left',1.2)+itemGap;
-    });
-    col.y=y+5;
+  const pt=17,itemGap=1.1;
+  const entradas=EDITORIAL.lista.flatMap(sec=>sec.items.map(item=>({sec,item})));
+  const cortes=[0,25,45,67,entradas.length];
+  const columnBottoms=cortes.slice(0,-1).map((inicio,col)=>{
+    const x=11+col*(colW+gap);
+    let y=53,anterior=null;
+    for(let i=inicio;i<cortes[col+1];i++){
+      const {sec,item}=entradas[i];
+      if(sec!==anterior){
+        if(anterior)y+=2;
+        const titulo=entradas[i-1]?.sec===sec?sec.title+' (continuación)':sec.title;
+        y=p.sectionTitle(titulo,x,y,colW,sec.icon,17);
+        anterior=sec;
+      }
+      p.circle(x+1.9,y+2.9,.8,C.sky);
+      y+=p.text(item,x+5,y,pt,false,C.text,colW-5.5,'left',1.14)+itemGap;
+    }
+    return y;
   });
+  if(columnBottoms.some(y=>y>403))throw Error('La lista de indicadores rebasa una lámina A2.');
   drawFooter(p,opts.pageLabel||'',opts.tocPageIndex??null);
-  return cols.map(c=>c.y);
+  return columnBottoms;
 }
 
 /**
