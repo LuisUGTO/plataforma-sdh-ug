@@ -3,9 +3,53 @@
 const el = id => document.getElementById(id);
 const hoja = el('hoja');
 const estado = el('estado');
+const controles = el('controles');
+const pantalla = el('pantalla');
+let temporizador;
 let paginas = [];
 let numero = 1;
 let solicitud = 0;
+
+function activarControles() {
+  controles.classList.remove('inactivo');
+  clearTimeout(temporizador);
+  temporizador = setTimeout(() => controles.classList.add('inactivo'), 2800);
+}
+
+document.addEventListener('pointermove', activarControles);
+document.addEventListener('pointerdown', activarControles);
+document.addEventListener('keydown', activarControles);
+
+function mostrarEstado(texto, paginaCargada = false) {
+  estado.textContent = texto;
+  estado.classList.toggle('pagina-cargada', paginaCargada);
+}
+
+function actualizarPantalla() {
+  const completa = Boolean(document.fullscreenElement) || document.body.classList.contains('modo-lectura');
+  pantalla.setAttribute('aria-pressed', String(completa));
+  pantalla.textContent = completa ? 'Salir de pantalla completa' : 'Pantalla completa';
+  activarControles();
+}
+
+pantalla.hidden = false;
+pantalla.onclick = async () => {
+  try {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else if (document.body.classList.contains('modo-lectura')) document.body.classList.remove('modo-lectura');
+    else await document.body.requestFullscreen();
+  } catch {
+    if (!document.fullscreenElement) document.body.classList.add('modo-lectura');
+  }
+  actualizarPantalla();
+};
+document.addEventListener('fullscreenchange', actualizarPantalla);
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && document.body.classList.contains('modo-lectura')) {
+    document.body.classList.remove('modo-lectura');
+    actualizarPantalla();
+  }
+});
 
 async function mostrar(destino) {
   if (!Number.isInteger(destino) || destino < 1 || destino > paginas.length) return;
@@ -17,12 +61,13 @@ async function mostrar(destino) {
   try {
     await imagen.decode();
   } catch {
-    if (turno === solicitud) estado.textContent = 'No se pudo cargar esta hoja. Intenta de nuevo.';
+    if (turno === solicitud) mostrarEstado('No se pudo cargar esta hoja. Intenta de nuevo.');
     return;
   }
   if (turno !== solicitud) return;
   const direccion = destino < numero ? 'regreso' : 'vuelta';
   hoja.className = '';
+  hoja.style.setProperty('--proporcion', datos.ancho / datos.alto);
   hoja.replaceChildren(imagen);
   for (const [x, y, w, h, objetivo] of datos.enlaces) {
     const enlace = document.createElement('a');
@@ -44,7 +89,8 @@ async function mostrar(destino) {
   el('numero').value = numero;
   el('anterior').disabled = numero === 1;
   el('siguiente').disabled = numero === paginas.length;
-  estado.textContent = `Hoja ${numero} de ${paginas.length}`;
+  mostrarEstado(`Hoja ${numero} de ${paginas.length}`, true);
+  activarControles();
   history.replaceState(null, '', `#hoja-${numero}`);
 }
 
@@ -79,7 +125,7 @@ async function iniciar() {
     const inicial = Number(location.hash.match(/^#hoja-(\d+)$/)?.[1]);
     await mostrar(inicial >= 1 && inicial <= paginas.length ? inicial : 1);
   } catch {
-    estado.textContent = 'La revista no está disponible en este momento.';
+    mostrarEstado('La revista no está disponible en este momento.');
   }
 }
 iniciar();

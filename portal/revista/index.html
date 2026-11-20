@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Revista digital | Panorama Sociodemográfico</title>
   <link rel="icon" href="../../assets/logo-sdh-icon.png">
-  <link rel="stylesheet" href="revista.css">
-  <script defer src="revista.js"></script>
+  <link rel="stylesheet" href="revista.css?v=20261119-b2">
+  <script defer src="revista.js?v=20261119-b2"></script>
 </head>
 <body>
   <header>
@@ -14,7 +14,8 @@
     <h1>Revista digital</h1>
   </header>
   <main>
-    <nav aria-label="Navegación de la revista">
+    <div id="visor"><div id="hoja"></div></div>
+    <nav id="controles" aria-label="Navegación de la revista">
       <button id="indice" disabled>Índice</button>
       <button id="anterior" disabled>Anterior</button>
       <form id="salto">
@@ -25,9 +26,9 @@
       </form>
       <button id="siguiente" disabled>Siguiente</button>
       <button id="zoom" aria-pressed="false" disabled>Ampliar</button>
+      <button id="pantalla" aria-pressed="false" hidden>Pantalla completa</button>
     </nav>
     <p id="estado" role="status">Cargando revista…</p>
-    <div id="visor"><div id="hoja"></div></div>
   </main>
 </body>
 </html>

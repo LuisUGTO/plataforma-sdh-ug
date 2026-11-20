@@ -1,18 +1,25 @@
 :root { color-scheme: light; font-family: system-ui, sans-serif; color: #17334d; background: #eaf1f7; }
-body { margin: 0; }
-header { text-align: center; padding: .8rem; background: #004b87; color: white; }
+body { margin: 0; height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr); background: #eaf1f7; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: .35rem 1rem; padding: .55rem .75rem; background: #004b87; color: white; }
 header a { color: inherit; }
-h1 { margin: .25rem 0 0; font-size: 1.55rem; }
-main { max-width: 1320px; margin: auto; padding: .75rem; }
+body.modo-lectura, body:fullscreen { grid-template-rows: minmax(0, 1fr); }
+body.modo-lectura header, body:fullscreen header { display: none; }
+h1 { margin: 0; font-size: 1.25rem; }
+main { min-width: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto auto; padding: .35rem; }
 nav, form { display: flex; align-items: center; justify-content: center; gap: .45rem; }
-nav { flex-wrap: wrap; }
+nav { flex-wrap: wrap; justify-self: center; padding: .4rem; border-radius: .7rem; background: #17334d; color: white; transition: opacity .25s ease; }
+@media (hover: hover) and (pointer: fine) {
+  nav.inactivo:not(:hover):not(:has(:focus-visible)) { opacity: .25; }
+}
 button, input { font: inherit; padding: .4rem .55rem; border: 1px solid #8aa5bd; border-radius: .4rem; background: white; color: #004b87; }
 input { width: 3.5rem; }
 button:enabled { cursor: pointer; }
 button:disabled { opacity: .5; }
-#estado { text-align: center; margin: .4rem; }
-#visor { overflow: auto; padding: .45rem; perspective: 1600px; }
-#hoja { position: relative; width: min(100%, 1220px); margin: auto; background: white; box-shadow: 0 3px 14px #17334d40; }
+#estado { text-align: center; margin: .25rem; }
+#estado.pagina-cargada { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#visor { container-type: size; overflow: hidden; display: grid; place-items: center; padding: .35rem; perspective: 1600px; }
+#hoja { position: relative; width: min(100%, calc(100cqh * var(--proporcion, 1.414))); background: white; box-shadow: 0 3px 14px #17334d40; }
+#visor.ampliado { display: block; overflow: auto; }
 #visor.ampliado #hoja { width: min(2100px, max(145%, 1000px)); margin: 0; }
 #hoja img { display: block; width: 100%; height: auto; }
 #hoja a { position: absolute; }
@@ -21,4 +28,7 @@ button:disabled { opacity: .5; }
 #hoja.regreso { animation: regreso .32s ease-out; transform-origin: right center; }
 @keyframes vuelta { from { transform: rotateY(-65deg); opacity: .45; } }
 @keyframes regreso { from { transform: rotateY(65deg); opacity: .45; } }
-@media (prefers-reduced-motion: reduce) { #hoja.vuelta, #hoja.regreso { animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+  #hoja.vuelta, #hoja.regreso { animation: none; }
+  nav { transition: none; }
+}
