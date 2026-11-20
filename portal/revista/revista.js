@@ -3,7 +3,8 @@
 const el = id => document.getElementById(id);
 const hoja = el('hoja');
 const estado = el('estado');
-const controles = el('controles');
+const barra = el('barra');
+const visor = el('visor');
 const pantalla = el('pantalla');
 let temporizador;
 let paginas = [];
@@ -11,14 +12,14 @@ let numero = 1;
 let solicitud = 0;
 
 function activarControles() {
-  controles.classList.remove('inactivo');
+  barra.classList.remove('inactivo');
   clearTimeout(temporizador);
-  temporizador = setTimeout(() => controles.classList.add('inactivo'), 2800);
+  temporizador = setTimeout(() => barra.classList.add('inactivo'), 2800);
 }
 
 document.addEventListener('pointermove', activarControles);
 document.addEventListener('pointerdown', activarControles);
-document.addEventListener('keydown', activarControles);
+activarControles();
 
 function mostrarEstado(texto, paginaCargada = false) {
   estado.textContent = texto;
@@ -51,6 +52,49 @@ document.addEventListener('keydown', event => {
   }
 });
 
+function doblarHoja(imagen, regreso) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const lienzo = document.createElement('canvas');
+  const contexto = lienzo.getContext('2d');
+  if (!contexto) return;
+  lienzo.className = 'hoja-saliente ' + (regreso ? 'regreso' : 'vuelta');
+  lienzo.setAttribute('aria-hidden', 'true');
+  lienzo.width = Math.min(imagen.naturalWidth, 1500);
+  lienzo.height = Math.round(lienzo.width * imagen.naturalHeight / imagen.naturalWidth);
+  hoja.append(lienzo);
+
+  const {width: ancho, height: alto} = lienzo;
+  const tiras = 80;
+  const inicio = performance.now();
+  function dibujar(ahora) {
+    if (!lienzo.isConnected) return;
+    const t = Math.min(1, (ahora - inicio) / 700);
+    if (t >= 1) {
+      lienzo.remove();
+      return;
+    }
+    const giro = t * t * (3 - 2 * t);
+    const curva = Math.sin(Math.PI * giro);
+    const borde = u => ancho * (1 - giro) * (u - .34 * curva * u ** 3);
+    contexto.clearRect(0, 0, ancho, alto);
+    for (let i = 0; i < tiras; i++) {
+      const u = i / tiras;
+      const v = (i + 1) / tiras;
+      const x0 = borde(u), x1 = borde(v);
+      const x = regreso ? ancho - x1 : x0;
+      const origen = (regreso ? 1 - v : u) * imagen.naturalWidth;
+      const margen = alto * .11 * curva * u ** 2;
+      const anchoTira = x1 - x0 + 1;
+      contexto.drawImage(imagen, origen, 0, imagen.naturalWidth / tiras, imagen.naturalHeight,
+        x, margen, anchoTira, alto - 2 * margen);
+      contexto.fillStyle = `rgba(13, 32, 51, ${.28 * curva * u ** 2})`;
+      contexto.fillRect(x, margen, anchoTira, alto - 2 * margen);
+    }
+    requestAnimationFrame(dibujar);
+  }
+  dibujar(inicio);
+}
+
 async function mostrar(destino) {
   if (!Number.isInteger(destino) || destino < 1 || destino > paginas.length) return;
   const turno = ++solicitud;
@@ -82,21 +126,12 @@ async function mostrar(destino) {
     });
     hoja.append(enlace);
   }
-  if (anterior && destino !== numero && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const saliente = document.createElement('div');
-    saliente.className = 'hoja-saliente ' + (destino < numero ? 'regreso' : 'vuelta');
-    saliente.setAttribute('aria-hidden', 'true');
-    saliente.append(anterior);
-    saliente.addEventListener('animationend', () => saliente.remove(), { once: true });
-    saliente.addEventListener('animationcancel', () => saliente.remove(), { once: true });
-    hoja.append(saliente);
-  }
+  if (anterior && destino !== numero) doblarHoja(anterior, destino < numero);
   numero = destino;
   el('numero').value = numero;
   el('anterior').disabled = numero === 1;
   el('siguiente').disabled = numero === paginas.length;
   mostrarEstado(`Hoja ${numero} de ${paginas.length}`, true);
-  activarControles();
   history.replaceState(null, '', `#hoja-${numero}`);
 }
 
@@ -108,7 +143,8 @@ el('salto').onsubmit = event => {
   mostrar(el('numero').valueAsNumber);
 };
 el('zoom').onclick = () => {
-  const ampliado = el('visor').classList.toggle('ampliado');
+  const ampliado = visor.classList.toggle('ampliado');
+  visor.scrollTo(0, 0);
   el('zoom').setAttribute('aria-pressed', String(ampliado));
   el('zoom').textContent = ampliado ? 'Ajustar a pantalla' : 'Ampliar';
 };
