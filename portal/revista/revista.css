@@ -9,7 +9,7 @@ main { min-width: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto auto
 nav, form { display: flex; align-items: center; justify-content: center; gap: .45rem; }
 nav { flex-wrap: wrap; justify-self: center; padding: .4rem; border-radius: .7rem; background: #17334d; color: white; transition: opacity .25s ease; }
 @media (hover: hover) and (pointer: fine) {
-  nav.inactivo:not(:hover):not(:has(:focus-visible)) { opacity: .25; }
+  nav.inactivo:not(:has(:focus-visible)) { opacity: 0; pointer-events: none; }
 }
 button, input { font: inherit; padding: .4rem .55rem; border: 1px solid #8aa5bd; border-radius: .4rem; background: white; color: #004b87; }
 input { width: 3.5rem; }
@@ -24,11 +24,23 @@ button:disabled { opacity: .5; }
 #hoja img { display: block; width: 100%; height: auto; }
 #hoja a { position: absolute; }
 #hoja a:is(:hover, :focus-visible) { outline: 2px solid #004b87; background: #69b3e733; }
-#hoja.vuelta { animation: vuelta .32s ease-out; transform-origin: left center; }
-#hoja.regreso { animation: regreso .32s ease-out; transform-origin: right center; }
-@keyframes vuelta { from { transform: rotateY(-65deg); opacity: .45; } }
-@keyframes regreso { from { transform: rotateY(65deg); opacity: .45; } }
+.hoja-saliente {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: white;
+  box-shadow: 0 0 24px #17334d55;
+  animation-duration: .62s;
+  animation-timing-function: cubic-bezier(.42, 0, .35, 1);
+  animation-fill-mode: forwards;
+}
+#hoja .hoja-saliente img { height: 100%; object-fit: contain; }
+.hoja-saliente.vuelta { animation-name: vuelta; transform-origin: left center; }
+.hoja-saliente.regreso { animation-name: regreso; transform-origin: right center; }
+@keyframes vuelta { to { transform: perspective(1400px) rotateY(-90deg); filter: brightness(.68); } }
+@keyframes regreso { to { transform: perspective(1400px) rotateY(90deg); filter: brightness(.68); } }
 @media (prefers-reduced-motion: reduce) {
-  #hoja.vuelta, #hoja.regreso { animation: none; }
+  .hoja-saliente { display: none; }
   nav { transition: none; }
 }

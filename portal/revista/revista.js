@@ -65,8 +65,7 @@ async function mostrar(destino) {
     return;
   }
   if (turno !== solicitud) return;
-  const direccion = destino < numero ? 'regreso' : 'vuelta';
-  hoja.className = '';
+  const anterior = hoja.firstElementChild;
   hoja.style.setProperty('--proporcion', datos.ancho / datos.alto);
   hoja.replaceChildren(imagen);
   for (const [x, y, w, h, objetivo] of datos.enlaces) {
@@ -83,8 +82,15 @@ async function mostrar(destino) {
     });
     hoja.append(enlace);
   }
-  void hoja.offsetWidth;
-  hoja.classList.add(direccion);
+  if (anterior && destino !== numero && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const saliente = document.createElement('div');
+    saliente.className = 'hoja-saliente ' + (destino < numero ? 'regreso' : 'vuelta');
+    saliente.setAttribute('aria-hidden', 'true');
+    saliente.append(anterior);
+    saliente.addEventListener('animationend', () => saliente.remove(), { once: true });
+    saliente.addEventListener('animationcancel', () => saliente.remove(), { once: true });
+    hoja.append(saliente);
+  }
   numero = destino;
   el('numero').value = numero;
   el('anterior').disabled = numero === 1;
@@ -107,9 +113,11 @@ el('zoom').onclick = () => {
   el('zoom').textContent = ampliado ? 'Ajustar a pantalla' : 'Ampliar';
 };
 document.addEventListener('keydown', event => {
-  if (event.target.closest('input, button, a') || el('visor').classList.contains('ampliado')) return;
-  if (event.key === 'ArrowLeft') mostrar(numero - 1);
-  if (event.key === 'ArrowRight') mostrar(numero + 1);
+  if (event.altKey || event.ctrlKey || event.metaKey ||
+      event.target.closest?.('input, textarea, select, [contenteditable]')) return;
+  if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+  event.preventDefault();
+  mostrar(numero + (event.key === 'ArrowLeft' ? -1 : 1));
 });
 
 async function iniciar() {
