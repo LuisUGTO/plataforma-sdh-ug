@@ -424,23 +424,23 @@ function drawIndicatorListPage(p,logo=null,opts={}){
   drawHeader(p,'Lista de indicadores','Comunidades registradas en el Padrón al 2026',logo);
   const gap=7,colW=(572-3*gap)/4;
   const cols=Array.from({length:4},(_,i)=>({x:11+i*(colW+gap),y:53}));
-  const pt=8.7,itemGap=1.35;
+  const pt=14,itemGap=1.9;
   const secCols=[0,0,0,0, 1, 2,2,2,2,2, 3,3,3];
   EDITORIAL.lista.forEach((sec,idx)=>{
     const col=cols[secCols[idx]];
-    let y=p.sectionTitle(sec.title,col.x,col.y,colW,sec.icon,12.5);
+    let y=p.sectionTitle(sec.title,col.x,col.y,colW,sec.icon,16);
     sec.items.forEach(it=>{
-      p.circle(col.x+1.9,y+1.7,.8,C.sky);
+      p.circle(col.x+1.9,y+2.6,.8,C.sky);
       y+=p.text(it,col.x+5,y,pt,false,C.text,colW-5.5,'left',1.2)+itemGap;
     });
-    col.y=y+3.2;
+    col.y=y+5;
   });
   drawFooter(p,opts.pageLabel||'',opts.tocPageIndex??null);
   return cols.map(c=>c.y);
 }
 
 /**
- * Render Sheet: Lista de indicadores (13 thematic sections balanced across 3 A2 columns).
+ * Render Sheet: Lista de indicadores en cuatro columnas A2.
  */
 function renderIndicatorListSheet(logo=null){
   const p=new MultiPDF();
