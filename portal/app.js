@@ -137,7 +137,7 @@
 
     path.addEventListener('mousemove', e => {
       const subtitle = hasComm
-        ? `Presencia comunitaria · ${commCount} ${commCount === 1 ? 'comunidad' : 'comunidades'}`
+        ? `Presencia comunitaria - ${commCount} ${commCount === 1 ? 'comunidad' : 'comunidades'}`
         : 'Municipio de Guanajuato';
       showTooltip(e, `<strong>${munName}</strong><span>${subtitle}</span>`);
     });
@@ -237,7 +237,7 @@
         { url: (z, x, y) => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}` },
         { url: (z, x, y) => `https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/${z}/${y}/${x}`, overlay: true }
       ],
-      attribution: 'Imágenes © Esri, Maxar · Referencia © Esri'
+      attribution: 'Imágenes © Esri, Maxar - Referencia © Esri'
     },
     relieve: {
       id: 'relieve',
@@ -247,7 +247,7 @@
       layers: [
         { url: (z, x, y) => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/${z}/${y}/${x}` }
       ],
-      attribution: 'Topografía © Esri · Contributors'
+      attribution: 'Topografía © Esri - Contributors'
     }
   };
 
@@ -742,7 +742,7 @@
 
     const latCoord = c.latStr || (c.lat ? `${c.lat.toFixed(5)}° N` : 'No disponible');
     const lonCoord = c.lonStr || (c.lon ? `${c.lon.toFixed(5)}° W` : 'No disponible');
-    $('modal-coordenadas').textContent = `${latCoord}, ${lonCoord} · (Lat: ${c.lat}, Lon: ${c.lon})`;
+    $('modal-coordenadas').textContent = `${latCoord}, ${lonCoord} - (Lat: ${c.lat}, Lon: ${c.lon})`;
 
     // Enlace de Google Maps
     const gmapsBtn = $('btn-google-maps');
