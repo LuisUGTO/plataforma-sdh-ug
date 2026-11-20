@@ -59,6 +59,7 @@
   });
 
   const municipalitiesWithComm = new Set(Object.keys(munCommCounts));
+  const municipalityPaths = new Map();
 
   // =========================================================================
   // 2. Renderizar Estados Colindantes, Municipios y Capas Vectoriales
@@ -134,6 +135,7 @@
     path.setAttribute('d', buildFeaturePathD(f));
     path.setAttribute('class', `municipio-poly${hasComm ? ' has-communities' : ''}`);
     path.setAttribute('data-municipio', munName);
+    municipalityPaths.set(normName, path);
 
     path.addEventListener('mousemove', e => {
       const subtitle = hasComm
@@ -693,7 +695,6 @@
   }
 
   searchInput.addEventListener('input', filterCommunities);
-  munSelect.addEventListener('change', filterCommunities);
   puebloSelect.addEventListener('change', filterCommunities);
 
   // Inicializar lista
@@ -790,6 +791,8 @@
     const byPueblo = new Map();
     let totalPop = 0;
 
+    const activeMun = munSelect.value;
+    let totalCommunities = 0;
     communities.forEach(c => {
       const m = c.municipio || 'Sin municipio';
       const entry = byMun.get(m) || { mun: m, count: 0, pop: 0 };
@@ -797,6 +800,8 @@
       entry.pop += Number(c.pobTotal) || 0;
       byMun.set(m, entry);
 
+      if (activeMun && m !== activeMun) return;
+      totalCommunities += 1;
       const p = c.pueblo || 'Otro';
       byPueblo.set(p, (byPueblo.get(p) || 0) + 1);
       totalPop += Number(c.pobTotal) || 0;
@@ -807,19 +812,20 @@
 
     if (dashSummaryGrid) {
       dashSummaryGrid.innerHTML = [
-        { val: communities.length.toLocaleString('es-MX'), lbl: 'Comunidades' },
-        { val: String(sortedMuns.length), lbl: 'Municipios' },
+        { val: totalCommunities.toLocaleString('es-MX'), lbl: 'Comunidades' },
+        { val: String(activeMun ? 1 : sortedMuns.length), lbl: 'Municipios' },
         { val: totalPop.toLocaleString('es-MX'), lbl: 'Habitantes' }
       ].map(k => `<div class="dash-stat-box"><strong>${k.val}</strong><span>${k.lbl}</span></div>`).join('');
     }
 
-    const activeMun = munSelect.value;
+    const previousScroll = refMunList.scrollTop;
+    const focusedMun = refMunList.contains(document.activeElement) ? document.activeElement.dataset.mun : null;
     refMunList.innerHTML = sortedMuns.map(item => {
       const shortName = item.mun.startsWith('Dolores Hidalgo') ? 'Dolores Hidalgo' : item.mun;
       const pctW = Math.max(4, Math.round((item.count / maxCount) * 100));
       const isSelected = activeMun === item.mun;
       return `
-        <button type="button" class="dash-bar-row${isSelected ? ' active' : ''}" data-mun="${escapeAttr(item.mun)}" title="${escapeAttr(item.mun)}: ${item.count} comunidades (${item.pop.toLocaleString('es-MX')} hab.)">
+        <button type="button" class="dash-bar-row${isSelected ? ' active' : ''}" data-mun="${escapeAttr(item.mun)}" aria-pressed="${isSelected}" title="${escapeAttr(item.mun)}: ${item.count} comunidades (${item.pop.toLocaleString('es-MX')} hab.)">
           <div class="dash-bar-top">
             <span class="dash-bar-name">${shortName}</span>
             <span class="dash-bar-val">${item.count} <em>(${((item.count / communities.length) * 100).toFixed(0)}%)</em></span>
@@ -836,17 +842,26 @@
     }
 
     refMunList.querySelectorAll('.dash-bar-row').forEach(row => {
+      if (row.dataset.mun === focusedMun) row.focus({preventScroll:true});
       row.addEventListener('click', () => {
         const mun = row.getAttribute('data-mun');
         if (!mun) return;
-        const toggleSame = munSelect.value === mun;
-        munSelect.value = toggleSame ? '' : mun;
-        filterCommunities();
-        if (!toggleSame) centerOnMunicipality(mun);
-        else resetMap();
-        renderMunicipalityDashboard();
+        munSelect.value = munSelect.value === mun ? '' : mun;
+        applyMunicipalitySelection();
       });
     });
+    refMunList.scrollTop = previousScroll;
+  }
+
+  function applyMunicipalitySelection() {
+    const activa = munSelect.value;
+    municipalityPaths.forEach((path, key) => {
+      path.classList.toggle('municipio-seleccionado', Boolean(activa) && key === normalize(activa));
+    });
+    filterCommunities();
+    renderMunicipalityDashboard();
+    if (activa) centerOnMunicipality(activa);
+    else resetMap();
   }
 
   function escapeAttr(str) {
@@ -854,7 +869,7 @@
   }
 
   renderMunicipalityDashboard();
-  munSelect.addEventListener('change', renderMunicipalityDashboard);
+  munSelect.addEventListener('change', applyMunicipalitySelection);
 
   if (btnToggleRef && munRefBox) {
     btnToggleRef.addEventListener('click', e => {

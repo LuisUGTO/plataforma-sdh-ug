@@ -11,6 +11,7 @@
   --map-bg: #F4F8FC;
   --orange: #E66D42;
   --green: #319356;
+  --municipio-activo: #008E95;
   --font-sans: 'SDHHelvetica', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-serif: 'SDHVollkorn', Georgia, serif;
 }
@@ -605,6 +606,16 @@ body {
   fill: rgba(105, 179, 231, 0.28);
   stroke: #ffffff;
   stroke-width: 2.6;
+}
+
+#layer-municipios .municipio-poly.municipio-seleccionado {
+  fill: var(--municipio-activo);
+  stroke: var(--municipio-activo);
+  stroke-width: 3;
+}
+
+.map-wrapper.base-tile-active .municipio-poly.municipio-seleccionado {
+  fill-opacity: .55;
 }
 
 .map-wrapper.hide-mun-overlay .layer-municipios {
@@ -1209,7 +1220,7 @@ body.map-fullscreen #btn-fullscreen {
 
 .dash-bar-row.active {
   background: #eaf3fb;
-  border-color: var(--blue);
+  border-color: var(--municipio-activo);
 }
 
 .dash-bar-top {
@@ -1229,7 +1240,7 @@ body.map-fullscreen #btn-fullscreen {
 }
 
 .dash-bar-row.active .dash-bar-name {
-  color: var(--blue);
+  color: var(--municipio-activo);
   font-weight: 700;
 }
 
@@ -1264,7 +1275,7 @@ body.map-fullscreen #btn-fullscreen {
 }
 
 .dash-bar-row.active .dash-bar-fill {
-  background: #008E95;
+  background: var(--municipio-activo);
 }
 
 .dash-pueblos-row {
