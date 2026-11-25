@@ -3,32 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Revista digital | Panorama Sociodemográfico</title>
+  <title>Infografías de las Comunidades | Panorama Sociodemográfico</title>
   <link rel="icon" href="../../assets/logo-sdh-icon.png">
-  <link rel="stylesheet" href="revista.css?v=20261119-b4">
-  <script defer src="revista.js?v=20261119-b4"></script>
+  <link rel="stylesheet" href="revista.css?v=20261124-flip1">
+  <script defer src="revista.js?v=20261124-flip1"></script>
 </head>
 <body>
   <header>
-    <a href="../">Volver al Panorama</a>
-    <h1>Revista digital</h1>
+    <a href="../">← Volver al Panorama</a>
+    <h1>Infografías de las Comunidades · Revista Digital</h1>
   </header>
   <main>
-    <div id="visor"><div id="hoja"></div></div>
+    <div id="visor">
+      <button id="flecha-izq" class="flecha-nav" aria-label="Página anterior" title="Página anterior" disabled>‹</button>
+      <div id="escenario">
+        <div id="libro" class="libro"></div>
+      </div>
+      <button id="flecha-der" class="flecha-nav" aria-label="Página siguiente" title="Página siguiente" disabled>›</button>
+    </div>
     <div id="barra">
-    <nav id="controles" aria-label="Navegación de la revista">
-      <button id="indice" disabled>Índice</button>
-      <button id="anterior" disabled>Anterior</button>
-      <form id="salto">
-        <label for="numero">Hoja</label>
-        <input id="numero" type="number" min="1" value="1" required disabled>
-        <span id="total"></span>
-        <button id="ir" disabled>Ir</button>
-      </form>
-      <button id="siguiente" disabled>Siguiente</button>
-      <button id="zoom" aria-pressed="false" disabled>Ampliar</button>
-      <button id="pantalla" aria-pressed="false" hidden>Pantalla completa</button>
-    </nav>
+      <nav id="controles" aria-label="Navegación de la revista">
+        <button id="indice" disabled>Índice</button>
+        <button id="anterior" disabled>Anterior</button>
+        <form id="salto">
+          <label for="numero">Hoja</label>
+          <input id="numero" type="number" min="1" value="1" required disabled>
+          <span id="total"></span>
+          <button id="ir" disabled>Ir</button>
+        </form>
+        <button id="siguiente" disabled>Siguiente</button>
+        <button id="modo-libro" aria-pressed="true" disabled>Una hoja</button>
+        <button id="zoom" aria-pressed="false" disabled>Ampliar</button>
+        <button id="pantalla" aria-pressed="false" hidden>Pantalla completa</button>
+      </nav>
     </div>
     <p id="estado" role="status">Cargando revista…</p>
   </main>
