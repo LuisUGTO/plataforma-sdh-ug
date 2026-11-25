@@ -10,4 +10,7 @@
 # Descargas y copias locales ajenas al código de la plataforma.
 /Documentacion/Descargas/
 /Documentacion/SDH_Revista_Digital_A2.pdf
+# Copias locales de la revista. El PDF de descarga se versiona en Infografias_nuevas.
+/assets/revista.pdf
+/assets/Panorama Sociodemográfico de los Pueblos y Comunidades Indígenas y Afromexicanas del Estado de Guanajuato.pdf
 /tmp/pdfs/
